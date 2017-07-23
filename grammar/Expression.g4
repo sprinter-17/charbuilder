@@ -7,8 +7,11 @@ grammar Expression;
 package characterbuilder.utils;
 import java.util.function.BiFunction;
 import java.util.Comparator;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Race;
@@ -17,17 +20,34 @@ import characterbuilder.character.attribute.Race;
 @parser::members {
 private Character character;
 private String previousValue;
+private static final List<String> errors = new ArrayList<>();
 
 public static String eval(String expression, Character character) {
     return eval(expression, character, null);
 }
 
 public static String eval(String expression, Character character, String previousValue) {
+    BaseErrorListener errorListener = new BaseErrorListener() {
+        @Override
+        public void syntaxError(Recognizer<?,?> recognizer, Object offendingSymbol, 
+            int line, int charPositionInLine, String msg, RecognitionException e) {
+            errors.add(msg);
+        }
+    };
+    errors.clear();
     ExpressionLexer lexer = new ExpressionLexer(CharStreams.fromString(expression));
+    lexer.removeErrorListeners();
+    lexer.addErrorListener(errorListener);
     ExpressionParser parser = new ExpressionParser(new CommonTokenStream(lexer));
+    parser.removeErrorListeners();
+    parser.addErrorListener(errorListener);
     parser.character = character;
     parser.previousValue = previousValue;
-    return parser.expression().value;
+    String value = parser.expression().value;
+    if (errors.isEmpty())
+        return value;
+    else
+        return errors.stream().collect(Collectors.joining(", ", "[", "]"));
 }
 }
 
@@ -64,7 +84,7 @@ string_expression returns [String value]
 max_terms returns [Map<Integer,String> value]
     : c=const_val COLON s=string_expression 
         {$value = new HashMap<>(); $value.put($c.value, $s.value);}
-    | c=const_val COLON s=string_expression COMMA SPACE m=max_terms
+    | c=const_val COLON s=string_expression COMMA SPACE? m=max_terms
         {$m.value.put($c.value, $s.value); $value = $m.value;}
     ;
 
@@ -112,26 +132,19 @@ operator returns [BiFunction<Integer,Integer,Boolean> value]
     ;
 
 attribute returns [AttributeType value]
-    : STR
-        {$value = AttributeType.STRENGTH;}
-    | DEX
-        {$value = AttributeType.DEXTERITY;}
-    | CON
-        {$value = AttributeType.CONSTITUTION;}
-    | INT
-        {$value = AttributeType.INTELLIGENCE;}
-    | WIS
-        {$value = AttributeType.WISDOM;}
-    | CHR
-        {$value = AttributeType.CHARISMA;}
+    : STR {$value = AttributeType.STRENGTH;}
+    | DEX {$value = AttributeType.DEXTERITY;}
+    | CON {$value = AttributeType.CONSTITUTION;}
+    | INT {$value = AttributeType.INTELLIGENCE;}
+    | WIS {$value = AttributeType.WISDOM;}
+    | CHR {$value = AttributeType.CHARISMA;}
     ;
 
 const_val returns [int value]
-    : c=CONST           
-        {$value = Integer.valueOf($c.text);}
+    : c=CONST {$value = Integer.valueOf($c.text);}
     ;
 
-MAX   : 'm' 'a' 'x';
+MAX   : 'max';
 LEFT  : '(';
 RIGHT : ')';
 COMMA : ',';
@@ -143,18 +156,18 @@ GE    : '>=';
 LE    : '<=';
 EQ    : '=';
 NE    : '<>';
-PLURAL: 'p' 'l' 'u' 'r' 'a' 'l';
-HP    : '$' 'h' 'p';
-LEVEL : '$' 'l' 'e' 'v' 'e' 'l';
-SPEED : '$' 's' 'p' 'e' 'e' 'd';
-PROF  : '$' 'p' 'r' 'o' 'f';
-STR   : '$' 's' 't' 'r';
-DEX   : '$' 'd' 'e' 'x';
-CON   : '$' 'c' 'o' 'n';
-INT   : '$' 'i' 'n' 't';
-WIS   : '$' 'w' 'i' 's';
-CHR   : '$' 'c' 'h' 'r';
-MOD   : '_' 'm' 'o' 'd';
+PLURAL: 'plural';
+HP    : '$hp';
+LEVEL : '$level';
+SPEED : '$speed';
+PROF  : '$prof';
+STR   : '$str';
+DEX   : '$dex';
+CON   : '$con';
+INT   : '$int';
+WIS   : '$wis';
+CHR   : '$chr';
+MOD   : '_mod';
 CONST : [1-9] [0-9]*;
 TIMES : '*';
 DIVUP : '//';

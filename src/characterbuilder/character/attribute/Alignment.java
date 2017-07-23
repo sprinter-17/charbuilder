@@ -45,4 +45,9 @@ public enum Alignment implements Attribute {
         return EnumSet.of(LAWFUL_EVIL, NEUTRAL_EVIL, CHAOTIC_EVIL).contains(this);
     }
 
+    public boolean isNeutral() {
+        return EnumSet.of(LAWFUL_NEUTRAL, CAOTIC_NEUTRAL, NEUTRAL_EVIL, NEUTRAL_GOOD, NEUTRAL)
+            .contains(this);
+    }
+
 }

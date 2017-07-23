@@ -6,6 +6,7 @@ import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import static characterbuilder.utils.ExpressionParser.eval;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +24,16 @@ public class EvalutationTest {
     }
 
     @Test
+    public void testSyntaxError() {
+        assertThat(eval("$levil", character), is("[token recognition error at: '$levi']"));
+    }
+
+    @Test
+    public void testSemanticError() {
+        assertThat(eval("$level + + 6", character), startsWith("[mismatched input"));
+    }
+
+    @Test
     public void testWordExpression() {
         assertThat(eval("Fred", character), is("Fred"));
     }
@@ -33,7 +44,7 @@ public class EvalutationTest {
     }
 
     @Test
-    public void testRouding() {
+    public void testRounding() {
         assertThat(eval("$level/2", character), is("0"));
         assertThat(eval("$level//2", character), is("1"));
     }
@@ -63,4 +74,5 @@ public class EvalutationTest {
         character.addAttribute(Race.LIGHFOOT_HALFLING);
         assertThat(eval("$speed/2", character), is("12"));
     }
+
 }

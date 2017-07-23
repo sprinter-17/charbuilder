@@ -54,7 +54,7 @@ public enum Ability implements Attribute {
     EXTRA_ATTACK(CLASS_TALENT, "Extra Attack", "Attack [max($level 5:two, 11:three, 20:four)] "
         + "times in each attack action."),
     INDOMITABLE(CLASS_TALENT, "Indomitable", "Reroll [max($level 9:one, 13:two, 17:three)] "
-        + "failed saving [plural(throw,throws] between each rest."),
+        + "failed saving [plural(throw,throws)] between each rest."),
     ARCANE_RECOVERY(CLASS_TALENT, "Arcane recovery", "Once per day, following a short rest, "
         + "recover [$level // 2] [plural(level,levels)] of expended spell slots below sixth level."),
     SNEAK_ATTACK(CLASS_TALENT, "Sneak Attack",
