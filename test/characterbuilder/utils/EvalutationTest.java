@@ -3,6 +3,7 @@ package characterbuilder.utils;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.attribute.Race;
 import static characterbuilder.utils.ExpressionParser.eval;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -32,6 +33,12 @@ public class EvalutationTest {
     }
 
     @Test
+    public void testRouding() {
+        assertThat(eval("$level/2", character), is("0"));
+        assertThat(eval("$level//2", character), is("1"));
+    }
+
+    @Test
     public void testIfExpression() {
         assertThat(eval("if(4 > 3:Foo)", character), is("Foo"));
         assertThat(eval("if(4 < 3:Foo)", character), is(""));
@@ -49,5 +56,11 @@ public class EvalutationTest {
     public void testParentheses() {
         assertThat(eval("4 + (3 * 2)", character), is("10"));
         assertThat(eval("(4 + 3) * 2", character), is("14"));
+    }
+
+    @Test
+    public void testSpeed() {
+        character.addAttribute(Race.LIGHFOOT_HALFLING);
+        assertThat(eval("$speed/2", character), is("12"));
     }
 }

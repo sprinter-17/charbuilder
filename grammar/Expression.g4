@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.HashMap;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.attribute.Race;
 }
 
 @parser::members {
@@ -76,6 +77,8 @@ int_expression returns [int value]
         {$value = character.getLevel();}
     | PROF
         {$value = character.getProficiencyBonus();}
+    | SPEED
+        {$value = character.getAttribute(AttributeType.RACE, Race.class).getSpeed();}
     | a=attribute
         {$value = character.getIntAttribute($a.value);}
     | a=attribute MOD
@@ -83,7 +86,7 @@ int_expression returns [int value]
     | v1=int_expression SPACE? TIMES SPACE? v2=int_expression
         {$value = $v1.value * $v2.value;}
     | v1=int_expression SPACE? DIVUP SPACE? v2=int_expression 
-        {$value = (int)Math.ceil($v1.value / $v2.value);}
+        {$value = (int)Math.ceil((double)$v1.value / $v2.value);}
     | v1=int_expression SPACE? DIVDN SPACE? v2=int_expression 
         {$value = $v1.value / $v2.value;}
     | v1=int_expression SPACE? PLUS SPACE? v2=int_expression 
@@ -143,6 +146,7 @@ NE    : '<>';
 PLURAL: 'p' 'l' 'u' 'r' 'a' 'l';
 HP    : '$' 'h' 'p';
 LEVEL : '$' 'l' 'e' 'v' 'e' 'l';
+SPEED : '$' 's' 'p' 'e' 'e' 'd';
 PROF  : '$' 'p' 'r' 'o' 'f';
 STR   : '$' 's' 't' 'r';
 DEX   : '$' 'd' 'e' 'x';

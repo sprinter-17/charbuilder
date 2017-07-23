@@ -27,7 +27,7 @@ public enum RoguishArchetype implements Attribute {
 
     @Override
     public void generateLevelChoices(Character character) {
-        Attribute.super.generateLevelChoices(character);
+        generator.generateChoices(character);
     }
 
     @Override
