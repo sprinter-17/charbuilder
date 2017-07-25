@@ -34,5 +34,4 @@ public interface Equipment {
     Value getValue();
 
     String encode();
-
 }

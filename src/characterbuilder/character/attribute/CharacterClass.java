@@ -19,6 +19,10 @@ import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.choice.ExpertiseChoice;
 import characterbuilder.character.choice.MultiChoice;
+import characterbuilder.character.equipment.Armour;
+import static characterbuilder.character.equipment.Armour.CHAIN_MAIL_ARMOUR;
+import static characterbuilder.character.equipment.Armour.LEATHER_ARMOUR;
+import static characterbuilder.character.equipment.Armour.SCALE_MAIL_ARMOUR;
 import characterbuilder.character.equipment.EquipmentCategory;
 import static characterbuilder.character.equipment.EquipmentPack.*;
 import characterbuilder.character.equipment.EquipmentSet;
@@ -68,7 +72,7 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addChoice(() -> new EquipmentChoice("Primary Weapon")
             .with(EquipmentCategory.MARTIAL_MELEE));
         gen.level(1).addChoice(() -> new EquipmentChoice("Secondary Weapon Or Shield")
-            .with(EquipmentType.SHIELD)
+            .with(Armour.SHIELD)
             .with(EquipmentCategory.MARTIAL_MELEE));
         gen.level(1).addChoice(() -> new EquipmentChoice("Ranged Weapon")
             .with(LIGHT_CROSSBOW, new EquipmentSet(CROSSBOW_BOLT, 20))
@@ -196,9 +200,9 @@ public enum CharacterClass implements Attribute {
                     )
                     .map(sp -> (Attribute) sp),
                     spell -> {
-                        character.addAttribute(new SpellMastery(name, (Spell) spell));
-                        character.getChoices().removeChoice(this);
-                    });
+                    character.addAttribute(new SpellMastery(name, (Spell) spell));
+                    character.getChoices().removeChoice(this);
+                });
             }
 
             @Override

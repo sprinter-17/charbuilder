@@ -17,12 +17,14 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class InventoryPanel extends CharacterSubPanel {
@@ -73,6 +75,19 @@ public class InventoryPanel extends CharacterSubPanel {
             equipmentList.getOrDefault(category, new ArrayList<>())
                 .forEach(eq -> equipmentMenu.add(addItemAction(eq))
                 .setEnabled(!eq.getValue().isGreaterThan(wealth)));
+            if (category.equals(EquipmentCategory.TREASURE))
+                equipmentMenu.add(new AbstractAction("Custom...") {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JFrame frame = (JFrame) SwingUtilities.
+                            getWindowAncestor(InventoryPanel.this);
+                        CustomTreasureDialog dialog = new CustomTreasureDialog(frame, tr -> {
+                            getCharacter().addEquipment(tr);
+                            triggerUpdate(getCharacter());
+                        });
+                        dialog.setVisible(true);
+                    }
+                });
             popup.add(equipmentMenu);
         }
         popup.show(addButton, 0, 0);
@@ -99,7 +114,8 @@ public class InventoryPanel extends CharacterSubPanel {
             if (selection != null) {
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) selection;
                 if (node.isLeaf()) {
-                    getCharacter().removeEquipment(new EquipmentSet((EquipmentType) node.getUserObject()));
+                    getCharacter().removeEquipment(new EquipmentSet((EquipmentType) node.
+                        getUserObject()));
                     triggerUpdate(getCharacter());
                 }
             }

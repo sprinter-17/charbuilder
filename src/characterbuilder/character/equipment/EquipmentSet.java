@@ -100,6 +100,7 @@ public class EquipmentSet implements Equipment {
         }
     }
 
+    @Override
     public String toString() {
         if (count == 1)
             return equipment.toString();

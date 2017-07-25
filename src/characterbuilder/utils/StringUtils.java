@@ -47,10 +47,13 @@ public class StringUtils {
         final Pattern expressionPattern = Pattern.compile("\\[([^]]*)\\]");
         Matcher expressionMatcher = expressionPattern.matcher(text);
         StringBuffer result = new StringBuffer();
-        String value = null;
+        EvaluationContext context = new EvaluationContext();
+        if (character != null)
+            context.setCharacter(character);
         while (expressionMatcher.find()) {
-            value = ExpressionParser.eval(expressionMatcher.group(1), character, value);
+            String value = ExpressionParser.eval(expressionMatcher.group(1), context);
             expressionMatcher.appendReplacement(result, value);
+            context.setPlural(!value.equals("1") && !value.equals("one"));
         }
         expressionMatcher.appendTail(result);
         return result.toString();

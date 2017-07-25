@@ -14,24 +14,6 @@ public enum EquipmentType implements Equipment {
     COPPER_PIECE(TREASURE, cp(1), Weight.ZERO),
     SILVER_PIECE(TREASURE, sp(1), Weight.ZERO),
     GOLD_PIECE(TREASURE, gp(1), Weight.ZERO),
-    //
-    PADDED_ARMOUR(LIGHT_ARMOUR, gp(5), lb(8)),
-    LEATHER_ARMOUR(LIGHT_ARMOUR, gp(10), lb(10)),
-    STUDDED_LEATHER_ARMOUR(LIGHT_ARMOUR, gp(45), lb(13)),
-    //
-    HIDE_ARMOUR(MEDIUM_ARMOUR, gp(10), lb(12)),
-    CHAIN_SHIRT_ARMOUR(MEDIUM_ARMOUR, gp(50), lb(20)),
-    SCALE_MAIL_ARMOUR(MEDIUM_ARMOUR, gp(50), lb(45)),
-    BREASTPLATE_ARMOUR(MEDIUM_ARMOUR, gp(400), lb(20)),
-    HALF_PLATE_ARMOUR(MEDIUM_ARMOUR, gp(750), lb(40)),
-    //
-    RING_MAIL_ARMOUR(HEAVY_ARMOUR, gp(30), lb(40)),
-    CHAIN_MAIL_ARMOUR(HEAVY_ARMOUR, gp(75), lb(55)),
-    SPLINT_ARMOUR(HEAVY_ARMOUR, gp(200), lb(60)),
-    PLATE_ARMOUR(HEAVY_ARMOUR, gp(1500), lb(65)),
-    //
-    SHIELD(EquipmentCategory.SHIELD, gp(10), lb(6)),
-    //
     ABACUS(ADVENTURING_GEAR, gp(2), lb(2)),
     ACID_VIAL(ADVENTURING_GEAR, gp(25), lb(1)),
     ALCHEMIST_FIRE_FLASK(ADVENTURING_GEAR, gp(50), lb(1)),

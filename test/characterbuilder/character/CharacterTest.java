@@ -13,8 +13,8 @@ import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.attribute.Value;
 import static characterbuilder.character.attribute.Weight.LB;
+import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.EquipmentSet;
-import characterbuilder.character.equipment.EquipmentType;
 import java.util.Optional;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -115,13 +115,13 @@ public class CharacterTest {
 
     @Test
     public void testInventoryWeight() {
-        character.addEquipment(new EquipmentSet(EquipmentType.LEATHER_ARMOUR));
+        character.addEquipment(new EquipmentSet(Armour.LEATHER_ARMOUR));
         assertThat(character.getInventoryWeight(), is(LB.times(10)));
-        character.addEquipment(new EquipmentSet(EquipmentType.LEATHER_ARMOUR));
+        character.addEquipment(new EquipmentSet(Armour.LEATHER_ARMOUR));
         assertThat(character.getInventoryWeight(), is(LB.times(20)));
-        character.addEquipment(new EquipmentSet(EquipmentType.STUDDED_LEATHER_ARMOUR));
+        character.addEquipment(new EquipmentSet(Armour.STUDDED_LEATHER_ARMOUR));
         assertThat(character.getInventoryWeight(), is(LB.times(33)));
-        character.removeEquipment(new EquipmentSet(EquipmentType.LEATHER_ARMOUR));
+        character.removeEquipment(new EquipmentSet(Armour.LEATHER_ARMOUR));
         assertThat(character.getInventoryWeight(), is(LB.times(23)));
     }
 

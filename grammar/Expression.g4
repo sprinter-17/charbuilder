@@ -1,5 +1,6 @@
 /******************************************************
- * A multi-line Javadoc-like comment about my grammar *
+ * This grammar is designed to allow descriptions of
+ * abilities to include values derived from characters
  ******************************************************/
 grammar Expression;
 
@@ -15,18 +16,21 @@ import java.util.stream.Collectors;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Race;
+import characterbuilder.utils.EvaluationContext;
 }
 
 @parser::members {
-private Character character;
-private String previousValue;
+private EvaluationContext context;
 private static final List<String> errors = new ArrayList<>();
 
-public static String eval(String expression, Character character) {
-    return eval(expression, character, null);
+private Character character() {
+    if (context.getCharacter().isPresent())
+        return context.getCharacter().get();
+    errors.add("Attempt to use character context when none present");
+    return null;
 }
 
-public static String eval(String expression, Character character, String previousValue) {
+public static String eval(String expression, EvaluationContext context) {
     BaseErrorListener errorListener = new BaseErrorListener() {
         @Override
         public void syntaxError(Recognizer<?,?> recognizer, Object offendingSymbol, 
@@ -41,8 +45,7 @@ public static String eval(String expression, Character character, String previou
     ExpressionParser parser = new ExpressionParser(new CommonTokenStream(lexer));
     parser.removeErrorListeners();
     parser.addErrorListener(errorListener);
-    parser.character = character;
-    parser.previousValue = previousValue;
+    parser.context = context;
     String value = parser.expression().value;
     if (errors.isEmpty())
         return value;
@@ -72,7 +75,7 @@ string_expression returns [String value]
             .map(Map.Entry::getValue)
             .orElse("");}
     | PLURAL LEFT v1=string_expression SPACE? COMMA SPACE? v2=string_expression RIGHT
-        {$value = "1".equals(previousValue) || "one".equals(previousValue) ? $v1.value : $v2.value;}
+        {$value = context.isPlural() ? $v2.value : $v1.value;}
     | w=WORD            
         {$value = $w.text;}
     | w=WORD s=SPACE   
@@ -92,17 +95,17 @@ int_expression returns [int value]
     : c=const_val       
         {$value = $c.value;}
     | HP
-        {$value = character.getIntAttribute(AttributeType.HIT_POINTS);}
+        {$value = character().getIntAttribute(AttributeType.HIT_POINTS);}
     | LEVEL             
-        {$value = character.getLevel();}
+        {$value = character().getLevel();}
     | PROF
-        {$value = character.getProficiencyBonus();}
+        {$value = character().getProficiencyBonus();}
     | SPEED
-        {$value = character.getAttribute(AttributeType.RACE, Race.class).getSpeed();}
+        {$value = character().getAttribute(AttributeType.RACE, Race.class).getSpeed();}
     | a=attribute
-        {$value = character.getIntAttribute($a.value);}
+        {$value = character().getIntAttribute($a.value);}
     | a=attribute MOD
-        {$value = character.getModifier($a.value);}
+        {$value = character().getModifier($a.value);}
     | v1=int_expression SPACE? TIMES SPACE? v2=int_expression
         {$value = $v1.value * $v2.value;}
     | v1=int_expression SPACE? DIVUP SPACE? v2=int_expression 
