@@ -21,18 +21,18 @@ public enum Race implements Attribute {
     HILL_DWARF(0, 0, 2, 0, 1, 0, 25, 50, "3'8\"", "2d4", "115lb", "2d6", gen -> {
         gen.addAttributes(COMMON, DWARVISH, DARKVISION, POISON_RESISTANCE, STONECUNNING);
         gen.addWeaponProficiencies(BATTLEAXE, HANDAXE, LIGHT_HAMMER, WARHAMMER);
-        gen.addChoice(() -> new AttributeChoice("Artisan talent", SMITH, BREWER, MASON));
+        gen.addChoice(new AttributeChoice("Artisan talent", SMITH, BREWER, MASON));
     }),
     MOUNTAIN_DWARF(2, 0, 2, 0, 0, 0, 25, 50, "4'", "2d4", "130lb", "2d6", gen -> {
         gen.addAttributes(COMMON, DWARVISH, DARKVISION, POISON_RESISTANCE, STONECUNNING);
         gen.addAttributes(LIGHT_ARMOUR, MEDIUM_ARMOUR);
         gen.addWeaponProficiencies(BATTLEAXE, HANDAXE, LIGHT_HAMMER, WARHAMMER);
-        gen.addChoice(() -> new AttributeChoice("Artisan talent", SMITH, BREWER, MASON));
+        gen.addChoice(new AttributeChoice("Artisan talent", SMITH, BREWER, MASON));
     }),
     HIGH_ELF(0, 2, 0, 1, 0, 0, 30, 100, "4'6\"", "2d10", "90lb", "1d4", gen -> {
         gen.addAttributes(DARKVISION, PERCEPTION, COMMON, ELVISH);
         gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW, SHORTBOW);
-        gen.addChoice(() -> new AttributeChoice("Language",
+        gen.addChoice(new AttributeChoice("Language",
             DWARVISH, GIANT, GNOMISH, HALFLING, GOBLIN, ORC));
         gen.addChoice(spellChoice(1, WIZARD, 0));
     }),
@@ -47,11 +47,11 @@ public enum Race implements Attribute {
         gen.addAttributes(LUCKY, BRAVE, NIMBLE, COMMON, HALFLING, POISON_RESISTANCE);
     }),
     DRAGONBORN(2, 0, 0, 0, 0, 1, 30, 15, "5'6\"", "2d8", "175lb", "2d6", gen -> {
-        gen.addChoice(() -> new AttributeChoice("Draconic Ancestory", DraconicAncestory.values()));
+        gen.addChoice(new AttributeChoice("Draconic Ancestory", DraconicAncestory.values()));
     }),
     HUMAN(1, 1, 1, 1, 1, 1, 30, 18, "4'8\"", "2d10", "110lb", "2d4", gen -> {
         gen.addAttributes(COMMON);
-        gen.addChoice(() -> new AttributeChoice("Language",
+        gen.addChoice(new AttributeChoice("Language",
             DWARVISH, ELVISH, GIANT, GNOMISH, HALFLING, GOBLIN, ORC));
     });
 

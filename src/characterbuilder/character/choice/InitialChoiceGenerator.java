@@ -19,16 +19,16 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
     protected static final Choice CHOOSE_RACE
         = attributeEnumChoice("Choose race", Race.values(),
             ch -> {
-                if (ch.hasAttribute(AttributeType.CHARACTER_CLASS))
-                    ch.getChoices().addChoice(GENERATE_ABILITY_SCORES);
-            },
+            if (ch.hasAttribute(AttributeType.CHARACTER_CLASS))
+                ch.getChoices().addChoice(GENERATE_ABILITY_SCORES);
+        },
             ch -> ch.getChoices().addChoice(attributeEnumChoice("Sex", Sex.values())));
     protected static final Choice CHOOSE_CLASS
         = attributeEnumChoice("Choose class", CharacterClass.values(),
             ch -> {
-                if (ch.hasAttribute(AttributeType.RACE))
-                    ch.getChoices().addChoice(GENERATE_ABILITY_SCORES);
-            });
+            if (ch.hasAttribute(AttributeType.RACE))
+                ch.getChoices().addChoice(GENERATE_ABILITY_SCORES);
+        });
     protected static final Choice CHOOSE_BACKGROUND
         = attributeEnumChoice("Choose background", Background.values(),
             ch -> ch.getAttribute(AttributeType.BACKGROUND, Background.class)
@@ -78,10 +78,10 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
     }
 
     public InitialChoiceGenerator() {
-        addChoice(() -> CHOOSE_RACE);
-        addChoice(() -> CHOOSE_CLASS);
-        addChoice(() -> CHOOSE_BACKGROUND);
-        addChoice(() -> CHOOSE_ALIGNMENT);
+        addChoice(CHOOSE_RACE);
+        addChoice(CHOOSE_CLASS);
+        addChoice(CHOOSE_BACKGROUND);
+        addChoice(CHOOSE_ALIGNMENT);
     }
 
 }

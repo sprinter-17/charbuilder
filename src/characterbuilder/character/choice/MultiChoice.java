@@ -43,18 +43,27 @@ public class MultiChoice implements Choice {
                 });
             }
 
+            @Override
+            public void choiceMade() {
+                remove(character);
+            }
         });
     }
 
     private void remove(Character character) {
         count--;
-        if (count == 0)
+        if (count <= 0)
             character.getChoices().removeChoice(this);
     }
 
     @Override
     public boolean isAutomatic() {
         return choice.isAutomatic();
+    }
+
+    @Override
+    public Choice copy() {
+        return new MultiChoice(count, choice.copy());
     }
 
     @Override

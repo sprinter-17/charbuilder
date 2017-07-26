@@ -39,7 +39,7 @@ public class ChoiceGeneratorTest {
     @Test
     public void testAddConditionalChoice() {
         generator.cond(ch -> ch.hasAttribute(ARCHERY))
-            .addChoice(() -> new AttributeFeature(BRAVE));
+            .addChoice(new AttributeFeature(BRAVE));
         generator.generateChoices(character);
         assertFalse(character.hasAttribute(BRAVE));
         character.addAttribute(ARCHERY);
@@ -49,7 +49,7 @@ public class ChoiceGeneratorTest {
 
     @Test
     public void testLevelCondition() {
-        generator.level(4).addChoice(() -> new AttributeFeature(BRAVE));
+        generator.level(4).addChoice(new AttributeFeature(BRAVE));
         generator.generateChoices(character);
         IntAttribute level = new IntAttribute(AttributeType.LEVEL, 3);
         character.addAttribute(level);

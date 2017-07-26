@@ -19,36 +19,36 @@ public enum Background implements Attribute {
         -> gen.addAttributes(INSIGHT, RELIGION)
             .addEquipment(EquipmentType.GOLD_PIECE, 15)
             .addEquipment(EquipmentType.INCENSE_BLOCK, 5)
-            .addChoice(() -> new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL))
-            .addChoice(() -> new MultiChoice(2, new AttributeChoice(LANGUAGE)))),
+            .addChoice(new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL))
+            .addChoice(new MultiChoice(2, new AttributeChoice(LANGUAGE)))),
     CRIMINAL(gen
         -> gen.addAttributes(DECEPTION, STEALTH, THIEVES_TOOLS)
             .addEquipment(EquipmentType.GOLD_PIECE, 15)
             .addEquipment(EquipmentType.CROWBAR)
             .addEquipment(EquipmentType.COMMON_CLOTHES)
-            .addChoice(() -> new AttributeChoice(LANGUAGE))),
+            .addChoice(new AttributeChoice(LANGUAGE))),
     FOLK_HERO(gen
         -> gen.addAttributes(ANIMAL_HANDLING, SURVIVAL, LAND_VEHICLES)
             .addEquipment(EquipmentType.GOLD_PIECE, 10)
-            .addChoice(() -> new AttributeChoice(AttributeType.ARTISAN))),
+            .addChoice(new AttributeChoice(AttributeType.ARTISAN))),
     NOBLE(gen
         -> gen
             .addAttributes(PERSUASION, HISTORY)
             .addEquipment(new EquipmentSet(EquipmentType.GOLD_PIECE, 25))
-            .addChoice(() -> new AttributeChoice(LANGUAGE))
-            .addChoice(() -> new AttributeChoice("Gaming skill", CARDS, DICE))),
+            .addChoice(new AttributeChoice(LANGUAGE))
+            .addChoice(new AttributeChoice("Gaming skill", CARDS, DICE))),
     SAGE(gen
         -> gen.addAttributes(ARCANA, HISTORY)
             .addEquipment(EquipmentType.GOLD_PIECE, 10)
-            .addChoice(() -> new MultiChoice(2, new AttributeChoice(LANGUAGE)))),
+            .addChoice(new MultiChoice(2, new AttributeChoice(LANGUAGE)))),
     SOLDIER(gen
         -> gen.addAttributes(ATHLETICS, INTIMIDATION, LAND_VEHICLES)
             .addEquipment(EquipmentType.GOLD_PIECE, 10)
             .addEquipment(EquipmentType.RANK_INSIGNIA)
             .addEquipment(EquipmentType.COMMON_CLOTHES)
-            .addChoice(() -> new EquipmentChoice(
-            "Game", EquipmentType.BONE_DICE, EquipmentType.DECK_PLAYING_CARDS))
-            .addChoice(() -> new AttributeChoice("Gaming skill", CARDS, DICE)));
+            .addChoice(new EquipmentChoice(
+                "Game", EquipmentType.BONE_DICE, EquipmentType.DECK_PLAYING_CARDS))
+            .addChoice(new AttributeChoice("Gaming skill", CARDS, DICE)));
 
     private final ChoiceGenerator generator = new ChoiceGenerator();
 

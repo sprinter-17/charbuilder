@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import static java.util.stream.Collectors.toList;
 
 public class ChoiceGenerator {
@@ -56,7 +55,7 @@ public class ChoiceGenerator {
     }
 
     private final Predicate<Character> condition;
-    private final List<Supplier<Choice>> choices = new ArrayList<>();
+    private final List<Choice> choices = new ArrayList<>();
     private final List<ChoiceGenerator> children = new ArrayList<>();
 
     public ChoiceGenerator() {
@@ -112,16 +111,16 @@ public class ChoiceGenerator {
                     }
                 }),
                     as -> {
-                        IntAttribute attr = character.getAttribute(as.getType());
-                        attr.addValue(1);
-                        if (as.getType().equals(AttributeType.CONSTITUTION)
+                    IntAttribute attr = character.getAttribute(as.getType());
+                    attr.addValue(1);
+                    if (as.getType().equals(AttributeType.CONSTITUTION)
                         && attr.getValue() % 2 == 0) {
-                            IntAttribute hp = character.getAttribute(AttributeType.HIT_POINTS);
-                            hp.addValue(character.getLevel());
-                        }
-                        if (counter.complete())
-                            character.getChoices().removeChoice(this);
-                    });
+                        IntAttribute hp = character.getAttribute(AttributeType.HIT_POINTS);
+                        hp.addValue(character.getLevel());
+                    }
+                    if (counter.complete())
+                        character.getChoices().removeChoice(this);
+                });
             }
 
             @Override
@@ -131,8 +130,8 @@ public class ChoiceGenerator {
         };
     }
 
-    public static Supplier<Choice> spellChoice(int count, CharacterClass casterClass, int level) {
-        return () -> new MultiChoice(count, new Choice() {
+    public static Choice spellChoice(int count, CharacterClass casterClass, int level) {
+        return new MultiChoice(count, new Choice() {
             @Override
             public void makeChoice(Character character, ChoiceSelector selector) {
                 List<Attribute> spells = Spell.spells(casterClass, level).collect(toList());
@@ -150,7 +149,7 @@ public class ChoiceGenerator {
     }
 
     public ChoiceGenerator addAction(Consumer<Character> action) {
-        choices.add(() -> new Choice() {
+        choices.add(new Choice() {
             @Override
             public void makeChoice(Character character, ChoiceSelector selector) {
                 action.accept(character);
@@ -172,37 +171,36 @@ public class ChoiceGenerator {
         return addAction(ch -> ch.addEquipment(new EquipmentSet(equipment, count)));
     }
 
-    public ChoiceGenerator addChoice(Supplier<Choice> choice) {
+    public ChoiceGenerator addChoice(Choice choice) {
         choices.add(choice);
         return this;
     }
 
     public ChoiceGenerator addAttributes(Attribute... attributes) {
         Arrays.stream(attributes)
-            .forEach(att -> this.choices.add(() -> new AttributeFeature(att)));
+            .forEach(att -> this.choices.add(new AttributeFeature(att)));
         return this;
     }
 
     public ChoiceGenerator replaceAttribute(Attribute from, Attribute to) {
-        this.choices.add(() -> new AttributeFeature(to, from));
+        this.choices.add(new AttributeFeature(to, from));
         return this;
     }
 
     public ChoiceGenerator addWeaponProficiencies(Weapon... weapons) {
         Arrays.stream(weapons).map(Weapon::getProficiency)
-            .forEach(att -> this.choices.add(() -> new AttributeFeature(att)));
+            .forEach(att -> this.choices.add(new AttributeFeature(att)));
         return this;
     }
 
     public void generateChoices(Character character) {
         if (condition.test(character)) {
             choices.stream()
-                .forEach(chs -> {
-                    Choice choice = chs.get();
+                .forEach(choice -> {
                     if (choice.isAutomatic())
                         choice.makeChoice(character, null);
                     else
-                        character.getChoices().addChoice(choice);
+                        character.getChoices().addChoice(choice.copy());
                 });
             children.forEach(ch -> ch.generateChoices(character));
         }
