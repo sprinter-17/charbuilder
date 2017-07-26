@@ -7,8 +7,6 @@ import static characterbuilder.character.ability.Proficiency.*;
 import static characterbuilder.character.ability.Skill.PERCEPTION;
 import static characterbuilder.character.attribute.AttributeType.*;
 import static characterbuilder.character.attribute.CharacterClass.WIZARD;
-import static characterbuilder.character.attribute.Height.INCH;
-import static characterbuilder.character.attribute.Weight.LB;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.spellChoice;
@@ -16,37 +14,42 @@ import static characterbuilder.character.equipment.Weapon.*;
 import characterbuilder.utils.StringUtils;
 import java.util.EnumMap;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public enum Race implements Attribute {
-    HILL_DWARF(0, 0, 2, 0, 1, 0, 25, 50, 44, "2d4", 115, "2d6", gen -> {
+    HILL_DWARF(0, 0, 2, 0, 1, 0, 25, 50, "3'8\"", "2d4", "115lb", "2d6", gen -> {
         gen.addAttributes(COMMON, DWARVISH, DARKVISION, POISON_RESISTANCE, STONECUNNING);
         gen.addWeaponProficiencies(BATTLEAXE, HANDAXE, LIGHT_HAMMER, WARHAMMER);
         gen.addChoice(() -> new AttributeChoice("Artisan talent", SMITH, BREWER, MASON));
     }),
-    MOUNTAIN_DWARF(2, 0, 2, 0, 0, 0, 25, 50, 48, "2d4", 130, "2d6", gen -> {
+    MOUNTAIN_DWARF(2, 0, 2, 0, 0, 0, 25, 50, "4'", "2d4", "130lb", "2d6", gen -> {
         gen.addAttributes(COMMON, DWARVISH, DARKVISION, POISON_RESISTANCE, STONECUNNING);
         gen.addAttributes(LIGHT_ARMOUR, MEDIUM_ARMOUR);
         gen.addWeaponProficiencies(BATTLEAXE, HANDAXE, LIGHT_HAMMER, WARHAMMER);
         gen.addChoice(() -> new AttributeChoice("Artisan talent", SMITH, BREWER, MASON));
     }),
-    HIGH_ELF(0, 2, 0, 1, 0, 0, 30, 100, 54, "2d10", 90, "1d4", gen -> {
+    HIGH_ELF(0, 2, 0, 1, 0, 0, 30, 100, "4'6\"", "2d10", "90lb", "1d4", gen -> {
         gen.addAttributes(DARKVISION, PERCEPTION, COMMON, ELVISH);
         gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW, SHORTBOW);
         gen.addChoice(() -> new AttributeChoice("Language",
             DWARVISH, GIANT, GNOMISH, HALFLING, GOBLIN, ORC));
         gen.addChoice(spellChoice(1, WIZARD, 0));
     }),
-    WOOD_ELF(0, 2, 0, 0, 1, 0, 35, 100, 54, "2d10", 100, "1d4", gen -> {
+    WOOD_ELF(0, 2, 0, 0, 1, 0, 35, 100, "4'6\"", "2d10", "100lb", "1d4", gen -> {
         gen.addAttributes(DARKVISION, PERCEPTION, COMMON, ELVISH, MASK_OF_THE_WILD);
         gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW, SHORTBOW);
     }),
-    LIGHFOOT_HALFLING(0, 2, 0, 0, 0, 1, 25, 20, 31, "2d4", 35, "1", gen -> {
+    LIGHFOOT_HALFLING(0, 2, 0, 0, 0, 1, 25, 20, "2'7\"", "2d4", "35lb", "1", gen -> {
         gen.addAttributes(LUCKY, BRAVE, NIMBLE, COMMON, HALFLING, STEALTHY);
     }),
-    STOUT_HALFLING(0, 2, 1, 0, 0, 0, 25, 20, 31, "2d4", 35, "1", gen -> {
+    STOUT_HALFLING(0, 2, 1, 0, 0, 0, 25, 20, "2'7\"", "2d4", "35lb", "1", gen -> {
         gen.addAttributes(LUCKY, BRAVE, NIMBLE, COMMON, HALFLING, POISON_RESISTANCE);
     }),
-    HUMAN(1, 1, 1, 1, 1, 1, 30, 18, 56, "2d10", 110, "2d4", gen -> {
+    DRAGONBORN(2, 0, 0, 0, 0, 1, 30, 15, "5'6\"", "2d8", "175lb", "2d6", gen -> {
+        gen.addChoice(() -> new AttributeChoice("Draconic Ancestory", DraconicAncestory.values()));
+    }),
+    HUMAN(1, 1, 1, 1, 1, 1, 30, 18, "4'8\"", "2d10", "110lb", "2d4", gen -> {
         gen.addAttributes(COMMON);
         gen.addChoice(() -> new AttributeChoice("Language",
             DWARVISH, ELVISH, GIANT, GNOMISH, HALFLING, GOBLIN, ORC));
@@ -64,22 +67,27 @@ public enum Race implements Attribute {
 
     Race(int strength, int dexterity, int consitution, int intelligence, int wisom, int charisma,
         int speed, int ageOfMaturity,
-        int baseHeight, String heightModifier,
-        int baseWeight, String weightModifier,
+        String baseHeight, String heightModifier,
+        String baseWeight, String weightModifier,
         Consumer<ChoiceGenerator> generator) {
-        adjustments.put(STRENGTH, strength);
-        adjustments.put(DEXTERITY, dexterity);
-        adjustments.put(CONSTITUTION, consitution);
-        adjustments.put(INTELLIGENCE, intelligence);
-        adjustments.put(WISDOM, wisom);
-        adjustments.put(CHARISMA, charisma);
-        this.speed = speed;
-        this.ageOfMaturity = ageOfMaturity;
-        this.baseHeight = INCH.times(baseHeight);
-        this.heightModifier = heightModifier;
-        this.baseWeight = LB.times(baseWeight);
-        this.weightModifier = weightModifier;
-        generator.accept(this.generator);
+        try {
+            adjustments.put(STRENGTH, strength);
+            adjustments.put(DEXTERITY, dexterity);
+            adjustments.put(CONSTITUTION, consitution);
+            adjustments.put(INTELLIGENCE, intelligence);
+            adjustments.put(WISDOM, wisom);
+            adjustments.put(CHARISMA, charisma);
+            this.speed = speed;
+            this.ageOfMaturity = ageOfMaturity;
+            this.baseHeight = Height.valueOf(baseHeight);
+            this.heightModifier = heightModifier;
+            this.baseWeight = Weight.valueOf(baseWeight);
+            this.weightModifier = weightModifier;
+            generator.accept(this.generator);
+        } catch (Height.HeightFormatException | Weight.WeightFormatException ex) {
+            Logger.getLogger(Race.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Race data exception " + ex);
+        }
     }
 
     @Override

@@ -38,7 +38,12 @@ public class EvalutationTest {
 
     @Test
     public void testWordExpression() {
-        assertThat(eval("Fred", context), is("Fred"));
+        assertThat(eval("Fred   and albert", context), is("Fred   and albert"));
+    }
+
+    @Test
+    public void testSpacesIgnored() {
+        assertThat(eval("5 *6 +    2", context), is(eval("5* 6+2", context)));
     }
 
     @Test
@@ -49,7 +54,7 @@ public class EvalutationTest {
     @Test
     public void testRounding() {
         assertThat(eval("$level/2", context), is("0"));
-        assertThat(eval("$level//2", context), is("1"));
+        assertThat(eval("$level/^2", context), is("1"));
     }
 
     @Test

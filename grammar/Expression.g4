@@ -5,177 +5,142 @@
 grammar Expression;
 
 @header {
-package characterbuilder.utils;
-import java.util.function.BiFunction;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.stream.Collectors;
-import characterbuilder.character.Character;
-import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.Race;
-import characterbuilder.utils.EvaluationContext;
+    package characterbuilder.utils;
+    import java.util.function.BiFunction;
+    import java.util.function.BinaryOperator;
+    import java.util.Comparator;
+    import java.util.List;
+    import java.util.ArrayList;
+    import java.util.Map;
+    import java.util.HashMap;
+    import java.util.stream.Collectors;
+    import characterbuilder.character.Character;
+    import characterbuilder.character.attribute.*;
+    import static characterbuilder.character.attribute.AttributeType.*;
+    import characterbuilder.utils.EvaluationContext;
 }
 
 @parser::members {
-private EvaluationContext context;
-private static final List<String> errors = new ArrayList<>();
+    private EvaluationContext context;
+    private static final List<String> errors = new ArrayList<>();
 
-private Character character() {
-    if (context.getCharacter().isPresent())
-        return context.getCharacter().get();
-    errors.add("Attempt to use character context when none present");
-    return null;
+    private Character character() {
+        if (context.getCharacter().isPresent())
+            return context.getCharacter().get();
+        errors.add("Attempt to use character context when none present");
+        return null;
+    }
+
+    public static String eval(String expr, EvaluationContext context) {
+        BaseErrorListener errorListener = new BaseErrorListener() {
+            @Override
+            public void syntaxError(Recognizer<?,?> recognizer, Object offendingSymbol, 
+                int line, int charPositionInLine, String msg, RecognitionException e) {
+                errors.add(msg);
+            }
+        };
+        errors.clear();
+        ExpressionLexer lexer = new ExpressionLexer(CharStreams.fromString(expr));
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(errorListener);
+        ExpressionParser parser = new ExpressionParser(new CommonTokenStream(lexer));
+        parser.removeErrorListeners();
+        parser.addErrorListener(errorListener);
+        parser.context = context;
+        String value = parser.expr().value;
+        if (errors.isEmpty())
+            return value;
+        else
+            return errors.stream().collect(Collectors.joining(", ", "[", "]"));
+    }
 }
 
-public static String eval(String expression, EvaluationContext context) {
-    BaseErrorListener errorListener = new BaseErrorListener() {
-        @Override
-        public void syntaxError(Recognizer<?,?> recognizer, Object offendingSymbol, 
-            int line, int charPositionInLine, String msg, RecognitionException e) {
-            errors.add(msg);
-        }
-    };
-    errors.clear();
-    ExpressionLexer lexer = new ExpressionLexer(CharStreams.fromString(expression));
-    lexer.removeErrorListeners();
-    lexer.addErrorListener(errorListener);
-    ExpressionParser parser = new ExpressionParser(new CommonTokenStream(lexer));
-    parser.removeErrorListeners();
-    parser.addErrorListener(errorListener);
-    parser.context = context;
-    String value = parser.expression().value;
-    if (errors.isEmpty())
-        return value;
-    else
-        return errors.stream().collect(Collectors.joining(", ", "[", "]"));
-}
-}
-
-expression returns [String value] 
-    : s=string_expression EOF 
-        {$value = $s.value; }
+expr returns [String value] 
+    : string_expr EOF 
+        {$value = $string_expr.value; }
     ;
 
-string_expression returns [String value]
-    : i=int_expression  
-        {$value = String.valueOf($i.value);}
-    | IF LEFT b=bool_expression SPACE? COLON SPACE? sv=string_expression RIGHT
-        {$value = $b.value ? $sv.value : ""; }
-    | IF LEFT b=bool_expression SPACE? COLON SPACE? sv=string_expression SPACE? 
-            COLON SPACE? dv=string_expression RIGHT
-        {$value = $b.value ? $sv.value : $dv.value; }
-    | MAX LEFT v=int_expression SPACE t=max_terms RIGHT  
-        {int value = $v.value;
-         $value = $t.value.entrySet().stream()
+string_expr returns [String value]
+    : int_expr  
+        {$value = String.valueOf($int_expr.value);}
+    | '$breath' {$value = character().getAttribute(DRACONIC_ANCESTORY, 
+                    DraconicAncestory.class).getBreathWeapon();}
+    | 'if(' bool_expr SPACE? ':' SPACE? string_expr ')'
+        {$value = $bool_expr.value ? $string_expr.value : ""; }
+    | 'if(' bool_expr SPACE? ':' SPACE? str1=string_expr SPACE? 
+            ':' SPACE? str2=string_expr ')'
+        {$value = $bool_expr.value ? $str1.value : $str2.value; }
+    | 'max(' int_expr SPACE max_terms ')'  
+        {int value = $int_expr.value;
+         $value = $max_terms.value.entrySet().stream()
             .filter(e -> value >= e.getKey())
             .max(Map.Entry.comparingByKey())
             .map(Map.Entry::getValue)
             .orElse("");}
-    | PLURAL LEFT v1=string_expression SPACE? COMMA SPACE? v2=string_expression RIGHT
-        {$value = context.isPlural() ? $v2.value : $v1.value;}
-    | w=WORD            
-        {$value = $w.text;}
-    | w=WORD s=SPACE   
-        {$value = $w.text + $s.text;}
-    | v1=string_expression v2=string_expression
-        {$value = $v1.value + $v2.value;}
+    | 'plural(' singular=string_expr SPACE? ',' SPACE? plural=string_expr ')'
+        {$value = context.isPlural() ? $plural.value : $singular.value;}
+    | WORD            
+        {$value = $WORD.text;}
+    | WORD SPACE   
+        {$value = $WORD.text + $SPACE.text;}
+    | str1=string_expr str2=string_expr
+        {$value = $str1.value + $str2.value;}
     ;
 
 max_terms returns [Map<Integer,String> value]
-    : c=const_val COLON s=string_expression 
-        {$value = new HashMap<>(); $value.put($c.value, $s.value);}
-    | c=const_val COLON s=string_expression COMMA SPACE? m=max_terms
-        {$m.value.put($c.value, $s.value); $value = $m.value;}
+    : CONST ':' string_expr 
+        {$value = new HashMap<>(); $value.put($CONST.int, $string_expr.value);}
+    | CONST ':' string_expr ',' SPACE? max_terms
+        {$max_terms.value.put($CONST.int, $string_expr.value); $value = $max_terms.value;}
     ;
 
-int_expression returns [int value]
-    : c=const_val       
-        {$value = $c.value;}
-    | HP
-        {$value = character().getIntAttribute(AttributeType.HIT_POINTS);}
-    | LEVEL             
-        {$value = character().getLevel();}
-    | PROF
-        {$value = character().getProficiencyBonus();}
-    | SPEED
-        {$value = character().getAttribute(AttributeType.RACE, Race.class).getSpeed();}
-    | a=attribute
-        {$value = character().getIntAttribute($a.value);}
-    | a=attribute MOD
-        {$value = character().getModifier($a.value);}
-    | v1=int_expression SPACE? TIMES SPACE? v2=int_expression
-        {$value = $v1.value * $v2.value;}
-    | v1=int_expression SPACE? DIVUP SPACE? v2=int_expression 
-        {$value = (int)Math.ceil((double)$v1.value / $v2.value);}
-    | v1=int_expression SPACE? DIVDN SPACE? v2=int_expression 
-        {$value = $v1.value / $v2.value;}
-    | v1=int_expression SPACE? PLUS SPACE? v2=int_expression 
-        {$value = $v1.value + $v2.value;}
-    | v1=int_expression SPACE? MINUS SPACE? v2=int_expression 
-        {$value = $v1.value - $v2.value;}
-    | LEFT SPACE? v=int_expression SPACE? RIGHT
-        {$value = $v.value;}
+int_expr returns [int value]
+    : CONST    {$value = $CONST.int;}
+    | '$hp'    {$value = character().getIntAttribute(AttributeType.HIT_POINTS);}
+    | '$level' {$value = character().getLevel();}
+    | '$prof'  {$value = character().getProficiencyBonus();}
+    | '$speed' {$value = character().getAttribute(RACE, Race.class).getSpeed();}
+    | attr
+        {$value = character().getIntAttribute($attr.value);}
+    | attr '_mod'
+        {$value = character().getModifier($attr.value);}
+    | int1=int_expr SPACE? int_op SPACE? int2=int_expr
+        {$value = $int_op.value.apply($int1.value, $int2.value);}
+    | '(' SPACE? int_expr SPACE? ')'
+        {$value = $int_expr.value;}
     ;
 
-bool_expression returns [boolean value]
-    : v1=int_expression SPACE? o=operator SPACE? v2=int_expression
-        {$value = $o.value.apply($v1.value, $v2.value);}
+bool_expr returns [boolean value]
+    : int1=int_expr SPACE? bool_op SPACE? int2=int_expr
+        {$value = $bool_op.value.apply($int1.value, $int2.value);}
     ;
 
-operator returns [BiFunction<Integer,Integer,Boolean> value]
-    : GT {$value = (i1, i2) -> i1 > i2;}
-    | LT {$value = (i1, i2) -> i1 < i2;}
-    | GE {$value = (i1, i2) -> i1 >= i2;}
-    | LE {$value = (i1, i2) -> i1 <= i2;}
-    | EQ {$value = (i1, i2) -> i1 == i2;}
-    | NE {$value = (i1, i2) -> i1 != i2;}
+int_op returns [BinaryOperator<Integer> value]
+    : '*'  {$value = (i1, i2) -> i1 * i2;}
+    | '/^' {$value = (i1, i2) -> (int)Math.ceil((double)i1 / i2);}
+    | '/'  {$value = (i1, i2) -> i1 / i2;}
+    | '+'  {$value = (i1, i2) -> i1 + i2;}
+    | '-'  {$value = (i1, i2) -> i1 - i2;}
     ;
 
-attribute returns [AttributeType value]
-    : STR {$value = AttributeType.STRENGTH;}
-    | DEX {$value = AttributeType.DEXTERITY;}
-    | CON {$value = AttributeType.CONSTITUTION;}
-    | INT {$value = AttributeType.INTELLIGENCE;}
-    | WIS {$value = AttributeType.WISDOM;}
-    | CHR {$value = AttributeType.CHARISMA;}
+bool_op returns [BiFunction<Integer,Integer,Boolean> value]
+    : '>'  {$value = (i1, i2) -> i1 > i2;}
+    | '<'  {$value = (i1, i2) -> i1 < i2;}
+    | '>=' {$value = (i1, i2) -> i1 >= i2;}
+    | '<=' {$value = (i1, i2) -> i1 <= i2;}
+    | '='  {$value = (i1, i2) -> i1 == i2;}
+    | '<>' {$value = (i1, i2) -> i1 != i2;}
     ;
 
-const_val returns [int value]
-    : c=CONST {$value = Integer.valueOf($c.text);}
+attr returns [AttributeType value]
+    : '$str' {$value = AttributeType.STRENGTH;}
+    | '$dex' {$value = AttributeType.DEXTERITY;}
+    | '$con' {$value = AttributeType.CONSTITUTION;}
+    | '$int' {$value = AttributeType.INTELLIGENCE;}
+    | '$wis' {$value = AttributeType.WISDOM;}
+    | '$chr' {$value = AttributeType.CHARISMA;}
     ;
 
-MAX   : 'max';
-LEFT  : '(';
-RIGHT : ')';
-COMMA : ',';
-COLON : ':';
-IF    : 'i' 'f';
-GT    : '>';
-LT    : '<';
-GE    : '>=';
-LE    : '<=';
-EQ    : '=';
-NE    : '<>';
-PLURAL: 'plural';
-HP    : '$hp';
-LEVEL : '$level';
-SPEED : '$speed';
-PROF  : '$prof';
-STR   : '$str';
-DEX   : '$dex';
-CON   : '$con';
-INT   : '$int';
-WIS   : '$wis';
-CHR   : '$chr';
-MOD   : '_mod';
 CONST : [1-9] [0-9]*;
-TIMES : '*';
-DIVUP : '//';
-DIVDN : '/';
-PLUS  : '+';
-MINUS : '-'; 
 SPACE : ' '+;
 WORD  : [A-Za-z%.;]+;

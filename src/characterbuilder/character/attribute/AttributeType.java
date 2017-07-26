@@ -37,6 +37,7 @@ public enum AttributeType {
     IDEAL(false, StringAttribute::new),
     BOND(false, StringAttribute::new),
     FLAW(false, StringAttribute::new),
+    DRACONIC_ANCESTORY(DraconicAncestory::valueOf),
     FIGHTING_STYLE(false, (t, c) -> Ability.valueOf(c)),
     MARTIAL_ARCHETYPE(MartialArchetype::valueOf),
     ROGUISH_ARCHETYPE(RoguishArchetype::valueOf),

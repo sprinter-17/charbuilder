@@ -25,6 +25,9 @@ public enum Ability implements Attribute {
         "Move through the space of larger creatures."),
     STEALTHY(RACIAL_TALENT, "Naturally Stealthy",
         "Can attempt to hide when obscured by larger creature."),
+    BREATH_WEAPON(RACIAL_TALENT, "Breath Weapon",
+        "Breath: [$breath] vs DC [8+$con_mod+$prof] or "
+        + "[max($level 1:2d6,6:3d6,11:4d6,16:5d6)] damage"),
     //
     ARCHERY(FIGHTING_STYLE, "Archery",
         "+2 attack bonus with ranged weapons."),
@@ -56,9 +59,9 @@ public enum Ability implements Attribute {
     INDOMITABLE(CLASS_TALENT, "Indomitable", "Reroll [max($level 9:one, 13:two, 17:three)] "
         + "failed saving [plural(throw,throws)] between each rest."),
     ARCANE_RECOVERY(CLASS_TALENT, "Arcane recovery", "Once per day, following a short rest, "
-        + "recover [$level // 2] [plural(level,levels)] of expended spell slots below sixth level."),
+        + "recover [$level /^ 2] [plural(level,levels)] of expended spell slots below sixth level."),
     SNEAK_ATTACK(CLASS_TALENT, "Sneak Attack",
-        "Extra [$level // 2]d6 damage on one attack with advantage each turn."),
+        "Extra [$level /^ 2]d6 damage on one attack with advantage each turn."),
     CUNNING_ACTION(CLASS_TALENT, "Cunning Action",
         "Bonus dash, disengage or hide action each turn"),
     UNCANNY_DODGE(CLASS_TALENT, "Uncanny Dodge",

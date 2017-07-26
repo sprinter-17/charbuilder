@@ -190,7 +190,7 @@ public class MainPage extends Page {
     private PageBuilder.Component proficiencies() {
         return builder.borderedSection(0, 75, 50, 25)
             .with(builder.writing(otherProficiencies(), 2, 1, 47, 24))
-            .with(builder.caption("Other Proficiencies", 18, 23, BOTTOM_CENTRE));
+            .with(builder.caption("Proficiencies", 25, 23, BOTTOM_CENTRE));
     }
 
     private String otherProficiencies() {
@@ -228,7 +228,7 @@ public class MainPage extends Page {
     private PageBuilder.Component equipment() {
         return builder.borderedSection(50, 75, 50, 25)
             .with(builder.writing(equipmentDescription(), 2, 1, 48, 24))
-            .with(builder.caption("Equipment", 18, 23, BOTTOM_CENTRE));
+            .with(builder.caption("Equipment", 25, 23, BOTTOM_CENTRE));
     }
 
     private String equipmentDescription() {

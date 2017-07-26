@@ -9,6 +9,7 @@ import static characterbuilder.character.attribute.Weight.lb;
 import static characterbuilder.character.equipment.EquipmentCategory.HEAVY_ARMOUR;
 import static characterbuilder.character.equipment.EquipmentCategory.LIGHT_ARMOUR;
 import static characterbuilder.character.equipment.EquipmentCategory.MEDIUM_ARMOUR;
+import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
@@ -65,6 +66,11 @@ public enum Armour implements Equipment {
         return name();
     }
 
+    @Override
+    public String toString() {
+        return StringUtils.capitaliseEnumName(name());
+    }
+
     public static int getArmourClass(Character character) {
         int ac = 10;
         Optional<Armour> bestArmour = Arrays.stream(values())
@@ -78,5 +84,4 @@ public enum Armour implements Equipment {
             ac += character.getModifier(AttributeType.DEXTERITY);
         return ac;
     }
-
 }
