@@ -10,7 +10,7 @@ public class CharacterRandom {
     private static final Pattern DICE_PATTERN = Pattern.compile("(?<count>\\d+)(d(?<die>4|6|8|10|12|20))?");
     private final Random random = new Random();
 
-    public int nextAttribute() {
+    public int nextAbilityScore() {
         return random.ints(4, 1, 7).sorted().skip(1).sum();
     }
 

@@ -35,7 +35,7 @@ public class CharacterTest {
     public void setup() {
         random = new CharacterRandom() {
             @Override
-            public int nextAttribute() {
+            public int nextAbilityScore() {
                 return 10;
             }
 

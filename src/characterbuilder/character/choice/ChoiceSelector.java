@@ -13,6 +13,8 @@ public interface ChoiceSelector {
 
     void getEquipment(Stream<Equipment> equipments, Consumer<Equipment> consumer);
 
+    void generateAbilityScores(Consumer<Stream<Attribute>> consumer);
+
     default void choiceMade() {
 
     }

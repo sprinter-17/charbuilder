@@ -31,14 +31,14 @@ public enum Race implements Attribute {
     }),
     HIGH_ELF(0, 2, 0, 1, 0, 0, 30, 100, "4'6\"", "2d10", "90lb", "1d4", gen -> {
         gen.addAttributes(DARKVISION, PERCEPTION, COMMON, ELVISH);
-        gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW, SHORTBOW);
+        gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW);
         gen.addChoice(new AttributeChoice("Language",
             DWARVISH, GIANT, GNOMISH, HALFLING, GOBLIN, ORC));
         gen.addChoice(spellChoice(1, WIZARD, 0));
     }),
     WOOD_ELF(0, 2, 0, 0, 1, 0, 35, 100, "4'6\"", "2d10", "100lb", "1d4", gen -> {
         gen.addAttributes(DARKVISION, PERCEPTION, COMMON, ELVISH, MASK_OF_THE_WILD);
-        gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW, SHORTBOW);
+        gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW);
     }),
     LIGHFOOT_HALFLING(0, 2, 0, 0, 0, 1, 25, 20, "2'7\"", "2d4", "35lb", "1", gen -> {
         gen.addAttributes(LUCKY, BRAVE, NIMBLE, COMMON, HALFLING, STEALTHY);

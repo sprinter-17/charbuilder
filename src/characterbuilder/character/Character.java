@@ -49,7 +49,7 @@ public class Character {
             throw new IllegalStateException("Generate ability score without class and race");
         CharacterClass characterClass = getAttribute(CHARACTER_CLASS);
         List<Integer> abilityScores = IntStream
-            .generate(random::nextAttribute).limit(6L).boxed()
+            .generate(random::nextAbilityScore).limit(6L).boxed()
             .sorted(Comparator.reverseOrder())
             .collect(Collectors.toList());
         characterClass.getPrimaryAttributes()

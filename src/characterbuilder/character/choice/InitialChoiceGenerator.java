@@ -68,11 +68,10 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
         return new ChoiceGenerator.AbstractChoice("Generate ability scores") {
             @Override
             public void makeChoice(Character character, ChoiceSelector selector) {
-                character.getChoices().removeChoice(this);
-                character.generateAbilityScores(new CharacterRandom());
-                character.getChoices().addChoice(
-                    baseChoice("Generate hit points", Character::generateHitPoints));
-                selector.choiceMade();
+                selector.generateAbilityScores(scores -> {
+                    scores.forEach(character::addAttribute);
+                    character.getChoices().removeChoice(this);
+                });
             }
         };
     }

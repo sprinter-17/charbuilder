@@ -3,21 +3,12 @@ package characterbuilder.ui;
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.CharacterSaver;
-import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.choice.Choice;
-import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.InitialChoiceGenerator;
-import characterbuilder.character.equipment.Equipment;
 import characterbuilder.sheet.CharacterSheet;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.MouseInfo;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,16 +18,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -46,11 +32,9 @@ public class MainWindow {
     private final JFrame frame = new JFrame("Character Builder");
     private final LoadDialog loadDialog;
     private final JToolBar tools = new JToolBar();
-    private final ChoiceModel choiceModel = new ChoiceModel();
-    private final JList<Choice> choiceList = new JList(choiceModel);
     private final CharacterPanel panel;
-    private final ChoiceSelector selector;
     private Optional<Character> character = Optional.empty();
+    private final ChoicePanel choices = new ChoicePanel(this::update);
 
     private final List<Runnable> toolEnablers = new ArrayList<>();
 
@@ -62,70 +46,9 @@ public class MainWindow {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         addTools();
+        frame.add(choices, BorderLayout.WEST);
         frame.add(panel, BorderLayout.CENTER);
-        JScrollPane choiceScroll = new JScrollPane(choiceList);
-        selector = new ChoiceSelector() {
-            @Override
-            public void getName(Consumer<String> consumer) {
-                choiceMade();
-            }
-
-            @Override
-            public void getAttribute(Stream<Attribute> attributes, Consumer<Attribute> consumer) {
-                popupMenu(attributes, consumer);
-            }
-
-            @Override
-            public void getEquipment(Stream<Equipment> equipment, Consumer<Equipment> consumer) {
-                popupMenu(equipment, consumer);
-            }
-
-            private <T> void popupMenu(Stream<T> values, Consumer<T> consumer) {
-                JPopupMenu menu = new JPopupMenu();
-                values.map(attr -> new AbstractAction(attr.toString()) {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        consumer.accept(attr);
-                        choiceMade();
-                    }
-                }).forEach(menu::add);
-                int x = MouseInfo.getPointerInfo().getLocation().x - frame.getX();
-                int y = MouseInfo.getPointerInfo().getLocation().y - frame.getY();
-                menu.show(frame, x, y);
-            }
-
-            @Override
-            public void choiceMade() {
-                panel.updateCharacterData(character.get());
-                choiceModel.update();
-                enableTools();
-            }
-        };
-        choiceList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                makeChoice();
-            }
-
-        });
-        choiceList.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER)
-                    makeChoice();
-            }
-        });
-        choiceScroll.setPreferredSize(new Dimension(200, 600));
-        frame.add(choiceScroll, BorderLayout.WEST);
         frame.pack();
-    }
-
-    private void makeChoice() {
-        if (choiceList.getModel().getSize() > 0 && choiceList.getSelectedIndex() > -1) {
-            Choice choice = choiceList.getSelectedValue();
-            choice.makeChoice(character.get(), selector);
-            choiceModel.update();
-        }
     }
 
     private void addTools() {
@@ -164,6 +87,11 @@ public class MainWindow {
         frame.setVisible(true);
     }
 
+    private void update() {
+        panel.updateCharacterData(character.get());
+        enableTools();
+    }
+
     private void enableTools() {
         toolEnablers.forEach(Runnable::run);
     }
@@ -172,14 +100,14 @@ public class MainWindow {
         if (canDiscardCharacter()) {
             setCharacter(new Character());
             new InitialChoiceGenerator().generateChoices(character.get());
+            choices.update(character.get());
         }
     }
 
     private void setCharacter(Character character) {
         this.character = Optional.of(character);
-        choiceModel.setChoices(character.getChoices());
+        choices.update(character);
         panel.updateCharacterData(character);
-        choiceModel.update();
     }
 
     private void loadCharacter() {
@@ -227,14 +155,14 @@ public class MainWindow {
         assert character.isPresent();
         character.get().increaseLevel(new CharacterRandom());
         panel.updateCharacterData(character.get());
-        choiceModel.update();
     }
 
     public void saveCharacter() {
         try {
             if (Files.notExists(Paths.get("characters")))
                 Files.createDirectory(Paths.get("characters"));
-            String fileName = character.get().getAttribute(AttributeType.NAME).toString().toLowerCase()
+            String fileName = character.get().getAttribute(AttributeType.NAME).toString().
+                toLowerCase()
                 .replaceAll("\\s+", "_").replaceAll("\\W", "") + ".xml";
             Path filePath = Paths.get("characters", fileName);
             if (Files.exists(filePath))
@@ -244,7 +172,8 @@ public class MainWindow {
                     Files.delete(filePath);
                 else
                     return;
-            saver.save(character.get(), Files.newOutputStream(filePath, StandardOpenOption.CREATE_NEW));
+            saver.save(character.get(), Files.
+                newOutputStream(filePath, StandardOpenOption.CREATE_NEW));
             character.get().clearDirty();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(frame, ex.toString(),

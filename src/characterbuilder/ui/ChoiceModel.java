@@ -11,6 +11,7 @@ public class ChoiceModel extends AbstractListModel<Choice> {
 
     public void setChoices(ChoiceList choices) {
         this.choices = Optional.of(choices);
+        update();
     }
 
     @Override

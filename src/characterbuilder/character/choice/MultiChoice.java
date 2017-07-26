@@ -44,6 +44,11 @@ public class MultiChoice implements Choice {
             }
 
             @Override
+            public void generateAbilityScores(Consumer<Stream<Attribute>> consumer) {
+                throw new IllegalStateException("Illegal multi-choice generating ability scores");
+            }
+
+            @Override
             public void choiceMade() {
                 remove(character);
             }

@@ -35,4 +35,8 @@ public class TestChoiceSelector implements ChoiceSelector {
         consumer.accept(equipment.findFirst().get());
     }
 
+    @Override
+    public void generateAbilityScores(Consumer<Stream<Attribute>> consumer) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
