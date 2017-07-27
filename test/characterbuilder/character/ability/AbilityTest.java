@@ -23,13 +23,13 @@ public class AbilityTest {
     @Test
     public void testChannelDivinityDescription() {
         level.setValue(2);
-        assertThat(Ability.CHANNEL_DIVINITY.getDescription(character),
+        assertThat(Ability.CHANNEL_DIVINITY.getDescription(character).get(),
             startsWith("Use one channel divinity power"));
         level.setValue(5);
-        assertThat(Ability.CHANNEL_DIVINITY.getDescription(character),
+        assertThat(Ability.CHANNEL_DIVINITY.getDescription(character).get(),
             startsWith("Use one channel divinity power"));
         level.setValue(6);
-        assertThat(Ability.CHANNEL_DIVINITY.getDescription(character),
+        assertThat(Ability.CHANNEL_DIVINITY.getDescription(character).get(),
             startsWith("Use two channel divinity powers"));
     }
 }

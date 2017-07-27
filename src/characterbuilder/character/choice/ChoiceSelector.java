@@ -7,8 +7,6 @@ import java.util.stream.Stream;
 
 public interface ChoiceSelector {
 
-    void getName(Consumer<String> consumer);
-
     void getAttribute(Stream<Attribute> attributes, Consumer<Attribute> consumer);
 
     void getEquipment(Stream<Equipment> equipments, Consumer<Equipment> consumer);

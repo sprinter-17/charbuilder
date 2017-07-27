@@ -16,12 +16,6 @@ public class TestChoiceSelector implements ChoiceSelector {
     }
 
     @Override
-    public void getName(Consumer<String> consumer) {
-        consumer.accept("Fred");
-        choiceMade();
-    }
-
-    @Override
     public void getAttribute(Stream<Attribute> attributes, Consumer<Attribute> consumer) {
         if (attribute.isPresent())
             consumer.accept(attribute.get());

@@ -38,4 +38,8 @@ public interface Attribute {
     default void generateLevelChoices(Character character) {
 
     }
+
+    default Optional<String> getDescription(Character character) {
+        return Optional.empty();
+    }
 }

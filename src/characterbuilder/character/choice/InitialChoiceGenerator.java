@@ -70,6 +70,7 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
             public void makeChoice(Character character, ChoiceSelector selector) {
                 selector.generateAbilityScores(scores -> {
                     scores.forEach(character::addAttribute);
+                    character.generateHitPoints();
                     character.getChoices().removeChoice(this);
                 });
             }

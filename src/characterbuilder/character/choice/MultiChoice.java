@@ -20,14 +20,6 @@ public class MultiChoice implements Choice {
     public void makeChoice(Character character, ChoiceSelector selector) {
         choice.makeChoice(character, new ChoiceSelector() {
             @Override
-            public void getName(Consumer<String> consumer) {
-                selector.getName(name -> {
-                    consumer.accept(name);
-                    remove(character);
-                });
-            }
-
-            @Override
             public void getAttribute(Stream<Attribute> attributes, Consumer<Attribute> consumer) {
                 selector.getAttribute(attributes, att -> {
                     consumer.accept(att);

@@ -72,11 +72,6 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     }
 
     @Override
-    public void getName(Consumer<String> consumer) {
-        choiceMade();
-    }
-
-    @Override
     public void getAttribute(Stream<Attribute> attributes, Consumer<Attribute> consumer) {
         showOptions(attributes, consumer);
     }
@@ -101,6 +96,8 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
             consumer.accept(IntStream.range(0, 6)
                 .mapToObj(i -> new IntAttribute(scores.get(i), values.get(i))));
         });
+        detailPanel.revalidate();
+        detailPanel.repaint();
     }
 
     private List<AttributeType> generateOrderedScores() {
@@ -177,20 +174,29 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     }
 
     private <T> void addOption(T opt, Runnable action) {
-        JLabel label = new JLabel(opt.toString());
+        JLabel label = new JLabel("<html>" + opt.toString() + "</html>");
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(190, 40));
         panel.setBackground(Color.WHITE);
         panel.add(label, BorderLayout.CENTER);
         panel.setBorder(BorderFactory.createEtchedBorder());
-        panel.addMouseListener(optionMouseListener(action, panel));
+        panel.addMouseListener(optionMouseListener(opt, action, panel));
         detailPanel.add(panel, columnPosition(0));
     }
 
-    private MouseListener optionMouseListener(Runnable action, JPanel panel) {
+    private <T> MouseListener optionMouseListener(T opt, Runnable action, JPanel panel) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                if (opt instanceof Attribute) {
+                    Attribute attribute = (Attribute) opt;
+                    attribute.getDescription(character.get()).ifPresent(desc -> {
+                        panel.setPreferredSize(new Dimension(190, 80));
+                        panel.add(new JLabel(desc), BorderLayout.SOUTH);
+                        panel.revalidate();
+                        panel.repaint();
+                    });
+                }
                 selectAction = Optional.of(action);
                 if (e.getClickCount() == 2) {
                     selectOption();
