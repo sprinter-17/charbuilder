@@ -58,12 +58,12 @@ public class MainWindow {
             () -> character.isPresent(),
             () -> character.get().isDirty(),
             () -> character.get().hasAttribute(AttributeType.NAME),
-            () -> character.get().getChoices().isEmpty());
+            () -> character.get().getChoiceCount() == 0);
         addTool("Level Up", this::levelUpCharacter,
-            () -> character.isPresent(), () -> character.get().getChoices().isEmpty(),
+            () -> character.isPresent(), () -> character.get().getChoiceCount() == 0,
             () -> character.get().getLevel() < 20);
         addTool("Show Character Sheet", this::showCharacterSheet,
-            () -> character.isPresent(), () -> character.get().getChoices().isEmpty());
+            () -> character.isPresent(), () -> character.get().getChoiceCount() == 0);
         addTool("Exit", this::exit);
         enableTools();
         frame.add(tools, BorderLayout.NORTH);
@@ -106,6 +106,7 @@ public class MainWindow {
 
     private void setCharacter(Character character) {
         this.character = Optional.of(character);
+        character.addChoiceList(choices);
         choices.update(character);
         panel.updateCharacterData(character);
     }

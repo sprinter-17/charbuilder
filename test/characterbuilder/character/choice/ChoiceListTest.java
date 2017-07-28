@@ -24,10 +24,11 @@ public class ChoiceListTest {
 
     @Test
     public void testChoiceRemoved() {
-        choices.add(new TestOptionChoice(ch -> {
-        }));
+        OptionChoice choice = new TestOptionChoice(ch -> {
+        });
+        choices.add(choice);
         assertThat(choices.stream().count(), is(1L));
-        choices.select(null, 0);
+        choices.select(null, choice);
         assertThat(choices.stream().count(), is(0L));
     }
 

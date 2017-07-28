@@ -42,11 +42,10 @@ public class ChoiceList {
         return choices.contains(choice);
     }
 
-    public void select(Character character, int index) {
-        get(index).select(character, selector.withAction(() -> {
-            if (get(index).useAndCheck())
-                choices.remove(index);
+    public void select(Character character, OptionChoice choice) {
+        choice.select(character, selector.withAction(() -> {
+            if (choice.useAndCheck())
+                choices.remove(choice);
         }));
     }
-
 }

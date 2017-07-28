@@ -6,7 +6,6 @@ import characterbuilder.character.attribute.Race;
 import static characterbuilder.character.choice.InitialChoiceGenerator.CHOOSE_CLASS;
 import static characterbuilder.character.choice.InitialChoiceGenerator.CHOOSE_RACE;
 import static characterbuilder.character.choice.InitialChoiceGenerator.GENERATE_ABILITY_SCORES;
-import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -31,8 +30,8 @@ public class InitialChoiceGeneratorTest {
     @Test
     public void testNewCharacterChoices() {
         generator.generateChoices(character);
-        assertTrue(character.getChoices().has(CHOOSE_RACE));
-        assertTrue(character.getChoices().has(CHOOSE_CLASS));
+        assertTrue(character.hasChoice(CHOOSE_RACE.toString()));
+        assertTrue(character.hasChoice(CHOOSE_CLASS.toString()));
     }
 
     @Test
@@ -45,10 +44,9 @@ public class InitialChoiceGeneratorTest {
     @Test
     public void testChoiceRemoved() {
         generator.generateChoices(character);
-        assertTrue(character.getChoices().has(CHOOSE_RACE));
-        character.getChoices().select(character,
-            character.getChoices().stream().collect(toList()).indexOf(CHOOSE_RACE));
-        assertFalse(character.getChoices().has(CHOOSE_RACE));
+        assertTrue(character.hasChoice(CHOOSE_RACE.toString()));
+        character.selectChoice(CHOOSE_RACE);
+        assertFalse(character.hasChoice(CHOOSE_RACE.toString()));
     }
 
     @Test
@@ -62,11 +60,11 @@ public class InitialChoiceGeneratorTest {
 
     @Test
     public void testGenerateAbilityScores() {
-        assertFalse(character.getChoices().has(GENERATE_ABILITY_SCORES));
+        assertFalse(character.hasChoice(GENERATE_ABILITY_SCORES.toString()));
         character.addAttribute(CharacterClass.FIGHTER);
-        assertFalse(character.getChoices().has(GENERATE_ABILITY_SCORES));
+        assertFalse(character.hasChoice(GENERATE_ABILITY_SCORES.toString()));
         CHOOSE_RACE.select(character, selector);
-        assertTrue(character.getChoices().has(GENERATE_ABILITY_SCORES));
+        assertTrue(character.hasChoice(GENERATE_ABILITY_SCORES.toString()));
     }
 
 }

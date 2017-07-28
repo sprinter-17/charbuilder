@@ -6,8 +6,9 @@ import characterbuilder.character.ability.Spell;
 import static characterbuilder.character.attribute.AttributeType.DIVINE_DOMAIN;
 import static characterbuilder.character.attribute.CharacterClass.CLERIC;
 import static characterbuilder.character.attribute.CharacterClass.FIGHTER;
+import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.choice.TestChoiceSelector;
-import java.util.OptionalInt;
+import java.util.Optional;
 import java.util.stream.IntStream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -33,7 +34,7 @@ public class CharacterClassTest {
         character.addAttribute(new IntAttribute(AttributeType.LEVEL, 1));
         CharacterClass.CLERIC.generateLevelChoices(character);
         selector.withAttribute(DivineDomain.LIFE);
-        character.getChoices().select(character, firstChoice("Divine Domain").getAsInt());
+        character.selectChoice(firstChoice("Divine Domain").get());
         assertFalse(firstChoice("Divine Domain").isPresent());
         assertTrue(character.hasAttribute(DivineDomain.LIFE));
         assertTrue(character.hasAttribute(Spell.BLESS));
@@ -63,7 +64,7 @@ public class CharacterClassTest {
         while (level.getValue() <= 20) {
             CharacterClass.CLERIC.generateLevelChoices(character);
             while (firstChoice(spellMatch).isPresent()) {
-                character.getChoices().select(character, firstChoice(spellMatch).getAsInt());
+                character.selectChoice(firstChoice(spellMatch).get());
             }
             level.addValue(1);
         }
@@ -79,10 +80,10 @@ public class CharacterClassTest {
         assertThat(spellLevelCount(9), is(1));
     }
 
-    private OptionalInt firstChoice(String match) {
-        return IntStream.range(0, character.getChoices().size())
-            .filter(i -> character.getChoices().get(i).toString()
-            .matches(match))
+    private Optional<OptionChoice> firstChoice(String match) {
+        return IntStream.range(0, character.getChoiceCount())
+            .mapToObj(character::getChoice)
+            .filter(c -> c.toString().matches(match))
             .findFirst();
     }
 

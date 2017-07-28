@@ -57,17 +57,17 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
 
     public void update(Character character) {
         this.character = Optional.of(character);
-        choiceModel.setChoices(character.getChoices());
+        choiceModel.setCharacter(character);
         selectFirstChoice();
         choiceList.addListSelectionListener(ev -> {
-            showOptions(character);
+            showOptions();
         });
     }
 
     private void selectFirstChoice() {
         if (choiceModel.getSize() > 0) {
             choiceList.setSelectionInterval(0, 0);
-            showOptions(character.get());
+            showOptions();
         }
     }
 
@@ -114,9 +114,9 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         };
     }
 
-    private void showOptions(Character character) {
+    private void showOptions() {
         if (choiceList.getModel().getSize() > 0 && choiceList.getSelectedIndex() > -1) {
-            choiceModel.select(character, choiceList.getSelectedIndex());
+            choiceModel.select(choiceList.getSelectedIndex());
             choiceModel.update();
         }
     }

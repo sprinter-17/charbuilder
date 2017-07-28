@@ -46,8 +46,16 @@ public class Character {
         choices.add(choice);
     }
 
-    public ChoiceList getChoices() {
-        return choices;
+    public OptionChoice getChoice(int index) {
+        return choices.get(index);
+    }
+
+    public int getChoiceCount() {
+        return choices.size();
+    }
+
+    public void selectChoice(OptionChoice choice) {
+        choices.select(this, choice);
     }
 
     public boolean hasChoice(String name) {

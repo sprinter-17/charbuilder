@@ -19,14 +19,14 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
         = attributeEnumChoice("Choose race", Race.values(),
             ch -> {
             if (ch.hasAttribute(AttributeType.CHARACTER_CLASS))
-                ch.getChoices().add(GENERATE_ABILITY_SCORES);
+                ch.addChoice(GENERATE_ABILITY_SCORES);
         },
-            ch -> ch.getChoices().add(attributeEnumChoice("Sex", Sex.values())));
+            ch -> ch.addChoice(attributeEnumChoice("Sex", Sex.values())));
     protected static final OptionChoice CHOOSE_CLASS
         = attributeEnumChoice("Choose class", CharacterClass.values(),
             ch -> {
             if (ch.hasAttribute(AttributeType.RACE))
-                ch.getChoices().add(GENERATE_ABILITY_SCORES);
+                ch.addChoice(GENERATE_ABILITY_SCORES);
         });
     protected static final OptionChoice CHOOSE_BACKGROUND
         = attributeEnumChoice("Choose background", Background.values(),
