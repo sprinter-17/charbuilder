@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public class AttributeChoice implements Choice {
+public class AttributeChoice extends OptionChoice {
 
     private final String name;
     private final List<Attribute> attributes = new ArrayList<>();
@@ -40,15 +40,14 @@ public class AttributeChoice implements Choice {
     }
 
     @Override
-    public void makeChoice(Character character, ChoiceSelector selector) {
-        selector.getAttribute(attributes.stream()
-            .filter(att -> !character.hasAttribute(att)), attr -> useChoice(character, attr));
+    public void select(Character character, ChoiceSelector selector) {
+        selector.chooseOption(attributes.stream()
+            .filter(att -> !character.hasAttribute(att)),
+            attr -> useChoice(character, attr));
     }
 
-    protected void useChoice(Character character, Attribute attribute) {
-        character.addAttribute(attribute);
-        attribute.generateInitialChoices(character);
-        character.getChoices().removeChoice(this);
+    protected void useChoice(Character character, Option attribute) {
+        attribute.choose(character);
         actions.forEach(act -> act.accept(character));
     }
 

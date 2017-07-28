@@ -12,6 +12,8 @@ import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.choice.ChoiceList;
+import characterbuilder.character.choice.ChoiceSelector;
+import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Inventory;
@@ -30,18 +32,26 @@ public class Character {
     protected static final int[] XP_LEVELS = {0, 300, 900, 2700, 6500, 14000, 23000, 34000, 48000,
         64000, 85000, 100000, 120000, 140000, 165000, 195000, 225000, 265000, 305000, 355000};
 
-    private final ChoiceList choices = new ChoiceList();
     private final AttributeSet attributes = new AttributeSet();
     private final Inventory inventory = new Inventory();
+    private ChoiceList choices;
 
     private boolean dirty = true;
+
+    public void addChoiceList(ChoiceSelector selector) {
+        this.choices = new ChoiceList(selector);
+    }
+
+    public void addChoice(OptionChoice choice) {
+        choices.add(choice);
+    }
 
     public ChoiceList getChoices() {
         return choices;
     }
 
     public boolean hasChoice(String name) {
-        return choices.getChoices().map(Object::toString).anyMatch(name::equals);
+        return choices.stream().map(Object::toString).anyMatch(name::equals);
     }
 
     public void generateAbilityScores(CharacterRandom random) {
@@ -117,6 +127,8 @@ public class Character {
     }
 
     public int getIntAttribute(AttributeType type) {
+        if (!hasAttribute(type))
+            throw new IllegalArgumentException("Attempt to get non-existent int attribute " + type);
         IntAttribute attribute = getAttribute(type);
         return attribute.getValue();
     }

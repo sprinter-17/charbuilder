@@ -7,7 +7,6 @@ import static characterbuilder.character.attribute.AttributeType.LANGUAGE;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.choice.EquipmentChoice;
-import characterbuilder.character.choice.MultiChoice;
 import characterbuilder.character.equipment.EquipmentCategory;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.EquipmentType;
@@ -20,7 +19,7 @@ public enum Background implements Attribute {
             .addEquipment(EquipmentType.GOLD_PIECE, 15)
             .addEquipment(EquipmentType.INCENSE_BLOCK, 5)
             .addChoice(new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL))
-            .addChoice(new MultiChoice(2, new AttributeChoice(LANGUAGE)))),
+            .addChoice(new AttributeChoice(LANGUAGE).withCount(2))),
     CRIMINAL(gen
         -> gen.addAttributes(DECEPTION, STEALTH, THIEVES_TOOLS)
             .addEquipment(EquipmentType.GOLD_PIECE, 15)
@@ -40,7 +39,7 @@ public enum Background implements Attribute {
     SAGE(gen
         -> gen.addAttributes(ARCANA, HISTORY)
             .addEquipment(EquipmentType.GOLD_PIECE, 10)
-            .addChoice(new MultiChoice(2, new AttributeChoice(LANGUAGE)))),
+            .addChoice(new AttributeChoice(LANGUAGE).withCount(2))),
     SOLDIER(gen
         -> gen.addAttributes(ATHLETICS, INTIMIDATION, LAND_VEHICLES)
             .addEquipment(EquipmentType.GOLD_PIECE, 10)

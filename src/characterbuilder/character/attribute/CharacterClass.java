@@ -18,7 +18,7 @@ import static characterbuilder.character.choice.ChoiceGenerator.spellChoice;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.choice.ExpertiseChoice;
-import characterbuilder.character.choice.MultiChoice;
+import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.equipment.Armour;
 import static characterbuilder.character.equipment.Armour.CHAIN_MAIL_ARMOUR;
 import static characterbuilder.character.equipment.Armour.LEATHER_ARMOUR;
@@ -47,8 +47,8 @@ public enum CharacterClass implements Attribute {
             gen.level(1).addAttributes(LIGHT_ARMOUR, MEDIUM_ARMOUR, Proficiency.SHIELD,
                 ALL_SIMPLE_MELEE, ALL_SIMPLE_RANGED);
             gen.level(1).addChoice(new AttributeChoice("Divine Domain", DivineDomain.values()));
-            gen.level(1).addChoice(new MultiChoice(2, new AttributeChoice("Skill",
-                HISTORY, INSIGHT, MEDICINE, PERSUASION, RELIGION)));
+            gen.level(1).addChoice(new AttributeChoice("Skill",
+                HISTORY, INSIGHT, MEDICINE, PERSUASION, RELIGION).withCount(2));
             gen.level(1).addChoice(new EquipmentChoice("Primary Weapon", MACE, WARHAMMER));
             gen.level(1).addChoice(new EquipmentChoice("Secondary Weapon")
                 .with(EquipmentCategory.SIMPLE_MELEE)
@@ -73,9 +73,9 @@ public enum CharacterClass implements Attribute {
             ChoiceGenerator gen = new ChoiceGenerator();
             gen.level(1).
                 addAttributes(ALL_ARMOUR, ALL_MELEE_WEAPONS, ALL_RANGED_WEAPONS, SECOND_WIND);
-            gen.level(1).addChoice(new MultiChoice(2, new AttributeChoice("Skill",
+            gen.level(1).addChoice(new AttributeChoice("Skill",
                 ACROBATICS, ANIMAL_HANDLING, ATHLETICS, HISTORY, INSIGHT,
-                INTIMIDATION, PERCEPTION, SURVIVAL)))
+                INTIMIDATION, PERCEPTION, SURVIVAL).withCount(2))
                 .addChoice(new AttributeChoice(FIGHTING_STYLE));
             gen.level(1).addChoice(new EquipmentChoice("Armour")
                 .with(CHAIN_MAIL_ARMOUR).with(LEATHER_ARMOUR, LONGBOW, new EquipmentSet(ARROW, 20)));
@@ -106,10 +106,11 @@ public enum CharacterClass implements Attribute {
                 Proficiency.THIEVES_TOOLS);
             gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
             gen.level(1).addAttributes(SNEAK_ATTACK, THIEVES_CANT);
-            gen.level(1).addChoice(new MultiChoice(4,
-                new AttributeChoice("Skill", ACROBATICS, ATHLETICS, DECEPTION, INSIGHT, INTIMIDATION,
-                    INVESTIGATION, PERCEPTION, PERFORMANCE, PERSUASION, SLEIGHT_OF_HAND, STEALTH)));
-            gen.level(1).addChoice(new MultiChoice(2, new ExpertiseChoice()));
+            gen.level(1).
+                addChoice(new AttributeChoice("Skill", ACROBATICS, ATHLETICS, DECEPTION, INSIGHT,
+                    INTIMIDATION, INVESTIGATION, PERCEPTION, PERFORMANCE, PERSUASION,
+                    SLEIGHT_OF_HAND, STEALTH).withCount(4));
+            gen.level(1).addChoice(new ExpertiseChoice().withCount(2));
             gen.level(1).addEquipment(LEATHER_ARMOUR)
                 .addEquipment(DAGGER, 2)
                 .addEquipment(EquipmentType.THIEVES_TOOLS);
@@ -123,7 +124,7 @@ public enum CharacterClass implements Attribute {
             gen.level(3).addChoice(new AttributeChoice("Roguish Archetype",
                 RoguishArchetype.values()));
             gen.level(5).addAttributes(UNCANNY_DODGE);
-            gen.level(6).addChoice(new MultiChoice(2, new ExpertiseChoice()));
+            gen.level(6).addChoice(new ExpertiseChoice().withCount(2));
             gen.level(7).addAttributes(EVASION);
             gen.level(11).addAttributes(RELIABLE_TALENT);
             gen.level(14).addAttributes(BLINDSENSE);
@@ -139,8 +140,8 @@ public enum CharacterClass implements Attribute {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
             gen.level(1).addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
-            gen.level(1).addChoice(new MultiChoice(2, new AttributeChoice("Skill",
-                ARCANA, HISTORY, INSIGHT, INVESTIGATION, MEDICINE, RELIGION)));
+            gen.level(1).addChoice(new AttributeChoice("Skill",
+                ARCANA, HISTORY, INSIGHT, INVESTIGATION, MEDICINE, RELIGION).withCount(2));
             gen.level(1).addChoice(new EquipmentChoice("Weapon", QUARTERSTAFF, DAGGER));
             gen.level(1).addChoice(new EquipmentChoice("Wizard Gear", COMPONENT_POUCH,
                 CRYSTAL, ORB, ROD, STAFF, WAND));
@@ -200,10 +201,10 @@ public enum CharacterClass implements Attribute {
     }
 
     private static Choice spellMasteryChoice(String name, int level) {
-        return new Choice() {
+        return new OptionChoice() {
             @Override
-            public void makeChoice(Character character, ChoiceSelector selector) {
-                selector.getAttribute(Spell.
+            public void select(Character character, ChoiceSelector selector) {
+                selector.chooseOption(Spell.
                     spells(character.getAttribute(CHARACTER_CLASS), level)
                     .filter(sp
                         -> character.getAllAttributes()
@@ -212,7 +213,6 @@ public enum CharacterClass implements Attribute {
                     .map(sp -> (Attribute) sp),
                     spell -> {
                     character.addAttribute(new SpellMastery(name, (Spell) spell));
-                    character.getChoices().removeChoice(this);
                 });
             }
 

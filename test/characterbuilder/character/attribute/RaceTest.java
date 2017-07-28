@@ -4,6 +4,7 @@ import characterbuilder.character.Character;
 import static characterbuilder.character.attribute.AttributeType.HEIGHT;
 import static characterbuilder.character.attribute.AttributeType.STRENGTH;
 import static characterbuilder.character.attribute.AttributeType.WEIGHT;
+import characterbuilder.character.choice.TestChoiceSelector;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -25,6 +26,7 @@ public class RaceTest {
     public void testStartingHeightAndWeight() {
         for (int i = 0; i < 10000; i++) {
             Character character = new Character();
+            character.addChoiceList(new TestChoiceSelector());
             Race.HILL_DWARF.generateInitialChoices(character);
             Height height = character.getAttribute(HEIGHT);
             Weight weight = character.getAttribute(WEIGHT);

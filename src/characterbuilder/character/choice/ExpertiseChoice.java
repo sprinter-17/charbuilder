@@ -16,8 +16,8 @@ public class ExpertiseChoice extends AttributeChoice {
     }
 
     @Override
-    public void makeChoice(Character character, ChoiceSelector selector) {
-        selector.getAttribute(Stream.concat(Arrays.stream((Attribute[]) Skill.values()),
+    public void select(Character character, ChoiceSelector selector) {
+        selector.chooseOption(Stream.concat(Arrays.stream((Attribute[]) Skill.values()),
             Stream.of(Proficiency.THIEVES_TOOLS))
             .filter(attr -> character.hasAttribute(attr))
             .filter(attr -> !character.hasAttribute(new Expertise(attr))),

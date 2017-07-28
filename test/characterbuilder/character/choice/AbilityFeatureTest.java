@@ -13,7 +13,7 @@ public class AbilityFeatureTest {
         AttributeFeature feature = new AttributeFeature(Proficiency.BREWER);
         Character character = new Character();
         assertFalse(character.hasAttribute(Proficiency.BREWER));
-        feature.makeChoice(character, null);
+        feature.addTo(character);
         assertTrue(character.hasAttribute(Proficiency.BREWER));
     }
 

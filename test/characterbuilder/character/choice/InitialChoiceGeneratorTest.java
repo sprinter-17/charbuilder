@@ -6,6 +6,7 @@ import characterbuilder.character.attribute.Race;
 import static characterbuilder.character.choice.InitialChoiceGenerator.CHOOSE_CLASS;
 import static characterbuilder.character.choice.InitialChoiceGenerator.CHOOSE_RACE;
 import static characterbuilder.character.choice.InitialChoiceGenerator.GENERATE_ABILITY_SCORES;
+import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -24,46 +25,48 @@ public class InitialChoiceGeneratorTest {
         character = new characterbuilder.character.Character();
         generator = new InitialChoiceGenerator();
         selector = new TestChoiceSelector();
+        character.addChoiceList(selector);
     }
 
     @Test
     public void testNewCharacterChoices() {
         generator.generateChoices(character);
-        assertTrue(character.getChoices().hasChoice(CHOOSE_RACE));
-        assertTrue(character.getChoices().hasChoice(CHOOSE_CLASS));
+        assertTrue(character.getChoices().has(CHOOSE_RACE));
+        assertTrue(character.getChoices().has(CHOOSE_CLASS));
     }
 
     @Test
     public void testAttributeAdded() {
         assertFalse(character.hasAttribute(AttributeType.RACE));
-        CHOOSE_RACE.makeChoice(character, selector);
+        CHOOSE_RACE.select(character, selector);
         assertThat(character.getAttribute(AttributeType.RACE), is(Race.values()[0]));
     }
 
     @Test
     public void testChoiceRemoved() {
         generator.generateChoices(character);
-        assertTrue(character.getChoices().hasChoice(CHOOSE_RACE));
-        CHOOSE_RACE.makeChoice(character, selector);
-        assertFalse(character.getChoices().hasChoice(CHOOSE_RACE));
+        assertTrue(character.getChoices().has(CHOOSE_RACE));
+        character.getChoices().select(character,
+            character.getChoices().stream().collect(toList()).indexOf(CHOOSE_RACE));
+        assertFalse(character.getChoices().has(CHOOSE_RACE));
     }
 
     @Test
     public void testChooseClassesCreatesLevelAndXP() {
         assertFalse(character.hasAttribute(AttributeType.LEVEL));
         assertFalse(character.hasAttribute(AttributeType.EXPERIENCE_POINTS));
-        CHOOSE_CLASS.makeChoice(character, selector);
+        CHOOSE_CLASS.select(character, selector);
         assertThat(character.getIntAttribute(AttributeType.LEVEL), is(1));
         assertThat(character.getIntAttribute(AttributeType.EXPERIENCE_POINTS), is(0));
     }
 
     @Test
     public void testGenerateAbilityScores() {
-        assertFalse(character.getChoices().hasChoice(GENERATE_ABILITY_SCORES));
+        assertFalse(character.getChoices().has(GENERATE_ABILITY_SCORES));
         character.addAttribute(CharacterClass.FIGHTER);
-        assertFalse(character.getChoices().hasChoice(GENERATE_ABILITY_SCORES));
-        CHOOSE_RACE.makeChoice(character, selector);
-        assertTrue(character.getChoices().hasChoice(GENERATE_ABILITY_SCORES));
+        assertFalse(character.getChoices().has(GENERATE_ABILITY_SCORES));
+        CHOOSE_RACE.select(character, selector);
+        assertTrue(character.getChoices().has(GENERATE_ABILITY_SCORES));
     }
 
 }

@@ -25,14 +25,15 @@ public class ChoiceGeneratorTest {
         character = new Character();
         generator = new ChoiceGenerator();
         selector = new TestChoiceSelector();
+        character.addChoiceList(selector);
     }
 
     @Test
     public void testAbilitiesChosenOnceOnly() {
-        new AttributeChoice("Test", BRAVE, CARDS).makeChoice(character, selector);
+        new AttributeChoice("Test", BRAVE, CARDS).select(character, selector);
         assertTrue(character.hasAttribute(BRAVE));
         assertFalse(character.hasAttribute(CARDS));
-        new AttributeChoice("Test", BRAVE, CARDS).makeChoice(character, selector);
+        new AttributeChoice("Test", BRAVE, CARDS).select(character, selector);
         assertTrue(character.hasAttribute(CARDS));
     }
 
@@ -75,9 +76,9 @@ public class ChoiceGeneratorTest {
         character.addAttribute(new IntAttribute(CONSTITUTION, 10));
         character.addAttribute(new IntAttribute(AttributeType.HIT_POINTS, 0));
         selector.withAttribute(new IntAttribute(CONSTITUTION, 0));
-        ChoiceGenerator.abilityScoreIncrease(1).makeChoice(character, selector);
+        ChoiceGenerator.abilityScoreIncrease(1).select(character, selector);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(0));
-        ChoiceGenerator.abilityScoreIncrease(1).makeChoice(character, selector);
+        ChoiceGenerator.abilityScoreIncrease(1).select(character, selector);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(7));
     }
 

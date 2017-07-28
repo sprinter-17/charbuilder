@@ -1,11 +1,13 @@
 package characterbuilder.character.equipment;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
+import characterbuilder.character.choice.Option;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public interface Equipment {
+public interface Equipment extends Option {
 
     default Stream<Equipment> getComponents() {
         return Stream.of(this);
@@ -27,6 +29,11 @@ public interface Equipment {
 
     default Optional<Weapon> asWeapon() {
         return Optional.empty();
+    }
+
+    @Override
+    public default void choose(Character character) {
+        getComponents().forEach(character::addEquipment);
     }
 
     Weight getWeight();

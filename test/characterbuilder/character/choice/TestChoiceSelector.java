@@ -1,7 +1,6 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.attribute.Attribute;
-import characterbuilder.character.equipment.Equipment;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -16,17 +15,11 @@ public class TestChoiceSelector implements ChoiceSelector {
     }
 
     @Override
-    public void getAttribute(Stream<Attribute> attributes, Consumer<Attribute> consumer) {
+    public <T extends Option> void chooseOption(Stream<T> options, Consumer<T> followUp) {
         if (attribute.isPresent())
-            consumer.accept(attribute.get());
+            followUp.accept((T) attribute.get());
         else
-            consumer.accept(attributes.findFirst().get());
-        choiceMade();
-    }
-
-    @Override
-    public void getEquipment(Stream<Equipment> equipment, Consumer<Equipment> consumer) {
-        consumer.accept(equipment.findFirst().get());
+            followUp.accept(options.findFirst().get());
     }
 
     @Override

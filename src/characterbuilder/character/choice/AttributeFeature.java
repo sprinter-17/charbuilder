@@ -20,15 +20,8 @@ public class AttributeFeature implements Choice {
     }
 
     @Override
-    public void makeChoice(Character character, ChoiceSelector selector) {
+    public void addTo(Character character) {
         replace.ifPresent(character::removeAttribute);
         character.addAttribute(attribute);
-        if (selector != null)
-            selector.choiceMade();
-    }
-
-    @Override
-    public boolean isAutomatic() {
-        return true;
     }
 }

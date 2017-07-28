@@ -11,15 +11,24 @@ public class ChoiceListTest {
 
     @Before
     public void setup() {
-        choices = new ChoiceList();
+        choices = new ChoiceList(new TestChoiceSelector());
     }
 
     @Test
     public void testGetChoices() {
-        assertThat(choices.getChoices().count(), is(0L));
-        choices.addChoice((character, selector) -> {
-        });
-        assertThat(choices.getChoices().count(), is(1L));
+        assertThat(choices.stream().count(), is(0L));
+        choices.add(new TestOptionChoice(ch -> {
+        }));
+        assertThat(choices.stream().count(), is(1L));
+    }
+
+    @Test
+    public void testChoiceRemoved() {
+        choices.add(new TestOptionChoice(ch -> {
+        }));
+        assertThat(choices.stream().count(), is(1L));
+        choices.select(null, 0);
+        assertThat(choices.stream().count(), is(0L));
     }
 
 }

@@ -6,11 +6,9 @@ import characterbuilder.character.ability.Spell;
 import static characterbuilder.character.attribute.AttributeType.DIVINE_DOMAIN;
 import static characterbuilder.character.attribute.CharacterClass.CLERIC;
 import static characterbuilder.character.attribute.CharacterClass.FIGHTER;
-import characterbuilder.character.choice.Choice;
-import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.TestChoiceSelector;
-import java.util.List;
-import static java.util.stream.Collectors.toList;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -21,22 +19,22 @@ import org.junit.Test;
 public class CharacterClassTest {
 
     private Character character;
+    private TestChoiceSelector selector;
 
     @Before
     public void setup() {
         character = new Character();
+        selector = new TestChoiceSelector();
+        character.addChoiceList(selector);
     }
 
     @Test
     public void testInitialDivineDomainSpells() {
         character.addAttribute(new IntAttribute(AttributeType.LEVEL, 1));
         CharacterClass.CLERIC.generateLevelChoices(character);
-        character.getChoices().getChoices()
-            .filter(ch -> ch.toString().equals("Divine Domain"))
-            .findAny().get()
-            .makeChoice(character, new TestChoiceSelector().withAttribute(DivineDomain.LIFE));
-        assertFalse(character.getChoices().getChoices()
-            .anyMatch(ch -> ch.toString().equals("Divine Domain")));
+        selector.withAttribute(DivineDomain.LIFE);
+        character.getChoices().select(character, firstChoice("Divine Domain").getAsInt());
+        assertFalse(firstChoice("Divine Domain").isPresent());
         assertTrue(character.hasAttribute(DivineDomain.LIFE));
         assertTrue(character.hasAttribute(Spell.BLESS));
         assertTrue(character.hasAttribute(Spell.CURE_WOUNDS));
@@ -60,14 +58,12 @@ public class CharacterClassTest {
     @Test
     public void testTotalClericSpell() {
         IntAttribute level = new IntAttribute(AttributeType.LEVEL, 1);
-        ChoiceSelector selector = new TestChoiceSelector();
         character.addAttribute(level);
+        String spellMatch = "(\\dx )?(Cantrip|Level \\d+ spell)";
         while (level.getValue() <= 20) {
             CharacterClass.CLERIC.generateLevelChoices(character);
-            List<Choice> spellChoices = spellChoices();
-            while (!spellChoices.isEmpty()) {
-                spellChoices.forEach(ch -> ch.makeChoice(character, selector));
-                spellChoices = spellChoices();
+            while (firstChoice(spellMatch).isPresent()) {
+                character.getChoices().select(character, firstChoice(spellMatch).getAsInt());
             }
             level.addValue(1);
         }
@@ -83,11 +79,11 @@ public class CharacterClassTest {
         assertThat(spellLevelCount(9), is(1));
     }
 
-    private List<Choice> spellChoices() {
-        return character.getChoices()
-            .getChoices()
-            .filter(ch -> ch.toString().matches("(\\dx )?(Cantrip|Level \\d+ spell)"))
-            .collect(toList());
+    private OptionalInt firstChoice(String match) {
+        return IntStream.range(0, character.getChoices().size())
+            .filter(i -> character.getChoices().get(i).toString()
+            .matches(match))
+            .findFirst();
     }
 
     private int spellLevelCount(int level) {

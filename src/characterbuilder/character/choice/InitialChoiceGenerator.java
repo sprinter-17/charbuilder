@@ -1,7 +1,6 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.attribute.Alignment;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
@@ -14,64 +13,48 @@ import java.util.function.Consumer;
 
 public class InitialChoiceGenerator extends ChoiceGenerator {
 
-    protected static final Choice GENERATE_ABILITY_SCORES
+    protected static final OptionChoice GENERATE_ABILITY_SCORES
         = generateAbilityScores();
-    protected static final Choice CHOOSE_RACE
+    protected static final OptionChoice CHOOSE_RACE
         = attributeEnumChoice("Choose race", Race.values(),
             ch -> {
             if (ch.hasAttribute(AttributeType.CHARACTER_CLASS))
-                ch.getChoices().addChoice(GENERATE_ABILITY_SCORES);
+                ch.getChoices().add(GENERATE_ABILITY_SCORES);
         },
-            ch -> ch.getChoices().addChoice(attributeEnumChoice("Sex", Sex.values())));
-    protected static final Choice CHOOSE_CLASS
+            ch -> ch.getChoices().add(attributeEnumChoice("Sex", Sex.values())));
+    protected static final OptionChoice CHOOSE_CLASS
         = attributeEnumChoice("Choose class", CharacterClass.values(),
             ch -> {
             if (ch.hasAttribute(AttributeType.RACE))
-                ch.getChoices().addChoice(GENERATE_ABILITY_SCORES);
+                ch.getChoices().add(GENERATE_ABILITY_SCORES);
         });
-    protected static final Choice CHOOSE_BACKGROUND
+    protected static final OptionChoice CHOOSE_BACKGROUND
         = attributeEnumChoice("Choose background", Background.values(),
             ch -> ch.getAttribute(AttributeType.BACKGROUND, Background.class)
                 .addChoices(ch));
     protected static final Choice CHOOSE_ALIGNMENT
         = attributeEnumChoice("Choose alignment", Alignment.values());
 
-    private static final CharacterRandom RANDOM = new CharacterRandom();
-
-    private static Choice baseChoice(String name, Consumer<Character> action) {
-        return new ChoiceGenerator.AbstractChoice(name) {
-            @Override
-            public void makeChoice(Character character, ChoiceSelector selector) {
-                action.accept(character);
-                character.getChoices().removeChoice(this);
-                selector.choiceMade();
-            }
-        };
-    }
-
-    private static Choice attributeEnumChoice(String name, Attribute[] values,
+    private static OptionChoice attributeEnumChoice(String name, Attribute[] values,
         Consumer<Character>... andThen) {
-        return new ChoiceGenerator.AbstractChoice(name) {
+        return new ChoiceGenerator.NamedChoice(name) {
             @Override
-            public void makeChoice(Character character, ChoiceSelector selector) {
-                selector.getAttribute(Arrays.stream(values), attr -> {
-                    character.addAttribute(attr);
-                    attr.generateInitialChoices(character);
-                    character.getChoices().removeChoice(this);
+            public void select(Character character, ChoiceSelector selector) {
+                selector.chooseOption(Arrays.stream(values), attr -> {
+                    attr.choose(character);
                     Arrays.stream(andThen).forEach(at -> at.accept(character));
                 });
             }
         };
     }
 
-    private static Choice generateAbilityScores() {
-        return new ChoiceGenerator.AbstractChoice("Generate ability scores") {
+    private static OptionChoice generateAbilityScores() {
+        return new ChoiceGenerator.NamedChoice("Generate ability scores") {
             @Override
-            public void makeChoice(Character character, ChoiceSelector selector) {
+            public void select(Character character, ChoiceSelector selector) {
                 selector.generateAbilityScores(scores -> {
                     scores.forEach(character::addAttribute);
                     character.generateHitPoints();
-                    character.getChoices().removeChoice(this);
                 });
             }
         };

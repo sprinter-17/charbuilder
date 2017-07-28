@@ -1,14 +1,20 @@
 package characterbuilder.character.choice;
 
+import characterbuilder.character.Character;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class ChoiceList {
 
-    private final List<Choice> choices = new ArrayList<>();
+    private final ChoiceSelector selector;
+    private final List<OptionChoice> choices = new ArrayList<>();
 
-    public void addChoice(Choice choice) {
+    public ChoiceList(ChoiceSelector selector) {
+        this.selector = selector;
+    }
+
+    public void add(OptionChoice choice) {
         choices.add(choice);
     }
 
@@ -24,20 +30,23 @@ public class ChoiceList {
         choices.clear();
     }
 
-    public Choice getChoice(int index) {
+    public OptionChoice get(int index) {
         return choices.get(index);
     }
 
-    public Stream<Choice> getChoices() {
+    public Stream<OptionChoice> stream() {
         return choices.stream();
     }
 
-    public void removeChoice(Choice choice) {
-        choices.remove(choice);
+    public boolean has(OptionChoice choice) {
+        return choices.contains(choice);
     }
 
-    public boolean hasChoice(Choice choice) {
-        return choices.contains(choice);
+    public void select(Character character, int index) {
+        get(index).select(character, selector.withAction(() -> {
+            if (get(index).useAndCheck())
+                choices.remove(index);
+        }));
     }
 
 }

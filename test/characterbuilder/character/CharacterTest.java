@@ -13,6 +13,7 @@ import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.attribute.Value;
 import static characterbuilder.character.attribute.Weight.LB;
+import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.EquipmentSet;
 import java.util.Optional;
@@ -55,6 +56,7 @@ public class CharacterTest {
             }
         };
         character = new Character();
+        character.addChoiceList(new TestChoiceSelector());
     }
 
     @Test(expected = IllegalStateException.class)

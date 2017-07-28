@@ -1,19 +1,41 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.attribute.Attribute;
-import characterbuilder.character.equipment.Equipment;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public interface ChoiceSelector {
 
-    void getAttribute(Stream<Attribute> attributes, Consumer<Attribute> consumer);
-
-    void getEquipment(Stream<Equipment> equipments, Consumer<Equipment> consumer);
+    <T extends Option> void chooseOption(Stream<T> options, Consumer<T> followUp);
 
     void generateAbilityScores(Consumer<Stream<Attribute>> consumer);
 
     default void choiceMade() {
 
+    }
+
+    default ChoiceSelector withAction(Runnable action) {
+        return new ChoiceSelector() {
+            @Override
+            public <T extends Option> void chooseOption(Stream<T> options, Consumer<T> followUp) {
+                ChoiceSelector.this.chooseOption(options, opt -> {
+                    followUp.accept(opt);
+                    choiceMade();
+                });
+            }
+
+            @Override
+            public void generateAbilityScores(Consumer<Stream<Attribute>> consumer) {
+                ChoiceSelector.this.generateAbilityScores(sa -> {
+                    consumer.accept(sa);
+                    choiceMade();
+                });
+            }
+
+            @Override
+            public void choiceMade() {
+                action.run();
+            }
+        };
     }
 }

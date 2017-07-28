@@ -17,8 +17,8 @@ public class ChoiceTest {
 
     @Test
     public void testMakeChoice() {
-        Choice choice = (ch, sel) -> ch.addAttribute(ARCHERY);
-        choice.makeChoice(character, new TestChoiceSelector());
+        Choice choice = (ch) -> ch.addAttribute(ARCHERY);
+        choice.addTo(character);
         assertTrue(character.hasAttribute(ARCHERY));
     }
 }

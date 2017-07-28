@@ -9,7 +9,7 @@ import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.choice.Choice;
 import characterbuilder.character.choice.ChoiceSelector;
-import characterbuilder.character.equipment.Equipment;
+import characterbuilder.character.choice.Option;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -72,13 +72,53 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     }
 
     @Override
-    public void getAttribute(Stream<Attribute> attributes, Consumer<Attribute> consumer) {
-        showOptions(attributes, consumer);
+    public <T extends Option> void chooseOption(Stream<T> options, Consumer<T> followUp) {
+        detailPanel.removeAll();
+        options.forEach(opt -> addOption(opt, () -> followUp.accept(opt)));
+        detailPanel.repaint();
     }
 
-    @Override
-    public void getEquipment(Stream<Equipment> equipment, Consumer<Equipment> consumer) {
-        showOptions(equipment, consumer);
+    private <T> void addOption(T opt, Runnable action) {
+        JLabel label = new JLabel("<html>" + opt.toString() + "</html>");
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setPreferredSize(new Dimension(190, 40));
+        panel.setBackground(Color.WHITE);
+        panel.add(label, BorderLayout.CENTER);
+        panel.setBorder(BorderFactory.createEtchedBorder());
+        panel.addMouseListener(optionMouseListener(opt, action, panel));
+        detailPanel.add(panel, columnPosition(0));
+    }
+
+    private <T> MouseListener optionMouseListener(T opt, Runnable action, JPanel panel) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (opt instanceof Attribute) {
+                    Attribute attribute = (Attribute) opt;
+                    attribute.getDescription(character.get()).ifPresent(desc -> {
+                        panel.setPreferredSize(new Dimension(190, 80));
+                        panel.add(new JLabel(desc), BorderLayout.SOUTH);
+                        panel.revalidate();
+                        panel.repaint();
+                    });
+                }
+                selectAction = Optional.of(action);
+                if (e.getClickCount() == 2) {
+                    selectOption();
+                } else {
+                    for (Component child : detailPanel.getComponents()) {
+                        child.setBackground(child == panel ? Color.LIGHT_GRAY : Color.WHITE);
+                    }
+                }
+            }
+        };
+    }
+
+    private void showOptions(Character character) {
+        if (choiceList.getModel().getSize() > 0 && choiceList.getSelectedIndex() > -1) {
+            choiceModel.select(character, choiceList.getSelectedIndex());
+            choiceModel.update();
+        }
     }
 
     @Override
@@ -165,55 +205,6 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     public void choiceMade() {
         choiceModel.update();
         listener.run();
-    }
-
-    private <T> void showOptions(Stream<T> options, Consumer<T> consumer) {
-        detailPanel.removeAll();
-        options.forEach(opt -> addOption(opt, () -> consumer.accept(opt)));
-        detailPanel.repaint();
-    }
-
-    private <T> void addOption(T opt, Runnable action) {
-        JLabel label = new JLabel("<html>" + opt.toString() + "</html>");
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(190, 40));
-        panel.setBackground(Color.WHITE);
-        panel.add(label, BorderLayout.CENTER);
-        panel.setBorder(BorderFactory.createEtchedBorder());
-        panel.addMouseListener(optionMouseListener(opt, action, panel));
-        detailPanel.add(panel, columnPosition(0));
-    }
-
-    private <T> MouseListener optionMouseListener(T opt, Runnable action, JPanel panel) {
-        return new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (opt instanceof Attribute) {
-                    Attribute attribute = (Attribute) opt;
-                    attribute.getDescription(character.get()).ifPresent(desc -> {
-                        panel.setPreferredSize(new Dimension(190, 80));
-                        panel.add(new JLabel(desc), BorderLayout.SOUTH);
-                        panel.revalidate();
-                        panel.repaint();
-                    });
-                }
-                selectAction = Optional.of(action);
-                if (e.getClickCount() == 2) {
-                    selectOption();
-                } else {
-                    for (Component child : detailPanel.getComponents()) {
-                        child.setBackground(child == panel ? Color.LIGHT_GRAY : Color.WHITE);
-                    }
-                }
-            }
-        };
-    }
-
-    private void showOptions(Character character) {
-        if (choiceList.getModel().getSize() > 0 && choiceList.getSelectedIndex() > -1) {
-            choiceList.getSelectedValue().makeChoice(character, this);
-            choiceModel.update();
-        }
     }
 
     private void selectOption() {

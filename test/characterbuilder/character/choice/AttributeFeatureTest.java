@@ -13,7 +13,7 @@ public class AttributeFeatureTest {
         AttributeFeature attrFeature = new AttributeFeature(Ability.NIMBLE, Ability.ARCHERY);
         Character character = new Character();
         character.addAttribute(Ability.ARCHERY);
-        attrFeature.makeChoice(character, null);
+        attrFeature.addTo(character);
         assertFalse(character.hasAttribute(Ability.ARCHERY));
         assertTrue(character.hasAttribute(Ability.NIMBLE));
     }

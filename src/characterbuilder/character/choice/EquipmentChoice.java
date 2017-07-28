@@ -13,7 +13,7 @@ import java.util.List;
 import static java.util.stream.Collectors.joining;
 import java.util.stream.Stream;
 
-public class EquipmentChoice implements Choice {
+public class EquipmentChoice extends OptionChoice {
 
     private final String name;
     private final List<Equipment> equipmentList = new ArrayList<>();
@@ -86,10 +86,8 @@ public class EquipmentChoice implements Choice {
     }
 
     @Override
-    public void makeChoice(Character character, ChoiceSelector selector) {
-        selector.getEquipment(equipmentList.stream(), eq -> {
-            eq.getComponents().forEach(character::addEquipment);
-            character.getChoices().removeChoice(this);
+    public void select(Character character, ChoiceSelector selector) {
+        selector.chooseOption(equipmentList.stream(), eq -> {
         });
     }
 

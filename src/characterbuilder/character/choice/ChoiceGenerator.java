@@ -16,41 +16,21 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import static java.util.stream.Collectors.toList;
+import java.util.stream.Stream;
 
 public class ChoiceGenerator {
 
-    protected static abstract class AbstractChoice implements Choice {
+    protected static abstract class NamedChoice extends OptionChoice {
 
         private final String name;
 
-        public AbstractChoice(String name) {
+        public NamedChoice(String name) {
             this.name = name;
         }
 
         @Override
         public String toString() {
             return name;
-        }
-    }
-
-    protected static class ChoiceCounter {
-
-        private int count;
-
-        public ChoiceCounter(int count) {
-            this.count = count;
-        }
-
-        public boolean complete() {
-            count--;
-            return count == 0;
-        }
-
-        public String prefix() {
-            if (count > 1)
-                return count + " x ";
-            else
-                return "";
         }
     }
 
@@ -82,35 +62,30 @@ public class ChoiceGenerator {
     }
 
     public static Choice abilityTypeChoice(AttributeType attributeType) {
-        return new AbstractChoice(attributeType.toString()) {
+        return new NamedChoice(attributeType.toString()) {
             @Override
-            public void makeChoice(Character character, ChoiceSelector selector) {
+            public void select(Character character, ChoiceSelector selector) {
                 List<Attribute> attributes = Arrays.stream(Proficiency.values())
                     .filter(ab -> ab.getType() == attributeType).collect(toList());
-                selector.getAttribute(attributes.stream(), att -> {
-                    character.addAttribute(att);
-                    att.generateInitialChoices(character);
-                    character.getChoices().removeChoice(this);
+                selector.chooseOption(attributes.stream(), att -> {
                 });
             }
         };
     }
 
-    public static Choice abilityScoreIncrease(int count) {
-        return new Choice() {
-            private final ChoiceCounter counter = new ChoiceCounter(count);
-
+    public static OptionChoice abilityScoreIncrease(int count) {
+        return new OptionChoice(count) {
             @Override
-            public void makeChoice(Character character, ChoiceSelector selector) {
-                selector.getAttribute(AttributeType.ABILITY_SCORES.stream()
+            public void select(Character character, ChoiceSelector selector) {
+                Stream<IntAttribute> abilityScores = AttributeType.ABILITY_SCORES.stream()
                     .filter(as -> character.getIntAttribute(as) < 20)
                     .map(as -> new IntAttribute(as, 0) {
                     @Override
                     public String toString() {
                         return as.toString();
                     }
-                }),
-                    as -> {
+                });
+                selector.chooseOption(abilityScores, as -> {
                     IntAttribute attr = character.getAttribute(as.getType());
                     attr.addValue(1);
                     if (as.getType().equals(AttributeType.CONSTITUTION)
@@ -118,24 +93,22 @@ public class ChoiceGenerator {
                         IntAttribute hp = character.getAttribute(AttributeType.HIT_POINTS);
                         hp.addValue(character.getLevel());
                     }
-                    if (counter.complete())
-                        character.getChoices().removeChoice(this);
                 });
             }
 
             @Override
             public String toString() {
-                return counter.prefix() + "Increase ability score";
+                return "Increase ability score";
             }
         };
     }
 
     public static Choice spellChoice(int count, CharacterClass casterClass, int level) {
-        return new MultiChoice(count, new Choice() {
+        return new OptionChoice(count) {
             @Override
-            public void makeChoice(Character character, ChoiceSelector selector) {
+            public void select(Character character, ChoiceSelector selector) {
                 List<Attribute> spells = Spell.spells(casterClass, level).collect(toList());
-                selector.getAttribute(spells.stream()
+                selector.chooseOption(spells.stream()
                     .filter(sp -> !character.hasAttribute(sp)), spell -> {
                     character.addAttribute(spell);
                 });
@@ -145,21 +118,11 @@ public class ChoiceGenerator {
             public String toString() {
                 return level == 0 ? "Cantrip" : "Level " + level + " spell";
             }
-        });
+        };
     }
 
     public ChoiceGenerator addAction(Consumer<Character> action) {
-        choices.add(new Choice() {
-            @Override
-            public void makeChoice(Character character, ChoiceSelector selector) {
-                action.accept(character);
-            }
-
-            @Override
-            public boolean isAutomatic() {
-                return true;
-            }
-        });
+        choices.add(action::accept);
         return this;
     }
 
@@ -173,6 +136,11 @@ public class ChoiceGenerator {
 
     public ChoiceGenerator addChoice(Choice choice) {
         choices.add(choice);
+        return this;
+    }
+
+    public ChoiceGenerator addChoice(int count, OptionChoice choice) {
+        choices.add(choice.withCount(2));
         return this;
     }
 
@@ -195,13 +163,7 @@ public class ChoiceGenerator {
 
     public void generateChoices(Character character) {
         if (condition.test(character)) {
-            choices.stream()
-                .forEach(choice -> {
-                    if (choice.isAutomatic())
-                        choice.makeChoice(character, null);
-                    else
-                        character.getChoices().addChoice(choice.copy());
-                });
+            choices.forEach(choice -> choice.addTo(character));
             children.forEach(ch -> ch.generateChoices(character));
         }
     }

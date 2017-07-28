@@ -1,5 +1,6 @@
 package characterbuilder.ui;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.choice.Choice;
 import characterbuilder.character.choice.ChoiceList;
 import java.util.Optional;
@@ -21,10 +22,14 @@ public class ChoiceModel extends AbstractListModel<Choice> {
 
     @Override
     public Choice getElementAt(int index) {
-        return choices.get().getChoice(index);
+        return choices.get().get(index);
     }
 
     public void update() {
         super.fireContentsChanged(this, 0, getSize() - 1);
+    }
+
+    public void select(Character character, int index) {
+        choices.get().select(character, index);
     }
 }
