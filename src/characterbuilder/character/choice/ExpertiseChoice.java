@@ -20,7 +20,8 @@ public class ExpertiseChoice extends AttributeChoice {
         selector.chooseOption(Stream.concat(Arrays.stream((Attribute[]) Skill.values()),
             Stream.of(Proficiency.THIEVES_TOOLS))
             .filter(attr -> character.hasAttribute(attr))
-            .filter(attr -> !character.hasAttribute(new Expertise(attr))),
-            attr -> useChoice(character, new Expertise(attr)));
+            .map(Expertise::new)
+            .filter(ex -> !character.hasAttribute(ex)),
+            ex -> ex.choose(character));
     }
 }

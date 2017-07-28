@@ -144,20 +144,20 @@ public class ChoiceGenerator {
         return this;
     }
 
-    public ChoiceGenerator addAttributes(Attribute... attributes) {
-        Arrays.stream(attributes)
-            .forEach(att -> this.choices.add(new AttributeFeature(att)));
+    public ChoiceGenerator removeAttribute(Attribute attribute) {
+        choices.add(ch -> ch.removeAttribute(attribute));
         return this;
     }
 
-    public ChoiceGenerator replaceAttribute(Attribute from, Attribute to) {
-        this.choices.add(new AttributeFeature(to, from));
+    public ChoiceGenerator addAttributes(Attribute... attributes) {
+        Arrays.stream(attributes)
+            .forEach(att -> this.choices.add(ch -> ch.addAttribute(att)));
         return this;
     }
 
     public ChoiceGenerator addWeaponProficiencies(Weapon... weapons) {
         Arrays.stream(weapons).map(Weapon::getProficiency)
-            .forEach(att -> this.choices.add(new AttributeFeature(att)));
+            .forEach(att -> this.choices.add(ch -> ch.addAttribute(att)));
         return this;
     }
 

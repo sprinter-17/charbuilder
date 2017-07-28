@@ -13,7 +13,7 @@ public enum MartialArchetype implements Attribute {
         gen.level(3).addAttributes(IMPROVED_CRITICAL);
         gen.level(7).addAttributes(REMARKABLE_ATHLETE);
         gen.level(7).addChoice(new AttributeChoice(AttributeType.FIGHTING_STYLE));
-        gen.level(15).replaceAttribute(IMPROVED_CRITICAL, SUPERIOR_CRITICAL);
+        gen.level(15).removeAttribute(SUPERIOR_CRITICAL).addAttributes(IMPROVED_CRITICAL);
         gen.level(18).addAttributes(SURVIVOR);
     });
 
