@@ -73,8 +73,8 @@ public class ChoiceGenerator {
         };
     }
 
-    public static OptionChoice abilityScoreIncrease(int count) {
-        return new OptionChoice(count) {
+    public static OptionChoice abilityScoreIncrease() {
+        return new OptionChoice() {
             @Override
             public void select(Character character, ChoiceSelector selector) {
                 Stream<IntAttribute> abilityScores = AttributeType.ABILITY_SCORES.stream()

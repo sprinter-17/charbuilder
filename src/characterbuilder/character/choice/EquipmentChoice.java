@@ -88,6 +88,7 @@ public class EquipmentChoice extends OptionChoice {
     @Override
     public void select(Character character, ChoiceSelector selector) {
         selector.chooseOption(equipmentList.stream(), eq -> {
+            eq.choose(character);
         });
     }
 

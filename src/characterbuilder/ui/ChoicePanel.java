@@ -81,7 +81,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     private <T> void addOption(T opt, Runnable action) {
         JLabel label = new JLabel("<html>" + opt.toString() + "</html>");
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(190, 40));
+        panel.setPreferredSize(new Dimension(190, 25));
         panel.setBackground(Color.WHITE);
         panel.add(label, BorderLayout.CENTER);
         panel.setBorder(BorderFactory.createEtchedBorder());
@@ -224,7 +224,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         constraints.gridx = column;
         constraints.gridy = GridBagConstraints.RELATIVE;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.anchor = GridBagConstraints.NORTH;
         return constraints;
     }
 }

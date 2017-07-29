@@ -31,6 +31,7 @@ public enum Proficiency implements Attribute {
     GOBLIN(LANGUAGE),
     HALFLING(LANGUAGE),
     ORC(LANGUAGE),
+    INFERNAL(LANGUAGE),
     THIEVES_CANT(LANGUAGE),
     //
     SMITH(ARTISAN),

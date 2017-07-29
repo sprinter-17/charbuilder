@@ -75,9 +75,9 @@ public class ChoiceGeneratorTest {
         character.addAttribute(new IntAttribute(CONSTITUTION, 10));
         character.addAttribute(new IntAttribute(AttributeType.HIT_POINTS, 0));
         selector.withAttribute(new IntAttribute(CONSTITUTION, 0));
-        ChoiceGenerator.abilityScoreIncrease(1).select(character, selector);
+        ChoiceGenerator.abilityScoreIncrease().select(character, selector);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(0));
-        ChoiceGenerator.abilityScoreIncrease(1).select(character, selector);
+        ChoiceGenerator.abilityScoreIncrease().select(character, selector);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(7));
     }
 

@@ -57,12 +57,12 @@ public enum CharacterClass implements Attribute {
                 SCALE_MAIL_ARMOUR, LEATHER_ARMOUR, CHAIN_MAIL_ARMOUR));
             gen.level(1).addChoice(new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL));
             gen.level(2).addAttributes(TURN_UNDEAD, CHANNEL_DIVINITY);
-            gen.level(4).addChoice(abilityScoreIncrease(2));
+            gen.level(4).addChoice(2, abilityScoreIncrease());
             gen.level(5).addAttributes(DESTROY_UNDEAD);
-            gen.level(8).addChoice(abilityScoreIncrease(2));
+            gen.level(8).addChoice(2, abilityScoreIncrease());
             gen.level(10).addAttributes(DIVINE_INTERVENTION);
-            gen.level(12).addChoice(abilityScoreIncrease(2));
-            gen.level(19).addChoice(abilityScoreIncrease(2));
+            gen.level(12).addChoice(2, abilityScoreIncrease());
+            gen.level(19).addChoice(2, abilityScoreIncrease());
             addSpells(gen, this, character.getLevel());
             gen.generateChoices(character);
         }
@@ -94,7 +94,7 @@ public enum CharacterClass implements Attribute {
                 new AttributeChoice("Martial Archetype", MartialArchetype.values()));
             gen.level(5).addAttributes(EXTRA_ATTACK);
             gen.level(9).addAttributes(INDOMITABLE);
-            gen.cond(levels(4, 6, 8, 12, 14, 16, 19)).addChoice(abilityScoreIncrease(2));
+            gen.cond(levels(4, 6, 8, 12, 14, 16, 19)).addChoice(2, abilityScoreIncrease());
             gen.generateChoices(character);
         }
     },
@@ -131,7 +131,7 @@ public enum CharacterClass implements Attribute {
             gen.level(15).addAttributes(SLIPPERY_MIND);
             gen.level(18).addAttributes(ELUSIVE);
             gen.level(20).addAttributes(STROKE_OF_LUCK);
-            gen.cond(levels(4, 8, 10, 12, 16, 19)).addChoice(abilityScoreIncrease(2));
+            gen.cond(levels(4, 8, 10, 12, 16, 19)).addChoice(2, abilityScoreIncrease());
             gen.generateChoices(character);
         }
     },
@@ -150,7 +150,7 @@ public enum CharacterClass implements Attribute {
             gen.level(1).addEquipment(SPELLBOOK);
             gen.level(1).addAttributes(ARCANE_RECOVERY);
             gen.level(2).addChoice(new AttributeChoice("Arcane Tradition", MagicSchool.values()));
-            gen.cond(levels(4, 8, 12, 16, 19)).addChoice(abilityScoreIncrease(2));
+            gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, abilityScoreIncrease());
             gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", 1));
             gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", 2));
             gen.level(20).addChoice(spellMasteryChoice("Signature Spell", 3));
