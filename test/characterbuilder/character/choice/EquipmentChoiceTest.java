@@ -1,7 +1,7 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.equipment.EquipmentType;
+import characterbuilder.character.equipment.MusicalInstrument;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,14 +13,14 @@ public class EquipmentChoiceTest {
 
     @Before
     public void setup() {
-        choice = new EquipmentChoice("Choice", EquipmentType.BAGPIPES, EquipmentType.LYRE);
+        choice = new EquipmentChoice("Choice", MusicalInstrument.BAGPIPES, MusicalInstrument.LYRE);
         character = new Character();
     }
 
     @Test
     public void testEquipmentAddedToCharacter() {
         choice.select(character, new TestChoiceSelector());
-        assertTrue(character.hasEquipment(EquipmentType.BAGPIPES));
+        assertTrue(character.hasEquipment(MusicalInstrument.BAGPIPES));
     }
 
 }

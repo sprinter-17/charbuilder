@@ -54,17 +54,6 @@ public enum EquipmentType implements Equipment {
     TORCH(ADVENTURING_GEAR, CP, LB),
     WATERSKIN(ADVENTURING_GEAR, sp(2), lb(5)),
     //
-    BAGPIPES(MUSICAL_INSTRUMENTS, gp(30), lb(6)),
-    DRUM(MUSICAL_INSTRUMENTS, gp(6), lb(3)),
-    DULCIMER(MUSICAL_INSTRUMENTS, gp(25), lb(10)),
-    FLUTE(MUSICAL_INSTRUMENTS, gp(2), lb(1)),
-    LUTE(MUSICAL_INSTRUMENTS, gp(35), lb(2)),
-    LYRE(MUSICAL_INSTRUMENTS, gp(30), lb(2)),
-    HORN(MUSICAL_INSTRUMENTS, gp(3), lb(2)),
-    PAN_FLUTE(MUSICAL_INSTRUMENTS, gp(12), lb(2)),
-    SHAWM(MUSICAL_INSTRUMENTS, gp(2), lb(1)),
-    VIOL(MUSICAL_INSTRUMENTS, gp(30), lb(1)),
-    //
     THIEVES_TOOLS(TOOLS, gp(25), lb(1)),
     POISONERS_KIT(TOOLS, gp(50), lb(2), 1, "Poisoner's Kit"),
     NAVIGATORS_TOOLS(TOOLS, gp(25), lb(2), 1, "Navigator's Tools"),

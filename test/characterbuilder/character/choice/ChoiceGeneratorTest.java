@@ -3,6 +3,7 @@ package characterbuilder.character.choice;
 import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
 import static characterbuilder.character.ability.Proficiency.*;
+import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CONSTITUTION;
 import static characterbuilder.character.attribute.AttributeType.LEVEL;
@@ -79,6 +80,18 @@ public class ChoiceGeneratorTest {
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(0));
         ChoiceGenerator.abilityScoreIncrease().select(character, selector);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(7));
+    }
+
+    @Test
+    public void testMultipleChoices() {
+        generator.addChoice(4, new AttributeChoice("Test",
+            Skill.DECEPTION, Skill.ARCANA, Skill.HISTORY, Skill.INVESTIGATION));
+        generator.generateChoices(character);
+        character.selectChoice(character.getChoice(0));
+        character.selectChoice(character.getChoice(0));
+        character.selectChoice(character.getChoice(0));
+        character.selectChoice(character.getChoice(0));
+        assertThat(character.getAttributes(AttributeType.SKILL, Skill.class).count(), is(4L));
     }
 
 }

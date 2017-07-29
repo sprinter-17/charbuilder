@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static java.util.stream.Collectors.joining;
+import java.util.stream.Stream;
 
 public class StringUtils {
 
@@ -39,8 +40,15 @@ public class StringUtils {
 
     public static String capitaliseEnumName(String text) {
         return Arrays.stream(text.split("_"))
-            .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase())
+            .map(StringUtils::capitaliseEnumWord)
             .collect(joining(" "));
+    }
+
+    private static String capitaliseEnumWord(String word) {
+        if (Stream.of("OF", "THE", "AND").anyMatch(word::equals))
+            return word.toLowerCase();
+        else
+            return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
     }
 
     public static String expand(String text, Character character) {

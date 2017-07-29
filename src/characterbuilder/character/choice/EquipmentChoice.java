@@ -3,9 +3,11 @@ package characterbuilder.character.choice;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
+import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
 import characterbuilder.character.equipment.EquipmentType;
+import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +75,8 @@ public class EquipmentChoice extends OptionChoice {
     }
 
     public EquipmentChoice with(EquipmentCategory category) {
-        Stream.of(EquipmentType.values(), Weapon.values())
+        Stream.of(EquipmentType.values(), Weapon.values(), Armour.values(),
+            MusicalInstrument.values())
             .flatMap(Arrays::stream)
             .filter(eq -> eq.getCategory().equals(category))
             .forEach(equipmentList::add);

@@ -6,6 +6,7 @@ import characterbuilder.character.ability.DivineDomain;
 import characterbuilder.character.ability.MagicSchool;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.*;
+import characterbuilder.character.ability.Skill;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.ability.Spell;
 import static characterbuilder.character.attribute.AttributeType.*;
@@ -24,6 +25,7 @@ import static characterbuilder.character.equipment.Armour.CHAIN_MAIL_ARMOUR;
 import static characterbuilder.character.equipment.Armour.LEATHER_ARMOUR;
 import static characterbuilder.character.equipment.Armour.SCALE_MAIL_ARMOUR;
 import characterbuilder.character.equipment.EquipmentCategory;
+import characterbuilder.character.equipment.EquipmentPack;
 import static characterbuilder.character.equipment.EquipmentPack.BUGLAR_PACK;
 import static characterbuilder.character.equipment.EquipmentPack.DUNGEONEER_PACK;
 import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
@@ -31,6 +33,7 @@ import static characterbuilder.character.equipment.EquipmentPack.SCHOLAR_PACK;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.EquipmentType;
 import static characterbuilder.character.equipment.EquipmentType.*;
+import characterbuilder.character.equipment.MusicalInstrument;
 import static characterbuilder.character.equipment.Weapon.*;
 import characterbuilder.utils.StringUtils;
 import java.util.ArrayList;
@@ -73,6 +76,62 @@ public enum CharacterClass implements Attribute {
             gen.generateChoices(character);
         }
     },
+    BARD(8, BARDIC_COLLEGE, DEXTERITY, CHARISMA,
+        Arrays.asList(CHARISMA, DEXTERITY)) {
+        public void generateLevelChoices(Character character) {
+            ChoiceGenerator gen = new ChoiceGenerator();
+            gen.level(1).addAttributes(LIGHT_ARMOUR, ALL_SIMPLE_MELEE, ALL_SIMPLE_RANGED);
+            gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
+            gen.level(1).addChoice(3, new AttributeChoice("Skill", Skill.values()));
+            gen.level(1).addChoice(new EquipmentChoice("Weapon", RAPIER, LONGSWORD)
+                .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED));
+            gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
+                EquipmentPack.DIPLOMAT_PACK, EquipmentPack.ENTERTAINER_PACK));
+            gen.level(1).addEquipment(LEATHER_ARMOUR, DAGGER);
+            gen.level(1).addChoice(3, new AttributeChoice("Musical Instrument Proficiency",
+                Arrays.stream(MusicalInstrument.values()).map(MusicalInstrument::getProficiency)));
+            gen.level(1).addChoice(new EquipmentChoice("Musical Instrument")
+                .with(EquipmentCategory.MUSICAL_INSTRUMENTS));
+            gen.level(1).addAttributes(BARDIC_INSPIRATION);
+            gen.level(2).addAttributes(JACK_OF_ALL_TRADES);
+            gen.level(2).addAttributes(SONG_OF_REST);
+            gen.level(3).addChoice(new AttributeChoice("Bard College", BardicCollege.values()));
+            gen.level(3, 10).addChoice(2, new ExpertiseChoice());
+            gen.level(4, 8, 12, 16, 19).addChoice(2, abilityScoreIncrease());
+            gen.level(5).addAttributes(FONT_OF_INSPIRATION);
+            gen.level(6).addAttributes(COUNTERCHARM);
+            gen.level(20).addAttributes(SUPERIOR_INSPIRATION);
+            final int[][] spellCount = {
+                {},
+                {2, 2},
+                {2, 3},
+                {2, 4, 2},
+                {3, 4, 3},
+                {3, 4, 3, 2},
+                {3, 4, 3, 3},
+                {3, 4, 3, 3, 1},
+                {3, 4, 3, 3, 2},
+                {3, 4, 3, 3, 3, 1},
+                {4, 4, 3, 3, 3, 2},
+                {4, 4, 3, 3, 3, 2, 1},
+                {4, 4, 3, 3, 3, 2, 1},
+                {4, 4, 3, 3, 3, 2, 1, 1},
+                {4, 4, 3, 3, 3, 2, 1, 1},
+                {4, 4, 3, 3, 3, 2, 1, 1, 1},
+                {4, 4, 3, 3, 3, 2, 1, 1, 1},
+                {4, 4, 3, 3, 3, 2, 1, 1, 1, 1},
+                {4, 4, 3, 3, 3, 3, 1, 1, 1, 1},
+                {4, 4, 3, 3, 3, 3, 2, 1, 1, 1},
+                {4, 4, 3, 3, 3, 3, 2, 2, 1, 1}
+            };
+            gen.level(10, 14, 18).addChoice(2, new AttributeChoice("Magical Secrets",
+                Arrays.stream(Spell.values())
+                    .filter(sp -> sp.getLevel() <= spellCount[character.getLevel()].length)
+                    .map(sp -> (Attribute) sp)));
+            addSpells(gen, BARD, spellCount, character.getLevel());
+            gen.generateChoices(character);
+        }
+    },
     CLERIC(8, DIVINE_DOMAIN, WISDOM, CHARISMA,
         Arrays.asList(WISDOM, CONSTITUTION, STRENGTH)) {
         public void generateLevelChoices(Character character) {
@@ -90,13 +149,33 @@ public enum CharacterClass implements Attribute {
                 SCALE_MAIL_ARMOUR, LEATHER_ARMOUR, CHAIN_MAIL_ARMOUR));
             gen.level(1).addChoice(new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL));
             gen.level(2).addAttributes(TURN_UNDEAD, CHANNEL_DIVINITY);
-            gen.level(4).addChoice(2, abilityScoreIncrease());
+            gen.level(4, 8, 12, 19).addChoice(2, abilityScoreIncrease());
             gen.level(5).addAttributes(DESTROY_UNDEAD);
-            gen.level(8).addChoice(2, abilityScoreIncrease());
             gen.level(10).addAttributes(DIVINE_INTERVENTION);
-            gen.level(12).addChoice(2, abilityScoreIncrease());
-            gen.level(19).addChoice(2, abilityScoreIncrease());
-            addSpells(gen, this, character.getLevel());
+            final int[][] spellCount = {
+                {},
+                {3, 2},
+                {3, 3},
+                {3, 4, 2},
+                {4, 4, 3},
+                {4, 4, 3, 2},
+                {4, 4, 3, 3},
+                {4, 4, 3, 3, 1},
+                {4, 4, 3, 3, 2},
+                {4, 4, 3, 3, 3, 1},
+                {5, 4, 3, 3, 3, 2},
+                {5, 4, 3, 3, 3, 2, 1},
+                {5, 4, 3, 3, 3, 2, 1},
+                {5, 4, 3, 3, 3, 2, 1, 1},
+                {5, 4, 3, 3, 3, 2, 1, 1},
+                {5, 4, 3, 3, 3, 2, 1, 1, 1},
+                {5, 4, 3, 3, 3, 2, 1, 1, 1},
+                {5, 4, 3, 3, 3, 2, 1, 1, 1, 1},
+                {5, 4, 3, 3, 3, 3, 1, 1, 1, 1},
+                {5, 4, 3, 3, 3, 3, 2, 1, 1, 1},
+                {5, 4, 3, 3, 3, 3, 2, 2, 1, 1}
+            };
+            addSpells(gen, CLERIC, spellCount, character.getLevel());
             gen.generateChoices(character);
         }
     },
@@ -188,7 +267,30 @@ public enum CharacterClass implements Attribute {
             gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", 2));
             gen.level(20).addChoice(spellMasteryChoice("Signature Spell", 3));
             gen.level(20).addChoice(spellMasteryChoice("Signature Spell", 3));
-            addSpells(gen, this, character.getLevel());
+            final int[][] spellCount = {
+                {},
+                {3, 2},
+                {3, 3},
+                {3, 4, 2},
+                {4, 4, 3},
+                {4, 4, 3, 2},
+                {4, 4, 3, 3},
+                {4, 4, 3, 3, 1},
+                {4, 4, 3, 3, 2},
+                {4, 4, 3, 3, 3, 1},
+                {5, 4, 3, 3, 3, 2},
+                {5, 4, 3, 3, 3, 2, 1},
+                {5, 4, 3, 3, 3, 2, 1},
+                {5, 4, 3, 3, 3, 2, 1, 1},
+                {5, 4, 3, 3, 3, 2, 1, 1},
+                {5, 4, 3, 3, 3, 2, 1, 1, 1},
+                {5, 4, 3, 3, 3, 2, 1, 1, 1},
+                {5, 4, 3, 3, 3, 2, 1, 1, 1, 1},
+                {5, 4, 3, 3, 3, 3, 1, 1, 1, 1},
+                {5, 4, 3, 3, 3, 3, 2, 1, 1, 1},
+                {5, 4, 3, 3, 3, 3, 2, 2, 1, 1}
+            };
+            addSpells(gen, this, spellCount, character.getLevel());
             gen.generateChoices(character);
         }
     };
@@ -198,35 +300,12 @@ public enum CharacterClass implements Attribute {
     private final List<AttributeType> savingThrows = new ArrayList<>();
     private final List<AttributeType> primaryAttributes;
 
-    private static final int[][] SPELLS = {
-        {},
-        {3, 2},
-        {3, 3},
-        {3, 4, 2},
-        {4, 4, 3},
-        {4, 4, 3, 2},
-        {4, 4, 3, 3},
-        {4, 4, 3, 3, 1},
-        {4, 4, 3, 3, 2},
-        {4, 4, 3, 3, 3, 1},
-        {5, 4, 3, 3, 3, 2},
-        {5, 4, 3, 3, 3, 2, 1},
-        {5, 4, 3, 3, 3, 2, 1},
-        {5, 4, 3, 3, 3, 2, 1, 1},
-        {5, 4, 3, 3, 3, 2, 1, 1},
-        {5, 4, 3, 3, 3, 2, 1, 1, 1},
-        {5, 4, 3, 3, 3, 2, 1, 1, 1},
-        {5, 4, 3, 3, 3, 2, 1, 1, 1, 1},
-        {5, 4, 3, 3, 3, 3, 1, 1, 1, 1},
-        {5, 4, 3, 3, 3, 3, 2, 1, 1, 1},
-        {5, 4, 3, 3, 3, 3, 2, 2, 1, 1}
-    };
-
-    private static void addSpells(ChoiceGenerator gen, CharacterClass charClass, int level) {
-        for (int spellLev = 0; spellLev < SPELLS[level].length; spellLev++) {
-            int count = SPELLS[level][spellLev];
-            if (spellLev < SPELLS[level - 1].length)
-                count -= SPELLS[level - 1][spellLev];
+    private static void addSpells(ChoiceGenerator gen, CharacterClass charClass,
+        int[][] spells, int level) {
+        for (int spellLev = 0; spellLev < spells[level].length; spellLev++) {
+            int count = spells[level][spellLev];
+            if (spellLev < spells[level - 1].length)
+                count -= spells[level - 1][spellLev];
             if (count > 0)
                 gen.level(level).addChoice(spellChoice(count, charClass, spellLev));
         }

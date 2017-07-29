@@ -24,7 +24,7 @@ public enum EquipmentCategory {
     MARTIAL_RANGED(Proficiency.ALL_MARTIAL_RANGED, Weapon::valueOf),
     ADVENTURING_GEAR(EquipmentType::valueOf),
     PROVISIONS(EquipmentType::valueOf),
-    MUSICAL_INSTRUMENTS(EquipmentType::valueOf),
+    MUSICAL_INSTRUMENTS(MusicalInstrument::valueOf),
     TOOLS(EquipmentType::valueOf),
     CONTAINERS(EquipmentType::valueOf),
     GAMING_SETS(EquipmentType::valueOf),

@@ -7,6 +7,7 @@ import characterbuilder.character.ability.MagicSchool;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.ability.Spell;
+import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
@@ -46,6 +47,7 @@ public enum AttributeType {
     SPELL_MASTERY(false, SpellMastery::decode),
     ARCANE_TRADITION(MagicSchool::valueOf),
     PRIMAL_PATH(PrimalPath::valueOf),
+    BARDIC_COLLEGE(BardicCollege::valueOf),
     EVOCATION_ABILITY(false, (t, c) -> Ability.valueOf(c)),
     DIVINE_DOMAIN(DivineDomain::valueOf),
     DIVINE_DOMAIN_ABILITY(false, (t, c) -> Ability.valueOf(c)),
@@ -54,6 +56,7 @@ public enum AttributeType {
     SPELL(false, (t, c) -> Spell.valueOf(c)),
     WEAPON_PROFICIENCY(false, (t, c)
         -> c.startsWith("ALL") ? Proficiency.valueOf(c) : Weapon.valueOf(c).getProficiency()),
+    MUSICAL_INSTRUMENT(false, (t, c) -> MusicalInstrument.valueOf(c).getProficiency()),
     ARMOUR_PROFICIENCY(false, (t, c) -> Proficiency.valueOf(c)),
     LANGUAGE(false, (t, c) -> Proficiency.valueOf(c)),
     ARTISAN(false, (t, c) -> Proficiency.valueOf(c)),
@@ -71,7 +74,7 @@ public enum AttributeType {
     public static final List<AttributeType> ABILITIES = Arrays.asList(
         RACIAL_TALENT, CLASS_TALENT, DIVINE_DOMAIN_ABILITY, SKILL, SPELL, WEAPON_PROFICIENCY,
         ARMOUR_PROFICIENCY, LANGUAGE, ARTISAN, TOOLS, FIGHTING_STYLE, SPELL_MASTERY,
-        EVOCATION_ABILITY, EXPERTISE);
+        EVOCATION_ABILITY, EXPERTISE, MUSICAL_INSTRUMENT);
 
     public static final List<AttributeType> PERSONALITY = Arrays.asList(
         TRAIT, FLAW, BOND, IDEAL);

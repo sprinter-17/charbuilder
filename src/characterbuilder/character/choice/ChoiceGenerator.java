@@ -46,8 +46,8 @@ public class ChoiceGenerator {
         this.condition = condition;
     }
 
-    public ChoiceGenerator level(int level) {
-        return cond(levels(level));
+    public ChoiceGenerator level(int... levels) {
+        return cond(levels(levels));
     }
 
     public ChoiceGenerator cond(Predicate<Character> condition) {
@@ -126,8 +126,9 @@ public class ChoiceGenerator {
         return this;
     }
 
-    public ChoiceGenerator addEquipment(Equipment equipment) {
-        return addAction(ch -> ch.addEquipment(equipment));
+    public ChoiceGenerator addEquipment(Equipment... equipment) {
+        return addAction(ch -> Arrays.stream(equipment)
+            .forEach(eq -> ch.addEquipment(eq)));
     }
 
     public ChoiceGenerator addEquipment(Equipment equipment, int count) {
@@ -140,7 +141,7 @@ public class ChoiceGenerator {
     }
 
     public ChoiceGenerator addChoice(int count, OptionChoice choice) {
-        choices.add(choice.withCount(2));
+        choices.add(choice.withCount(count));
         return this;
     }
 
