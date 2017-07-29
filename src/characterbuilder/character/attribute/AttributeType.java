@@ -45,6 +45,7 @@ public enum AttributeType {
     CLASS_TALENT(false, (t, c) -> Ability.valueOf(c)),
     SPELL_MASTERY(false, SpellMastery::decode),
     ARCANE_TRADITION(MagicSchool::valueOf),
+    PRIMAL_PATH(PrimalPath::valueOf),
     EVOCATION_ABILITY(false, (t, c) -> Ability.valueOf(c)),
     DIVINE_DOMAIN(DivineDomain::valueOf),
     DIVINE_DOMAIN_ABILITY(false, (t, c) -> Ability.valueOf(c)),

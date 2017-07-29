@@ -54,12 +54,20 @@ public class Weight implements Comparable<Weight>, Attribute {
         return new Weight(Math.round(ounces * multiple));
     }
 
+    public Weight divide(float divisor) {
+        return new Weight(Math.round(ounces / divisor));
+    }
+
     public String toString() {
         return new StringUtils.UnitBuilder(ounces)
             .withUnit(ST.ounces, "st")
             .withUnit(LB.ounces, "lb")
             .withUnit(OZ.ounces, "oz")
             .toString();
+    }
+
+    public String toStringInPounds() {
+        return (ounces / 16) + "lb";
     }
 
     public static Weight valueOf(String text) throws WeightFormatException {

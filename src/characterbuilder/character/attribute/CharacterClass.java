@@ -40,7 +40,40 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public enum CharacterClass implements Attribute {
-    CLERIC(8, 5, DIVINE_DOMAIN, WISDOM, CHARISMA,
+    BARBARIAN(12, PRIMAL_PATH, STRENGTH, CONSTITUTION,
+        Arrays.asList(STRENGTH, CONSTITUTION)) {
+        @Override
+        public void generateLevelChoices(Character character) {
+            ChoiceGenerator gen = new ChoiceGenerator();
+            gen.level(1).addAttributes(LIGHT_ARMOUR, MEDIUM_ARMOUR, SHIELD, ALL_WEAPONS);
+            gen.level(1).addChoice(2, new AttributeChoice("Skill",
+                ANIMAL_HANDLING, ATHLETICS, INTIMIDATION, NATURE, PERCEPTION, SURVIVAL));
+            gen.level(1).addChoice(new EquipmentChoice("Primary Weapon")
+                .with(GREATEAXE).with(EquipmentCategory.MARTIAL_MELEE));
+            gen.level(1).addChoice(new EquipmentChoice("Secondary Weapon")
+                .with(new EquipmentSet(HANDAXE, 2))
+                .with(EquipmentCategory.SIMPLE_MELEE)
+                .with(EquipmentCategory.SIMPLE_RANGED));
+            gen.level(1).addEquipment(EXPLORER_PACK);
+            gen.level(1).addEquipment(JAVELIN, 4);
+            gen.level(1).addAttributes(RAGE, UNARMORED_DEFENCE);
+            gen.level(2).addAttributes(RECKLESS_ATTACK, DANGER_SENSE);
+            gen.level(3).addChoice(new AttributeChoice("Primal Path", PrimalPath.values()));
+            gen.level(5).addAttributes(EXTRA_ATTACK, FAST_MOVEMENT);
+            gen.level(7).addAttributes(FERAL_INSTINCTS);
+            gen.level(9).addAttributes(BRUTAL_CRITICAL);
+            gen.level(11).addAttributes(RELENTLESS_RAGE);
+            gen.level(15).addAttributes(PERSISTENT_RAGE);
+            gen.level(18).addAttributes(INDOMITABLE_MIGHT);
+            gen.level(20).addAction(ch -> {
+                ch.getAttribute(STRENGTH, IntAttribute.class).addValue(4);
+                ch.getAttribute(CONSTITUTION, IntAttribute.class).addValue(4);
+            });
+            gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, abilityScoreIncrease());
+            gen.generateChoices(character);
+        }
+    },
+    CLERIC(8, DIVINE_DOMAIN, WISDOM, CHARISMA,
         Arrays.asList(WISDOM, CONSTITUTION, STRENGTH)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
@@ -67,7 +100,7 @@ public enum CharacterClass implements Attribute {
             gen.generateChoices(character);
         }
     },
-    FIGHTER(10, 5, MARTIAL_ARCHETYPE, STRENGTH, CONSTITUTION,
+    FIGHTER(10, MARTIAL_ARCHETYPE, STRENGTH, CONSTITUTION,
         Arrays.asList(STRENGTH, DEXTERITY, CONSTITUTION)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
@@ -98,7 +131,7 @@ public enum CharacterClass implements Attribute {
             gen.generateChoices(character);
         }
     },
-    ROGUE(8, 4, ROGUISH_ARCHETYPE, DEXTERITY, INTELLIGENCE,
+    ROGUE(8, ROGUISH_ARCHETYPE, DEXTERITY, INTELLIGENCE,
         Arrays.asList(DEXTERITY, INTELLIGENCE, CHARISMA)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
@@ -135,7 +168,7 @@ public enum CharacterClass implements Attribute {
             gen.generateChoices(character);
         }
     },
-    WIZARD(6, 4, ARCANE_TRADITION, INTELLIGENCE, WISDOM,
+    WIZARD(6, ARCANE_TRADITION, INTELLIGENCE, WISDOM,
         Arrays.asList(INTELLIGENCE, DEXTERITY, CONSTITUTION)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
@@ -161,7 +194,6 @@ public enum CharacterClass implements Attribute {
     };
 
     private final int hitDie;
-    private final int startingWealth;
     private final AttributeType classAttribute;
     private final List<AttributeType> savingThrows = new ArrayList<>();
     private final List<AttributeType> primaryAttributes;
@@ -223,11 +255,10 @@ public enum CharacterClass implements Attribute {
         };
     }
 
-    private CharacterClass(int hitDie, int startingWealth, AttributeType classAttribute,
+    private CharacterClass(int hitDie, AttributeType classAttribute,
         AttributeType savingThrow1, AttributeType savingThrow2,
         List<AttributeType> primaryAttributes) {
         this.hitDie = hitDie;
-        this.startingWealth = startingWealth;
         this.classAttribute = classAttribute;
         savingThrows.add(savingThrow1);
         savingThrows.add(savingThrow2);
@@ -245,10 +276,6 @@ public enum CharacterClass implements Attribute {
 
     public int getHitDie() {
         return hitDie;
-    }
-
-    public int getStartingWealth() {
-        return startingWealth;
     }
 
     public Stream<AttributeType> getPrimaryAttributes() {

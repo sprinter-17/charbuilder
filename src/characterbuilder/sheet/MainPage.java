@@ -6,7 +6,7 @@ import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
-import characterbuilder.character.attribute.Race;
+import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.joining;
 import java.util.stream.IntStream;
@@ -121,9 +122,8 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component speed() {
-        Race race = character.getAttribute(RACE);
         return builder.borderedSection(62, 9, 10, 8)
-            .with(builder.value(race.getSpeed(), 5, 3, CENTRE))
+            .with(builder.value(character.getSpeed(), 5, 3, CENTRE))
             .with(builder.caption("Speed", 5, 6, BOTTOM_CENTRE));
     }
 
@@ -188,9 +188,9 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component proficiencies() {
-        return builder.borderedSection(0, 75, 50, 25)
-            .with(builder.writing(otherProficiencies(), 2, 1, 47, 24))
-            .with(builder.caption("Proficiencies", 25, 23, BOTTOM_CENTRE));
+        return builder.borderedSection(0, 75, 42, 25)
+            .with(builder.writing(otherProficiencies(), 2, 1, 38, 24))
+            .with(builder.caption("Proficiencies", 21, 23, BOTTOM_CENTRE));
     }
 
     private String otherProficiencies() {
@@ -226,16 +226,32 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component equipment() {
-        return builder.borderedSection(50, 75, 50, 25)
-            .with(builder.writing(equipmentDescription(), 2, 1, 48, 24))
+        return builder.borderedSection(42, 75, 58, 25)
+            .with(builder.writing(equipmentDescription(), 2, 1, 54, 20))
+            .with(builder.field("Total Weight",
+                character.getInventoryWeight().toStringInPounds(), 8, 10))
+            .with(builder.field("Encumbrance", encumbrance(), 18, 10))
             .with(builder.caption("Equipment", 25, 23, BOTTOM_CENTRE));
     }
 
     private String equipmentDescription() {
         return html(character.getInventory()
             .filter(eq -> !eq.getCategory().equals(EquipmentCategory.TREASURE))
-            .map(Equipment::toString)
-            .collect(Collectors.joining(", ")));
+            .collect(Collectors.groupingBy(Equipment::getCategory))
+            .entrySet().stream().map(this::equipmentCategoryDescription)
+            .collect(Collectors.joining()));
     }
 
+    private String equipmentCategoryDescription(Map.Entry<EquipmentCategory, List<Equipment>> entry) {
+        return "<p style=\"text-indent: -10px; padding-left: 10px\">"
+            + "<b>" + entry.getKey().toString() + "</b> : "
+            + entry.getValue().stream().map(this::nbsp).collect(Collectors.joining(", "))
+            + "</p>";
+    }
+
+    private String encumbrance() {
+        Weight capacity = character.getCarryingCapacity().divide(3);
+        return String.format("%s / %s / %s", capacity.toStringInPounds(),
+            capacity.times(2).toStringInPounds(), capacity.times(3).toStringInPounds());
+    }
 }

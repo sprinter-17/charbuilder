@@ -33,6 +33,13 @@ public class InventoryTest {
     }
 
     @Test
+    public void testAddPack() {
+        inventory.addItem(EquipmentPack.EXPLORER_PACK);
+        assertTrue(inventory.containsItem(BEDROLL));
+        assertTrue(inventory.containsItem(TINDERBOX));
+    }
+
+    @Test
     public void testAddItemWithCount() {
         inventory.addItem(new EquipmentSet(ABACUS, 0, 7));
         assertThat(inventory.getItemCount(), is(7));

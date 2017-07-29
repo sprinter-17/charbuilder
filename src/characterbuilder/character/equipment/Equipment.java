@@ -33,7 +33,7 @@ public interface Equipment extends Option {
 
     @Override
     public default void choose(Character character) {
-        getComponents().forEach(character::addEquipment);
+        character.addEquipment(this);
     }
 
     Weight getWeight();

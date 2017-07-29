@@ -1,5 +1,6 @@
 package characterbuilder.character;
 
+import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Expertise;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Attribute;
@@ -14,6 +15,7 @@ import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.choice.ChoiceList;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.OptionChoice;
+import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Inventory;
@@ -43,22 +45,27 @@ public class Character {
     }
 
     public void addChoice(OptionChoice choice) {
+        assert choices != null;
         choices.add(choice);
     }
 
     public OptionChoice getChoice(int index) {
+        assert choices != null;
         return choices.get(index);
     }
 
     public int getChoiceCount() {
+        assert choices != null;
         return choices.size();
     }
 
     public void selectChoice(OptionChoice choice) {
+        assert choices != null;
         choices.select(this, choice);
     }
 
     public boolean hasChoice(String name) {
+        assert choices != null;
         return choices.stream().map(Object::toString).anyMatch(name::equals);
     }
 
@@ -278,11 +285,26 @@ public class Character {
         return inventory.getWeight();
     }
 
+    public Weight getCarryingCapacity() {
+        Weight capacity = Weight.lb(getIntAttribute(STRENGTH) * 15);
+        if (hasAttribute(Ability.ASPECT_OF_BEAST_BEAR))
+            capacity = capacity.times(2);
+        return capacity;
+    }
+
     public Value getTreasureValue() {
         return inventory.getTreasureValue();
     }
 
     public void spendTreasure(Value value) {
         inventory.spendTreasure(value);
+    }
+
+    public int getSpeed() {
+        Race race = getAttribute(RACE);
+        int speed = race.getSpeed();
+        if (hasAttribute(Ability.FAST_MOVEMENT) && !Armour.bestArmour(this).isPresent())
+            speed += 10;
+        return speed;
     }
 }

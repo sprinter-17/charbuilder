@@ -18,6 +18,10 @@ public class Inventory {
     }
 
     public void addItem(Equipment equipment) {
+        equipment.getComponents().forEach(this::addItemComponent);
+    }
+
+    private void addItemComponent(Equipment equipment) {
         Optional<Equipment> match = items.stream()
             .filter(eq -> matches(eq, equipment))
             .findAny();

@@ -1,6 +1,7 @@
 package characterbuilder.character.equipment;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import static org.hamcrest.CoreMatchers.is;
@@ -61,6 +62,24 @@ public class ArmourTest {
         dexterity.setValue(18);
         character.addEquipment(Armour.SPLINT_ARMOUR);
         assertThat(Armour.getArmourClass(character), is(17));
+    }
+
+    @Test
+    public void testUnarmouredDefence() {
+        IntAttribute constitution = new IntAttribute(AttributeType.CONSTITUTION, 10);
+        character.addAttribute(constitution);
+        character.addAttribute(Ability.UNARMORED_DEFENCE);
+        assertThat(Armour.getArmourClass(character), is(10));
+        constitution.setValue(14);
+        assertThat(Armour.getArmourClass(character), is(12));
+        constitution.setValue(18);
+        assertThat(Armour.getArmourClass(character), is(14));
+        dexterity.setValue(15);
+        assertThat(Armour.getArmourClass(character), is(16));
+        character.addEquipment(Armour.SHIELD);
+        assertThat(Armour.getArmourClass(character), is(18));
+        character.addEquipment(Armour.LEATHER_ARMOUR);
+        assertThat(Armour.getArmourClass(character), is(15));
     }
 
 }

@@ -19,4 +19,9 @@ public class WeightTest {
         assertThat(Weight.valueOf("1oz"), is(Weight.OZ.times(1)));
         assertThat(Weight.valueOf("1st 7lb"), is(Weight.ST.times(1.5f)));
     }
+
+    @Test
+    public void testToStringInPounds() {
+        assertThat(Weight.st(2).toStringInPounds(), is("28lb"));
+    }
 }

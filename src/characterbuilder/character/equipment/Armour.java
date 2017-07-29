@@ -1,6 +1,7 @@
 package characterbuilder.character.equipment;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Value;
 import static characterbuilder.character.attribute.Value.gp;
@@ -73,15 +74,21 @@ public enum Armour implements Equipment {
 
     public static int getArmourClass(Character character) {
         int ac = 10;
-        Optional<Armour> bestArmour = Arrays.stream(values())
-            .filter(arm -> !arm.equals(SHIELD))
-            .filter(character::hasEquipment)
-            .max(Comparator.comparing(arm -> arm.armourClass));
+        Optional<Armour> bestArmour = bestArmour(character);
         ac += bestArmour.map(arm -> arm.armourClass).orElse(0);
         if (character.hasEquipment(SHIELD))
             ac += 2;
-        if (!(bestArmour.isPresent() && bestArmour.get().category.equals(HEAVY_ARMOUR)))
+        if (!bestArmour.isPresent() || !bestArmour.get().category.equals(HEAVY_ARMOUR))
             ac += character.getModifier(AttributeType.DEXTERITY);
+        if (!bestArmour.isPresent() && character.hasAttribute(Ability.UNARMORED_DEFENCE))
+            ac += character.getModifier(AttributeType.CONSTITUTION);
         return ac;
+    }
+
+    public static Optional<Armour> bestArmour(Character character) {
+        return Arrays.stream(values())
+            .filter(arm -> !arm.equals(SHIELD))
+            .filter(character::hasEquipment)
+            .max(Comparator.comparing(arm -> arm.armourClass));
     }
 }

@@ -4,27 +4,31 @@ import characterbuilder.character.Character;
 
 public abstract class OptionChoice implements Choice {
 
-    private int count;
+    private int initialCount;
+    private int currentCount;
 
     public OptionChoice() {
         this(1);
     }
 
     public OptionChoice(int count) {
-        this.count = count;
+        this.initialCount = count;
+        this.currentCount = count;
     }
 
     public OptionChoice withCount(int count) {
-        this.count = count;
+        this.initialCount = count;
+        this.currentCount = count;
         return this;
     }
 
     public boolean useAndCheck() {
-        return --count <= 0;
+        return --currentCount <= 0;
     }
 
     @Override
     public void addTo(Character character) {
+        this.currentCount = initialCount;
         character.addChoice(this);
     }
 

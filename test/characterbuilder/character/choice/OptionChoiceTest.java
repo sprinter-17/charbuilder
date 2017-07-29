@@ -24,4 +24,14 @@ public class OptionChoiceTest {
         assertFalse(choice.useAndCheck());
         assertTrue(choice.useAndCheck());
     }
+
+    @Test
+    public void testResetCountOnAdd() {
+        choice.useAndCheck();
+        choice.useAndCheck();
+        Character character = new Character();
+        character.addChoiceList(new TestChoiceSelector());
+        choice.addTo(character);
+        assertFalse(choice.useAndCheck());
+    }
 }

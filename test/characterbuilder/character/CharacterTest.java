@@ -1,5 +1,6 @@
 package characterbuilder.character;
 
+import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CONSTITUTION;
@@ -12,6 +13,7 @@ import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.attribute.Value;
+import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.LB;
 import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.equipment.Armour;
@@ -238,6 +240,26 @@ public class CharacterTest {
         assertTrue(character.hasAttribute(subSet));
         assertTrue(character.hasAttribute(superSet));
         assertThat(character.getAllAttributes().count(), is(1L));
+    }
+
+    @Test
+    public void testSpeed() {
+        character.addAttribute(Race.MOUNTAIN_DWARF);
+        assertThat(character.getSpeed(), is(25));
+        character.addAttribute(Ability.FAST_MOVEMENT);
+        assertThat(character.getSpeed(), is(35));
+        character.addEquipment(Armour.SHIELD);
+        assertThat(character.getSpeed(), is(35));
+        character.addEquipment(Armour.LEATHER_ARMOUR);
+        assertThat(character.getSpeed(), is(25));
+    }
+
+    @Test
+    public void testCarryingCapacity() {
+        character.addAttribute(new IntAttribute(AttributeType.STRENGTH, 14));
+        assertThat(character.getCarryingCapacity(), is(Weight.lb(14 * 15)));
+        character.addAttribute(Ability.ASPECT_OF_BEAST_BEAR);
+        assertThat(character.getCarryingCapacity(), is(Weight.lb(14 * 15 * 2)));
     }
 
     private void setLevel(CharacterClass charClass, int level) {

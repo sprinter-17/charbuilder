@@ -41,7 +41,7 @@ public class MainWindow {
     public MainWindow() throws ParserConfigurationException {
         this.panel = new CharacterPanel();
         this.loadDialog = new LoadDialog(frame, this::setCharacter);
-        this.panel.addChangeListener(this::enableTools);
+        this.panel.addChangeListener(() -> toolEnablers.forEach(Runnable::run));
         frame.setPreferredSize(new Dimension(1200, 800));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -65,7 +65,6 @@ public class MainWindow {
         addTool("Show Character Sheet", this::showCharacterSheet,
             () -> character.isPresent(), () -> character.get().getChoiceCount() == 0);
         addTool("Exit", this::exit);
-        enableTools();
         frame.add(tools, BorderLayout.NORTH);
     }
 
@@ -74,7 +73,7 @@ public class MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 runnable.run();
-                enableTools();
+                update();
             }
         };
         toolEnablers.add(() -> {
@@ -87,28 +86,24 @@ public class MainWindow {
         frame.setVisible(true);
     }
 
-    private void update() {
-        panel.updateCharacterData(character.get());
-        enableTools();
-    }
-
-    private void enableTools() {
-        toolEnablers.forEach(Runnable::run);
-    }
-
     private void newCharacter() {
         if (canDiscardCharacter()) {
             setCharacter(new Character());
             new InitialChoiceGenerator().generateChoices(character.get());
-            choices.update(character.get());
+            update();
         }
     }
 
     private void setCharacter(Character character) {
         this.character = Optional.of(character);
         character.addChoiceList(choices);
-        choices.update(character);
-        panel.updateCharacterData(character);
+        update();
+    }
+
+    private void update() {
+        character.ifPresent(panel::updateCharacterData);
+        character.ifPresent(choices::update);
+        toolEnablers.forEach(Runnable::run);
     }
 
     private void loadCharacter() {
@@ -155,7 +150,7 @@ public class MainWindow {
     private void levelUpCharacter() {
         assert character.isPresent();
         character.get().increaseLevel(new CharacterRandom());
-        panel.updateCharacterData(character.get());
+        update();
     }
 
     public void saveCharacter() {
