@@ -66,6 +66,6 @@ public class BackgroundPage extends Page {
     private String abilityRow(Ability ability) {
         return element("tr",
             element("th style='text-align:left'", nbsp(ability.toString()))
-            + element("td", ability.getDescription(character).orElse("-")));
+            + element("td", ability.getDescription(character).collect(joining(", "))));
     }
 }

@@ -4,14 +4,16 @@ import characterbuilder.character.Character;
 
 public abstract class OptionChoice implements Choice {
 
+    private final String name;
     private int initialCount;
     private int currentCount;
 
-    public OptionChoice() {
-        this(1);
+    public OptionChoice(String name) {
+        this(name, 1);
     }
 
-    public OptionChoice(int count) {
+    public OptionChoice(String name, int count) {
+        this.name = name;
         this.initialCount = count;
         this.currentCount = count;
     }
@@ -32,11 +34,17 @@ public abstract class OptionChoice implements Choice {
         character.addChoice(this);
     }
 
-    public String toStringWithCount() {
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
         if (initialCount > 1)
-            return toString() + " (x" + currentCount + ")";
+            return getName() + " (x" + currentCount + ")";
         else
-            return toString();
+            return getName();
     }
 
     public abstract void select(Character character, ChoiceSelector selector);

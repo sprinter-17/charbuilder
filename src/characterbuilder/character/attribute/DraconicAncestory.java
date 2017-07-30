@@ -3,6 +3,7 @@ package characterbuilder.character.attribute;
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Ability;
 import characterbuilder.utils.StringUtils;
+import java.util.stream.Stream;
 
 public enum DraconicAncestory implements Attribute {
     BLACK("Acid, 5x30' line, Dex. save"),
@@ -40,4 +41,10 @@ public enum DraconicAncestory implements Attribute {
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
     }
+
+    @Override
+    public Stream<String> getDescription(Character character) {
+        return Stream.of("Breath " + breathWeapon);
+    }
+
 }

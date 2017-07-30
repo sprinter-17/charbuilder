@@ -12,7 +12,7 @@ public class OptionChoiceTest {
 
     @Before
     public void setup() {
-        choice = new OptionChoice(2) {
+        choice = new OptionChoice("Test", 2) {
             @Override
             public void select(Character character, ChoiceSelector selector) {
             }

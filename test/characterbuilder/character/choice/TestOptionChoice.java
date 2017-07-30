@@ -14,6 +14,7 @@ public class TestOptionChoice extends OptionChoice {
     }
 
     public TestOptionChoice(Consumer<Character> action) {
+        super("Test");
         this.action = action;
     }
 

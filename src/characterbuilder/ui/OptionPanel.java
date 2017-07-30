@@ -3,12 +3,13 @@ package characterbuilder.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Optional;
+import static java.util.stream.Collectors.joining;
+import java.util.stream.Stream;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,20 +17,24 @@ import javax.swing.JPanel;
 
 public class OptionPanel extends JPanel {
 
-    private final Optional<String> description;
     private final Runnable selectAction;
     private final JButton selectButton;
     private final ActionListener actionListener = ev -> choose();
+    private final Optional<JLabel> description;
     private boolean selected = false;
 
-    public OptionPanel(String name, Optional<String> description,
+    public OptionPanel(String name, Stream<String> description,
         Runnable selectAction, JButton selectButton) {
         super(new BorderLayout());
-        this.description = description;
+        String descriptionText = description.collect(joining("<br>&bull;&nbsp;"));
+        if (descriptionText.isEmpty())
+            this.description = Optional.empty();
+        else
+            this.description = Optional.
+                of(new JLabel("<html>&bull;&nbsp;" + descriptionText + "</html>"));
         this.selectAction = selectAction;
         this.selectButton = selectButton;
-        JLabel label = new JLabel("<html>" + name + "</html>");
-        setPreferredSize(new Dimension(190, 25));
+        JLabel label = new JLabel("<html><em>" + name.replaceAll(", ", "<br>") + "</em></html>");
         setBackground(Color.WHITE);
         add(label, BorderLayout.CENTER);
         setBorder(BorderFactory.createEtchedBorder());
@@ -60,13 +65,11 @@ public class OptionPanel extends JPanel {
         if (selected) {
             setBackground(Color.LIGHT_GRAY);
             selectButton.addActionListener(actionListener);
-            description.ifPresent(desc -> {
-                setPreferredSize(new Dimension(190, 80));
-                add(new JLabel(desc), BorderLayout.SOUTH);
-            });
+            description.ifPresent(label -> add(label, BorderLayout.SOUTH));
         } else {
             setBackground(Color.WHITE);
             selectButton.removeActionListener(actionListener);
+            description.ifPresent(this::remove);
         }
         revalidate();
         repaint();

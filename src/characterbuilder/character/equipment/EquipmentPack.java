@@ -1,5 +1,6 @@
 package characterbuilder.character.equipment;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.equipment.EquipmentType.*;
@@ -80,4 +81,10 @@ public enum EquipmentPack implements Equipment {
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
     }
+
+    @Override
+    public Stream<String> getDescription(Character character) {
+        return content.stream().map(Equipment::toString);
+    }
+
 }

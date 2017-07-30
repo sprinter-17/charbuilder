@@ -16,22 +16,9 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import static java.util.stream.Collectors.toList;
+import java.util.stream.Stream;
 
 public class ChoiceGenerator {
-
-    protected static abstract class NamedChoice extends OptionChoice {
-
-        private final String name;
-
-        public NamedChoice(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
 
     private final Predicate<Character> condition;
     private final List<Choice> choices = new ArrayList<>();
@@ -61,7 +48,7 @@ public class ChoiceGenerator {
     }
 
     public static Choice abilityTypeChoice(AttributeType attributeType) {
-        return new NamedChoice(attributeType.toString()) {
+        return new OptionChoice(attributeType.toString()) {
             @Override
             public void select(Character character, ChoiceSelector selector) {
                 List<Attribute> attributes = Arrays.stream(Proficiency.values())
@@ -73,40 +60,47 @@ public class ChoiceGenerator {
     }
 
     public static Choice spellChoice(int count, CharacterClass casterClass, int level) {
-        return new OptionChoice(count) {
+        return new OptionChoice(level == 0 ? "Cantrip" : "Level " + level + " spell", count) {
             @Override
-            public void select(Character character, ChoiceSelector selector) {
+            public void select(Character character, ChoiceSelector selector
+            ) {
                 List<Attribute> spells = Spell.spells(casterClass, level).collect(toList());
                 selector.chooseOption(spells.stream()
                     .filter(sp -> !character.hasAttribute(sp)), spell -> {
                     character.addAttribute(spell);
                 });
             }
-
-            @Override
-            public String toString() {
-                return level == 0 ? "Cantrip" : "Level " + level + " spell";
-            }
         };
     }
 
-    public ChoiceGenerator addAction(Consumer<Character> action) {
-        choices.add(action::accept);
+    public ChoiceGenerator addAction(String name, Consumer<Character> action) {
+        choices.add(new Choice() {
+            @Override
+            public void addTo(Character character) {
+                action.accept(character);
+            }
+
+            @Override
+            public String getName() {
+                return name;
+            }
+        });
         return this;
     }
 
     public ChoiceGenerator addEquipment(Equipment... equipment) {
-        return addAction(ch -> Arrays.stream(equipment)
-            .forEach(eq -> ch.addEquipment(eq)));
+        Arrays.stream(equipment)
+            .forEach(eq -> addAction(eq.toString(), ch -> ch.addEquipment(eq)));
+        return this;
     }
 
     public ChoiceGenerator addEquipment(Equipment equipment, int count) {
-        return addAction(ch -> ch.addEquipment(new EquipmentSet(equipment, count)));
+        return addEquipment(new EquipmentSet(equipment, count));
     }
 
     public ChoiceGenerator addTokens(String... names) {
-        return addAction(ch -> Arrays.stream(names).map(Token::new)
-            .forEach(eq -> ch.addEquipment(eq)));
+        Arrays.stream(names).map(Token::new).forEach(this::addEquipment);
+        return this;
     }
 
     public ChoiceGenerator addChoice(Choice choice) {
@@ -120,19 +114,18 @@ public class ChoiceGenerator {
     }
 
     public ChoiceGenerator removeAttribute(Attribute attribute) {
-        choices.add(ch -> ch.removeAttribute(attribute));
-        return this;
+        return addAction("Remove " + attribute.toString(), ch -> ch.removeAttribute(attribute));
     }
 
     public ChoiceGenerator addAttributes(Attribute... attributes) {
         Arrays.stream(attributes)
-            .forEach(att -> this.choices.add(ch -> ch.addAttribute(att)));
+            .forEach(attr -> addAction(attr.toString(), ch -> ch.addAttribute(attr)));
         return this;
     }
 
     public ChoiceGenerator addWeaponProficiencies(Weapon... weapons) {
         Arrays.stream(weapons).map(Weapon::getProficiency)
-            .forEach(att -> this.choices.add(ch -> ch.addAttribute(att)));
+            .forEach(wp -> addAttributes(wp));
         return this;
     }
 
@@ -151,5 +144,9 @@ public class ChoiceGenerator {
         return ch -> ch.hasAttribute(AttributeType.LEVEL)
             && Arrays.stream(levels)
                 .anyMatch(lev -> ch.getIntAttribute(AttributeType.LEVEL) == lev);
+    }
+
+    public Stream<String> getDescription(Character character) {
+        return choices.stream().map(Choice::getName);
     }
 }

@@ -68,7 +68,7 @@ public enum CharacterClass implements Attribute {
             gen.level(11).addAttributes(RELENTLESS_RAGE);
             gen.level(15).addAttributes(PERSISTENT_RAGE);
             gen.level(18).addAttributes(INDOMITABLE_MIGHT);
-            gen.level(20).addAction(ch -> {
+            gen.level(20).addAction("Increase Str. and Con.", ch -> {
                 ch.getAttribute(STRENGTH, IntAttribute.class).addValue(4);
                 ch.getAttribute(CONSTITUTION, IntAttribute.class).addValue(4);
             });
@@ -312,7 +312,7 @@ public enum CharacterClass implements Attribute {
     }
 
     private static Choice spellMasteryChoice(String name, int level) {
-        return new OptionChoice() {
+        return new OptionChoice(name) {
             @Override
             public void select(Character character, ChoiceSelector selector) {
                 selector.chooseOption(Spell.
@@ -325,11 +325,6 @@ public enum CharacterClass implements Attribute {
                     spell -> {
                     character.addAttribute(new SpellMastery(name, (Spell) spell));
                 });
-            }
-
-            @Override
-            public String toString() {
-                return name;
             }
         };
     }

@@ -12,23 +12,22 @@ import java.util.stream.Stream;
 
 public class AttributeChoice extends OptionChoice {
 
-    private final String name;
     private final List<Attribute> attributes = new ArrayList<>();
 
     public AttributeChoice(AttributeType type) {
-        this.name = type.toString();
+        super(type.toString());
         Stream.concat(Arrays.stream(Ability.values()), Arrays.stream(Proficiency.values()))
             .filter(prof -> prof.hasType(type))
             .forEach(this.attributes::add);
     }
 
     public AttributeChoice(String name, Stream<Attribute> attributes) {
-        this.name = name;
+        super(name);
         attributes.forEach(this.attributes::add);
     }
 
     public AttributeChoice(String name, Attribute... attributes) {
-        this.name = name;
+        super(name);
         this.attributes.addAll(Arrays.asList(attributes));
     }
 
@@ -37,10 +36,5 @@ public class AttributeChoice extends OptionChoice {
         selector.chooseOption(attributes.stream()
             .filter(att -> !character.hasAttribute(att)),
             attr -> attr.choose(character));
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 }

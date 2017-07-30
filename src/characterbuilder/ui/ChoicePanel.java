@@ -55,12 +55,12 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         this.listener = listener;
         add(splitter, BorderLayout.CENTER);
         add(selectButton, BorderLayout.SOUTH);
-        splitter.setMinimumSize(new Dimension(200, 500));
+        splitter.setPreferredSize(new Dimension(200, 500));
         splitter.setDividerLocation(180);
         choiceList.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         ListCellRenderer renderer = choiceList.getCellRenderer();
         choiceList.setCellRenderer((list, val, i, sel, foc) -> renderer.
-            getListCellRendererComponent(list, val.toStringWithCount(), i, sel, foc));
+            getListCellRendererComponent(list, val.toString(), i, sel, foc));
         selectButton.setEnabled(false);
     }
 
@@ -213,7 +213,9 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         constraints.gridx = column;
         constraints.gridy = GridBagConstraints.RELATIVE;
         constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 1.0;
         constraints.anchor = GridBagConstraints.NORTH;
+        constraints.ipady = 10;
         return constraints;
     }
 }

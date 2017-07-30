@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 
 public class EquipmentChoice extends OptionChoice {
 
-    private final String name;
     private final List<Equipment> equipmentList = new ArrayList<>();
 
     private class MultiEquipment implements Equipment {
@@ -60,12 +59,12 @@ public class EquipmentChoice extends OptionChoice {
     }
 
     public EquipmentChoice(EquipmentCategory category) {
-        this.name = category.toString();
+        super(category.toString());
         with(category);
     }
 
     public EquipmentChoice(String name, Equipment... equipment) {
-        this.name = name;
+        super(name);
         Arrays.stream(equipment).forEach(equipmentList::add);
     }
 
@@ -93,11 +92,6 @@ public class EquipmentChoice extends OptionChoice {
         selector.chooseOption(equipmentList.stream(), eq -> {
             eq.choose(character);
         });
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 
 }

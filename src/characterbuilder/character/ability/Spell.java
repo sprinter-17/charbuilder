@@ -10,7 +10,6 @@ import characterbuilder.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -303,7 +302,13 @@ public enum Spell implements Attribute {
     }
 
     @Override
-    public Optional<String> getDescription(Character character) {
-        return Optional.of(getEffect(character));
+    public Stream<String> getDescription(Character character) {
+        return Stream.of(
+            school.toString() + " level " + level,
+            "casting time " + castingTime,
+            "range " + range,
+            "area of effect " + area,
+            "duration " + duration,
+            "effect " + getEffect(character));
     }
 }

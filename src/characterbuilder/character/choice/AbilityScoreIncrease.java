@@ -7,6 +7,10 @@ import java.util.stream.Stream;
 
 public class AbilityScoreIncrease extends OptionChoice {
 
+    public AbilityScoreIncrease() {
+        super("Increase Ability Score");
+    }
+
     @Override
     public void select(Character character, ChoiceSelector selector) {
         if (!isAllowed(character))
@@ -33,10 +37,5 @@ public class AbilityScoreIncrease extends OptionChoice {
     @Override
     public boolean isAllowed(Character character) {
         return AttributeType.ABILITY_SCORES.stream().allMatch(character::hasAttribute);
-    }
-
-    @Override
-    public String toString() {
-        return "Increase ability score";
     }
 }

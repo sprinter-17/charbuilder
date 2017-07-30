@@ -37,7 +37,7 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
 
     private static OptionChoice attributeEnumChoice(String name, Attribute[] values,
         Consumer<Character>... andThen) {
-        return new ChoiceGenerator.NamedChoice(name) {
+        return new OptionChoice(name) {
             @Override
             public void select(Character character, ChoiceSelector selector) {
                 selector.chooseOption(Arrays.stream(values), attr -> {
@@ -49,7 +49,7 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
     }
 
     private static OptionChoice generateAbilityScores() {
-        return new ChoiceGenerator.NamedChoice("Generate ability scores") {
+        return new OptionChoice("Generate ability scores") {
             @Override
             public void select(Character character, ChoiceSelector selector) {
                 selector.generateAbilityScores(scores -> {

@@ -19,6 +19,7 @@ import java.util.EnumMap;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 public enum Race implements Attribute {
     HILL_DWARF(0, 0, 2, 0, 1, 0, 25, 50, "3'8\"", "2d4", "115lb", "2d6", gen -> {
@@ -153,4 +154,10 @@ public enum Race implements Attribute {
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
     }
+
+    @Override
+    public Stream<String> getDescription(Character character) {
+        return generator.getDescription(character);
+    }
+
 }

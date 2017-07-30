@@ -6,7 +6,6 @@ import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public enum Ability implements Attribute {
@@ -263,7 +262,7 @@ public enum Ability implements Attribute {
     }
 
     @Override
-    public Optional<String> getDescription(Character character) {
-        return Optional.of(StringUtils.expand(description, character));
+    public Stream<String> getDescription(Character character) {
+        return Stream.of(StringUtils.expand(description, character));
     }
 }

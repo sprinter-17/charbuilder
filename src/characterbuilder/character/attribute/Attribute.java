@@ -40,10 +40,6 @@ public interface Attribute extends Option {
 
     }
 
-    default Optional<String> getDescription(Character character) {
-        return Optional.empty();
-    }
-
     @Override
     default void choose(Character character) {
         character.addAttribute(this);
