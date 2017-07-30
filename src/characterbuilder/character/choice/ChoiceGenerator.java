@@ -6,9 +6,9 @@ import characterbuilder.character.ability.Spell;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.CharacterClass;
-import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
+import characterbuilder.character.equipment.Token;
 import characterbuilder.character.equipment.Weapon;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import static java.util.stream.Collectors.toList;
-import java.util.stream.Stream;
 
 public class ChoiceGenerator {
 
@@ -73,36 +72,6 @@ public class ChoiceGenerator {
         };
     }
 
-    public static OptionChoice abilityScoreIncrease() {
-        return new OptionChoice() {
-            @Override
-            public void select(Character character, ChoiceSelector selector) {
-                Stream<IntAttribute> abilityScores = AttributeType.ABILITY_SCORES.stream()
-                    .filter(as -> character.getIntAttribute(as) < 20)
-                    .map(as -> new IntAttribute(as, 0) {
-                    @Override
-                    public String toString() {
-                        return as.toString();
-                    }
-                });
-                selector.chooseOption(abilityScores, as -> {
-                    IntAttribute attr = character.getAttribute(as.getType());
-                    attr.addValue(1);
-                    if (as.getType().equals(AttributeType.CONSTITUTION)
-                        && attr.getValue() % 2 == 0) {
-                        IntAttribute hp = character.getAttribute(AttributeType.HIT_POINTS);
-                        hp.addValue(character.getLevel());
-                    }
-                });
-            }
-
-            @Override
-            public String toString() {
-                return "Increase ability score";
-            }
-        };
-    }
-
     public static Choice spellChoice(int count, CharacterClass casterClass, int level) {
         return new OptionChoice(count) {
             @Override
@@ -133,6 +102,11 @@ public class ChoiceGenerator {
 
     public ChoiceGenerator addEquipment(Equipment equipment, int count) {
         return addAction(ch -> ch.addEquipment(new EquipmentSet(equipment, count)));
+    }
+
+    public ChoiceGenerator addTokens(String... names) {
+        return addAction(ch -> Arrays.stream(names).map(Token::new)
+            .forEach(eq -> ch.addEquipment(eq)));
     }
 
     public ChoiceGenerator addChoice(Choice choice) {

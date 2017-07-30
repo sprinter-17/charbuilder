@@ -183,6 +183,15 @@ public enum Ability implements Attribute {
         "Creature with Bardic Inspiration can add roll to damage or AC as reaction."),
     BATTLE_MAGIC(CLASS_TALENT, "Battle Magic",
         "Can make one weapon attack as bonus action when casting spell."),
+    KNOWLEDGE_OF_THE_AGES(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Knowledge of the Ages",
+        "As an action, gain proficiency with one skill or tool for 10 minutes."),
+    READ_THOUGHTS(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Read Thoughts",
+        "As an action, choose 1 creature within 60'. Wis. save or read thoughts "
+        + "and cast suggestion."),
+    POTENT_SPELLCASTING(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Potent Spellcasting",
+        "Add [$wis_mod] to damage from cantrips."),
+    VISIONS_OF_THE_PAST(DIVINE_DOMAIN_ABILITY, "Visions of the Past",
+        "After 1 minute of mediation, object and area reading"),
     //
     EVOCATION_SAVANT(EVOCATION_ABILITY,
         "Evocation Savant",
@@ -216,7 +225,18 @@ public enum Ability implements Attribute {
     SUPREME_HEALING(DIVINE_DOMAIN_ABILITY, "Supreme Healing",
         "Healing spells restore maximum HP."),
     DISCIPLE_OF_LIFE(DIVINE_DOMAIN_ABILITY, "Disciple of life",
-        "Healing spells restore an additional 2 + spell level HP."),;
+        "Healing spells restore an additional 2 + spell level HP."),
+    //
+    CITY_SECRETS(BACKGROUND_FEATURE, "City Secrets",
+        "When not in combat, travel at double speed between locations in city."),
+    SHIPS_PASSAGE(BACKGROUND_FEATURE, "Ship's Passage",
+        "Can secure free passage on sailing ships."),
+    RESEARCHER(BACKGROUND_FEATURE, "Researcher",
+        "Can attempt to obtain a piece of lore."),
+    WANDERER(BACKGROUND_FEATURE, "Wanderer",
+        "Excellent memory for maps and geography. Can find food if available."),
+    DISCOVERY(BACKGROUND_FEATURE, "Discovery",
+        "Have made a unique and powerful discovery.");
 
     private final AttributeType type;
     private final String name;

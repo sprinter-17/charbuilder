@@ -17,19 +17,16 @@ public class ChoiceListTest {
     @Test
     public void testGetChoices() {
         assertThat(choices.stream().count(), is(0L));
-        choices.add(new TestOptionChoice(ch -> {
-        }));
+        choices.add(new TestOptionChoice());
         assertThat(choices.stream().count(), is(1L));
     }
 
     @Test
     public void testChoiceRemoved() {
-        OptionChoice choice = new TestOptionChoice(ch -> {
-        });
+        OptionChoice choice = new TestOptionChoice();
         choices.add(choice);
         assertThat(choices.stream().count(), is(1L));
         choices.select(null, choice);
         assertThat(choices.stream().count(), is(0L));
     }
-
 }

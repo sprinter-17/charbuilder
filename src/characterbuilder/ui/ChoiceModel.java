@@ -1,12 +1,13 @@
 package characterbuilder.ui;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.choice.Choice;
 import characterbuilder.character.choice.OptionChoice;
 import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 import javax.swing.AbstractListModel;
 
-public class ChoiceModel extends AbstractListModel<Choice> {
+public class ChoiceModel extends AbstractListModel<OptionChoice> {
 
     private Optional<Character> character = Optional.empty();
 
@@ -23,6 +24,12 @@ public class ChoiceModel extends AbstractListModel<Choice> {
     @Override
     public OptionChoice getElementAt(int index) {
         return character.get().getChoice(index);
+    }
+
+    public OptionalInt indexOf(OptionChoice choice) {
+        return IntStream.range(0, getSize())
+            .filter(i -> getElementAt(i).equals(choice))
+            .findFirst();
     }
 
     public void update() {

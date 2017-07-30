@@ -16,6 +16,7 @@ import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.LB;
 import characterbuilder.character.choice.TestChoiceSelector;
+import characterbuilder.character.choice.TestOptionChoice;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.EquipmentSet;
 import java.util.Optional;
@@ -260,6 +261,16 @@ public class CharacterTest {
         assertThat(character.getCarryingCapacity(), is(Weight.lb(14 * 15)));
         character.addAttribute(Ability.ASPECT_OF_BEAST_BEAR);
         assertThat(character.getCarryingCapacity(), is(Weight.lb(14 * 15 * 2)));
+    }
+
+    @Test
+    public void testHideNotAllowedChoices() {
+        TestOptionChoice choice = new TestOptionChoice();
+        choice.setAllowed(false);
+        character.addChoice(choice);
+        assertThat(character.getChoiceCount(), is(0));
+        choice.setAllowed(true);
+        assertThat(character.getChoiceCount(), is(1));
     }
 
     private void setLevel(CharacterClass charClass, int level) {

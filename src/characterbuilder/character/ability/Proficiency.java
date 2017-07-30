@@ -38,8 +38,12 @@ public enum Proficiency implements Attribute {
     BREWER(ARTISAN),
     MASON(ARTISAN),
     //
+    DISGUISE_KIT(TOOLS),
+    HERBALISM_KIT(TOOLS),
+    NAVIGATORS_TOOLS(TOOLS),
     THIEVES_TOOLS(TOOLS),
     LAND_VEHICLES(TOOLS),
+    WATER_VEHICLES(TOOLS),
     CARDS(TOOLS),
     DICE(TOOLS), //
     ;

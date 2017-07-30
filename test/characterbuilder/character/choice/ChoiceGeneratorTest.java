@@ -5,8 +5,6 @@ import static characterbuilder.character.ability.Ability.*;
 import static characterbuilder.character.ability.Proficiency.*;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.AttributeType;
-import static characterbuilder.character.attribute.AttributeType.CONSTITUTION;
-import static characterbuilder.character.attribute.AttributeType.LEVEL;
 import characterbuilder.character.attribute.IntAttribute;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -68,18 +66,6 @@ public class ChoiceGeneratorTest {
         generator.generateChoices(character);
         assertFalse(character.hasAttribute(BRAVE));
         assertTrue(character.hasAttribute(BREWER));
-    }
-
-    @Test
-    public void testIncreaseConstitution() {
-        character.addAttribute(new IntAttribute(LEVEL, 7));
-        character.addAttribute(new IntAttribute(CONSTITUTION, 10));
-        character.addAttribute(new IntAttribute(AttributeType.HIT_POINTS, 0));
-        selector.withAttribute(new IntAttribute(CONSTITUTION, 0));
-        ChoiceGenerator.abilityScoreIncrease().select(character, selector);
-        assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(0));
-        ChoiceGenerator.abilityScoreIncrease().select(character, selector);
-        assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(7));
     }
 
     @Test

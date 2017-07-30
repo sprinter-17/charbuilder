@@ -34,7 +34,7 @@ public class MainWindow {
     private final JToolBar tools = new JToolBar();
     private final CharacterPanel panel;
     private Optional<Character> character = Optional.empty();
-    private final ChoicePanel choices = new ChoicePanel(this::update);
+    private final ChoicePanel choices = new ChoicePanel(this::updateFromChoices);
 
     private final List<Runnable> toolEnablers = new ArrayList<>();
 
@@ -98,6 +98,11 @@ public class MainWindow {
         this.character = Optional.of(character);
         character.addChoiceList(choices);
         update();
+    }
+
+    private void updateFromChoices() {
+        character.ifPresent(panel::updateCharacterData);
+        toolEnablers.forEach(Runnable::run);
     }
 
     private void update() {

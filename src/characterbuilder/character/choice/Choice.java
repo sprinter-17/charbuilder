@@ -5,4 +5,8 @@ import characterbuilder.character.Character;
 public interface Choice {
 
     void addTo(Character character);
+
+    default boolean isAllowed(Character character) {
+        return true;
+    }
 }

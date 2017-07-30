@@ -8,6 +8,8 @@ import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.lb;
 import static characterbuilder.character.equipment.EquipmentCategory.MUSICAL_INSTRUMENTS;
 import characterbuilder.utils.StringUtils;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public enum MusicalInstrument implements Equipment {
     BAGPIPES(gp(30), lb(6)),
@@ -66,6 +68,10 @@ public enum MusicalInstrument implements Equipment {
 
     public Attribute getProficiency() {
         return proficiency;
+    }
+
+    public static Stream<Attribute> getAllProficiencies() {
+        return Arrays.stream(values()).map(MusicalInstrument::getProficiency);
     }
 
     @Override

@@ -32,6 +32,13 @@ public abstract class OptionChoice implements Choice {
         character.addChoice(this);
     }
 
+    public String toStringWithCount() {
+        if (initialCount > 1)
+            return toString() + " (x" + currentCount + ")";
+        else
+            return toString();
+    }
+
     public abstract void select(Character character, ChoiceSelector selector);
 
 }

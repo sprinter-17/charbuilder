@@ -44,6 +44,7 @@ public enum AttributeType {
     ROGUISH_ARCHETYPE(RoguishArchetype::valueOf),
     RACIAL_TALENT(false, (t, c) -> Ability.valueOf(c)),
     CLASS_TALENT(false, (t, c) -> Ability.valueOf(c)),
+    BACKGROUND_FEATURE(false, (t, c) -> Ability.valueOf(c)),
     SPELL_MASTERY(false, SpellMastery::decode),
     ARCANE_TRADITION(MagicSchool::valueOf),
     PRIMAL_PATH(PrimalPath::valueOf),

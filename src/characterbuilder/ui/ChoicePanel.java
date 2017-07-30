@@ -7,18 +7,17 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.CharacterClass;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
-import characterbuilder.character.choice.Choice;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.Option;
+import characterbuilder.character.choice.OptionChoice;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,45 +27,55 @@ import java.util.function.Consumer;
 import static java.util.stream.Collectors.toList;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
 
 public class ChoicePanel extends JPanel implements ChoiceSelector {
 
     private final Runnable listener;
     private final ChoiceModel choiceModel = new ChoiceModel();
-    private final JList<Choice> choiceList = new JList(choiceModel);
+    private final JList<OptionChoice> choiceList = new JList(choiceModel);
     private final JPanel detailPanel = new JPanel(new GridBagLayout());
     private final JButton selectButton = new JButton("Select");
-    private Optional<Runnable> selectAction = Optional.empty();
+    private final JSplitPane splitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
     private Optional<Character> character = Optional.empty();
 
     public ChoicePanel(Runnable listener) {
         super(new BorderLayout());
+        splitter.setLeftComponent(new JScrollPane(choiceList));
+        splitter.setRightComponent(new JScrollPane(detailPanel));
         this.listener = listener;
-        add(choiceList, BorderLayout.NORTH);
-        add(new JScrollPane(detailPanel), BorderLayout.CENTER);
+        add(splitter, BorderLayout.CENTER);
         add(selectButton, BorderLayout.SOUTH);
-        setPreferredSize(new Dimension(200, 500));
-        selectButton.addActionListener(ev -> selectOption());
+        splitter.setMinimumSize(new Dimension(200, 500));
+        splitter.setDividerLocation(180);
+        choiceList.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        ListCellRenderer renderer = choiceList.getCellRenderer();
+        choiceList.setCellRenderer((list, val, i, sel, foc) -> renderer.
+            getListCellRendererComponent(list, val.toStringWithCount(), i, sel, foc));
+        selectButton.setEnabled(false);
     }
 
     public void update(Character character) {
         this.character = Optional.of(character);
         choiceModel.setCharacter(character);
-        selectFirstChoice();
+        selectChoice(0);
         choiceList.addListSelectionListener(ev -> {
             showOptions();
         });
     }
 
-    private void selectFirstChoice() {
-        if (choiceModel.getSize() > 0) {
-            choiceList.setSelectionInterval(0, 0);
+    private void selectChoice(int index) {
+        if (choiceModel.getSize() > index) {
+            choiceList.setSelectionInterval(index, index);
             showOptions();
         }
     }
@@ -74,50 +83,25 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     @Override
     public <T extends Option> void chooseOption(Stream<T> options, Consumer<T> followUp) {
         detailPanel.removeAll();
-        options.forEach(opt -> addOption(opt, () -> followUp.accept(opt)));
-        detailPanel.repaint();
+        options.map(opt -> new OptionPanel(opt.toString(), opt.getDescription(character.get()),
+            () -> selectOption(() -> followUp.accept(opt)), selectButton))
+            .forEach(panel -> detailPanel.add(panel, columnPosition(0)));
+        padDetailPanel();
+        detailPanel.revalidate();
+        splitter.repaint();
     }
 
-    private <T> void addOption(T opt, Runnable action) {
-        JLabel label = new JLabel("<html>" + opt.toString() + "</html>");
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(190, 25));
-        panel.setBackground(Color.WHITE);
-        panel.add(label, BorderLayout.CENTER);
-        panel.setBorder(BorderFactory.createEtchedBorder());
-        panel.addMouseListener(optionMouseListener(opt, action, panel));
-        detailPanel.add(panel, columnPosition(0));
-    }
-
-    private <T> MouseListener optionMouseListener(T opt, Runnable action, JPanel panel) {
-        return new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (opt instanceof Attribute) {
-                    Attribute attribute = (Attribute) opt;
-                    attribute.getDescription(character.get()).ifPresent(desc -> {
-                        panel.setPreferredSize(new Dimension(190, 80));
-                        panel.add(new JLabel(desc), BorderLayout.SOUTH);
-                        panel.revalidate();
-                        panel.repaint();
-                    });
-                }
-                selectAction = Optional.of(action);
-                if (e.getClickCount() == 2) {
-                    selectOption();
-                } else {
-                    for (Component child : detailPanel.getComponents()) {
-                        child.setBackground(child == panel ? Color.LIGHT_GRAY : Color.WHITE);
-                    }
-                }
-            }
-        };
+    private void padDetailPanel() {
+        GridBagConstraints c = columnPosition(0);
+        c.weighty = 1.0;
+        detailPanel.add(new JPanel(), c);
     }
 
     private void showOptions() {
         if (choiceList.getModel().getSize() > 0 && choiceList.getSelectedIndex() > -1) {
             choiceModel.select(choiceList.getSelectedIndex());
             choiceModel.update();
+            splitter.repaint();
         }
     }
 
@@ -132,12 +116,17 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
             valueLabel(values.get(i));
         });
         setScoreLabels(scorePanels, scores);
-        selectAction = Optional.of(() -> {
-            consumer.accept(IntStream.range(0, 6)
-                .mapToObj(i -> new IntAttribute(scores.get(i), values.get(i))));
+        selectButton.setEnabled(true);
+        selectButton.setAction(new AbstractAction("Accept Scores") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectOption(() -> consumer.accept(IntStream.range(0, 6)
+                    .mapToObj(i -> new IntAttribute(scores.get(i), values.get(i)))));
+            }
         });
+        padDetailPanel();
         detailPanel.revalidate();
-        detailPanel.repaint();
+        splitter.repaint();
     }
 
     private List<AttributeType> generateOrderedScores() {
@@ -197,7 +186,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
             adjustmentLabel.setPreferredSize(new Dimension(30, 30));
             panel.add(adjustmentLabel, BorderLayout.EAST);
             panel.revalidate();
-            panel.repaint();
+            splitter.repaint();
         });
     }
 
@@ -207,16 +196,16 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         listener.run();
     }
 
-    private void selectOption() {
-        if (selectAction.isPresent()) {
-            selectAction.get().run();
-            selectAction = Optional.empty();
-            detailPanel.removeAll();
-            detailPanel.repaint();
-            choiceModel.update();
-            listener.run();
-            selectFirstChoice();
-        }
+    private void selectOption(Runnable action) {
+        OptionChoice current = choiceModel.getElementAt(choiceList.getSelectedIndex());
+        action.run();
+        detailPanel.removeAll();
+        detailPanel.repaint();
+        choiceModel.update();
+        selectButton.setEnabled(false);
+        selectButton.setText("Select");
+        selectChoice(choiceModel.indexOf(current).orElse(0));
+        listener.run();
     }
 
     private GridBagConstraints columnPosition(int column) {

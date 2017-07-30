@@ -32,7 +32,8 @@ public enum EquipmentCategory {
     AMMUNITION(EquipmentType::valueOf),
     HOLY_SYMBOL(EquipmentType::valueOf),
     ARCANE_FOCUS(EquipmentType::valueOf),
-    EQUIPMENT_PACK(EquipmentType::valueOf);
+    EQUIPMENT_PACK(EquipmentType::valueOf),
+    TOKEN(Token::new);
 
     private final Optional<Attribute> proficiency;
     private final Function<String, Equipment> decoder;

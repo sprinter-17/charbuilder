@@ -94,8 +94,8 @@ public enum EquipmentType implements Equipment {
     WAND(ARCANE_FOCUS, gp(10), lb(1)),
     //
     VESTMENTS(CLOTHES, gp(1), lb(4)),
-    RANK_INSIGNIA(CLOTHES, Value.ZERO, Weight.ZERO),
     COMMON_CLOTHES(CLOTHES, sp(5), Weight.ZERO),
+    TRAVELERS_CLOTHES(CLOTHES, sp(5), Weight.ZERO),
     FINE_CLOTHES(CLOTHES, gp(10), Weight.ZERO),
     ROBES(CLOTHES, gp(1), lb(4)),
     COSTUME(CLOTHES, gp(5), lb(4)),;
