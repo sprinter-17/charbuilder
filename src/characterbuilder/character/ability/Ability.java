@@ -74,8 +74,10 @@ public enum Ability implements Attribute {
         "Regain [5 + $con_mod] HP each turn if no more than [$hp / 2] hit points remaining."),
     REMARKABLE_ATHLETE(CLASS_TALENT, "Remarkable Athlete",
         "Add [$prof / 2] to Str, Dex and Con checks. Add [$str_mod]' to running long jump length."),
-    EXTRA_ATTACK(CLASS_TALENT, "Extra Attack", "Attack [max($level 5:two, 11:three, 20:four)] "
-        + "times in each attack action."),
+    EXTRA_ATTACK_FIGHTER(CLASS_TALENT, "Extra Attack",
+        "Attack [max($level 5:two, 11:three, 20:four)] times in each attack action."),
+    EXTRA_ATTACK(CLASS_TALENT, "Extra Attack",
+        "Attack two times in each attack action."),
     INDOMITABLE(CLASS_TALENT, "Indomitable", "Reroll [max($level 9:one, 13:two, 17:three)] "
         + "failed saving [plural(throw,throws)] between each rest."),
     ARCANE_RECOVERY(CLASS_TALENT, "Arcane recovery", "Once per day, following a short rest, "
@@ -107,8 +109,10 @@ public enum Ability implements Attribute {
         "Ignore all class, race and level requirements on the use of magic items."),
     THIEFS_REFLEXES(CLASS_TALENT, "Thief's Reflexes",
         "Take two turns during first round of combat. Second turn is at initiative - 10."),
-    UNARMORED_DEFENCE(CLASS_TALENT, "Unarmoured Defence",
+    UNARMORED_DEFENCE_BARBARIAN(CLASS_TALENT, "Unarmoured Defence",
         "Unarmoured AC[10+$dex_mod+$con_mod]"),
+    UNARMORED_DEFENCE_MONK(CLASS_TALENT, "Unarmoured Defence",
+        "Unarmoured AC[10+$dex_mod+$wis_mod]"),
     RECKLESS_ATTACK(CLASS_TALENT, "Reckless Attack",
         "Choose to lower defence: advantage melee attacks for, all attacks against"),
     DANGER_SENSE(CLASS_TALENT, "Danger Sense",
@@ -182,6 +186,170 @@ public enum Ability implements Attribute {
         "Creature with Bardic Inspiration can add roll to damage or AC as reaction."),
     BATTLE_MAGIC(CLASS_TALENT, "Battle Magic",
         "Can make one weapon attack as bonus action when casting spell."),
+    MARTIAL_ARTS(CLASS_TALENT, "Martial Arts",
+        "Use Dex. instead of Str. for unarmed strikes and monk weapons; "
+        + "can roll [max($level 1:1d4,5:1d6,11:1d8,17:1d10)] for damage; "
+        + "unarmed strike as bonus action"),
+    KI(CLASS_TALENT, "Ki",
+        "[$level] Ki points to use between each rest; Ki Save DC[8+$prof+$wis_mod]."),
+    FLURRY_OF_BLOWS(CLASS_TALENT, "Flurry of Blows",
+        "Spend 1 Ki point to make two unarmed strikes as a bonus action."),
+    PATIENT_DEFENCE(CLASS_TALENT, "Patient Defence",
+        "Spend 1 Ki point to Dodge as a bonus action."),
+    STEP_OF_THE_WIND(CLASS_TALENT, "Step of the Wind",
+        "Spend 1 Ki point to Disengage or Dash as a bonus action, jump distance doubled."),
+    UNARMOURED_MOVEMENT(CLASS_TALENT, "Unarmoured Movement",
+        "Speed increases by [max($level 2:10,6:15,10:20,14:25,18:30)]' when not armoured. "
+        + "[if($level >= 9:Move along vertical surfaces and across liquids)]"),
+    DEFLECT_MISSILES(CLASS_TALENT, "Deflect Missiles",
+        "Use reaction when hit by ranged attack reducing damage by 1d10+[$dex_mod+$level]. "
+        + "If damage is 0, can spend 1 Ki point to make ranged attack to hit +[$prof], "
+        + "martial arts damage range 20'/60'."),
+    SLOW_FALL(CLASS_TALENT, "Slow Fall",
+        "Use reaction to reduce falling damage by [5*$level]."),
+    STUNNING_STRIKE(CLASS_TALENT, "Stunning Strike",
+        "Spend 1 Ki point on melee weapon hit. "
+        + "Target Con. save or stunned until end of next turn."),
+    KI_EMPOWERED_STRIKES(CLASS_TALENT, "Ki-Empowered Strikes",
+        "Unarmed strikes could as magical."),
+    STILLNESS_OF_MIND(CLASS_TALENT, "Stillness of Mind",
+        "Use action to end charm or fear effect."),
+    PURITY_OF_BODY(CLASS_TALENT, "Purity of Body",
+        "Immune to disease and poison."),
+    TONGUE_OF_THE_SUN_AND_MOON(CLASS_TALENT, "Tongue of the Sun and Moon",
+        "Understand all spoken languages."),
+    DIAMOND_SOUL(CLASS_TALENT, "Diamond Soul",
+        "Proficiency in all saves."),
+    TIMELESS_BODY(CLASS_TALENT, "Timeless Body",
+        "Cannot be magically aged. Need no food or water."),
+    EMPTY_BODY(CLASS_TALENT, "Empty Body",
+        "Spend 4 Ki points to become invisible for 1 minute."),
+    PERFECT_SELF(CLASS_TALENT, "Perfect Self",
+        "Regain 4 Ki points on initiative if none remaining."),
+    OPEN_HAND_TECHNIQUE(CLASS_TALENT, "Open Hand Technique",
+        "When hitting a creature with Flurry of Blows, impose one effect: "
+        + "Dex. save or knocked prone; Str save or push 15'; no reactons until end of next turn."),
+    WHOLENESS_OF_BODY(CLASS_TALENT, "Wholeness of Body",
+        "As an action, regain [$level*3]HP once between each long rest."),
+    TRANQUILITY(CLASS_TALENT, "Tranquility",
+        "At the end of a long rest, gain sanctuary. "
+        + "Attacker must make Wis. save DC[8+$wis_mod+$prof] or target another. "
+        + "Attacking ends the effect."),
+    QUIVERING_PALM(CLASS_TALENT, "Quivering Palm",
+        "Spend 3 Ki points to start vibrations that last for [$level] days. "
+        + "At end, Con. save or reduce to 0HP. Succeed on save 10d10 necrotic dam."),
+    SHADOW_ARTS(CLASS_TALENT, "Shadow Arts",
+        "Spend 2 Ki points to cast Darkness, Darkvision, Pass Without Trace or Silence."),
+    SHADOW_STEP(CLASS_TALENT, "Shadow Step",
+        "When in dim light or darkness, as a bonus action teleport up to 60'."),
+    CLOAK_OF_SHADOWS(CLASS_TALENT, "Cloak of Shadows",
+        "When in dim light or darkness, as an action become invisible."),
+    OPPORTUNIST(CLASS_TALENT, "Opportunist",
+        "As a reaction, when a creature within 5' that is hit, make a melee attack."),
+    DISCIPLE_OF_THE_ELEMENTS(CLASS_TALENT, "Disciple of the Elements",
+        "Spend up to [max($level 3:2,5:3,9:4,13:5,17:7)] Ki points to cast an elemental spell."),
+    ELEMENTAL_ATTUNEMENT(CLASS_TALENT, "Elemental Attunement",
+        "Use action to cause one effect: harmless sensory effect, "
+        + "light or extinguish a small flame, chill or warm an object, "
+        + "shape an element for 1 minute."),
+    FANGS_OF_THE_FIRE_SNAKE(CLASS_TALENT, "Fangs of the Fire Snake",
+        "Spend 1 Ki point on attack; extend unarmoured attack range by 10'. "
+        + "Spend 1 further Ki point to deal 1d10 extra fire damage."),
+    FIST_OF_FOUR_THUNDERS(CLASS_TALENT, "Fist of Four Thunders",
+        "Spend 2 Ki ponts to cast Thunderwave") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addAttribute(Spell.THUNDERWAVE);
+        }
+    },
+    FIST_OF_UNBROKEN_AIR(CLASS_TALENT, "Fist of Unbroken Air",
+        "Spend at least 2 Ki points as an action. A creature within 30' takes "
+        + "3d10 bludgeoning damage + 1d10 for each extra Ki point and "
+        + "is pushed 20 and knocked prone. Str. save for half damage only."),
+    SHAPE_OF_THE_FLOWING_RIVER(CLASS_TALENT, "Shape of the Flowing River",
+        "Spend 1 Ki point as an action. Shape water and ice within 120'."),
+    WATER_WHIP(CLASS_TALENT, "Water Whip",
+        "Spend at least 2 Ki points as an action. A creature within 30' takes "
+        + "3d10 bludgeoning damage + 1d10 for each extra Ki point and is either knocked prone "
+        + " or pulled 25' closer. Dex. save for half damage only."),
+    RUSH_OF_THE_GALE_SPIRITS(CLASS_TALENT, "Rush of the Gale Spirits",
+        "Spend 2 Ki points to cast Gust of Wind") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addAttribute(Spell.GUST_OF_WIND);
+        }
+    },
+    SWEEPING_CINDER_STRIKE(CLASS_TALENT, "Sweeping Cinder Strike",
+        "Spend 2 Ki points to cast Burning Hands") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addAttribute(Spell.BURNING_HANDS);
+        }
+    },
+    GONG_OF_THE_SUMMIT(CLASS_TALENT, "Gong of the Summit",
+        "Spend 3 Ki points to cast Shatter") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addAttribute(Spell.SHATTER);
+        }
+    },
+    CLENCH_OF_THE_NORTH_WIND(CLASS_TALENT, "Clench of the North Wind",
+        "Spend 3 Ki points to cast Hold Person") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addAttribute(Spell.HOLD_PERSON);
+        }
+    },
+    FLAMES_OF_THE_PHOENIX(CLASS_TALENT, "Flames of the Phoenix",
+        "Spend 4 Ki points to cast Fireball") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addAttribute(Spell.SHATTER);
+        }
+    },
+    MIST_STANCE(CLASS_TALENT, "Mist Stance",
+        "Spend 4 Ki points to cast Gaseous Form on self") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addAttribute(Spell.GASEOUS_FORM);
+        }
+    },
+    RIDE_THE_WIND(CLASS_TALENT, "Ride the Wind",
+        "Spend 4 Ki points to cast Fly") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addAttribute(Spell.FLY);
+        }
+    },
+    BREATH_OF_WINTER(CLASS_TALENT, "Breath of Winter",
+        "Spend 6 Ki points to cast Cone of Cold") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addAttribute(Spell.CONE_OF_COLD);
+        }
+    },
+    ENTERNAL_MOUNTAIN_DEFENCE(CLASS_TALENT, "Eternal Mountain Defence",
+        "Spend 5 Ki points to cast Stoneskin targeting self") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addAttribute(Spell.STONESKIN);
+        }
+    },
+    RIVER_OF_HUNGRY_FLAME(CLASS_TALENT, "River of Hungry Flame",
+        "Spend 5 Ki points to cast Wall of Fire") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addAttribute(Spell.WALL_OF_FIRE);
+        }
+    },
+    WAVE_OF_ROLLING_EARTH(CLASS_TALENT, "Wave of Rolling Earth",
+        "Spend 6 Ki points to cast Wall of Stone") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addAttribute(Spell.WALL_OF_STONE);
+        }
+    },
+    //
     KNOWLEDGE_OF_THE_AGES(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Knowledge of the Ages",
         "As an action, gain proficiency with one skill or tool for 10 minutes."),
     READ_THOUGHTS(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Read Thoughts",

@@ -59,7 +59,7 @@ public enum CharacterClass implements Attribute {
                 .with(EquipmentCategory.SIMPLE_RANGED));
             gen.level(1).addEquipment(EXPLORER_PACK);
             gen.level(1).addEquipment(JAVELIN, 4);
-            gen.level(1).addAttributes(RAGE, UNARMORED_DEFENCE);
+            gen.level(1).addAttributes(RAGE, UNARMORED_DEFENCE_BARBARIAN);
             gen.level(2).addAttributes(RECKLESS_ATTACK, DANGER_SENSE);
             gen.level(3).addChoice(new AttributeChoice("Primal Path", PrimalPath.values()));
             gen.level(5).addAttributes(EXTRA_ATTACK, FAST_MOVEMENT);
@@ -204,9 +204,48 @@ public enum CharacterClass implements Attribute {
             gen.level(2).addAttributes(ACTION_SURGE);
             gen.level(3).addChoice(
                 new AttributeChoice("Martial Archetype", MartialArchetype.values()));
-            gen.level(5).addAttributes(EXTRA_ATTACK);
+            gen.level(5).addAttributes(EXTRA_ATTACK_FIGHTER);
             gen.level(9).addAttributes(INDOMITABLE);
             gen.cond(levels(4, 6, 8, 12, 14, 16, 19)).addChoice(2, new AbilityScoreIncrease());
+            gen.generateChoices(character);
+        }
+    },
+    MONK(8, MONASTIC_TRADITION, STRENGTH, DEXTERITY,
+        Arrays.asList(DEXTERITY, WISDOM)) {
+        @Override
+        public void generateLevelChoices(Character character) {
+            ChoiceGenerator gen = new ChoiceGenerator();
+            gen.level(1).addWeaponProficiencies(SHORTSWORD);
+            gen.level(1).addAttributes(ALL_SIMPLE_MELEE, ALL_SIMPLE_RANGED);
+            gen.level(1).addChoice(new AttributeChoice("Tools",
+                Stream.concat(
+                    MusicalInstrument.getAllProficiencies(),
+                    Proficiency.allOfType(TOOLS))));
+            gen.level(1).addChoice(2, new AttributeChoice("Skill", ACROBATICS, ATHLETICS, HISTORY,
+                INSIGHT, RELIGION, STEALTH));
+            gen.level(1).addChoice(new EquipmentChoice("Weapon").with(SHORTSWORD)
+                .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED));
+            gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
+                DUNGEONEER_PACK, EXPLORER_PACK));
+            gen.level(1).addEquipment(DART, 10);
+            gen.level(1).addAttributes(UNARMORED_DEFENCE_MONK, MARTIAL_ARTS);
+            gen.level(2).addAttributes(KI, FLURRY_OF_BLOWS, PATIENT_DEFENCE, STEP_OF_THE_WIND,
+                UNARMOURED_MOVEMENT);
+            gen.level(3).addChoice(
+                new AttributeChoice("Monastic Tradition", MonasticTradition.values()));
+            gen.level(3).addAttributes(DEFLECT_MISSILES);
+            gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreIncrease());
+            gen.level(4).addAttributes(SLOW_FALL);
+            gen.level(5).addAttributes(EXTRA_ATTACK, STUNNING_STRIKE);
+            gen.level(6).addAttributes(KI_EMPOWERED_STRIKES);
+            gen.level(7).addAttributes(EVASION);
+            gen.level(7).addAttributes(STILLNESS_OF_MIND);
+            gen.level(10).addAttributes(PURITY_OF_BODY);
+            gen.level(13).addAttributes(TONGUE_OF_THE_SUN_AND_MOON);
+            gen.level(14).addAttributes(DIAMOND_SOUL);
+            gen.level(15).addAttributes(TIMELESS_BODY);
+            gen.level(18).addAttributes(EMPTY_BODY);
+            gen.level(20).addAttributes(PERFECT_SELF);
             gen.generateChoices(character);
         }
     },

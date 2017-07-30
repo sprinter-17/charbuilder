@@ -78,9 +78,11 @@ public enum Armour implements Equipment {
         ac += bestArmour.map(arm -> arm.armourClass).orElse(0);
         if (character.hasEquipment(SHIELD))
             ac += 2;
+        else if (!bestArmour.isPresent() && character.hasAttribute(Ability.UNARMORED_DEFENCE_MONK))
+            ac += character.getModifier(AttributeType.WISDOM);
         if (!bestArmour.isPresent() || !bestArmour.get().category.equals(HEAVY_ARMOUR))
             ac += character.getModifier(AttributeType.DEXTERITY);
-        if (!bestArmour.isPresent() && character.hasAttribute(Ability.UNARMORED_DEFENCE))
+        if (!bestArmour.isPresent() && character.hasAttribute(Ability.UNARMORED_DEFENCE_BARBARIAN))
             ac += character.getModifier(AttributeType.CONSTITUTION);
         return ac;
     }

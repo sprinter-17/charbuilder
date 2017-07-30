@@ -68,7 +68,7 @@ public class ArmourTest {
     public void testUnarmouredDefence() {
         IntAttribute constitution = new IntAttribute(AttributeType.CONSTITUTION, 10);
         character.addAttribute(constitution);
-        character.addAttribute(Ability.UNARMORED_DEFENCE);
+        character.addAttribute(Ability.UNARMORED_DEFENCE_BARBARIAN);
         assertThat(Armour.getArmourClass(character), is(10));
         constitution.setValue(14);
         assertThat(Armour.getArmourClass(character), is(12));

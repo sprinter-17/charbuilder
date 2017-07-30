@@ -42,6 +42,7 @@ public enum AttributeType {
     FIGHTING_STYLE(false, (t, c) -> Ability.valueOf(c)),
     MARTIAL_ARCHETYPE(MartialArchetype::valueOf),
     ROGUISH_ARCHETYPE(RoguishArchetype::valueOf),
+    MONASTIC_TRADITION(MonasticTradition::valueOf),
     RACIAL_TALENT(false, (t, c) -> Ability.valueOf(c)),
     CLASS_TALENT(false, (t, c) -> Ability.valueOf(c)),
     BACKGROUND_FEATURE(false, (t, c) -> Ability.valueOf(c)),
