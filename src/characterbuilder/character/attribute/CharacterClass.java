@@ -81,7 +81,7 @@ public enum CharacterClass implements Attribute {
         Arrays.asList(CHARISMA, DEXTERITY)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
-            gen.level(1).addAttributes(LIGHT_ARMOUR, ALL_SIMPLE_MELEE, ALL_SIMPLE_RANGED);
+            gen.level(1).addAttributes(LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS);
             gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
             gen.level(1).addChoice(3, new AttributeChoice("Skill", Skill.values()));
             gen.level(1).addChoice(new EquipmentChoice("Weapon", RAPIER, LONGSWORD)
@@ -138,7 +138,7 @@ public enum CharacterClass implements Attribute {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
             gen.level(1).addAttributes(LIGHT_ARMOUR, MEDIUM_ARMOUR, Proficiency.SHIELD,
-                ALL_SIMPLE_MELEE, ALL_SIMPLE_RANGED);
+                ALL_SIMPLE_WEAPONS);
             gen.level(1).addChoice(new AttributeChoice("Divine Domain", DivineDomain.values()));
             gen.level(1).addChoice(new AttributeChoice("Skill",
                 HISTORY, INSIGHT, MEDICINE, PERSUASION, RELIGION).withCount(2));
@@ -180,12 +180,18 @@ public enum CharacterClass implements Attribute {
             gen.generateChoices(character);
         }
     },
+    DRUID(8, DRUID_CIRCLE, INTELLIGENCE, WISDOM, Arrays.asList(WISDOM, CONSTITUTION)) {
+        public void generateLevelChoices(Character character) {
+            ChoiceGenerator gen = new ChoiceGenerator();
+            gen.generateChoices(character);
+        }
+    },
     FIGHTER(10, MARTIAL_ARCHETYPE, STRENGTH, CONSTITUTION,
         Arrays.asList(STRENGTH, DEXTERITY, CONSTITUTION)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
             gen.level(1).
-                addAttributes(ALL_ARMOUR, ALL_MELEE_WEAPONS, ALL_RANGED_WEAPONS, SECOND_WIND);
+                addAttributes(ALL_ARMOUR, ALL_WEAPONS, SECOND_WIND);
             gen.level(1).addChoice(new AttributeChoice("Skill",
                 ACROBATICS, ANIMAL_HANDLING, ATHLETICS, HISTORY, INSIGHT,
                 INTIMIDATION, PERCEPTION, SURVIVAL).withCount(2))
@@ -217,7 +223,7 @@ public enum CharacterClass implements Attribute {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
             gen.level(1).addWeaponProficiencies(SHORTSWORD);
-            gen.level(1).addAttributes(ALL_SIMPLE_MELEE, ALL_SIMPLE_RANGED);
+            gen.level(1).addAttributes(ALL_SIMPLE_WEAPONS);
             gen.level(1).addChoice(new AttributeChoice("Tools",
                 Stream.concat(
                     MusicalInstrument.getAllProficiencies(),
@@ -250,12 +256,23 @@ public enum CharacterClass implements Attribute {
             gen.generateChoices(character);
         }
     },
+    PALADIN(10, SACRED_OATH, WISDOM, CHARISMA, Arrays.asList(STRENGTH, CHARISMA)) {
+        public void generateLevelChoices(Character character) {
+            ChoiceGenerator gen = new ChoiceGenerator();
+            gen.generateChoices(character);
+        }
+    },
+    RANGER(10, RANGER_ARCHETYPE, STRENGTH, DEXTERITY, Arrays.asList(DEXTERITY, WISDOM)) {
+        public void generateLevelChoices(Character character) {
+            ChoiceGenerator gen = new ChoiceGenerator();
+            gen.generateChoices(character);
+        }
+    },
     ROGUE(8, ROGUISH_ARCHETYPE, DEXTERITY, INTELLIGENCE,
         Arrays.asList(DEXTERITY, INTELLIGENCE, CHARISMA)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
-            gen.level(1).addAttributes(LIGHT_ARMOUR, ALL_SIMPLE_MELEE, ALL_SIMPLE_RANGED,
-                Proficiency.THIEVES_TOOLS);
+            gen.level(1).addAttributes(LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS, Proficiency.THIEVES_TOOLS);
             gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
             gen.level(1).addAttributes(SNEAK_ATTACK, THIEVES_CANT);
             gen.level(1).
@@ -284,6 +301,18 @@ public enum CharacterClass implements Attribute {
             gen.level(18).addAttributes(ELUSIVE);
             gen.level(20).addAttributes(STROKE_OF_LUCK);
             gen.cond(levels(4, 8, 10, 12, 16, 19)).addChoice(2, new AbilityScoreIncrease());
+            gen.generateChoices(character);
+        }
+    },
+    SORCERER(6, SORCEROUS_ORIGIN, CONSTITUTION, CHARISMA, Arrays.asList(CHARISMA, CONSTITUTION)) {
+        public void generateLevelChoices(Character character) {
+            ChoiceGenerator gen = new ChoiceGenerator();
+            gen.generateChoices(character);
+        }
+    },
+    WARLOCK(8, OTHERWORLDLY_PATRON, WISDOM, CHARISMA, Arrays.asList(CHARISMA, CONSTITUTION)) {
+        public void generateLevelChoices(Character character) {
+            ChoiceGenerator gen = new ChoiceGenerator();
             gen.generateChoices(character);
         }
     },

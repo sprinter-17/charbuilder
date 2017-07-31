@@ -13,6 +13,12 @@ public enum RoguishArchetype implements Attribute {
         gen.level(9).addAttributes(SUPREME_SNEAK);
         gen.level(13).addAttributes(USE_MAGIC_DEVICES);
         gen.level(17).addAttributes(THIEFS_REFLEXES);
+    }),
+    ASSASSIN(gen -> {
+
+    }),
+    ARCANE_TRICKSTER(gen -> {
+
     });
 
     private final ChoiceGenerator generator = new ChoiceGenerator();

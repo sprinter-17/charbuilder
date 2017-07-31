@@ -1,6 +1,6 @@
 package characterbuilder.character.attribute;
 
-import static characterbuilder.character.ability.Proficiency.ALL_MELEE_WEAPONS;
+import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_WEAPONS;
 import static characterbuilder.character.attribute.AttributeType.STRENGTH;
 import static org.hamcrest.CoreMatchers.is;
@@ -42,7 +42,8 @@ public class AttributeSetTest {
     @Test
     public void testHasSuperSetAttribute() {
         attributes.addAttribute(ALL_WEAPONS);
-        assertTrue(attributes.hasAttribute(ALL_MELEE_WEAPONS));
+        assertTrue(attributes.hasAttribute(Proficiency.ALL_SIMPLE_WEAPONS));
+        assertTrue(attributes.hasAttribute(Proficiency.ALL_SIMPLE_MELEE));
     }
 
     @Test
@@ -63,5 +64,4 @@ public class AttributeSetTest {
         attributes.addAttribute(new IntAttribute(STRENGTH, 10));
         attributes.addAttribute(new IntAttribute(STRENGTH, 10));
     }
-
 }

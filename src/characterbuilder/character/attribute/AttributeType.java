@@ -46,6 +46,11 @@ public enum AttributeType {
     MARTIAL_ARCHETYPE(true, MartialArchetype::load),
     ROGUISH_ARCHETYPE(true, RoguishArchetype::load),
     MONASTIC_TRADITION(true, MonasticTradition::load),
+    DRUID_CIRCLE(true, DruidCircle::load),
+    SACRED_OATH(true, SacredOath::load),
+    RANGER_ARCHETYPE(true, RangerArchetype::load),
+    SORCEROUS_ORIGIN(true, SorcerousOrigin::load),
+    OTHERWORLDLY_PATRON(true, OtherwordlyPatron::load),
     RACIAL_TALENT(false, Ability::load),
     CLASS_TALENT(false, Ability::load),
     BACKGROUND_FEATURE(false, Ability::load),
@@ -75,9 +80,10 @@ public enum AttributeType {
     public static final List<AttributeType> ABILITY_SCORES = Arrays.asList(
         STRENGTH, DEXTERITY, CONSTITUTION, INTELLIGENCE, WISDOM, CHARISMA);
 
-    public static final List<AttributeType> ABILITIES = Arrays.asList(RACIAL_TALENT, CLASS_TALENT, DIVINE_DOMAIN_ABILITY, SKILL, SPELL, WEAPON_PROFICIENCY,
-        ARMOUR_PROFICIENCY, LANGUAGE, ARTISAN, TOOLS, FIGHTING_STYLE, SPELL_MASTERY,
-        EVOCATION_ABILITY, EXPERTISE, MUSICAL_INSTRUMENT_PROFICIENCY);
+    public static final List<AttributeType> ABILITIES = Arrays.
+        asList(RACIAL_TALENT, CLASS_TALENT, DIVINE_DOMAIN_ABILITY, SKILL, SPELL, WEAPON_PROFICIENCY,
+            ARMOUR_PROFICIENCY, LANGUAGE, ARTISAN, TOOLS, FIGHTING_STYLE, SPELL_MASTERY,
+            EVOCATION_ABILITY, EXPERTISE, MUSICAL_INSTRUMENT_PROFICIENCY);
 
     public static final List<AttributeType> PERSONALITY = Arrays.asList(
         TRAIT, FLAW, BOND, IDEAL);

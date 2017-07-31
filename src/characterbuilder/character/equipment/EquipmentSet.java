@@ -87,14 +87,20 @@ public class EquipmentSet implements Equipment {
     @Override
     public Node save(Document doc) {
         Element element = (Element) equipment.save(doc);
-        element.setAttribute("bonus", String.valueOf(bonus));
-        element.setAttribute("count", String.valueOf(count));
+        if (bonus != 0)
+            element.setAttribute("bonus", String.valueOf(bonus));
+        if (count != 1)
+            element.setAttribute("count", String.valueOf(count));
         return element;
     }
 
     public static EquipmentSet load(Equipment equipment, Element element) {
-        int bonus = Integer.valueOf(element.getAttribute("bonus"));
-        int count = Integer.valueOf(element.getAttribute("count"));
+        int bonus = 0;
+        if (element.hasAttribute("bonus"))
+            bonus = Integer.valueOf(element.getAttribute("bonus"));
+        int count = 1;
+        if (element.hasAttribute("count"))
+            count = Integer.valueOf(element.getAttribute("count"));
         return new EquipmentSet(equipment, bonus, count);
     }
 
