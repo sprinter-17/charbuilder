@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+import org.w3c.dom.Node;
 
 public enum Race implements Attribute {
     HILL_DWARF(0, 0, 2, 0, 1, 0, 25, 50, "3'8\"", "2d4", "115lb", "2d6", gen -> {
@@ -158,6 +159,10 @@ public enum Race implements Attribute {
     @Override
     public Stream<String> getDescription(Character character) {
         return generator.getDescription(character);
+    }
+
+    public static Race load(Node node) {
+        return Race.valueOf(node.getTextContent());
     }
 
 }

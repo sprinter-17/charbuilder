@@ -7,6 +7,7 @@ import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.stream.Stream;
+import org.w3c.dom.Node;
 
 public enum Ability implements Attribute {
     DARKVISION(RACIAL_TALENT, "Darkvision",
@@ -432,5 +433,9 @@ public enum Ability implements Attribute {
     @Override
     public Stream<String> getDescription(Character character) {
         return Stream.of(StringUtils.expand(description, character));
+    }
+
+    public static Ability load(AttributeType type, Node node) {
+        return Ability.valueOf(node.getTextContent());
     }
 }

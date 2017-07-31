@@ -2,9 +2,13 @@ package characterbuilder.character.equipment;
 
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class EquipmentSet implements Equipment {
 
@@ -73,18 +77,25 @@ public class EquipmentSet implements Equipment {
     }
 
     public Value getValue() {
-        if (equipment.getCategory().equals(EquipmentCategory.TREASURE))
-            return equipment.getValue().times(count);
-        else
-            return Value.ZERO;
+        return equipment.getValue().times(count);
     }
 
     public Weight getWeight() {
         return equipment.getWeight().times(count);
     }
 
-    public String encode() {
-        return equipment.encode();
+    @Override
+    public Node save(Document doc) {
+        Element element = (Element) equipment.save(doc);
+        element.setAttribute("bonus", String.valueOf(bonus));
+        element.setAttribute("count", String.valueOf(count));
+        return element;
+    }
+
+    public static EquipmentSet load(Equipment equipment, Element element) {
+        int bonus = Integer.valueOf(element.getAttribute("bonus"));
+        int count = Integer.valueOf(element.getAttribute("count"));
+        return new EquipmentSet(equipment, bonus, count);
     }
 
     public static EquipmentSet decode(String code) {
@@ -106,6 +117,25 @@ public class EquipmentSet implements Equipment {
             return equipment.toString();
         else
             return count + " " + equipment.toString() + "s";
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.equipment);
+        hash = 71 * hash + this.bonus;
+        hash = 71 * hash + this.count;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        final EquipmentSet other = (EquipmentSet) obj;
+        return this.bonus == other.bonus
+            && this.count == other.count
+            && this.equipment.equals(other.equipment);
     }
 
 }

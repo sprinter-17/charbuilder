@@ -1,7 +1,7 @@
 package characterbuilder.ui;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.CharacterSaver;
+import characterbuilder.character.saveload.CharacterSaver;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import java.awt.BorderLayout;

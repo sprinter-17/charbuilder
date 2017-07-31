@@ -2,6 +2,7 @@ package characterbuilder.character.equipment;
 
 import static characterbuilder.character.attribute.Value.gp;
 import characterbuilder.character.attribute.Weight;
+import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
@@ -18,7 +19,7 @@ public class CustomTreasureTest {
 
     @Test
     public void testGetCategory() {
-        assertThat(treasure.getCategory(), is(EquipmentCategory.TREASURE));
+        assertThat(treasure.getCategory(), is(EquipmentCategory.CUSTOM_TREASURE));
     }
 
     @Test
@@ -37,8 +38,8 @@ public class CustomTreasureTest {
     }
 
     @Test
-    public void testEncodeDecode() {
-        assertThat(CustomTreasure.decode(treasure.encode()), is(treasure));
+    public void testSaveLoad() {
+        assertThat(EquipmentCategory.load(treasure.save(TestDoc.doc())), is(treasure));
     }
 
     @Test

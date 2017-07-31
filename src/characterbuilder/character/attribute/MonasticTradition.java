@@ -7,6 +7,7 @@ import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
+import org.w3c.dom.Node;
 
 public enum MonasticTradition implements Attribute {
     WAY_OF_THE_OPEN_HAND(gen -> {
@@ -64,5 +65,9 @@ public enum MonasticTradition implements Attribute {
     @Override
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
+    }
+
+    public static MonasticTradition load(Node node) {
+        return MonasticTradition.valueOf(node.getTextContent());
     }
 }

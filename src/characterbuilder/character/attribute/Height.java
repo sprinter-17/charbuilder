@@ -4,6 +4,8 @@ import characterbuilder.utils.StringUtils;
 import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 public class Height implements Comparable<Height>, Attribute {
 
@@ -71,6 +73,17 @@ public class Height implements Comparable<Height>, Attribute {
         return obj != null
             && getClass() == obj.getClass()
             && ((Height) obj).inches == this.inches;
+    }
+
+    @Override
+    public Node save(Document doc) {
+        Node node = getType().save(doc);
+        node.setTextContent(String.valueOf(inches));
+        return node;
+    }
+
+    public static Height load(Node node) {
+        return new Height(Integer.valueOf(node.getTextContent()));
     }
 
     public String encode() {

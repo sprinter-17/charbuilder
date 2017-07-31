@@ -4,6 +4,7 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.utils.StringUtils;
+import org.w3c.dom.Node;
 
 public enum Skill implements Attribute {
     PERCEPTION(WISDOM),
@@ -42,6 +43,10 @@ public enum Skill implements Attribute {
 
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
+    }
+
+    public static Skill load(AttributeType type, Node node) {
+        return Skill.valueOf(node.getTextContent());
     }
 
 }

@@ -14,6 +14,7 @@ import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
+import org.w3c.dom.Node;
 
 public enum Armour implements Equipment {
     //
@@ -63,11 +64,6 @@ public enum Armour implements Equipment {
     }
 
     @Override
-    public String encode() {
-        return name();
-    }
-
-    @Override
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
     }
@@ -92,5 +88,9 @@ public enum Armour implements Equipment {
             .filter(arm -> !arm.equals(SHIELD))
             .filter(character::hasEquipment)
             .max(Comparator.comparing(arm -> arm.armourClass));
+    }
+
+    public static Armour load(Node node) {
+        return Armour.valueOf(node.getTextContent());
     }
 }

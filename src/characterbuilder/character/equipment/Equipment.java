@@ -6,6 +6,8 @@ import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.choice.Option;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 public interface Equipment extends Option {
 
@@ -40,5 +42,15 @@ public interface Equipment extends Option {
 
     Value getValue();
 
-    String encode();
+    @Override
+    public default Node save(Document doc) {
+        if (this instanceof Enum) {
+            Node node = doc.createElement(getCategory().name());
+            node.setTextContent(((Enum) this).name());
+            return node;
+
+        } else {
+            throw new AbstractMethodError("object " + getClass().getName() + " does not have save");
+        }
+    }
 }

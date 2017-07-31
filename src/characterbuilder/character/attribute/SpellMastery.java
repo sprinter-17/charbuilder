@@ -1,6 +1,11 @@
 package characterbuilder.character.attribute;
 
 import characterbuilder.character.ability.Spell;
+import static characterbuilder.character.saveload.Savable.child;
+import static characterbuilder.character.saveload.Savable.text;
+import java.util.Objects;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 public class SpellMastery implements Attribute {
 
@@ -23,12 +28,31 @@ public class SpellMastery implements Attribute {
     }
 
     @Override
-    public String encode() {
-        return name + ":" + spell.name();
+    public Node save(Document doc) {
+        Node node = getType().save(doc);
+        node.appendChild(doc.createTextNode(name));
+        node.appendChild(spell.save(doc));
+        return node;
     }
 
-    public static SpellMastery decode(AttributeType type, String code) {
-        String[] components = code.split(":");
-        return new SpellMastery(components[0], Spell.valueOf(components[1]));
+    public static SpellMastery load(AttributeType type, Node node) {
+        return new SpellMastery(text(node), Spell.load(child(node)));
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 61 * hash + Objects.hashCode(this.name);
+        hash = 61 * hash + Objects.hashCode(this.spell);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null
+            && obj.getClass() == getClass()
+            && ((SpellMastery) obj).name.equals(name)
+            && ((SpellMastery) obj).spell.equals(spell);
+    }
+
 }

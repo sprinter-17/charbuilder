@@ -2,7 +2,9 @@ package characterbuilder.character.ability;
 
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import java.util.Objects;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class Expertise implements Attribute {
 
@@ -23,33 +25,30 @@ public class Expertise implements Attribute {
 
     @Override
     public String toString() {
-        return attribute.toString();
+        return "Expertise in " + attribute.toString();
     }
 
     @Override
-    public String encode() {
-        return attribute.getType().name() + ":" + attribute.encode();
+    public Node save(Document doc) {
+        Element element = getType().save(doc);
+        element.appendChild(attribute.save(doc));
+        return element;
     }
 
-    public static Expertise valueOf(String code) {
-        String[] components = code.split(":");
-        AttributeType type = AttributeType.valueOf(components[0]);
-        return new Expertise(type.decode(components[1]));
+    public static Expertise load(AttributeType type, Node node) {
+        return new Expertise(AttributeType.load(node.getFirstChild()));
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 73 * hash + Objects.hashCode(this.attribute);
-        return hash;
+        return attribute.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-        else
-            return this.attribute.equals(((Expertise) obj).attribute);
+        return obj != null
+            && getClass() == obj.getClass()
+            && this.attribute.equals(((Expertise) obj).attribute);
     }
 
 }

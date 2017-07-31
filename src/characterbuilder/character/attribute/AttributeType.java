@@ -13,61 +13,63 @@ import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public enum AttributeType {
-    NAME(true, StringAttribute::new),
-    RACE(Race::valueOf),
-    CHARACTER_CLASS(CharacterClass::valueOf),
-    BACKGROUND(Background::valueOf),
-    STRENGTH(true, IntAttribute::decode),
-    DEXTERITY(true, IntAttribute::decode),
-    CONSTITUTION(true, IntAttribute::decode),
-    INTELLIGENCE(true, IntAttribute::decode),
-    WISDOM(true, IntAttribute::decode),
-    CHARISMA(true, IntAttribute::decode),
-    ALIGNMENT(Alignment::valueOf),
-    EXPERIENCE_POINTS(true, IntAttribute::decode),
-    LEVEL(true, IntAttribute::decode),
-    HIT_POINTS(true, IntAttribute::decode),
-    SEX(Sex::valueOf),
-    AGE(true, IntAttribute::decode),
-    HEIGHT(Height::decode),
-    WEIGHT(Weight::decode),
-    PHYSICAL_DESCRIPTION(true, StringAttribute::new),
-    TRAIT(false, StringAttribute::new),
-    IDEAL(false, StringAttribute::new),
-    BOND(false, StringAttribute::new),
-    FLAW(false, StringAttribute::new),
-    DRACONIC_ANCESTORY(DraconicAncestory::valueOf),
-    FIGHTING_STYLE(false, (t, c) -> Ability.valueOf(c)),
-    MARTIAL_ARCHETYPE(MartialArchetype::valueOf),
-    ROGUISH_ARCHETYPE(RoguishArchetype::valueOf),
-    MONASTIC_TRADITION(MonasticTradition::valueOf),
-    RACIAL_TALENT(false, (t, c) -> Ability.valueOf(c)),
-    CLASS_TALENT(false, (t, c) -> Ability.valueOf(c)),
-    BACKGROUND_FEATURE(false, (t, c) -> Ability.valueOf(c)),
-    SPELL_MASTERY(false, SpellMastery::decode),
-    ARCANE_TRADITION(MagicSchool::valueOf),
-    PRIMAL_PATH(PrimalPath::valueOf),
-    BARDIC_COLLEGE(BardicCollege::valueOf),
-    EVOCATION_ABILITY(false, (t, c) -> Ability.valueOf(c)),
-    DIVINE_DOMAIN(DivineDomain::valueOf),
-    DIVINE_DOMAIN_ABILITY(false, (t, c) -> Ability.valueOf(c)),
-    SKILL(false, (t, c) -> Skill.valueOf(c)),
-    EXPERTISE(false, (t, c) -> Expertise.valueOf(c)),
-    SPELL(false, (t, c) -> Spell.valueOf(c)),
-    WEAPON_PROFICIENCY(false, (t, c)
-        -> c.startsWith("ALL") ? Proficiency.valueOf(c) : Weapon.valueOf(c).getProficiency()),
-    MUSICAL_INSTRUMENT(false, (t, c) -> MusicalInstrument.valueOf(c).getProficiency()),
-    ARMOUR_PROFICIENCY(false, (t, c) -> Proficiency.valueOf(c)),
-    LANGUAGE(false, (t, c) -> Proficiency.valueOf(c)),
-    ARTISAN(false, (t, c) -> Proficiency.valueOf(c)),
-    TOOLS(false, (t, c) -> Proficiency.valueOf(c));
+    NAME(true, StringAttribute::load),
+    RACE(true, Race::load),
+    CHARACTER_CLASS(true, CharacterClass::load),
+    BACKGROUND(true, Background::load),
+    STRENGTH(true, IntAttribute::load),
+    DEXTERITY(true, IntAttribute::load),
+    CONSTITUTION(true, IntAttribute::load),
+    INTELLIGENCE(true, IntAttribute::load),
+    WISDOM(true, IntAttribute::load),
+    CHARISMA(true, IntAttribute::load),
+    ALIGNMENT(true, Alignment::load),
+    EXPERIENCE_POINTS(true, IntAttribute::load),
+    LEVEL(true, IntAttribute::load),
+    HIT_POINTS(true, IntAttribute::load),
+    SEX(true, Sex::load),
+    AGE(true, IntAttribute::load),
+    HEIGHT(true, Height::load),
+    WEIGHT(true, Weight::load),
+    PHYSICAL_DESCRIPTION(true, StringAttribute::load),
+    TRAIT(false, StringAttribute::load),
+    IDEAL(false, StringAttribute::load),
+    BOND(false, StringAttribute::load),
+    FLAW(false, StringAttribute::load),
+    DRACONIC_ANCESTORY(true, DraconicAncestory::load),
+    FIGHTING_STYLE(false, Ability::load),
+    MARTIAL_ARCHETYPE(true, MartialArchetype::load),
+    ROGUISH_ARCHETYPE(true, RoguishArchetype::load),
+    MONASTIC_TRADITION(true, MonasticTradition::load),
+    RACIAL_TALENT(false, Ability::load),
+    CLASS_TALENT(false, Ability::load),
+    BACKGROUND_FEATURE(false, Ability::load),
+    SPELL_MASTERY(false, SpellMastery::load),
+    ARCANE_TRADITION(true, MagicSchool::load),
+    PRIMAL_PATH(true, PrimalPath::load),
+    BARDIC_COLLEGE(true, BardicCollege::load),
+    EVOCATION_ABILITY(false, Ability::load),
+    DIVINE_DOMAIN(true, DivineDomain::load),
+    DIVINE_DOMAIN_ABILITY(false, Ability::load),
+    SKILL(false, Skill::load),
+    EXPERTISE(false, Expertise::load),
+    SPELL(false, Spell::load),
+    WEAPON_PROFICIENCY(false, Weapon::loadProficiency),
+    MUSICAL_INSTRUMENT(false, MusicalInstrument::loadProficiency),
+    ARMOUR_PROFICIENCY(false, Proficiency::load),
+    LANGUAGE(false, Proficiency::load),
+    ARTISAN(false, Proficiency::load),
+    TOOLS(false, Proficiency::load);
 
     @FunctionalInterface
-    private interface Decoder {
+    private interface Loader {
 
-        Attribute decode(AttributeType type, String code);
+        Attribute load(AttributeType type, Node node);
     }
 
     public static final List<AttributeType> ABILITY_SCORES = Arrays.asList(
@@ -82,15 +84,15 @@ public enum AttributeType {
         TRAIT, FLAW, BOND, IDEAL);
 
     private final boolean unique;
-    private final Decoder decoder;
+    private final Loader loader;
 
-    private AttributeType(Function<String, Attribute> decoder) {
-        this(true, (type, code) -> decoder.apply(code));
+    private AttributeType(boolean unique, Function<Node, Attribute> loader) {
+        this(unique, (t, n) -> loader.apply(n));
     }
 
-    private AttributeType(boolean unique, Decoder decoder) {
+    private AttributeType(boolean unique, Loader loader) {
         this.unique = unique;
-        this.decoder = decoder;
+        this.loader = loader;
     }
 
     public boolean isTypeOfAttribute(Attribute attribute) {
@@ -101,8 +103,13 @@ public enum AttributeType {
         return unique;
     }
 
-    public Attribute decode(String code) {
-        return decoder.decode(this, code);
+    public Element save(Document doc) {
+        return doc.createElement(name().toLowerCase());
+    }
+
+    public static Attribute load(Node node) {
+        AttributeType type = AttributeType.valueOf(node.getNodeName().toUpperCase());
+        return type.loader.load(type, node);
     }
 
     public String toString() {

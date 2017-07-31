@@ -1,11 +1,15 @@
 package characterbuilder.character.attribute;
 
+import characterbuilder.character.saveload.Savable;
+import static characterbuilder.character.saveload.Savable.text;
 import characterbuilder.utils.StringUtils;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
-public class Value {
+public class Value implements Savable {
 
     public static final Value ZERO = new Value(0);
     public static final Value CP = new Value(1);
@@ -82,6 +86,17 @@ public class Value {
             .map(Integer::valueOf)
             .map(unit::times)
             .orElse(ZERO);
+    }
+
+    @Override
+    public Node save(Document doc) {
+        Node node = doc.createElement("value");
+        node.setTextContent(String.valueOf(cpAmount));
+        return node;
+    }
+
+    public static Value load(Node node) {
+        return new Value(Integer.valueOf(text(node)));
     }
 
     @Override

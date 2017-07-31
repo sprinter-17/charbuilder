@@ -2,6 +2,7 @@ package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Spell;
+import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -31,10 +32,9 @@ public class SpellMasteryTest {
     }
 
     @Test
-    public void testEncodeDecode() {
+    public void testSaveAndLoad() {
         mastery = new SpellMastery("Test", Spell.HEAL);
-        mastery = SpellMastery.decode(AttributeType.SPELL_MASTERY, mastery.encode());
-        assertThat(mastery.toString(), is("Test Heal"));
+        assertThat(AttributeType.load(mastery.save(TestDoc.doc())), is(mastery));
     }
 
 }

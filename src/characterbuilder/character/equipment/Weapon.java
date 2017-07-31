@@ -1,6 +1,7 @@
 package characterbuilder.character.equipment;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.WeaponProficiency;
 import characterbuilder.character.attribute.Attribute;
 import static characterbuilder.character.attribute.AttributeType.DEXTERITY;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import org.w3c.dom.Node;
 
 public enum Weapon implements Equipment {
 
@@ -144,9 +146,15 @@ public enum Weapon implements Equipment {
         return proficiency;
     }
 
-    @Override
-    public String encode() {
-        return name();
+    public static Weapon load(EquipmentCategory category, Node node) {
+        return Weapon.valueOf(node.getTextContent());
+    }
+
+    public static Attribute loadProficiency(Node node) {
+        if (node.getTextContent().startsWith("ALL"))
+            return Proficiency.load(node);
+        else
+            return load(null, node).getProficiency();
     }
 
     @Override

@@ -2,6 +2,7 @@ package characterbuilder.character.attribute;
 
 import characterbuilder.utils.StringUtils;
 import java.util.EnumSet;
+import org.w3c.dom.Node;
 
 public enum Alignment implements Attribute {
     LAWFUL_GOOD,
@@ -17,11 +18,6 @@ public enum Alignment implements Attribute {
     @Override
     public AttributeType getType() {
         return AttributeType.ALIGNMENT;
-    }
-
-    @Override
-    public String encode() {
-        return name();
     }
 
     @Override
@@ -48,6 +44,10 @@ public enum Alignment implements Attribute {
     public boolean isNeutral() {
         return EnumSet.of(LAWFUL_NEUTRAL, CAOTIC_NEUTRAL, NEUTRAL_EVIL, NEUTRAL_GOOD, NEUTRAL)
             .contains(this);
+    }
+
+    public static Alignment load(Node node) {
+        return valueOf(node.getTextContent());
     }
 
 }

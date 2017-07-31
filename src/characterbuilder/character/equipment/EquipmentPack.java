@@ -73,11 +73,6 @@ public enum EquipmentPack implements Equipment {
     }
 
     @Override
-    public String encode() {
-        return "PACK:" + name();
-    }
-
-    @Override
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
     }

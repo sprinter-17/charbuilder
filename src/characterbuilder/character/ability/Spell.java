@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import org.w3c.dom.Node;
 
 public enum Spell implements Attribute {
     ACID_SPLASH(CONJURATION, 0, "1 action", "60'", "1-2 creatures", "V,S", "-",
@@ -318,5 +319,9 @@ public enum Spell implements Attribute {
             "area of effect " + area,
             "duration " + duration,
             "effect " + getEffect(character));
+    }
+
+    public static Spell load(Node node) {
+        return Spell.valueOf(node.getTextContent());
     }
 }

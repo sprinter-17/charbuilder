@@ -10,6 +10,7 @@ import static characterbuilder.character.equipment.EquipmentCategory.MUSICAL_INS
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.stream.Stream;
+import org.w3c.dom.Node;
 
 public enum MusicalInstrument implements Equipment {
     BAGPIPES(gp(30), lb(6)),
@@ -32,11 +33,6 @@ public enum MusicalInstrument implements Equipment {
         @Override
         public AttributeType getType() {
             return AttributeType.MUSICAL_INSTRUMENT;
-        }
-
-        @Override
-        public String encode() {
-            return MusicalInstrument.this.encode();
         }
 
         @Override
@@ -75,12 +71,15 @@ public enum MusicalInstrument implements Equipment {
     }
 
     @Override
-    public String encode() {
-        return name();
-    }
-
-    @Override
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
+    }
+
+    public static MusicalInstrument load(Node node) {
+        return MusicalInstrument.valueOf(node.getTextContent());
+    }
+
+    public static Attribute loadProficiency(Node node) {
+        return MusicalInstrument.valueOf(node.getTextContent()).proficiency;
     }
 }

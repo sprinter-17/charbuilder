@@ -2,10 +2,8 @@ package characterbuilder.character.ability;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.Background;
-import characterbuilder.character.attribute.CharacterClass;
 import characterbuilder.character.attribute.IntAttribute;
-import characterbuilder.character.attribute.Race;
+import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
@@ -21,9 +19,13 @@ public class SpellTest {
         assertThat(Spell.ACID_SPLASH.getEffect(level(11)), is("3d6 acid damage (Dex save half)"));
     }
 
+    @Test
+    public void testSaveAndLoad() {
+        assertThat(AttributeType.load(Spell.BLUR.save(TestDoc.doc())), is(Spell.BLUR));
+    }
+
     private Character level(int level) {
         Character character = new Character();
-        character.addAttributes(Race.HUMAN, CharacterClass.WIZARD, Background.SAGE);
         character.addAttribute(new IntAttribute(AttributeType.LEVEL, level));
         return character;
     }

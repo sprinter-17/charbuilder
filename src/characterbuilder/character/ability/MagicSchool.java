@@ -11,6 +11,7 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
+import org.w3c.dom.Node;
 
 public enum MagicSchool implements Attribute {
     ABJURATION(gen -> {
@@ -60,5 +61,9 @@ public enum MagicSchool implements Attribute {
     @Override
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
+    }
+
+    public static MagicSchool load(Node node) {
+        return MagicSchool.valueOf(node.getTextContent());
     }
 }

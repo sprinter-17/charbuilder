@@ -9,6 +9,7 @@ import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.w3c.dom.Node;
 
 public enum EquipmentType implements Equipment {
     COPPER_PIECE(TREASURE, cp(1), Weight.ZERO),
@@ -145,12 +146,12 @@ public enum EquipmentType implements Equipment {
     }
 
     @Override
-    public String encode() {
-        return name();
-    }
-
-    @Override
     public String toString() {
         return name.orElse(StringUtils.capitaliseEnumName(name()));
     }
+
+    public static EquipmentType load(Node node) {
+        return EquipmentType.valueOf(node.getTextContent());
+    }
+
 }

@@ -6,6 +6,7 @@ import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
+import org.w3c.dom.Node;
 
 public enum MartialArchetype implements Attribute {
 
@@ -36,6 +37,10 @@ public enum MartialArchetype implements Attribute {
     @Override
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
+    }
+
+    public static MartialArchetype load(Node node) {
+        return MartialArchetype.valueOf(node.getTextContent());
     }
 
 }

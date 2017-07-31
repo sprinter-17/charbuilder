@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 import static java.util.stream.Collectors.joining;
 import java.util.stream.Stream;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 public class EquipmentChoice extends OptionChoice {
 
@@ -48,7 +50,7 @@ public class EquipmentChoice extends OptionChoice {
         }
 
         @Override
-        public String encode() {
+        public Node save(Document doc) {
             throw new UnsupportedOperationException("Multi equipment for selection only");
         }
 

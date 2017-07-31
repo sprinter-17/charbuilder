@@ -3,6 +3,8 @@ package characterbuilder.character.attribute;
 import characterbuilder.character.Character;
 import characterbuilder.character.choice.Option;
 import java.util.Optional;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 public interface Attribute extends Option {
 
@@ -10,14 +12,6 @@ public interface Attribute extends Option {
 
     default public boolean hasType(AttributeType type) {
         return getType().equals(type);
-    }
-
-    default String encode() {
-        if (this instanceof Enum)
-            return ((Enum) this).name();
-        else
-            throw new AbstractMethodError("No encode method for Attribute class "
-                + getClass().getName());
     }
 
     default boolean isVisible() {
@@ -38,6 +32,18 @@ public interface Attribute extends Option {
 
     default void generateLevelChoices(Character character) {
 
+    }
+
+    @Override
+    default Node save(Document doc) {
+        if (this instanceof Enum) {
+            Node node = getType().save(doc);
+            node.setTextContent(((Enum) this).name());
+            return node;
+        } else {
+            throw new AbstractMethodError("No encode method for Attribute class "
+                + getClass().getName());
+        }
     }
 
     @Override

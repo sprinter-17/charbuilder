@@ -6,6 +6,7 @@ import characterbuilder.character.ability.Spell;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import java.util.function.Supplier;
+import org.w3c.dom.Node;
 
 public enum PrimalPath implements Attribute {
     PATH_OF_THE_BESERKER("Path of the Beserker", () -> {
@@ -50,5 +51,9 @@ public enum PrimalPath implements Attribute {
     @Override
     public String toString() {
         return name;
+    }
+
+    public static PrimalPath load(Node node) {
+        return PrimalPath.valueOf(node.getTextContent());
     }
 }

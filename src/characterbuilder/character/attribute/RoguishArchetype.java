@@ -5,6 +5,7 @@ import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
+import org.w3c.dom.Node;
 
 public enum RoguishArchetype implements Attribute {
     THIEF(gen -> {
@@ -33,6 +34,10 @@ public enum RoguishArchetype implements Attribute {
     @Override
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
+    }
+
+    public static RoguishArchetype load(Node node) {
+        return RoguishArchetype.valueOf(node.getTextContent());
     }
 
 }

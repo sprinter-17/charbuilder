@@ -4,6 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.ability.Ability;
 import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
+import org.w3c.dom.Node;
 
 public enum DraconicAncestory implements Attribute {
     BLACK("Acid, 5x30' line, Dex. save"),
@@ -45,6 +46,10 @@ public enum DraconicAncestory implements Attribute {
     @Override
     public Stream<String> getDescription(Character character) {
         return Stream.of("Breath " + breathWeapon);
+    }
+
+    public static DraconicAncestory load(Node node) {
+        return DraconicAncestory.valueOf(node.getTextContent());
     }
 
 }

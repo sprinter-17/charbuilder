@@ -1,5 +1,6 @@
 package characterbuilder.character.attribute;
 
+import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -35,9 +36,7 @@ public class ValueTest {
     }
 
     @Test
-    public void testEncodeDecode() throws Exception {
-        for (Value v = Value.ZERO; !v.isGreaterThan(Value.cp(600)); v = v.add(Value.cp(7))) {
-            assertThat(Value.valueOf(v.toString()), is(v));
-        }
+    public void testSaveAndLoad() {
+        assertThat(Value.load(Value.sp(372).save(TestDoc.doc())), is(Value.sp(372)));
     }
 }

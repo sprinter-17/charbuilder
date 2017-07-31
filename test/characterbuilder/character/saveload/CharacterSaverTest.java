@@ -1,5 +1,6 @@
-package characterbuilder.character;
+package characterbuilder.character.saveload;
 
+import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.DARKVISION;
 import characterbuilder.character.ability.DivineDomain;
 import static characterbuilder.character.ability.Proficiency.COMMON;
@@ -17,6 +18,7 @@ import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.equipment.EquipmentSet;
 import static characterbuilder.character.equipment.EquipmentType.BASKET;
+import characterbuilder.character.equipment.Token;
 import static characterbuilder.character.equipment.Weapon.WHIP;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -122,6 +124,13 @@ public class CharacterSaverTest {
         character.addEquipment(new EquipmentSet(WHIP, 5));
         saveAndLoad();
         assertThat(character.getInventoryWeight(), is(WHIP.getWeight().times(5)));
+    }
+
+    @Test
+    public void testToken() {
+        character.addEquipment(new Token("Test Token"));
+        saveAndLoad();
+        assertTrue(character.hasEquipment(new Token("Test Token")));
     }
 
     @Test

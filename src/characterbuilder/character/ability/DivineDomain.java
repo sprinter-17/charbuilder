@@ -10,6 +10,7 @@ import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
+import org.w3c.dom.Node;
 
 public enum DivineDomain implements Attribute {
     KNOWLEDGE(gen -> {
@@ -75,6 +76,10 @@ public enum DivineDomain implements Attribute {
     @Override
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
+    }
+
+    public static DivineDomain load(Node node) {
+        return DivineDomain.valueOf(node.getTextContent());
     }
 
 }

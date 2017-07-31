@@ -4,6 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
@@ -80,6 +81,11 @@ public class ArmourTest {
         assertThat(Armour.getArmourClass(character), is(18));
         character.addEquipment(Armour.LEATHER_ARMOUR);
         assertThat(Armour.getArmourClass(character), is(15));
+    }
+
+    @Test
+    public void testSaveAndLoad() {
+        assertThat(EquipmentCategory.load(Armour.SHIELD.save(TestDoc.doc())), is(Armour.SHIELD));
     }
 
 }

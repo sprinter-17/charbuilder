@@ -18,6 +18,7 @@ import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Token;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
+import org.w3c.dom.Node;
 
 public enum Background implements Attribute {
     ACOLYTE(gen
@@ -125,5 +126,9 @@ public enum Background implements Attribute {
     @Override
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
+    }
+
+    public static Background load(Node node) {
+        return Background.valueOf(node.getTextContent());
     }
 }

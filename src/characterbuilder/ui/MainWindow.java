@@ -2,7 +2,7 @@ package characterbuilder.ui;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
-import characterbuilder.character.CharacterSaver;
+import characterbuilder.character.saveload.CharacterSaver;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.InitialChoiceGenerator;
 import characterbuilder.sheet.CharacterSheet;

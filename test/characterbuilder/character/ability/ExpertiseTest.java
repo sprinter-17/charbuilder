@@ -1,6 +1,7 @@
 package characterbuilder.character.ability;
 
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -27,7 +28,7 @@ public class ExpertiseTest {
     }
 
     @Test
-    public void testEncodeDecode() {
-        assertTrue(Expertise.valueOf(expertise.encode()).isFor(Skill.ARCANA));
+    public void testSaveLoad() {
+        assertThat(AttributeType.load(expertise.save(TestDoc.doc())), is(expertise));
     }
 }

@@ -4,6 +4,8 @@ import characterbuilder.utils.StringUtils;
 import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 public class Weight implements Comparable<Weight>, Attribute {
 
@@ -85,12 +87,15 @@ public class Weight implements Comparable<Weight>, Attribute {
             throw new WeightFormatException(text);
     }
 
-    public String encode() {
-        return String.valueOf(ounces);
+    @Override
+    public Node save(Document doc) {
+        Node node = getType().save(doc);
+        node.setTextContent(String.valueOf(ounces));
+        return node;
     }
 
-    public static Weight decode(String code) {
-        return new Weight(Integer.valueOf(code));
+    public static Weight load(Node node) {
+        return new Weight(Integer.valueOf(node.getTextContent()));
     }
 
     @Override

@@ -1,15 +1,13 @@
-package characterbuilder.character;
+package characterbuilder.character.saveload;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
-import characterbuilder.character.equipment.EquipmentSet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -44,9 +42,7 @@ public class CharacterSaver {
     }
 
     private void saveAttributes(Character character, Node node) {
-        character.getAllAttributes()
-            .forEach(attr -> node.appendChild(
-            element(attr.getType().name().toLowerCase(), attr.encode())));
+        character.getAllAttributes().forEach(attr -> node.appendChild(attr.save(doc)));
     }
 
     private Element element(String tag, String value) {
@@ -57,21 +53,14 @@ public class CharacterSaver {
 
     private void saveEquipment(Character character, Node node) {
         character.getInventory()
-            .collect(Collectors.groupingBy(Equipment::getCategory))
-            .forEach((cat, eql) -> {
-                Node catNode = node.appendChild(element(cat.name().toLowerCase(), null));
-                eql.forEach(eq -> {
-                    Element equipmentNode = element(eq.getBaseEquipment().encode().toLowerCase(), null);
-                    catNode.appendChild(equipmentNode);
-                    if (eq.getCount() > 1)
-                        equipmentNode.setAttribute("count", String.valueOf(eq.getCount()));
-                });
-            });
+            .map(eq -> eq.save(doc))
+            .forEach(node::appendChild);
     }
 
     private void writeDocument(Document doc, OutputStream output) {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformerFactory.setAttribute("indent-number", 4);
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(doc);
@@ -114,8 +103,7 @@ public class CharacterSaver {
         for (Node child = attributesNode.getFirstChild(); child != null;
             child = child.getNextSibling()) {
             if (child.getNodeType() == Node.ELEMENT_NODE) {
-                AttributeType type = AttributeType.valueOf(child.getNodeName().toUpperCase());
-                character.addAttribute(type.decode(child.getTextContent()));
+                character.addAttribute(AttributeType.load(child));
             }
         }
     }
@@ -123,23 +111,8 @@ public class CharacterSaver {
     private void loadEquipment(Character character, Node equipmentNode) {
         for (Node child = equipmentNode.getFirstChild(); child != null;
             child = child.getNextSibling()) {
-            if (child.getNodeType() == Node.ELEMENT_NODE) {
-                loadEquipmentCategory(character, child);
-            }
-        }
-    }
-
-    private void loadEquipmentCategory(Character character, Node equipmentCategoryNode) {
-        EquipmentCategory category = EquipmentCategory.valueOf(equipmentCategoryNode.getNodeName().toUpperCase());
-        for (Node child = equipmentCategoryNode.getFirstChild(); child != null;
-            child = child.getNextSibling()) {
-            if (child.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) child;
-                Equipment equipment = category.decode(element.getNodeName().toUpperCase());
-                if (element.hasAttribute("count"))
-                    equipment = new EquipmentSet(equipment, Integer.valueOf(element.getAttribute("count")));
-                character.addEquipment(equipment);
-            }
+            if (child.getNodeType() == Node.ELEMENT_NODE)
+                character.addEquipment(EquipmentCategory.load(child));
         }
     }
 }

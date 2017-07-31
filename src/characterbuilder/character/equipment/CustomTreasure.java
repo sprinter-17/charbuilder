@@ -2,9 +2,11 @@ package characterbuilder.character.equipment;
 
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
+import static characterbuilder.character.saveload.Savable.text;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class CustomTreasure implements Equipment {
 
@@ -20,7 +22,7 @@ public class CustomTreasure implements Equipment {
 
     @Override
     public EquipmentCategory getCategory() {
-        return EquipmentCategory.TREASURE;
+        return EquipmentCategory.CUSTOM_TREASURE;
     }
 
     @Override
@@ -39,24 +41,20 @@ public class CustomTreasure implements Equipment {
     }
 
     @Override
-    public String encode() {
-        return "CUSTOM" + description + "VAL" + value.toString() + "WT" + weight.encode();
+    public Node save(Document doc) {
+        Node node = getCategory().save(doc);
+        node.appendChild(value.save(doc));
+        node.appendChild(weight.save(doc));
+        node.appendChild(doc.createElement("description")).setTextContent(description);
+        return node;
     }
 
-    public static CustomTreasure decode(String code) {
-        final Pattern pattern = Pattern.compile("CUSTOM(.*)VAL(.*)WT(.*)");
-        Matcher matcher = pattern.matcher(code);
-        if (matcher.matches()) {
-            try {
-                String description = matcher.group(1);
-                Value value = Value.valueOf(matcher.group(2));
-                Weight weight = Weight.decode(matcher.group(3));
-                return new CustomTreasure(description, value, weight);
-            } catch (Value.ValueFormatException ex) {
-                throw new IllegalArgumentException(ex);
-            }
-        }
-        throw new IllegalArgumentException(code + " is not a valid custom treasure encoding");
+    public static CustomTreasure load(EquipmentCategory category, Node node) {
+        Element element = (Element) node;
+        Node valueNode = element.getFirstChild();
+        Node weightNode = valueNode.getNextSibling();
+        Node descNode = weightNode.getNextSibling();
+        return new CustomTreasure(text(descNode), Value.load(valueNode), Weight.load(weightNode));
     }
 
     @Override

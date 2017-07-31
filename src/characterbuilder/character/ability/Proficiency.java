@@ -7,6 +7,7 @@ import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.w3c.dom.Node;
 
 public enum Proficiency implements Attribute {
     ALL_WEAPONS(WEAPON_PROFICIENCY),
@@ -91,5 +92,9 @@ public enum Proficiency implements Attribute {
     @Override
     public String toString() {
         return name.orElse(StringUtils.capitaliseEnumName(name()));
+    }
+
+    public static Proficiency load(Node node) {
+        return Proficiency.valueOf(node.getTextContent());
     }
 }

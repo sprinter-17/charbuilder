@@ -1,9 +1,10 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.saveload.Savable;
 import java.util.stream.Stream;
 
-public interface Option {
+public interface Option extends Savable {
 
     void choose(Character character);
 

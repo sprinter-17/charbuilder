@@ -110,7 +110,10 @@ public class Inventory {
     }
 
     public Value getValue() {
-        return items.stream().map(Equipment::getValue).reduce(Value.ZERO, Value::add);
+        return items.stream()
+            .filter(eq -> eq.getCategory().equals(EquipmentCategory.TREASURE)
+            || eq.getCategory().equals(EquipmentCategory.CUSTOM_TREASURE))
+            .map(Equipment::getValue).reduce(Value.ZERO, Value::add);
     }
 
     public Weight getWeight() {

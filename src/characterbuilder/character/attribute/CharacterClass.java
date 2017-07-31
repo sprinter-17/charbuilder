@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.w3c.dom.Node;
 
 public enum CharacterClass implements Attribute {
     BARBARIAN(12, PRIMAL_PATH, STRENGTH, CONSTITUTION,
@@ -413,5 +414,9 @@ public enum CharacterClass implements Attribute {
     @Override
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
+    }
+
+    public static CharacterClass load(Node node) {
+        return CharacterClass.valueOf(node.getTextContent());
     }
 }

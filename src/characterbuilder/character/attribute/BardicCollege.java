@@ -8,6 +8,7 @@ import characterbuilder.character.ability.Spell;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.utils.StringUtils;
+import org.w3c.dom.Node;
 
 public enum BardicCollege implements Attribute {
     COLLEGE_OF_LORE {
@@ -43,5 +44,9 @@ public enum BardicCollege implements Attribute {
     @Override
     public String toString() {
         return StringUtils.capitaliseEnumName(name());
+    }
+
+    public static BardicCollege load(Node node) {
+        return BardicCollege.valueOf(node.getTextContent());
     }
 }

@@ -1,5 +1,9 @@
 package characterbuilder.character.attribute;
 
+import java.util.Objects;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
 public class StringAttribute implements Attribute {
 
     private final AttributeType type;
@@ -20,12 +24,35 @@ public class StringAttribute implements Attribute {
     }
 
     @Override
-    public String encode() {
-        return toString();
-    }
-
-    @Override
     public String toString() {
         return value;
     }
+
+    @Override
+    public Node save(Document doc) {
+        Node node = getType().save(doc);
+        node.setTextContent(value);
+        return node;
+    }
+
+    public static StringAttribute load(AttributeType type, Node node) {
+        return new StringAttribute(type, node.getTextContent());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.type);
+        hash = 37 * hash + Objects.hashCode(this.value);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null
+            && getClass() == obj.getClass()
+            && ((StringAttribute) obj).type.equals(type)
+            && ((StringAttribute) obj).value.equals(value);
+    }
+
 }
