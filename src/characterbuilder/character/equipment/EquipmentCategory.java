@@ -27,6 +27,7 @@ public enum EquipmentCategory {
     CONTAINERS(EquipmentType::load),
     GAMING_SETS(EquipmentType::load),
     CLOTHES(EquipmentType::load),
+    DRUIDIC_FOCUS(EquipmentType::load),
     AMMUNITION(EquipmentType::load),
     HOLY_SYMBOL(EquipmentType::load),
     ARCANE_FOCUS(EquipmentType::load),

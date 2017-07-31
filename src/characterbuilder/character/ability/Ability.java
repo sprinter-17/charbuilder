@@ -350,6 +350,8 @@ public enum Ability implements Attribute {
             character.addAttribute(Spell.WALL_OF_STONE);
         }
     },
+    WILD_SHAPE(CLASS_TALENT, "Wild Shape",
+        "As an action, assume the shape of a beast of up to CR[max($level 2:1/4,4:1/2,8:1)]."),
     //
     KNOWLEDGE_OF_THE_AGES(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Knowledge of the Ages",
         "As an action, gain proficiency with one skill or tool for 10 minutes."),

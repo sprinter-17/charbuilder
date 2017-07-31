@@ -94,6 +94,11 @@ public enum EquipmentType implements Equipment {
     STAFF(ARCANE_FOCUS, gp(5), lb(4)),
     WAND(ARCANE_FOCUS, gp(10), lb(1)),
     //
+    SPRIG_OF_MISTLETOE(DRUIDIC_FOCUS, gp(1), Weight.ZERO),
+    TOTEM(DRUIDIC_FOCUS, gp(1), Weight.ZERO),
+    WOODEN_STAFF(DRUIDIC_FOCUS, gp(5), lb(4)),
+    YEW_WAND(DRUIDIC_FOCUS, gp(10), lb(1)),
+    //
     VESTMENTS(CLOTHES, gp(1), lb(4)),
     COMMON_CLOTHES(CLOTHES, sp(5), Weight.ZERO),
     TRAVELERS_CLOTHES(CLOTHES, sp(5), Weight.ZERO),

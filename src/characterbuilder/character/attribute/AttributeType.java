@@ -61,6 +61,7 @@ public enum AttributeType {
     EVOCATION_ABILITY(false, Ability::load),
     DIVINE_DOMAIN(true, DivineDomain::load),
     DIVINE_DOMAIN_ABILITY(false, Ability::load),
+    FAVOURED_ENEMY(false, FavouredEnemy::load),
     SKILL(false, Skill::load),
     EXPERTISE(false, Expertise::load),
     SPELL(false, Spell::load),

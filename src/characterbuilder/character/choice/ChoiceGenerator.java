@@ -5,7 +5,6 @@ import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Spell;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.CharacterClass;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Token;
@@ -59,16 +58,14 @@ public class ChoiceGenerator {
         };
     }
 
-    public static Choice spellChoice(int count, CharacterClass casterClass, int level) {
-        return new OptionChoice(level == 0 ? "Cantrip" : "Level " + level + " spell", count) {
+    public static Choice spellChoice(int count, String name, Stream<Spell> spells) {
+        List<Spell> spellList = spells.collect(toList());
+        return new OptionChoice(name, count) {
             @Override
-            public void select(Character character, ChoiceSelector selector
-            ) {
-                List<Attribute> spells = Spell.spells(casterClass, level).collect(toList());
-                selector.chooseOption(spells.stream()
-                    .filter(sp -> !character.hasAttribute(sp)), spell -> {
-                    character.addAttribute(spell);
-                });
+            public void select(Character character, ChoiceSelector selector) {
+                selector.chooseOption(
+                    spellList.stream().filter(sp -> !character.hasAttribute(sp)),
+                    spell -> character.addAttribute(spell));
             }
         };
     }
