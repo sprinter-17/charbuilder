@@ -45,10 +45,9 @@ public interface Equipment extends Option {
     @Override
     public default Node save(Document doc) {
         if (this instanceof Enum) {
-            Node node = doc.createElement(getCategory().name());
+            Node node = doc.createElement(getCategory().name().toLowerCase());
             node.setTextContent(((Enum) this).name());
             return node;
-
         } else {
             throw new AbstractMethodError("object " + getClass().getName() + " does not have save");
         }

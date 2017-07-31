@@ -146,7 +146,7 @@ public enum Weapon implements Equipment {
         return proficiency;
     }
 
-    public static Weapon load(EquipmentCategory category, Node node) {
+    public static Weapon load(Node node) {
         return Weapon.valueOf(node.getTextContent());
     }
 
@@ -154,7 +154,7 @@ public enum Weapon implements Equipment {
         if (node.getTextContent().startsWith("ALL"))
             return Proficiency.load(node);
         else
-            return load(null, node).getProficiency();
+            return WeaponProficiency.load(node);
     }
 
     @Override

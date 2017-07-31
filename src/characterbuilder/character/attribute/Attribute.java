@@ -41,8 +41,7 @@ public interface Attribute extends Option {
             node.setTextContent(((Enum) this).name());
             return node;
         } else {
-            throw new AbstractMethodError("No encode method for Attribute class "
-                + getClass().getName());
+            throw new AbstractMethodError("No save method for " + getClass().getName());
         }
     }
 

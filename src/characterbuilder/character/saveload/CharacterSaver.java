@@ -60,9 +60,9 @@ public class CharacterSaver {
     private void writeDocument(Document doc, OutputStream output) {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            transformerFactory.setAttribute("indent-number", 4);
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
             DOMSource source = new DOMSource(doc);
             transformer.transform(source, new StreamResult(output));
         } catch (TransformerException ex) {

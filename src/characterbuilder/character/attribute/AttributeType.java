@@ -60,7 +60,7 @@ public enum AttributeType {
     EXPERTISE(false, Expertise::load),
     SPELL(false, Spell::load),
     WEAPON_PROFICIENCY(false, Weapon::loadProficiency),
-    MUSICAL_INSTRUMENT(false, MusicalInstrument::loadProficiency),
+    MUSICAL_INSTRUMENT_PROFICIENCY(false, MusicalInstrument::loadProficiency),
     ARMOUR_PROFICIENCY(false, Proficiency::load),
     LANGUAGE(false, Proficiency::load),
     ARTISAN(false, Proficiency::load),
@@ -75,10 +75,9 @@ public enum AttributeType {
     public static final List<AttributeType> ABILITY_SCORES = Arrays.asList(
         STRENGTH, DEXTERITY, CONSTITUTION, INTELLIGENCE, WISDOM, CHARISMA);
 
-    public static final List<AttributeType> ABILITIES = Arrays.asList(
-        RACIAL_TALENT, CLASS_TALENT, DIVINE_DOMAIN_ABILITY, SKILL, SPELL, WEAPON_PROFICIENCY,
+    public static final List<AttributeType> ABILITIES = Arrays.asList(RACIAL_TALENT, CLASS_TALENT, DIVINE_DOMAIN_ABILITY, SKILL, SPELL, WEAPON_PROFICIENCY,
         ARMOUR_PROFICIENCY, LANGUAGE, ARTISAN, TOOLS, FIGHTING_STYLE, SPELL_MASTERY,
-        EVOCATION_ABILITY, EXPERTISE, MUSICAL_INSTRUMENT);
+        EVOCATION_ABILITY, EXPERTISE, MUSICAL_INSTRUMENT_PROFICIENCY);
 
     public static final List<AttributeType> PERSONALITY = Arrays.asList(
         TRAIT, FLAW, BOND, IDEAL);

@@ -1,7 +1,7 @@
 package characterbuilder.character.attribute;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class AttributeSet {
@@ -23,12 +23,13 @@ public class AttributeSet {
         }
     };
 
-    private final List<Attribute> attributes = new ArrayList<>();
+    private final Set<Attribute> attributes = new HashSet<>();
 
     public void addAttribute(Attribute attribute) {
         if (!attribute.getSuperSet().isPresent() || !hasAttribute(attribute.getSuperSet().get())) {
             if (attribute.getType().isUnique() && hasAttribute(attribute.getType()))
-                throw new IllegalStateException("Attempt to add unique attribute " + attribute.getType() + " twice");
+                throw new IllegalStateException("Attempt to add unique attribute " + attribute.
+                    getType() + " twice");
             attributes.removeIf(att -> att.getSuperSet().isPresent()
                 && att.getSuperSet().get().equals(attribute));
             attributes.add(attribute);

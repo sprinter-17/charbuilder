@@ -199,6 +199,7 @@ public class MainPage extends Page {
         List<AttributeType> types = new ArrayList<>();
         Proficiency.getTypes().forEach(types::add);
         types.add(AttributeType.EXPERTISE);
+        types.add(AttributeType.MUSICAL_INSTRUMENT_PROFICIENCY);
         character.getAllAttributes()
             .filter(attr -> types.contains(attr.getType()))
             .collect(Collectors.groupingByConcurrent(Attribute::getType))

@@ -41,12 +41,6 @@ public enum EquipmentCategory {
 
     private final Optional<Attribute> proficiency;
     private Loader loader = null;
-    private final Function<String, Equipment> decoder;
-
-    private EquipmentCategory(boolean dummy, Function<String, Equipment> decoder) {
-        this.proficiency = Optional.empty();
-        this.decoder = decoder;
-    }
 
     private EquipmentCategory(Function<Node, Equipment> loader) {
         this((cat, node) -> loader.apply(node));
@@ -55,13 +49,16 @@ public enum EquipmentCategory {
     private EquipmentCategory(Loader loader) {
         this.proficiency = Optional.empty();
         this.loader = loader;
-        this.decoder = null;
     }
 
     private EquipmentCategory(Attribute proficiency, Loader loader) {
         this.proficiency = Optional.of(proficiency);
         this.loader = loader;
-        this.decoder = null;
+    }
+
+    private EquipmentCategory(Attribute proficiency, Function<Node, Equipment> loader) {
+        this.proficiency = Optional.of(proficiency);
+        this.loader = (cat, node) -> loader.apply(node);
     }
 
     public Optional<Attribute> getProficiency() {
@@ -81,10 +78,6 @@ public enum EquipmentCategory {
             return EquipmentSet.load(equipment, element);
         else
             return equipment;
-    }
-
-    public Equipment decode(String code) {
-        return decoder.apply(code);
     }
 
     @Override

@@ -7,9 +7,11 @@ import static characterbuilder.character.attribute.Value.gp;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.lb;
 import static characterbuilder.character.equipment.EquipmentCategory.MUSICAL_INSTRUMENTS;
+import static characterbuilder.character.saveload.Savable.child;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.stream.Stream;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 public enum MusicalInstrument implements Equipment {
@@ -32,7 +34,14 @@ public enum MusicalInstrument implements Equipment {
 
         @Override
         public AttributeType getType() {
-            return AttributeType.MUSICAL_INSTRUMENT;
+            return AttributeType.MUSICAL_INSTRUMENT_PROFICIENCY;
+        }
+
+        @Override
+        public Node save(Document doc) {
+            Node node = getType().save(doc);
+            node.appendChild(doc.createElement("instrument")).setTextContent(name());
+            return node;
         }
 
         @Override
@@ -80,6 +89,6 @@ public enum MusicalInstrument implements Equipment {
     }
 
     public static Attribute loadProficiency(Node node) {
-        return MusicalInstrument.valueOf(node.getTextContent()).proficiency;
+        return MusicalInstrument.valueOf(child(node).getTextContent()).proficiency;
     }
 }
