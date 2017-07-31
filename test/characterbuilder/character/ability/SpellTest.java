@@ -12,11 +12,11 @@ public class SpellTest {
 
     @Test
     public void testEffect() {
-        assertThat(Spell.ACID_SPLASH.getEffect(level(1)), is("1d6 acid damage (Dex. save)"));
-        assertThat(Spell.ACID_SPLASH.getEffect(level(4)), is("1d6 acid damage (Dex. save)"));
-        assertThat(Spell.ACID_SPLASH.getEffect(level(5)), is("2d6 acid damage (Dex. save)"));
-        assertThat(Spell.ACID_SPLASH.getEffect(level(10)), is("2d6 acid damage (Dex. save)"));
-        assertThat(Spell.ACID_SPLASH.getEffect(level(11)), is("3d6 acid damage (Dex. save)"));
+        assertThat(Spell.ACID_SPLASH.getEffect(level(1)), is("1d6 acid damage\n(Dex. save)"));
+        assertThat(Spell.ACID_SPLASH.getEffect(level(4)), is("1d6 acid damage\n(Dex. save)"));
+        assertThat(Spell.ACID_SPLASH.getEffect(level(5)), is("2d6 acid damage\n(Dex. save)"));
+        assertThat(Spell.ACID_SPLASH.getEffect(level(10)), is("2d6 acid damage\n(Dex. save)"));
+        assertThat(Spell.ACID_SPLASH.getEffect(level(11)), is("3d6 acid damage\n(Dex. save)"));
     }
 
     @Test
