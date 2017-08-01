@@ -10,6 +10,7 @@ import characterbuilder.character.ability.Skill;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.ability.Spell;
 import static characterbuilder.character.ability.Spell.*;
+import characterbuilder.character.ability.SpellCasting;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.choice.AbilityScoreIncrease;
 import characterbuilder.character.choice.AttributeChoice;
@@ -22,17 +23,11 @@ import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.choice.ExpertiseChoice;
 import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.equipment.Armour;
-import static characterbuilder.character.equipment.Armour.CHAIN_MAIL_ARMOUR;
-import static characterbuilder.character.equipment.Armour.LEATHER_ARMOUR;
-import static characterbuilder.character.equipment.Armour.SCALE_MAIL_ARMOUR;
+import static characterbuilder.character.equipment.Armour.*;
 import characterbuilder.character.equipment.EquipmentCategory;
-import static characterbuilder.character.equipment.EquipmentCategory.DRUIDIC_FOCUS;
-import static characterbuilder.character.equipment.EquipmentCategory.SIMPLE_RANGED;
+import static characterbuilder.character.equipment.EquipmentCategory.*;
 import characterbuilder.character.equipment.EquipmentPack;
-import static characterbuilder.character.equipment.EquipmentPack.BUGLAR_PACK;
-import static characterbuilder.character.equipment.EquipmentPack.DUNGEONEER_PACK;
-import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
-import static characterbuilder.character.equipment.EquipmentPack.SCHOLAR_PACK;
+import static characterbuilder.character.equipment.EquipmentPack.*;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.EquipmentType;
 import static characterbuilder.character.equipment.EquipmentType.*;
@@ -53,7 +48,7 @@ public enum CharacterClass implements Attribute {
         @Override
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
-            gen.level(1).addAttributes(LIGHT_ARMOUR, MEDIUM_ARMOUR,
+            gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
                 Proficiency.SHIELD, ALL_WEAPONS);
             gen.level(1).addChoice(2, new AttributeChoice("Skill",
                 ANIMAL_HANDLING, ATHLETICS, INTIMIDATION, NATURE, PERCEPTION, SURVIVAL));
@@ -86,7 +81,8 @@ public enum CharacterClass implements Attribute {
         Arrays.asList(CHARISMA, DEXTERITY)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
-            gen.level(1).addAttributes(LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS);
+            gen.level(1).addAttributes(new SpellCasting(CHARISMA));
+            gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS);
             gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
             gen.level(1).addChoice(3, new AttributeChoice("Skill", Skill.values()));
             gen.level(1).addChoice(new EquipmentChoice("Weapon", RAPIER, LONGSWORD)
@@ -172,8 +168,9 @@ public enum CharacterClass implements Attribute {
         Arrays.asList(WISDOM, CONSTITUTION, STRENGTH)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
-            gen.level(1).addAttributes(LIGHT_ARMOUR, MEDIUM_ARMOUR, Proficiency.SHIELD,
-                ALL_SIMPLE_WEAPONS);
+            gen.level(1).addAttributes(new SpellCasting(WISDOM));
+            gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
+                Proficiency.SHIELD, ALL_SIMPLE_WEAPONS);
             gen.level(1).addChoice(new AttributeChoice("Divine Domain", DivineDomain.values()));
             gen.level(1).addChoice(new AttributeChoice("Skill",
                 HISTORY, INSIGHT, MEDICINE, PERSUASION, RELIGION).withCount(2));
@@ -246,7 +243,8 @@ public enum CharacterClass implements Attribute {
     DRUID(8, DRUID_CIRCLE, INTELLIGENCE, WISDOM, Arrays.asList(WISDOM, CONSTITUTION)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
-            gen.level(1).addAttributes(LIGHT_ARMOUR, MEDIUM_ARMOUR,
+            gen.level(1).addAttributes(new SpellCasting(WISDOM));
+            gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
                 Proficiency.SHIELD, DRUIDIC);
             gen.level(1).addWeaponProficiencies(CLUB, DAGGER, DART, JAVELIN, MACE, QUARTERSTAFF,
                 SCIMITAR, SICKLE, SLING, SPEAR);
@@ -359,7 +357,7 @@ public enum CharacterClass implements Attribute {
             gen.level(1).addChoice(new AttributeChoice("Tools",
                 Stream.concat(
                     MusicalInstrument.getAllProficiencies(),
-                    Proficiency.allOfType(TOOLS))));
+                    Proficiency.allOfType(AttributeType.TOOLS))));
             gen.level(1).addChoice(2, new AttributeChoice("Skill", ACROBATICS, ATHLETICS, HISTORY,
                 INSIGHT, RELIGION, STEALTH));
             gen.level(1).addChoice(new EquipmentChoice("Weapon").with(SHORTSWORD)
@@ -391,6 +389,7 @@ public enum CharacterClass implements Attribute {
     PALADIN(10, SACRED_OATH, WISDOM, CHARISMA, Arrays.asList(STRENGTH, CHARISMA)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
+            gen.level(1).addAttributes(new SpellCasting(CHARISMA));
             final int[][] spellCount = {
                 {0},
                 {0},
@@ -436,7 +435,9 @@ public enum CharacterClass implements Attribute {
     RANGER(10, RANGER_ARCHETYPE, STRENGTH, DEXTERITY, Arrays.asList(DEXTERITY, WISDOM)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
-            gen.level(1).addAttributes(LIGHT_ARMOUR, MEDIUM_ARMOUR, Proficiency.SHIELD);
+            gen.level(1).addAttributes(new SpellCasting(WISDOM));
+            gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
+                Proficiency.SHIELD);
             gen.level(1).addAttributes(ALL_WEAPONS);
             gen.level(1).addChoice(3, new AttributeChoice("Skill", ANIMAL_HANDLING, ATHLETICS,
                 INSIGHT, INVESTIGATION, NATURE, PERCEPTION, STEALTH, SURVIVAL));
@@ -493,7 +494,8 @@ public enum CharacterClass implements Attribute {
         Arrays.asList(DEXTERITY, INTELLIGENCE, CHARISMA)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
-            gen.level(1).addAttributes(LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS, Proficiency.THIEVES_TOOLS);
+            gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS,
+                Proficiency.THIEVES_TOOLS);
             gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
             gen.level(1).addAttributes(SNEAK_ATTACK, THIEVES_CANT);
             gen.level(1).
@@ -528,6 +530,7 @@ public enum CharacterClass implements Attribute {
     SORCERER(6, SORCEROUS_ORIGIN, CONSTITUTION, CHARISMA, Arrays.asList(CHARISMA, CONSTITUTION)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
+            gen.level(1).addAttributes(new SpellCasting(CHARISMA));
             final int[][] spellCount = {
                 {},
                 {4, 2},
@@ -589,6 +592,7 @@ public enum CharacterClass implements Attribute {
     WARLOCK(8, OTHERWORLDLY_PATRON, WISDOM, CHARISMA, Arrays.asList(CHARISMA, CONSTITUTION)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
+            gen.level(1).addAttributes(new SpellCasting(CHARISMA));
             gen.level(1).addChoice(spellChoice(2, "Cantrip", getSpellsWithLevelTest(l -> l == 0)));
             gen.level(1).addChoice(spellChoice(2, "Spell", getSpellsWithLevelTest(upTo(1))));
             gen.level(2).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(1))));
@@ -638,6 +642,7 @@ public enum CharacterClass implements Attribute {
         Arrays.asList(INTELLIGENCE, DEXTERITY, CONSTITUTION)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
+            gen.level(1).addAttributes(new SpellCasting(INTELLIGENCE));
             gen.level(1).addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
             gen.level(1).addChoice(new AttributeChoice("Skill",
                 ARCANA, HISTORY, INSIGHT, INVESTIGATION, MEDICINE, RELIGION).withCount(2));

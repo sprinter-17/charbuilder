@@ -139,6 +139,8 @@ public class Character {
     }
 
     public <T extends Attribute> T getAttribute(AttributeType type, Class<T> attrClass) {
+        if (!hasAttribute(type))
+            throw new IllegalArgumentException("Attempt to retrieve non-existent attribute " + type);
         return attributes.getAttribute(type);
     }
 

@@ -60,7 +60,7 @@ public class StringUtils {
             context.setCharacter(character);
         while (expressionMatcher.find()) {
             String value = ExpressionParser.eval(expressionMatcher.group(1), context);
-            expressionMatcher.appendReplacement(result, value);
+            expressionMatcher.appendReplacement(result, value.replace('$', '#'));
             context.setPlural(!value.equals("1") && !value.equals("one"));
         }
         expressionMatcher.appendTail(result);

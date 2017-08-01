@@ -16,6 +16,7 @@ grammar Expression;
     import java.util.stream.Collectors;
     import characterbuilder.character.Character;
     import characterbuilder.character.attribute.*;
+    import characterbuilder.character.ability.SpellCasting;
     import static characterbuilder.character.attribute.AttributeType.*;
     import characterbuilder.utils.EvaluationContext;
 }
@@ -51,7 +52,7 @@ grammar Expression;
         if (errors.isEmpty())
             return value;
         else
-            return errors.stream().collect(Collectors.joining(", ", "[", "]"));
+            return errors.stream().collect(Collectors.joining(", ", "[ *ERROR* ", "]"));
     }
 }
 
@@ -100,6 +101,10 @@ int_expr returns [int value]
     | '$level' {$value = character().getLevel();}
     | '$prof'  {$value = character().getProficiencyBonus();}
     | '$speed' {$value = character().getAttribute(RACE, Race.class).getSpeed();}
+    | spell_expr '_mod' 
+        {$value = $spell_expr.value.getModifier(character());}
+    | spell_expr '_dc' 
+        {$value = $spell_expr.value.getSaveDC(character());}
     | attr
         {$value = character().getIntAttribute($attr.value);}
     | attr '_mod'
@@ -108,6 +113,10 @@ int_expr returns [int value]
         {$value = $int_op.value.apply($int1.value, $int2.value);}
     | '(' SPACE? int_expr SPACE? ')'
         {$value = $int_expr.value;}
+    ;
+
+spell_expr returns [SpellCasting value]
+    : '$spell' {$value = character().getAttribute(SPELLCASTING, SpellCasting.class);}
     ;
 
 bool_expr returns [boolean value]

@@ -7,6 +7,7 @@ import characterbuilder.character.ability.MagicSchool;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.ability.Spell;
+import characterbuilder.character.ability.SpellCasting;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
 import characterbuilder.utils.StringUtils;
@@ -54,6 +55,7 @@ public enum AttributeType {
     RACIAL_TALENT(false, Ability::load),
     CLASS_TALENT(false, Ability::load),
     BACKGROUND_FEATURE(false, Ability::load),
+    SPELLCASTING(true, SpellCasting::load),
     SPELL_MASTERY(false, SpellMastery::load),
     ARCANE_TRADITION(true, MagicSchool::load),
     PRIMAL_PATH(true, PrimalPath::load),

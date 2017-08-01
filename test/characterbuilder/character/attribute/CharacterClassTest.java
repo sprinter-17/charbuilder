@@ -60,6 +60,8 @@ public class CharacterClassTest {
     public void testTotalClericSpell() {
         IntAttribute level = new IntAttribute(AttributeType.LEVEL, 1);
         character.addAttribute(level);
+        AttributeType.ABILITY_SCORES
+            .forEach(as -> character.addAttribute(new IntAttribute(as, 10)));
         String spellMatch = "(Cantrip|Spell Level \\d)( \\(x\\d\\))?";
         while (level.getValue() <= 20) {
             CharacterClass.CLERIC.generateLevelChoices(character);

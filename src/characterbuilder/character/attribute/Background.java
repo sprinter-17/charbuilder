@@ -114,7 +114,8 @@ public enum Background implements Attribute {
         generatorConsumer.accept(generator);
     }
 
-    public void addChoices(Character character) {
+    @Override
+    public void generateInitialChoices(Character character) {
         generator.generateChoices(character);
     }
 

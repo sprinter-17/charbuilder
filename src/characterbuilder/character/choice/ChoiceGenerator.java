@@ -67,6 +67,12 @@ public class ChoiceGenerator {
                     spellList.stream().filter(sp -> !character.hasAttribute(sp)),
                     spell -> character.addAttribute(spell));
             }
+
+            @Override
+            public boolean isAllowed(Character character) {
+                return character.hasAttribute(AttributeType.SPELLCASTING)
+                    && AttributeType.ABILITY_SCORES.stream().allMatch(character::hasAttribute);
+            }
         };
     }
 

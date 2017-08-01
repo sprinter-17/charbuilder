@@ -1,6 +1,7 @@
 package characterbuilder.utils;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.SpellCasting;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
@@ -28,12 +29,12 @@ public class EvalutationTest {
 
     @Test
     public void testSyntaxError() {
-        assertThat(eval("$levil", context), is("[token recognition error at: '$levi']"));
+        assertThat(eval("$levil", context), is("[ *ERROR* token recognition error at: '$levi']"));
     }
 
     @Test
     public void testSemanticError() {
-        assertThat(eval("$level + + 6", context), startsWith("[mismatched input"));
+        assertThat(eval("$level + + 6", context), startsWith("[ *ERROR* mismatched input"));
     }
 
     @Test
@@ -82,4 +83,11 @@ public class EvalutationTest {
         assertThat(eval("$speed/2", context), is("12"));
     }
 
+    @Test
+    public void testSpellModAndDC() {
+        character.addAttribute(new SpellCasting(AttributeType.DEXTERITY));
+        character.addAttribute(new IntAttribute(AttributeType.DEXTERITY, 14));
+        assertThat(eval("$spell_mod", context), is("4"));
+        assertThat(eval("$spell_dc", context), is("12"));
+    }
 }
