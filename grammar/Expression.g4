@@ -97,6 +97,7 @@ max_terms returns [Map<Integer,String> value]
 
 int_expr returns [int value]
     : CONST    {$value = $CONST.int;}
+    | '$splev' {$value = (character().getLevel() + 7) / 6;}
     | '$hp'    {$value = character().getIntAttribute(AttributeType.HIT_POINTS);}
     | '$level' {$value = character().getLevel();}
     | '$prof'  {$value = character().getProficiencyBonus();}

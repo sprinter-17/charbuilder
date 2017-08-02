@@ -4,6 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.saveload.TestDoc;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -32,7 +33,18 @@ public class SpellTest {
     }
 
     @Test
-    public void testAllEffectsArePresent() {
+    public void testSpLevEffect() {
+        assertThat(Spell.SACRED_FLAME.getEffect(level(1)), containsString("1d8 radiant damage"));
+        assertThat(Spell.SACRED_FLAME.getEffect(level(4)), containsString("1d8 radiant damage"));
+        assertThat(Spell.SACRED_FLAME.getEffect(level(5)), containsString("2d8 radiant damage"));
+        assertThat(Spell.SACRED_FLAME.getEffect(level(6)), containsString("2d8 radiant damage"));
+        assertThat(Spell.SACRED_FLAME.getEffect(level(11)), containsString("3d8 radiant damage"));
+        assertThat(Spell.SACRED_FLAME.getEffect(level(16)), containsString("3d8 radiant damage"));
+        assertThat(Spell.SACRED_FLAME.getEffect(level(17)), containsString("4d8 radiant damage"));
+    }
+
+    @Test
+    public void testAllEffectsAreLegal() {
         Character character = level(5);
         for (Spell spell : Spell.values()) {
             try {

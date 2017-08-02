@@ -22,6 +22,7 @@ import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.choice.ExpertiseChoice;
 import characterbuilder.character.choice.OptionChoice;
+import characterbuilder.character.choice.ReplaceAttributeChoice;
 import characterbuilder.character.equipment.Armour;
 import static characterbuilder.character.equipment.Armour.*;
 import characterbuilder.character.equipment.EquipmentCategory;
@@ -593,23 +594,24 @@ public enum CharacterClass implements Attribute {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
             gen.level(1).addAttributes(new SpellCasting(CHARISMA));
-            gen.level(1).addChoice(spellChoice(2, "Cantrip", getSpellsWithLevelTest(l -> l == 0)));
-            gen.level(1).addChoice(spellChoice(2, "Spell", getSpellsWithLevelTest(upTo(1))));
-            gen.level(2).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(1))));
-            gen.level(3).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(2))));
-            gen.level(4).addChoice(spellChoice(1, "Cantrip", getSpellsWithLevelTest(l -> l == 0)));
-            gen.level(4).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(2))));
-            gen.level(5).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(3))));
-            gen.level(6).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(3))));
-            gen.level(7).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(4))));
-            gen.level(8).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(4))));
-            gen.level(9).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(5))));
-            gen.level(10).addChoice(spellChoice(1, "Cantrip", getSpellsWithLevelTest(l -> l == 0)));
-            gen.level(11).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(5))));
-            gen.level(13).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(5))));
-            gen.level(15).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(5))));
-            gen.level(17).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(5))));
-            gen.level(19).addChoice(spellChoice(1, "Spell", getSpellsWithLevelTest(upTo(5))));
+            gen.level(1).addChoice(spellChoice(2, "Cantrip", getSpells(l -> l == 0)));
+            gen.level(1).addChoice(spellChoice(2, "Spell", getSpells(upTo(1))));
+            gen.level(2).addChoice(new ReplaceAttributeChoice<>("Spell", 1, getSpells(upTo(1))));
+            gen.level(2).addChoice(spellChoice(1, "Spell", getSpells(upTo(1))));
+            gen.level(3).addChoice(spellChoice(1, "Spell", getSpells(upTo(2))));
+            gen.level(4).addChoice(spellChoice(1, "Cantrip", getSpells(l -> l == 0)));
+            gen.level(4).addChoice(spellChoice(1, "Spell", getSpells(upTo(2))));
+            gen.level(5).addChoice(spellChoice(1, "Spell", getSpells(upTo(3))));
+            gen.level(6).addChoice(spellChoice(1, "Spell", getSpells(upTo(3))));
+            gen.level(7).addChoice(spellChoice(1, "Spell", getSpells(upTo(4))));
+            gen.level(8).addChoice(spellChoice(1, "Spell", getSpells(upTo(4))));
+            gen.level(9).addChoice(spellChoice(1, "Spell", getSpells(upTo(5))));
+            gen.level(10).addChoice(spellChoice(1, "Cantrip", getSpells(l -> l == 0)));
+            gen.level(11).addChoice(spellChoice(1, "Spell", getSpells(upTo(5))));
+            gen.level(13).addChoice(spellChoice(1, "Spell", getSpells(upTo(5))));
+            gen.level(15).addChoice(spellChoice(1, "Spell", getSpells(upTo(5))));
+            gen.level(17).addChoice(spellChoice(1, "Spell", getSpells(upTo(5))));
+            gen.level(19).addChoice(spellChoice(1, "Spell", getSpells(upTo(5))));
             gen.generateChoices(character);
         }
 
@@ -754,7 +756,7 @@ public enum CharacterClass implements Attribute {
                 String name = spellLev == 0 ? "Cantrip" : "Spell Level " + spellLev;
                 final int sl = spellLev;
                 gen.level(level).addChoice(spellChoice(count, name,
-                    charClass.getSpellsWithLevelTest(lev -> lev == sl)));
+                    charClass.getSpells(lev -> lev == sl)));
             }
         }
     }
@@ -824,7 +826,7 @@ public enum CharacterClass implements Attribute {
         return Stream.empty();
     }
 
-    public Stream<Spell> getSpellsWithLevelTest(Predicate<Integer> test) {
+    public Stream<Spell> getSpells(Predicate<Integer> test) {
         return getSpells().filter(sp -> test.test(sp.getLevel()));
     }
 

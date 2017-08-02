@@ -39,7 +39,7 @@ public enum Race implements Attribute {
         gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW);
         gen.addChoice(new AttributeChoice("Language",
             DWARVISH, GIANT, GNOMISH, HALFLING, GOBLIN, ORC));
-        gen.addChoice(spellChoice(1, "Elven Cantrip", WIZARD.getSpellsWithLevelTest(l -> l == 0)));
+        gen.addChoice(spellChoice(1, "Elven Cantrip", WIZARD.getSpells(l -> l == 0)));
     }),
     WOOD_ELF(0, 2, 0, 0, 1, 0, 35, 100, "4'6\"", "2d10", "100lb", "1d4", gen -> {
         gen.addAttributes(DARKVISION, FEY_ANCESTORY, PERCEPTION, COMMON, ELVISH, MASK_OF_THE_WILD);
