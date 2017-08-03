@@ -9,7 +9,7 @@ import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.ability.Spell;
 import static characterbuilder.character.attribute.AttributeType.*;
 import static characterbuilder.character.attribute.CharacterClass.WIZARD;
-import characterbuilder.character.choice.AbilityScoreIncrease;
+import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.spellChoice;
@@ -62,7 +62,7 @@ public enum Race implements Attribute {
         gen.addAttributes(COMMON, ORC);
     }),
     HALF_ELF(0, 0, 0, 0, 0, 2, 30, 20, "4'9\"", "2d8", "110lb", "2d4", gen -> {
-        gen.addChoice(2, new AbilityScoreIncrease());
+        gen.addChoice(2, new AbilityScoreOrFeatIncrease().withoutFeats());
         gen.addAttributes(DARKVISION, FEY_ANCESTORY, COMMON, ELVISH);
         gen.addChoice(2, new AttributeChoice("Racial Skill", Skill.values()));
         gen.addChoice(new AttributeChoice(LANGUAGE));

@@ -11,7 +11,6 @@ import static characterbuilder.character.attribute.AttributeType.RACE;
 import characterbuilder.character.attribute.CharacterClass;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
-import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.LB;
@@ -81,13 +80,6 @@ public class CharacterTest {
         assertTrue(AttributeType.ABILITY_SCORES.stream().noneMatch(character::hasAttribute));
         character.generateAbilityScores(random);
         assertTrue(AttributeType.ABILITY_SCORES.stream().allMatch(character::hasAttribute));
-    }
-
-    @Test
-    public void testNullAttribute() {
-        assertFalse(character.getAttribute(AttributeType.NAME).isPresent());
-        character.addAttribute(new StringAttribute(AttributeType.NAME, "Fred"));
-        assertTrue(character.getAttribute(AttributeType.NAME).isPresent());
     }
 
     @Test
@@ -276,6 +268,7 @@ public class CharacterTest {
     private void setLevel(CharacterClass charClass, int level) {
         character.addAttributes(
             charClass,
+            Race.HUMAN,
             new IntAttribute(LEVEL, level),
             new IntAttribute(EXPERIENCE_POINTS, Character.XP_LEVELS[level - 1]),
             new IntAttribute(HIT_POINTS, charClass.getHitDie()),

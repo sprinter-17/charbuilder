@@ -154,3 +154,4 @@ attr returns [AttributeType value]
 CONST : [1-9] [0-9]*;
 SPACE : ' '+;
 WORD  : [A-Za-z%.;]+;
+ENUM  : [A-Za-z][A-Za-z_]+;

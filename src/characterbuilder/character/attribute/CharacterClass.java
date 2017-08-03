@@ -12,7 +12,7 @@ import characterbuilder.character.ability.Spell;
 import static characterbuilder.character.ability.Spell.*;
 import characterbuilder.character.ability.SpellCasting;
 import static characterbuilder.character.attribute.AttributeType.*;
-import characterbuilder.character.choice.AbilityScoreIncrease;
+import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.Choice;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -74,7 +74,7 @@ public enum CharacterClass implements Attribute {
                 ch.getAttribute(STRENGTH, IntAttribute.class).addValue(4);
                 ch.getAttribute(CONSTITUTION, IntAttribute.class).addValue(4);
             });
-            gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreIncrease());
+            gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
             gen.generateChoices(character);
         }
     },
@@ -100,7 +100,7 @@ public enum CharacterClass implements Attribute {
             gen.level(2).addAttributes(SONG_OF_REST);
             gen.level(3).addChoice(new AttributeChoice("Bard College", BardicCollege.values()));
             gen.level(3, 10).addChoice(2, new ExpertiseChoice());
-            gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreIncrease());
+            gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
             gen.level(5).addAttributes(FONT_OF_INSPIRATION);
             gen.level(6).addAttributes(COUNTERCHARM);
             gen.level(20).addAttributes(SUPERIOR_INSPIRATION);
@@ -183,7 +183,7 @@ public enum CharacterClass implements Attribute {
                 SCALE_MAIL_ARMOUR, LEATHER_ARMOUR, CHAIN_MAIL_ARMOUR));
             gen.level(1).addChoice(new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL));
             gen.level(2).addAttributes(TURN_UNDEAD, CHANNEL_DIVINITY);
-            gen.level(4, 8, 12, 19).addChoice(2, new AbilityScoreIncrease());
+            gen.level(4, 8, 12, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
             gen.level(5).addAttributes(DESTROY_UNDEAD);
             gen.level(10).addAttributes(DIVINE_INTERVENTION);
             final int[][] spellCount = {
@@ -344,7 +344,7 @@ public enum CharacterClass implements Attribute {
                 new AttributeChoice("Martial Archetype", MartialArchetype.values()));
             gen.level(5).addAttributes(EXTRA_ATTACK_FIGHTER);
             gen.level(9).addAttributes(INDOMITABLE);
-            gen.cond(levels(4, 6, 8, 12, 14, 16, 19)).addChoice(2, new AbilityScoreIncrease());
+            gen.cond(levels(4, 6, 8, 12, 14, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
             gen.generateChoices(character);
         }
     },
@@ -372,7 +372,7 @@ public enum CharacterClass implements Attribute {
             gen.level(3).addChoice(
                 new AttributeChoice("Monastic Tradition", MonasticTradition.values()));
             gen.level(3).addAttributes(DEFLECT_MISSILES);
-            gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreIncrease());
+            gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
             gen.level(4).addAttributes(SLOW_FALL);
             gen.level(5).addAttributes(EXTRA_ATTACK, STUNNING_STRIKE);
             gen.level(6).addAttributes(KI_EMPOWERED_STRIKES);
@@ -408,7 +408,7 @@ public enum CharacterClass implements Attribute {
             gen.level(2).addAttributes(new SpellCasting(CHARISMA), DIVINE_SMITE);
             gen.level(3).addAttributes(DIVINE_HEALTH);
             gen.level(3).addChoice(new AttributeChoice("Sacred Oath", SacredOath.values()));
-            gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreIncrease());
+            gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
             gen.level(5).addAttributes(EXTRA_ATTACK);
             gen.level(6).addAttributes(AURA_OF_PROTECTION);
             gen.level(10).addAttributes(AURA_OF_COURAGE);
@@ -459,7 +459,6 @@ public enum CharacterClass implements Attribute {
     RANGER(10, RANGER_ARCHETYPE, STRENGTH, DEXTERITY, Arrays.asList(DEXTERITY, WISDOM)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
-            gen.level(1).addAttributes(new SpellCasting(WISDOM));
             gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
                 Proficiency.SHIELD);
             gen.level(1).addAttributes(ALL_WEAPONS);
@@ -471,7 +470,23 @@ public enum CharacterClass implements Attribute {
             gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
                 DUNGEONEER_PACK, EXPLORER_PACK));
             gen.level(1).addEquipment(LONGBOW).addEquipment(ARROW, 20);
-            gen.level(1).addChoice(new AttributeChoice("Favoured Enemy", FavouredEnemy.values()));
+            gen.level(1, 6, 14).addChoice(
+                new AttributeChoice("Favoured Enemy", FavouredEnemy.values()));
+            gen.level(1, 6, 10).addChoice(
+                new AttributeChoice("Favoured Terrain", FavouredTerrain.values()));
+            gen.level(2).addChoice(new AttributeChoice("Fighting Style",
+                ARCHERY, DEFENSE, DUELING, TWO_WEAPON));
+            gen.level(2).addAttributes(new SpellCasting(WISDOM));
+            gen.level(3).addChoice(new AttributeChoice("Ranger Archetype",
+                RangerArchetype.values()));
+            gen.level(3).addAttributes(PRIMEVAL_AWARENESS);
+            gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
+            gen.level(5).addAttributes(EXTRA_ATTACK);
+            gen.level(8).addAttributes(LANDS_STRIDE);
+            gen.level(10).addAttributes(HIDE_IN_PLAIN_SIGHT);
+            gen.level(14).addAttributes(VANISH);
+            gen.level(18).addAttributes(FERAL_SENSES);
+            gen.level(20).addAttributes(FOE_SLAYER);
             final int[][] spellCount = {
                 {0},
                 {0},
@@ -547,7 +562,7 @@ public enum CharacterClass implements Attribute {
             gen.level(15).addAttributes(SLIPPERY_MIND);
             gen.level(18).addAttributes(ELUSIVE);
             gen.level(20).addAttributes(STROKE_OF_LUCK);
-            gen.cond(levels(4, 8, 10, 12, 16, 19)).addChoice(2, new AbilityScoreIncrease());
+            gen.cond(levels(4, 8, 10, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
             gen.generateChoices(character);
         }
     },
@@ -690,7 +705,7 @@ public enum CharacterClass implements Attribute {
             gen.level(1).addEquipment(SPELLBOOK);
             gen.level(1).addAttributes(ARCANE_RECOVERY);
             gen.level(2).addChoice(new AttributeChoice("Arcane Tradition", MagicSchool.values()));
-            gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreIncrease());
+            gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
             gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", 1));
             gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", 2));
             gen.level(20).addChoice(spellMasteryChoice("Signature Spell", 3));

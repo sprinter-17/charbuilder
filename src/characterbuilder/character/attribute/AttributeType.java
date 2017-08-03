@@ -64,7 +64,10 @@ public enum AttributeType {
     DIVINE_DOMAIN(true, DivineDomain::load),
     DIVINE_DOMAIN_ABILITY(false, Ability::load),
     FAVOURED_ENEMY(false, FavouredEnemy::load),
+    FAVOURED_TERRAIN(false, FavouredTerrain::load),
+    RANGERS_COMPANION(true, RangerCompanion::load),
     SKILL(false, Skill::load),
+    FEAT(false, Ability::load),
     EXPERTISE(false, Expertise::load),
     SPELL(false, Spell::load),
     WEAPON_PROFICIENCY(false, Weapon::loadProficiency),
@@ -86,7 +89,7 @@ public enum AttributeType {
     public static final List<AttributeType> ABILITIES = Arrays.
         asList(RACIAL_TALENT, CLASS_TALENT, DIVINE_DOMAIN_ABILITY, SKILL, SPELL, WEAPON_PROFICIENCY,
             ARMOUR_PROFICIENCY, LANGUAGE, ARTISAN, TOOLS, FIGHTING_STYLE, SPELL_MASTERY,
-            EVOCATION_ABILITY, EXPERTISE, MUSICAL_INSTRUMENT_PROFICIENCY);
+            EVOCATION_ABILITY, EXPERTISE, MUSICAL_INSTRUMENT_PROFICIENCY, FEAT);
 
     public static final List<AttributeType> PERSONALITY = Arrays.asList(
         TRAIT, FLAW, BOND, IDEAL);

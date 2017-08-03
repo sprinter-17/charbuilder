@@ -5,12 +5,14 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.DraconicAncestory;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
+import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.saveload.TestDoc;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +27,13 @@ public class AbilityTest {
         character = new Character();
         level = new IntAttribute(AttributeType.LEVEL, 1);
         character.addAttribute(level);
+        character.addChoiceList(new TestChoiceSelector());
+    }
+
+    @Test
+    public void testName() {
+        assertThat(Ability.DARKVISION.toString(), is("Darkvision"));
+        assertThat(Ability.SHIPS_PASSAGE.toString(), is("Ship's Passage"));
     }
 
     @Test
@@ -38,6 +47,23 @@ public class AbilityTest {
         level.setValue(6);
         assertThat(Ability.CHANNEL_DIVINITY.getDescription(character).collect(joining()),
             startsWith("Use two channel divinity powers"));
+    }
+
+    @Test
+    public void testFeatAddChoice() {
+        Ability.ATHLETE.generateInitialChoices(character);
+        AttributeType.ABILITY_SCORES
+            .forEach(as -> character.addAttribute(new IntAttribute(as, 10)));
+        assertTrue(character.hasChoice("Athletic Ability"));
+    }
+
+    @Test
+    public void testFeatPrerequisite() {
+        IntAttribute dex = new IntAttribute(AttributeType.DEXTERITY, 12);
+        character.addAttribute(dex);
+        assertFalse(Ability.DEFENSIVE_DUELIST.isAllowed(character));
+        dex.setValue(13);
+        assertTrue(Ability.DEFENSIVE_DUELIST.isAllowed(character));
     }
 
     @Test

@@ -4,99 +4,77 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
+import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.stream.Stream;
 import org.w3c.dom.Node;
 
 public enum Ability implements Attribute {
-    DARKVISION(RACIAL_TALENT, "Darkvision",
-        "Darkness within 60' appears as dim colourless light."),
+    DARKVISION(RACIAL_TALENT, "Darkness within 60' appears as dim colourless light."),
     SUPERIOR_DARKVISION(RACIAL_TALENT, "Darkvision",
         "Darkness within 120' appears as dim colourless light."),
-    POISON_RESISTANCE(RACIAL_TALENT, "Stout Resilience",
+    POISON_RESISTANCE(RACIAL_TALENT, "Poison Resilience",
         "Advantage on savings throws against poison and resistance against poison damage."),
-    STONECUNNING(RACIAL_TALENT, "Stonecunning",
-        "Double proficiency on history checks related to stonework."),
-    MASK_OF_THE_WILD(RACIAL_TALENT, "Mask of the Wild",
-        "Can attempt to hide when obscured by natural phenomenon."),
-    LUCKY(RACIAL_TALENT, "Lucky",
-        "Reroll 1s on d20 for attacks, ability checks and savings throws."),
-    BRAVE(RACIAL_TALENT, "Brave",
-        "Advantage on savings throws against being frightened."),
-    NIMBLE(RACIAL_TALENT, "Halfling Nimbleness",
-        "Move through the space of larger creatures."),
+    STONECUNNING(RACIAL_TALENT, "Double proficiency on history checks related to stonework."),
+    MASK_OF_THE_WILD(RACIAL_TALENT, "Can attempt to hide when obscured by natural phenomenon."),
+    LUCKY(RACIAL_TALENT, "Reroll 1s on d20 for attacks, ability checks and savings throws."),
+    BRAVE(RACIAL_TALENT, "Advantage on savings throws against being frightened."),
+    NIMBLE(RACIAL_TALENT, "Halfling Nimbleness", "Move through the space of larger creatures."),
     STEALTHY(RACIAL_TALENT, "Naturally Stealthy",
         "Can attempt to hide when obscured by larger creature."),
-    BREATH_WEAPON(RACIAL_TALENT, "Breath Weapon",
-        "Breath: [$breath] vs DC [8+$con_mod+$prof] or "
+    BREATH_WEAPON(RACIAL_TALENT, "Breath: [$breath] vs DC [8+$con_mod+$prof] or "
         + "[max($level 1:2d6,6:3d6,11:4d6,16:5d6)] damage"),
-    SUNLIGHT_SENSITIVITY(RACIAL_TALENT, "Sunlight Sensitivity",
+    SUNLIGHT_SENSITIVITY(RACIAL_TALENT,
         "Disadvantage on attack and perception when target is in direct sunlight"),
-    GNOME_CUNNING(RACIAL_TALENT, "Gnome Cunning",
-        "Advantage on Int., Wis. and Chr. saves vs. magic."),
+    GNOME_CUNNING(RACIAL_TALENT, "Advantage on Int., Wis. and Chr. saves vs. magic."),
     ARTIFICERS_LORE(RACIAL_TALENT, "Artificer's Lore",
         "+[2*$prof] on history check related to devices."),
-    TINKER(RACIAL_TALENT, "Tinker",
-        "Construct tiny clockwork devices (1 hour, 10GP)."),
-    SPEAK_WITH_SMALL_BEASTS(RACIAL_TALENT, "Speak with Small Beasts",
-        "Communicate simple ideas to small animals."),
-    FEY_ANCESTORY(RACIAL_TALENT, "Fey Ancestory",
-        "Avantage on save vs. charm; magic cannot cause sleep."),
-    RELENTLESS_ENDURANCE(RACIAL_TALENT, "Relentless Endurance",
-        "Drop to 1HP rather than 0HP once between long rests."),
-    SAVAGE_ATTACKS(RACIAL_TALENT, "Savage Attacks",
-        "+1 damage die roll on critical hits."),
-    HELLISH_RESISTANCE(RACIAL_TALENT, "Hellish Resistance",
-        "Resistance to fire damage."),
+    TINKER(RACIAL_TALENT, "Construct tiny clockwork devices (1 hour, 10GP)."),
+    SPEAK_WITH_SMALL_BEASTS(RACIAL_TALENT, "Communicate simple ideas to small animals."),
+    FEY_ANCESTORY(RACIAL_TALENT, "Avantage on save vs. charm; magic cannot cause sleep."),
+    RELENTLESS_ENDURANCE(RACIAL_TALENT, "Drop to 1HP rather than 0HP once between long rests."),
+    SAVAGE_ATTACKS(RACIAL_TALENT, "+1 damage die roll on critical hits."),
+    HELLISH_RESISTANCE(RACIAL_TALENT, "Resistance to fire damage."),
     //
-    ARCHERY(FIGHTING_STYLE, "Archery",
-        "+2 attack bonus with ranged weapons."),
-    DEFENSE(FIGHTING_STYLE, "Defense",
-        "+1 AC when wearing armour."),
-    DUELING(FIGHTING_STYLE, "Dueling",
-        "+2 damage with melee weapon when other hand is empty."),
-    GREAT_WEAPON(FIGHTING_STYLE, "Great Weapon",
-        "Reroll 1s and 2s for damage when using a two handed weapon."),
-    PROTECTION(FIGHTING_STYLE, "Protection",
+    ARCHERY(FIGHTING_STYLE, "+2 attack bonus with ranged weapons."),
+    DEFENSE(FIGHTING_STYLE, "+1 AC when wearing armour."),
+    DUELING(FIGHTING_STYLE, "+2 damage with melee weapon when other hand is empty."),
+    GREAT_WEAPON(FIGHTING_STYLE, "Reroll 1s and 2s for damage when using a two handed weapon."),
+    PROTECTION(FIGHTING_STYLE,
         "Disadvantage attacks against other targets with 5' when using a shield."),
-    TWO_WEAPON(FIGHTING_STYLE, "Two Weapon",
-        "Add ability modifier to damage of second weapon attack."),
+    TWO_WEAPON(FIGHTING_STYLE, "Add ability modifier to damage of second weapon attack."),
     //
-    SECOND_WIND(CLASS_TALENT, "Second Wind",
+    SECOND_WIND(CLASS_TALENT,
         "Use a bonus action to regain 1d10+[$level] hit points. Use once between each rest. "),
     ACTION_SURGE(CLASS_TALENT, "Action Surge",
         "Take an additional action [max($level 2:one time, 17:two times)] between each rest."),
-    IMPROVED_CRITICAL(CLASS_TALENT, "Improved Critical",
-        "Score a critical on a roll of 19 or 20."),
+    IMPROVED_CRITICAL(CLASS_TALENT, "Score a critical on a roll of 19 or 20."),
     SUPERIOR_CRITICAL(CLASS_TALENT, "Improved Critical",
         "Score a critical on a roll of 18, 19 or 20."),
-    SURVIVOR(CLASS_TALENT, "Survivor",
+    SURVIVOR(CLASS_TALENT,
         "Regain [5 + $con_mod] HP each turn if no more than [$hp / 2] hit points remaining."),
-    REMARKABLE_ATHLETE(CLASS_TALENT, "Remarkable Athlete",
+    REMARKABLE_ATHLETE(CLASS_TALENT,
         "Add [$prof / 2] to Str, Dex and Con checks. Add [$str_mod]' to running long jump length."),
     EXTRA_ATTACK_FIGHTER(CLASS_TALENT, "Extra Attack",
         "Attack [max($level 5:two, 11:three, 20:four)] times in each attack action."),
-    EXTRA_ATTACK(CLASS_TALENT, "Extra Attack",
-        "Attack two times in each attack action."),
-    INDOMITABLE(CLASS_TALENT, "Indomitable", "Reroll [max($level 9:one, 13:two, 17:three)] "
+    EXTRA_ATTACK(CLASS_TALENT, "Attack two times in each attack action."),
+    INDOMITABLE(CLASS_TALENT, "Reroll [max($level 9:one, 13:two, 17:three)] "
         + "failed saving [plural(throw,throws)] between each rest."),
-    ARCANE_RECOVERY(CLASS_TALENT, "Arcane recovery", "Once per day, following a short rest, "
+    ARCANE_RECOVERY(CLASS_TALENT, "Once per day, following a short rest, "
         + "recover [$level /^ 2] [plural(level,levels)] of expended spell slots below sixth level."),
-    SNEAK_ATTACK(CLASS_TALENT, "Sneak Attack",
+    SNEAK_ATTACK(CLASS_TALENT,
         "Extra [$level /^ 2]d6 damage on one attack with advantage each turn."),
-    CUNNING_ACTION(CLASS_TALENT, "Cunning Action",
+    CUNNING_ACTION(CLASS_TALENT,
         "Bonus dash, disengage or hide action each turn"),
-    UNCANNY_DODGE(CLASS_TALENT, "Uncanny Dodge",
+    UNCANNY_DODGE(CLASS_TALENT,
         "Use reaction to halve attack damage from visible attacker."),
-    EVASION(CLASS_TALENT, "Evasion",
-        "Save vs Dex for no damage, fail for half."),
-    RELIABLE_TALENT(CLASS_TALENT, "Reliable Talent",
-        "Treat 9 or lower as 10 on proficient ability checks."),
-    BLINDSENSE(CLASS_TALENT, "Blindsense", "Aware of invisible creatures within 10'"),
-    SLIPPERY_MIND(CLASS_TALENT, "Slippery Mind", "Add proficiency to save vs Wis."),
-    ELUSIVE(CLASS_TALENT, "Elusive",
-        "No attack roll has advantage if not incapacitated."),
+    EVASION(CLASS_TALENT, "Save vs Dex for no damage, fail for half."),
+    RELIABLE_TALENT(CLASS_TALENT, "Treat 9 or lower as 10 on proficient ability checks."),
+    BLINDSENSE(CLASS_TALENT, "Aware of invisible creatures within 10'"),
+    SLIPPERY_MIND(CLASS_TALENT, "Add proficiency to save vs Wis."),
+    ELUSIVE(CLASS_TALENT, "No attack roll has advantage if not incapacitated."),
     STROKE_OF_LUCK(CLASS_TALENT, "Stroke of Luck",
         "Turn a missed attack into a hit or failed ability check "
         + "into success one between each rest."),
@@ -322,69 +300,63 @@ public enum Ability implements Attribute {
             character.addAttribute(Spell.FLY);
         }
     },
-    BREATH_OF_WINTER(CLASS_TALENT, "Breath of Winter",
-        "Spend 6 Ki points to cast Cone of Cold") {
+    BREATH_OF_WINTER(CLASS_TALENT, "Spend 6 Ki points to cast Cone of Cold") {
         @Override
         public void generateInitialChoices(Character character) {
             character.addAttribute(Spell.CONE_OF_COLD);
         }
     },
-    ENTERNAL_MOUNTAIN_DEFENCE(CLASS_TALENT, "Eternal Mountain Defence",
-        "Spend 5 Ki points to cast Stoneskin targeting self") {
+    ENTERNAL_MOUNTAIN_DEFENCE(CLASS_TALENT, "Spend 5 Ki points to cast Stoneskin targeting self") {
         @Override
         public void generateInitialChoices(Character character) {
             character.addAttribute(Spell.STONESKIN);
         }
     },
-    RIVER_OF_HUNGRY_FLAME(CLASS_TALENT, "River of Hungry Flame",
-        "Spend 5 Ki points to cast Wall of Fire") {
+    RIVER_OF_HUNGRY_FLAME(CLASS_TALENT, "Spend 5 Ki points to cast Wall of Fire") {
         @Override
         public void generateInitialChoices(Character character) {
             character.addAttribute(Spell.WALL_OF_FIRE);
         }
     },
-    WAVE_OF_ROLLING_EARTH(CLASS_TALENT, "Wave of Rolling Earth",
-        "Spend 6 Ki points to cast Wall of Stone") {
+    WAVE_OF_ROLLING_EARTH(CLASS_TALENT, "Spend 6 Ki points to cast Wall of Stone") {
         @Override
         public void generateInitialChoices(Character character) {
             character.addAttribute(Spell.WALL_OF_STONE);
         }
     },
-    WILD_SHAPE(CLASS_TALENT, "Wild Shape",
+    WILD_SHAPE(CLASS_TALENT,
         "As an action, assume the shape of a beast of up to CR[max($level 2:1/4,4:1/2,8:1)]."),
-    FONT_OF_MAGIC(CLASS_TALENT, "Font of Magic",
+    FONT_OF_MAGIC(CLASS_TALENT,
         "[$level] sorcery points. As a bonus action, convert sorcery points to spell slots. "
         + "2 1st, 3 2nd, 5 3rd, 6 4th 7 5th. Or convert spell slots to sorcery points. "
         + "1 sorcery point for each level. "),
-    DIVINE_SENSE(CLASS_TALENT, "Divine Sense",
+    DIVINE_SENSE(CLASS_TALENT,
         "As an action, know location of celestial, fiend or undead within 60 feet."),
-    LAY_ON_HANDS(CLASS_TALENT, "Lay on Hands",
-        "As an action, restore HP. Restore a total of [$level * 5] between each long rest. "
+    LAY_ON_HANDS(CLASS_TALENT,
+        "As an action, restore HP. Restore a total of [$level * 5] HPs between each long rest. "
         + "Cure disease or neutralise poison requires 5 HP."),
-    DIVINE_SMITE(CLASS_TALENT, "Divine Smite",
+    DIVINE_SMITE(CLASS_TALENT,
         "On hitting with melee attack, expend 1 spell slot to deal +1d8 radiant damage "
         + "or 2d8 to undead. +1d8 damage / extra spell slot up to 5."),
-    IMPROVED_DIVINE_SMITE(CLASS_TALENT, "Improved Divine Smite",
-        "On hitting with melee attack, deal +1d8 radiant damage."),
-    DIVINE_HEALTH(CLASS_TALENT, "Divine Health",
-        "Immune to disease."),
-    AURA_OF_PROTECTION(CLASS_TALENT, "Aura of Protection",
+    IMPROVED_DIVINE_SMITE(CLASS_TALENT, "On hitting with melee attack, deal +1d8 radiant damage."),
+    DIVINE_HEALTH(CLASS_TALENT, "Immune to disease."),
+    AURA_OF_PROTECTION(CLASS_TALENT,
         "Paladin and allies within [max($level 6:10,18:30)] feet gain +[$chr_mod] to saves."),
-    AURA_OF_COURAGE(CLASS_TALENT, "Aura of Courage",
+    AURA_OF_COURAGE(CLASS_TALENT,
         "Paladin and allies within [max($level 6:10,18:30)] feet cannot be frightened."),
-    CLEANSING_TOUCH(CLASS_TALENT, "Cleansing Touch",
+    CLEANSING_TOUCH(CLASS_TALENT,
         "As action, end one spell on self or willing creature touched. "
         + "Use [$chr_mod] times between long rests."),
     SACRED_WEAPON(CLASS_TALENT, "Channel Divinity: Sacred Weapon",
         "For 1 minute weapon attack +[$chr_mod] and emits bright light."),
     TURN_THE_UNHOLY(CLASS_TALENT, "Channel Divinity: Turn the Unholy",
         "Each fiend and undead within 30 feet Wis. save or turned for 1 minute."),
-    AURA_OF_DEVOTION(CLASS_TALENT, "Aura of Devotion",
+    AURA_OF_DEVOTION(CLASS_TALENT,
         "Paladin and allies within [max($level 7:10,18:30)] feet cannot be charmed."),
-    PURITY_OF_SPIRIT(CLASS_TALENT, "Purity of Spirit",
+    PURITY_OF_SPIRIT(CLASS_TALENT,
         "Aberrations, celestials, elementals, fey, fiends, and undead have disadvantage on attacks "
         + "against Paladin."),
-    HOLY_NIMBUS(CLASS_TALENT, "Holy Nimbus",
+    HOLY_NIMBUS(CLASS_TALENT,
         "As an action emanate aura of sunlight. For 1 minute, within 30 feet bright light shines "
         + "and enemies take 10 radiant damage. Paladin has advantage on saves against "
         + "fiend and undead spells. Use once between each long rest. "),
@@ -392,12 +364,12 @@ public enum Ability implements Attribute {
         "1 creature within 10 feet restrained until Str. or Dex. save."),
     TURN_THE_FAITHLESS(CLASS_TALENT, "Channel Divinity: Turn the Faithless",
         "Fey and fiend within 30 feet Wis. save or turned for 1 minute."),
-    AURA_OF_WARDING(CLASS_TALENT, "Aura of Warding",
+    AURA_OF_WARDING(CLASS_TALENT,
         "Paladin and allies within [max($level 7:10,18:30)] feet have resistance to "
         + "damage from spells."),
-    UNDYING_SENTINEL(CLASS_TALENT, "Undying Sentinel",
+    UNDYING_SENTINEL(CLASS_TALENT,
         "When paladin would drop to 0 HP, drop to 1 HP."),
-    ELDER_CHAMPION(CLASS_TALENT, "Elder Champion",
+    ELDER_CHAMPION(CLASS_TALENT,
         "As an action, tranform into force of nature. For 1 minute regain 10 HP each turn,"
         + "cast spells as bonus action, enemies within 10 feet have disadvantage against "
         + "paladin spells and Channel Divinity. Use once between each long rest."),
@@ -407,17 +379,64 @@ public enum Ability implements Attribute {
     VOW_OF_ENMITY(CLASS_TALENT, "Channel Divinity: Vow of Enmity",
         "As a bonus action mark 1 creature within 10 feet gaining advantage on attacks "
         + "for 1 minute."),
-    RELENTLESS_AVENGER(CLASS_TALENT, "Relentless Avenger",
+    RELENTLESS_AVENGER(CLASS_TALENT,
         "When opportunity attack hits, move up to half speed as part of reaction. "
         + "Move does not provoke opportunity attacks."),
-    SOUL_OF_VENGEANCE(CLASS_TALENT, "Soul of Vengeance",
+    SOUL_OF_VENGEANCE(CLASS_TALENT,
         "As a reaction to an attack by a creature marked by Vow of Enmity attacks, "
         + "make a melee attack."),
-    AVENGING_ANGEL(CLASS_TALENT, "Avenging Angel",
+    AVENGING_ANGEL(CLASS_TALENT,
         "As an action, transform into angelic avenger. For 1 hour fly at speed 60, "
         + "enemies coming within 30 feet Wis. save or frightened for 1 minute and "
         + "grant advantage on attacks."),
-    //
+    NATURAL_EXPLORER(CLASS_TALENT,
+        "Int. and Wis. checks for proficient skills related to favoured terrain are doubled. "
+        + "Fast, reliable, alert, stealthy travel and effective foraging and tracking "
+        + "in favoured terrain. "),
+    PRIMEVAL_AWARENESS(CLASS_TALENT,
+        "As an action, expend a spell slot. For 1 minute / spell level sense presence of "
+        + "aberrations, celestials, dragons, elementals, fey, fiends and undead within 1 mile or "
+        + "6 miles within favoured terrain."),
+    LANDS_STRIDE(CLASS_TALENT, "Land's Stride",
+        "Move through difficult terrain at normal speed. Avoid damage from plants. "
+        + "Advantage on saves vs. plants magically impeding movement. "),
+    HIDE_IN_PLAIN_SIGHT(CLASS_TALENT,
+        "Spend 1 minute creating camouflage and hiding against solid surface to gain "
+        + "+10 to Stealth checks. "),
+    VANISH(CLASS_TALENT,
+        "Hide as a bonus action. Cannot be tracked."),
+    FERAL_SENSES(CLASS_TALENT,
+        "Can attack invisible creatures without disadvantage. "
+        + "Aware of invisible creatures within 30 feet"),
+    FOE_SLAYER(CLASS_TALENT,
+        "Once each turn add +[$wis_mod] to attack or damage against favoured enemy."),
+    COLOSSUS_SLAYER(CLASS_TALENT,
+        "Once each turn add 1d8 damage to a creature that is below maximum HP."),
+    GIANT_KILLER(CLASS_TALENT, "As a reaction attack a large creature that hits or misses."),
+    HORDE_BREAKER(CLASS_TALENT,
+        "Once each turn make a second melee attack against a different target within 5 feet."),
+    ESCAPE_THE_HORDE(CLASS_TALENT, "Opportunity attacks by enemies are disadvantaged."),
+    MULTIATTACK_DEFENSE(CLASS_TALENT, "Multiattck Defence",
+        "+4 AC for second and subsequent attacks by an enemy within a single turn."),
+    STEEL_WILL(CLASS_TALENT, "Advantage on save vs. fear."),
+    VOLLEY(CLASS_TALENT,
+        "Make ranged attacks against any number of targets within 10 feet of a chosen point."),
+    WHIRLWIND_ATTACK(CLASS_TALENT,
+        "Make melee attacks against any number of targets within 5 feet."),
+    STAND_AGAINST_THE_TIDE(CLASS_TALENT,
+        "As a reaction force an enemy that misses to repeat the attack on another creature."),
+    RANGERS_COMPANION(CLASS_TALENT, "Ranger's Companion",
+        "As an action, command the beast to Attack, Dash, Disengage, Dodge or Help."),
+    EXCEPTIONAL_TRAINING(CLASS_TALENT,
+        "On any turns when the Ranger's companion does not attack, as a bonus action command the "
+        + "beast can Dash, Disengage, Dodge or Help."),
+    BESTIAL_FURY(CLASS_TALENT, "Ranger's companion can make two attacks."),
+    SHARE_SPELLS(CLASS_TALENT,
+        "Any spells targeting self can also effect Ranger's companion within 30 feet."),
+
+    /*
+     * Divine domain abilities
+    **/
     KNOWLEDGE_OF_THE_AGES(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Knowledge of the Ages",
         "As an action, gain proficiency with one skill or tool for 10 minutes."),
     READ_THOUGHTS(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Read Thoughts",
@@ -427,20 +446,6 @@ public enum Ability implements Attribute {
         "Add [$wis_mod] to damage from cantrips."),
     VISIONS_OF_THE_PAST(DIVINE_DOMAIN_ABILITY, "Visions of the Past",
         "After 1 minute of mediation, object and area reading"),
-    //
-    EVOCATION_SAVANT(EVOCATION_ABILITY,
-        "Evocation Savant",
-        "Halve the time and cost to copy evocation spells."),
-    SCULPT_SPELLS(EVOCATION_ABILITY, "Sculpt Spells",
-        "Cause up to 1 + spell level creatures automatically save on evocation spells."),
-    POTENT_CANTRIP(EVOCATION_ABILITY, "Potent Cantrip",
-        "Targets savings against cantrips take half damage."),
-    EMPOWERED_EVOCATION(EVOCATION_ABILITY, "Empowered Evocation",
-        "Add [$int_mode] to damage of evocation spells."),
-    OVERCHANNEL(EVOCATION_ABILITY, "Overchannel",
-        "Deal maximum damage on spell of level 5 or less. "
-        + "More than one use between rests causes necrotic damage."),
-    //
     TURN_UNDEAD(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Turn Undead",
         "Each undead within 30' save vs Wis or turned for 1 minute."),
     DESTROY_UNDEAD(DIVINE_DOMAIN_ABILITY, "Destroy Undead",
@@ -461,7 +466,26 @@ public enum Ability implements Attribute {
         "Healing spells restore maximum HP."),
     DISCIPLE_OF_LIFE(DIVINE_DOMAIN_ABILITY, "Disciple of life",
         "Healing spells restore an additional 2 + spell level HP."),
-    //
+
+    /*
+     * Evocation abilities
+    **/
+    EVOCATION_SAVANT(EVOCATION_ABILITY,
+        "Evocation Savant",
+        "Halve the time and cost to copy evocation spells."),
+    SCULPT_SPELLS(EVOCATION_ABILITY, "Sculpt Spells",
+        "Cause up to 1 + spell level creatures automatically save on evocation spells."),
+    POTENT_CANTRIP(EVOCATION_ABILITY, "Potent Cantrip",
+        "Targets savings against cantrips take half damage."),
+    EMPOWERED_EVOCATION(EVOCATION_ABILITY, "Empowered Evocation",
+        "Add [$int_mode] to damage of evocation spells."),
+    OVERCHANNEL(EVOCATION_ABILITY, "Overchannel",
+        "Deal maximum damage on spell of level 5 or less. "
+        + "More than one use between rests causes necrotic damage."),
+
+    /*
+     * Background abilities
+    **/
     CITY_SECRETS(BACKGROUND_FEATURE, "City Secrets",
         "When not in combat, travel at double speed between locations in city."),
     SHIPS_PASSAGE(BACKGROUND_FEATURE, "Ship's Passage",
@@ -471,7 +495,44 @@ public enum Ability implements Attribute {
     WANDERER(BACKGROUND_FEATURE, "Wanderer",
         "Excellent memory for maps and geography. Can find food if available."),
     DISCOVERY(BACKGROUND_FEATURE, "Discovery",
-        "Have made a unique and powerful discovery.");
+        "Have made a unique and powerful discovery."),
+
+    /*
+     * Feats
+    **/
+    ALERT(FEAT, "+5 initiative; cannot be surprised; "
+        + "unseen enemies do not gain adavantage on attack."),
+    ATHLETE(FEAT, "Standing up uses only 5 feet of movement; climb at normal speed; "
+        + "running jump after 5 feet.") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            character.addChoice(new AbilityScoreOrFeatIncrease("Athletic Ability", STRENGTH, DEXTERITY));
+        }
+    },
+    ACTOR(FEAT, "Advantage on Deception and Performance checks; "
+        + "mimic speech or sounds: Insight vs. Deception to detect. ") {
+        @Override
+        public void generateInitialChoices(Character character) {
+            IntAttribute charisma = character.getAttribute(CHARISMA);
+            charisma.addValue(1);
+            charisma.setInRange(1, 20);
+        }
+    },
+    CHARGER(FEAT, "When action Dash, make 1 melee weapon attack or shove as reaction; "
+        + "+5 damage or +10 feet shove if move 10 feet in straight line."),
+    CROSSBOW_EXPERT(FEAT,
+        "Ignore loading cost of crossbows; not disadvantaged while engaged; "
+        + "while attacking with one-handed weapon, "
+        + "also attack with hand crossbow as bonus action."),
+    DEFENSIVE_DUELIST(FEAT, "While wielding a finesse weapon, as a reaction to being hit by a "
+        + "melee weapon +[$prof] AC.") {
+        @Override
+        public boolean isAllowed(Character character) {
+            return character.getIntAttribute(DEXTERITY) >= 13;
+        }
+    },
+    DUAL_WIELDER(FEAT, "+1 AC while wielding two weapons; can use two heavy weapons; draw/stow "
+        + "two weapons in same time as one.");
 
     private final AttributeType type;
     private final String name;
@@ -479,6 +540,12 @@ public enum Ability implements Attribute {
 
     public static Stream<AttributeType> getTypes() {
         return Arrays.stream(values()).map(Ability::getType).distinct();
+    }
+
+    private Ability(AttributeType type, String description) {
+        this.type = type;
+        this.name = StringUtils.capitaliseEnumName(name());
+        this.description = description;
     }
 
     private Ability(AttributeType type, String name, String description) {
@@ -490,6 +557,10 @@ public enum Ability implements Attribute {
     @Override
     public AttributeType getType() {
         return type;
+    }
+
+    public boolean isAllowed(Character character) {
+        return true;
     }
 
     @Override

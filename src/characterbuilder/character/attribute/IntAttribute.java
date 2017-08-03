@@ -43,11 +43,6 @@ public class IntAttribute implements Attribute {
     }
 
     @Override
-    public boolean isVisible() {
-        return false;
-    }
-
-    @Override
     public Node save(Document doc) {
         Element element = getType().save(doc);
         element.setTextContent(String.valueOf(value));

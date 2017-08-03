@@ -45,7 +45,7 @@ public class StringUtils {
     }
 
     private static String capitaliseEnumWord(String word) {
-        if (Stream.of("OF", "THE", "AND").anyMatch(word::equals))
+        if (Stream.of("OF", "THE", "AND", "TO", "WITH").anyMatch(word::equals))
             return word.toLowerCase();
         else
             return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();

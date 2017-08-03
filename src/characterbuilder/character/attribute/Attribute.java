@@ -14,14 +14,6 @@ public interface Attribute extends Option {
         return getType().equals(type);
     }
 
-    default boolean isVisible() {
-        return true;
-    }
-
-    default boolean isPresent() {
-        return true;
-    }
-
     default Optional<Attribute> getSuperSet() {
         return Optional.empty();
     }
