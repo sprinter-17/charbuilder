@@ -352,6 +352,71 @@ public enum Ability implements Attribute {
     },
     WILD_SHAPE(CLASS_TALENT, "Wild Shape",
         "As an action, assume the shape of a beast of up to CR[max($level 2:1/4,4:1/2,8:1)]."),
+    FONT_OF_MAGIC(CLASS_TALENT, "Font of Magic",
+        "[$level] sorcery points. As a bonus action, convert sorcery points to spell slots. "
+        + "2 1st, 3 2nd, 5 3rd, 6 4th 7 5th. Or convert spell slots to sorcery points. "
+        + "1 sorcery point for each level. "),
+    DIVINE_SENSE(CLASS_TALENT, "Divine Sense",
+        "As an action, know location of celestial, fiend or undead within 60 feet."),
+    LAY_ON_HANDS(CLASS_TALENT, "Lay on Hands",
+        "As an action, restore HP. Restore a total of [$level * 5] between each long rest. "
+        + "Cure disease or neutralise poison requires 5 HP."),
+    DIVINE_SMITE(CLASS_TALENT, "Divine Smite",
+        "On hitting with melee attack, expend 1 spell slot to deal +1d8 radiant damage "
+        + "or 2d8 to undead. +1d8 damage / extra spell slot up to 5."),
+    IMPROVED_DIVINE_SMITE(CLASS_TALENT, "Improved Divine Smite",
+        "On hitting with melee attack, deal +1d8 radiant damage."),
+    DIVINE_HEALTH(CLASS_TALENT, "Divine Health",
+        "Immune to disease."),
+    AURA_OF_PROTECTION(CLASS_TALENT, "Aura of Protection",
+        "Paladin and allies within [max($level 6:10,18:30)] feet gain +[$chr_mod] to saves."),
+    AURA_OF_COURAGE(CLASS_TALENT, "Aura of Courage",
+        "Paladin and allies within [max($level 6:10,18:30)] feet cannot be frightened."),
+    CLEANSING_TOUCH(CLASS_TALENT, "Cleansing Touch",
+        "As action, end one spell on self or willing creature touched. "
+        + "Use [$chr_mod] times between long rests."),
+    SACRED_WEAPON(CLASS_TALENT, "Channel Divinity: Sacred Weapon",
+        "For 1 minute weapon attack +[$chr_mod] and emits bright light."),
+    TURN_THE_UNHOLY(CLASS_TALENT, "Channel Divinity: Turn the Unholy",
+        "Each fiend and undead within 30 feet Wis. save or turned for 1 minute."),
+    AURA_OF_DEVOTION(CLASS_TALENT, "Aura of Devotion",
+        "Paladin and allies within [max($level 7:10,18:30)] feet cannot be charmed."),
+    PURITY_OF_SPIRIT(CLASS_TALENT, "Purity of Spirit",
+        "Aberrations, celestials, elementals, fey, fiends, and undead have disadvantage on attacks "
+        + "against Paladin."),
+    HOLY_NIMBUS(CLASS_TALENT, "Holy Nimbus",
+        "As an action emanate aura of sunlight. For 1 minute, within 30 feet bright light shines "
+        + "and enemies take 10 radiant damage. Paladin has advantage on saves against "
+        + "fiend and undead spells. Use once between each long rest. "),
+    NATURES_WRATH(CLASS_TALENT, "Channel Divinity: Nature's Wrath",
+        "1 creature within 10 feet restrained until Str. or Dex. save."),
+    TURN_THE_FAITHLESS(CLASS_TALENT, "Channel Divinity: Turn the Faithless",
+        "Fey and fiend within 30 feet Wis. save or turned for 1 minute."),
+    AURA_OF_WARDING(CLASS_TALENT, "Aura of Warding",
+        "Paladin and allies within [max($level 7:10,18:30)] feet have resistance to "
+        + "damage from spells."),
+    UNDYING_SENTINEL(CLASS_TALENT, "Undying Sentinel",
+        "When paladin would drop to 0 HP, drop to 1 HP."),
+    ELDER_CHAMPION(CLASS_TALENT, "Elder Champion",
+        "As an action, tranform into force of nature. For 1 minute regain 10 HP each turn,"
+        + "cast spells as bonus action, enemies within 10 feet have disadvantage against "
+        + "paladin spells and Channel Divinity. Use once between each long rest."),
+    ABJURE_ENERGY(CLASS_TALENT, "Channel Divinity: Abjure Energy",
+        "1 creature within 60 feet Wis. save or frightened for 1 minute speed 0. "
+        + "On save speed halved."),
+    VOW_OF_ENMITY(CLASS_TALENT, "Channel Divinity: Vow of Enmity",
+        "As a bonus action mark 1 creature within 10 feet gaining advantage on attacks "
+        + "for 1 minute."),
+    RELENTLESS_AVENGER(CLASS_TALENT, "Relentless Avenger",
+        "When opportunity attack hits, move up to half speed as part of reaction. "
+        + "Move does not provoke opportunity attacks."),
+    SOUL_OF_VENGEANCE(CLASS_TALENT, "Soul of Vengeance",
+        "As a reaction to an attack by a creature marked by Vow of Enmity attacks, "
+        + "make a melee attack."),
+    AVENGING_ANGEL(CLASS_TALENT, "Avenging Angel",
+        "As an action, transform into angelic avenger. For 1 hour fly at speed 60, "
+        + "enemies coming within 30 feet Wis. save or frightened for 1 minute and "
+        + "grant advantage on attacks."),
     //
     KNOWLEDGE_OF_THE_AGES(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Knowledge of the Ages",
         "As an action, gain proficiency with one skill or tool for 10 minutes."),

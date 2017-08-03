@@ -150,16 +150,16 @@ public enum CharacterClass implements Attribute {
                 LOCATE_OBJECT, MAGIC_MOUTH, PHANTASMAL_FORCE, SEE_INVISIBILITY, SHATTER,
                 SILENCE, SUGGESTION, ZONE_OF_TRUTH,
                 BESTOW_CURSE, CLAIRVOYANCE, DISPEL_MAGIC, FEAR, FEIGN_DEATH, GLYPH_OF_WARDING,
-                HYPNOTIC_PATTERN, LEOMUNDS_TINY_HUT, MAJOR_IMAGE, NONDETECTION, PLANT_GROWTH,
+                HYPNOTIC_PATTERN, TINY_HUT, MAJOR_IMAGE, NONDETECTION, PLANT_GROWTH,
                 SENDING, SPEAK_WITH_DEAD, SPEAK_WITH_PLANTS, STINKING_CLOUD, TONGUES,
                 COMPULSION, CONFUSION, DIMENSION_DOOR, FREEDOM_OF_MOVEMENT, GREATER_INVISIBILITY,
                 HALLUCINATORY_TERRAIN, LOCATE_CREATURE, POLYMORPH,
                 ANIMATE_OBJECTS, AWAKEN, DOMINATE_PERSON, DREAM, GEAS, GREATER_RESTORATION,
                 HOLD_MONSTER, LEGEND_LORE, MASS_CURE_WOUNDS, MISLEAD, MODIFY_MEMORY,
                 PLANAR_BINDING, RAISE_DEAD, SCRYING, SEEMING, TELEPORTATION_CIRCLE,
-                EYEBITE, FIND_THE_PATH, GUARDS_AND_WARDS, MASS_SUGGESTION, OTTOS_IRRESISTIBLE_DANCE,
+                EYEBITE, FIND_THE_PATH, GUARDS_AND_WARDS, MASS_SUGGESTION, IRRESISTIBLE_DANCE,
                 PROGRAMMED_ILLUSION, TRUE_SEEING, ETHEREALNESS, FORCECAGE, MIRAGE_ARCANE,
-                MORDENKAINENS_MAGNIFICENT_MANSION, MORDENKAINENS_SWORD, PROJECT_IMAGE,
+                MAGNIFICENT_MANSION, MORDENKAINENS_SWORD, PROJECT_IMAGE,
                 REGENERATE, RESURRECTION, SYMBOL, TELEPORT,
                 DOMINATE_MONSTER, FEEBLEMIND, GLIBNESS, MIND_BLANK, POWER_WORD_STUN,
                 FORESIGHT, POWER_WORD_HEAL, POWER_WORD_KILL, TRUE_POLYMORPH);
@@ -390,7 +390,30 @@ public enum CharacterClass implements Attribute {
     PALADIN(10, SACRED_OATH, WISDOM, CHARISMA, Arrays.asList(STRENGTH, CHARISMA)) {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
-            gen.level(1).addAttributes(new SpellCasting(CHARISMA));
+            gen.level(1).addAttributes(ALL_ARMOUR, ALL_WEAPONS);
+            gen.level(1).addChoice(2, new AttributeChoice("Skill", ATHLETICS, INSIGHT,
+                INTIMIDATION, MEDICINE, PERSUASION, RELIGION));
+            gen.level(1).addChoice(new EquipmentChoice("Weapon")
+                .with(MARTIAL_MELEE).with(MARTIAL_RANGED));
+            gen.level(1).addChoice(new EquipmentChoice("Weapon or Shield", Armour.SHIELD)
+                .with(MARTIAL_MELEE).with(MARTIAL_RANGED));
+            gen.level(1).addChoice(new EquipmentChoice("Secondary Weapon")
+                .with(JAVELIN, 5).with(SIMPLE_MELEE));
+            gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
+                PRIEST_PACK, EXPLORER_PACK));
+            gen.level(1).addEquipment(CHAIN_MAIL_ARMOUR);
+            gen.level(1).addChoice(new EquipmentChoice(HOLY_SYMBOL));
+            gen.level(1).addAttributes(DIVINE_SENSE, LAY_ON_HANDS);
+            gen.level(2).addChoice(new AttributeChoice(FIGHTING_STYLE));
+            gen.level(2).addAttributes(new SpellCasting(CHARISMA), DIVINE_SMITE);
+            gen.level(3).addAttributes(DIVINE_HEALTH);
+            gen.level(3).addChoice(new AttributeChoice("Sacred Oath", SacredOath.values()));
+            gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreIncrease());
+            gen.level(5).addAttributes(EXTRA_ATTACK);
+            gen.level(6).addAttributes(AURA_OF_PROTECTION);
+            gen.level(10).addAttributes(AURA_OF_COURAGE);
+            gen.level(11).addAttributes(IMPROVED_DIVINE_SMITE);
+            gen.level(14).addAttributes(CLEANSING_TOUCH);
             final int[][] spellCount = {
                 {0},
                 {0},
@@ -532,6 +555,17 @@ public enum CharacterClass implements Attribute {
         public void generateLevelChoices(Character character) {
             ChoiceGenerator gen = new ChoiceGenerator();
             gen.level(1).addAttributes(new SpellCasting(CHARISMA));
+            gen.level(1).addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
+            gen.level(1).addChoice(new AttributeChoice("Skill", ARCANA, DECEPTION, INSIGHT,
+                INTIMIDATION, PERSUASION, RELIGION));
+            gen.level(1).addChoice(new EquipmentChoice("Weapon")
+                .with(LIGHT_CROSSBOW, new EquipmentSet(TRIDENT, 0))
+                .with(SIMPLE_MELEE).with(SIMPLE_RANGED));
+            gen.level(1).addChoice(new EquipmentChoice("Spellcasting")
+                .with(COMPONENT_POUCH).with(ARCANE_FOCUS));
+            gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
+                DUNGEONEER_PACK, EXPLORER_PACK));
+            gen.level(2).addAttributes(FONT_OF_MAGIC);
             final int[][] spellCount = {
                 {},
                 {4, 2},
@@ -705,12 +739,12 @@ public enum CharacterClass implements Attribute {
                 CONTINUAL_FLAME, CROWN_OF_MADNESS, DARKNESS, DETECT_THOUGHTS, ENLARGE_REDUCE,
                 FLAMING_SPHERE, GENTLE_REPOSE, GUST_OF_WIND, HOLD_PERSON, INVISIBILITY, KNOCK,
                 LEVITATE, LOCATE_OBJECT, MAGIC_MOUTH, MAGIC_WEAPON, MELFS_ACID_ARROW,
-                MIRROR_IMAGE, MISTY_STEP, NYSTULS_MAGIC_AURA, PHANTASMAL_FORCE,
+                MIRROR_IMAGE, MISTY_STEP, ARCANISTS_MAGIC_AURA, PHANTASMAL_FORCE,
                 RAY_OF_ENFEEBLEMENT, ROPE_TRICK, SCORCHING_RAY, SEE_INVISIBILITY, SHATTER,
                 SPIDER_CLIMB, SUGGESTION, WEB,
                 ANIMATE_DEAD, BESTOW_CURSE, BLINK, CLAIRVOYANCE, COUNTERSPELL, DISPEL_MAGIC, FEAR,
                 FEIGN_DEATH, FIREBALL, FLY, GASEOUS_FORM, GLYPH_OF_WARDING, HASTE, HYPNOTIC_PATTERN,
-                LEOMUNDS_TINY_HUT, LIGHTNING_BOLT, MAGIC_CIRCLE, MAJOR_IMAGE, NONDETECTION,
+                TINY_HUT, LIGHTNING_BOLT, MAGIC_CIRCLE, MAJOR_IMAGE, NONDETECTION,
                 PHANTOM_STEED, PROTECTION_FROM_ENERGY, REMOVE_CURSE, SENDING, STINKING_CLOUD,
                 SENDING, SLEET_STORM, SLOW, STINKING_CLOUD, TONGUES, VAMPIRIC_TOUCH,
                 WATER_BREATHING,
@@ -719,7 +753,7 @@ public enum CharacterClass implements Attribute {
                 GREATER_INVISIBILITY, HALLUCINATORY_TERRAIN, ICE_STORM, LEOMUNDS_SECRET_CHEST,
                 LOCATE_CREATURE, MORDENKAINENS_FAITHFUL_HOUND, MORDENKAINENS_PRIVATE_SANCTUM,
                 PHANTASMAL_KILLER, POLYMORPH, STONE_SHAPE, STONESKIN, WALL_OF_FIRE,
-                ANIMATE_OBJECTS, BIGBYS_HAND, CLOUDKILL, CONE_OF_COLD, CONJURE_ELEMENTAL,
+                ANIMATE_OBJECTS, ARCANE_HAND, CLOUDKILL, CONE_OF_COLD, CONJURE_ELEMENTAL,
                 CONTACT_OTHER_PLANE, CREATION, DOMINATE_PERSON, DREAM, GEAS, HOLD_MONSTER,
                 LEGEND_LORE, MISLEAD, MODIFY_MEMORY, PASSWALL, PLANAR_BINDING,
                 RARYS_TELEPATHIC_BOND, SCRYING, SEEMING, TELEKINESIS, TELEPORTATION_CIRCLE,
@@ -727,10 +761,10 @@ public enum CharacterClass implements Attribute {
                 ARCANE_GATE, CHAIN_LIGHTNING, CIRCLE_OF_DEATH, CONTINGENCY, CREATE_UNDEAD,
                 DISINTEGRATE, DRAWMIJS_INSTANT_SUMMONS, EYEBITE, FLESH_TO_STONE,
                 GLOBE_OF_INVULNERABILITY, GUARDS_AND_WARDS, MAGIC_JAR, MASS_SUGGESTION,
-                MOVE_EARTH, OTILUKES_FREEZING_SPHERE, OTTOS_IRRESISTIBLE_DANCE,
+                MOVE_EARTH, FREEZING_SPHERE, IRRESISTIBLE_DANCE,
                 PROGRAMMED_ILLUSION, SUNBEAM, TRUE_SEEING, WALL_OF_ICE,
                 DELAYED_BLAST_FIREBALL, ETHEREALNESS, FINGER_OF_DEATH, FORCECAGE,
-                MIRAGE_ARCANE, MORDENKAINENS_MAGNIFICENT_MANSION, MORDENKAINENS_SWORD,
+                MIRAGE_ARCANE, MAGNIFICENT_MANSION, MORDENKAINENS_SWORD,
                 PLANE_SHIFT, PRISMATIC_SPRAY, PROJECT_IMAGE, REVERSE_GRAVITY, SEQUESTER,
                 SIMULACRUM, SYMBOL, TELEPORT,
                 ANTIMAGIC_FIELD, ANTIPATHY_SYMPATHY, CLONE, CONTROL_WEATHER, DEMIPLANE,

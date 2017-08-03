@@ -2,12 +2,16 @@ package characterbuilder.character.ability;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.attribute.DraconicAncestory;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.attribute.Race;
 import characterbuilder.character.saveload.TestDoc;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,5 +43,22 @@ public class AbilityTest {
     @Test
     public void testSaveLoad() {
         assertThat(AttributeType.load(Ability.ARCHERY.save(TestDoc.doc())), is(Ability.ARCHERY));
+    }
+
+    @Test
+    public void testLegalDescriptionExpressions() {
+        character.addAttribute(Race.HALF_ELF);
+        character.addAttribute(DraconicAncestory.BLUE);
+        character.addAttribute(new IntAttribute(AttributeType.HIT_POINTS, 10));
+        AttributeType.ABILITY_SCORES.stream()
+            .forEach(attr -> character.addAttribute(new IntAttribute(attr, 14)));
+        for (Ability ability : Ability.values()) {
+            try {
+                String desc = ability.getDescription(character).collect(joining());
+                assertFalse(ability.name() + ":" + desc, desc.contains("*ERROR*"));
+            } catch (Exception ex) {
+                fail(ability.name() + ":" + ex.toString());
+            }
+        }
     }
 }

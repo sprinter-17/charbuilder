@@ -100,6 +100,50 @@ public class CharacteristicGenerator {
         add("Once I pick a goal, I become obsessed with it to the detriment of everything "
             + "else in my life.");
 
+        background = Background.CHARLATAN;
+        type = TRAIT;
+        add("I fall in and out of love easily, and am always pursuing someone.");
+        add("I have a joke for every occasion, especially occasions where humour is inappropriate.");
+        add("Flattery is my preferred trick for getting what I want.");
+        add("I'm a born gambler who can't resist taking a risk for a potential payoff.");
+        add("I lie about almost everything, even when there's no good reason to.");
+        add("Sarcasm and insults are my weapon of choice.");
+        add("I keep multiple holy symbols on me and invoke whatever deity might come in useful "
+            + "at any given moment");
+        add("I pocket anything I see that might have some value");
+
+        type = IDEAL;
+        add("I am a free spirit - no one tells me what to do.", Alignment::isChaotic);
+        add("I never target people who can't affor to lose a few coins.", Alignment::isLawful);
+        add("I distribute the money I acquire to the people who really need it.", Alignment::isGood);
+        add("I never run the same con twice.", Alignment::isChaotic);
+        add("Material goods come and go. Bonds of friendship last forever.", Alignment::isGood);
+        add("I'm determined to make something of myself.");
+
+        type = BOND;
+        add("I fleeced the wrong person and must work to ensure that this individual never crosses "
+            + "paths with me or those I care about.");
+        add("I owe everything to my mentor - a horrible person who's probably rotting in jain "
+            + "somewhere.");
+        add("Somewhere out there, I have a child who doesn't know me. I'm making the world better "
+            + "for him or her");
+        add("I come from a noble family and one day I'll reclaim my lands and title from those "
+            + "who stole them from me.");
+        add("A powerful person killed someone I love. Someday soon I'll have my revenge.");
+        add("I swindled and ruined a person who didn't deserve it. I seek to atone for my misdeeds "
+            + "but might never be able to forgive myself.");
+
+        type = FLAW;
+        add("I can't resist a pretty face.");
+        add("I'm always in debt. I spend my ill-gotten gains on decadent luxuries faster than I "
+            + "bring them in.");
+        add("I'm convinced that no one could ever fool me in the way I fool others.");
+        add("I'm too greedy for my own good. I can't resist taking a risk if there's money "
+            + "involved.");
+        add("I can't resist swindling people who are more powerful than me.");
+        add("I hate to admit it and will hate myself for it, but I'll run and preserve my own hide "
+            + "if the going gets tough.");
+
         background = Background.CRIMINAL;
         type = TRAIT;
         add("I always have a plan for what to do when things go wrong.");
@@ -139,6 +183,46 @@ public class CharacteristicGenerator {
         add("I have a “tell” that reveals when I’m lying.");
         add("I turn tail and run when things look bad.");
         add("An innocent person is in prison for a crime that I committed. I’m okay with that.");
+
+        background = Background.ENTERTAINER;
+        type = TRAIT;
+        add("I know a story relevant to almost every situation.");
+        add("Whenever I come to a new place, I collect local rumours and spread gossip.");
+        add("I'm a hopeless romantic, always searching for that 'special someone'.");
+        add("Nobody stays angry at me or around me for long, since I can defuse "
+            + "any amount of tension.");
+        add("I love a good insult, even one directed at me.");
+        add("I get bitter if I'm not the centre of attention.");
+        add("I'll settle for nothing less than perfection.");
+        add("I change my mood or my mind as quickly as I change key in a song.");
+
+        type = IDEAL;
+        add("When I perform, I make the world better than it was.", Alignment::isGood);
+        add("The stories, legends, and songs of the past must never be forgotten for they teach us"
+            + "who we are", Alignment::isLawful);
+        add("The world is in need of new ideas and bold action.", Alignment::isChaotic);
+        add("I'm only in it for the money and fame.", Alignment::isEvil);
+        add("I like seeing the smiles of people's faces when I perform. That's all that matters",
+            Alignment::isNeutral);
+        add("Art should reflect the sould; it should come from within and reveal who we really are");
+
+        type = BOND;
+        add("My instrument is my most treasured possession, and it reminds me of someone I love.");
+        add("Someone stole my precious instrument, and someday I'll get it back.");
+        add("I want to be famour, whatever it takes.");
+        add("I idolize a hero of the old tales and measure my deeds against that person's.");
+        add("I will do anything to prove myself superior to my hated rival.");
+        add("I would do anything for the other members of my old troupe.");
+
+        type = FLAW;
+        add("I'll do anything to win fame and renown.");
+        add("I'm a sucker for a pretty face.");
+        add("A scandal prevents me from ever going home again. That kind of trouble seems to follow "
+            + "me around.");
+        add("I once satirized a noble who still wants my head. I was a mistake that I will likely "
+            + "repeat.");
+        add("I have trouble keeping my true feelings hidden. My sharp tounge lands me in trouble.");
+        add("Despite my best efforts, I am unreliable to my friends.");
 
         background = Background.FOLK_HERO;
         type = TRAIT;

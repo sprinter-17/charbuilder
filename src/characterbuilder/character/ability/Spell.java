@@ -8,377 +8,6 @@ import java.util.stream.Stream;
 import org.w3c.dom.Node;
 
 public enum Spell implements Attribute {
-    BANISHING_SMITE(5),
-    BIGBYS_HAND(5),
-    CIRCLE_OF_POWER(5),
-    CONJURE_VOLLEY(5),
-    DESTRUCTIVE_WAVE(5),
-    RARYS_TELEPATHIC_BOND(5),
-    SWIFT_QUIVER(5),
-    ARCANE_GATE(6),
-    OTILUKES_FREEZING_SPHERE(6),
-    OTTOS_IRRESISTIBLE_DANCE(6),
-    MORDENKAINENS_MAGNIFICENT_MANSION(7),
-    MORDENKAINENS_SWORD(7),
-    TELEPATHY(8),
-    TSUNAMI(8),
-    POWER_WORD_HEAL(9),
-    CONJURE_ANIMALS(MagicSchool.CONJURATION, 3, "1 action", "60 feet",
-        "V, S", "up to 1 hour", "You summon fey spirits that take the form of beasts and "
-        + "appear in unoccupied spaces that you can see within range. Choose one of the following "
-        + "options for what appears: One beast of challenge rating 2 or lower Two beasts of "
-        + "challenge rating 1 or lower Four beasts of challenge rating 1/2 or lower Eight beasts "
-        + "of challenge rating 1/4 or lower Each beast is also considered fey, and it disappears "
-        + "when it drops to 0 hit points or when the spell ends. The summoned creatures are "
-        + "friendly to you and your companions. Roll initiative for the summoned creatures as a "
-        + "group, which has its own turns. They obey any verbal commands that you issue to them "
-        + "(no action required by you). If you don't issue any commands to them, they defend "
-        + "themselves from hostile creatures, but otherwise take no actions. The GM has the "
-        + "creatures' statistics. At Higher Levels. When you cast this spell using certain "
-        + "higher-level spell slots, you choose one of the summoning options above, and more "
-        + "creatures appear: twice as many with a 5th-level slot, three times as many with a "
-        + "7th-level slot, and four times as many with a 9th-level slot."),
-    COUNTERSPELL(MagicSchool.ABJURATION, 3, "1 reaction, which you take when you see a "
-        + "creature within 60 feet of you casting a spell", "60 feet",
-        "S", "Instantaneous", "You attempt to interrupt a creature in the process of casting "
-        + "a spell. If the creature is casting a spell of 3rd level or lower, its spell fails and "
-        + "has no effect. If it is casting a spell of 4th level or higher, make an ability check "
-        + "using your spellcasting ability. The DC equals 10 + the spell's level. On a success, "
-        + "the creature's spell fails and has no effect. At Higher Levels. When you cast this "
-        + "spell using a spell slot of 4th level or higher, the interrupted spell has no effect "
-        + "if its level is less than or equal to the level of the spell slot you used."),
-    CREATE_FOOD_AND_WATER(MagicSchool.CONJURATION, 3, "1 action",
-        "30 feet", "V, S", "Instantaneous", "You create 45 pounds of food and 30 gallons of "
-        + "water on the ground or in containers within range, enough to sustain up to fifteen "
-        + "humanoids or five steeds for 24 hours. The food is bland but nourishing, and spoils if "
-        + "uneaten after 24 hours. The water is clean and doesn't go bad."),
-    DAYLIGHT(MagicSchool.EVOCATION, 3, "1 action", "60 feet", "V, S",
-        "1 hour", "A 60-foot-radius sphere of light spreads out from a point you choose "
-        + "within range. The sphere is bright light and sheds dim light for an additional 60 "
-        + "feet. If you chose a point on an object you are holding or one that isn't being worn "
-        + "or carried, the light shines from the object and moves with it. Completely covering "
-        + "the affected object with an opaque object, such as a bowl or a helm, blocks the light. "
-        + "If any of this spell's area overlaps with an area of darkness created by a spell of "
-        + "3rd level or lower, the spell that created the darkness is dispelled."),
-    DISPEL_MAGIC(MagicSchool.ABJURATION, 3, "1 action", "120 feet",
-        "V, S", "Instantaneous", "Choose one creature, object, or magical effect within "
-        + "range. Any spell of 3rd level or lower on the target ends. For each spell of 4th level "
-        + "or higher on the target, make an ability check using your spellcasting ability. The DC "
-        + "equals 10 + the spell's level. On a successful check, the spell ends. At Higher "
-        + "Levels. When you cast this spell using a spell slot of 4th level or higher, you "
-        + "automatically end the effects of a spell on the target if the spell's level is equal "
-        + "to or less than the level of the spell slot you used."),
-    FEAR(MagicSchool.ILLUSION, 3, "1 action", "Self (30-foot cone)",
-        "V, S, M ", "up to 1 minute", "You project a phantasmal image of a creature's worst "
-        + "fears. Each creature in a 30-foot cone must succeed on a Wisdom saving throw or drop "
-        + "whatever it is holding and become frightened for the duration. While frightened by "
-        + "this spell, a creature must take the Dash action and move away from you by the safest "
-        + "available route on each of its turns, unless there is nowhere to move. If the creature "
-        + "ends its turn in a location where it doesn't have line of sight to you, the creature "
-        + "can make a Wisdom saving throw. On a successful save, the spell ends for that creature."),
-    FIREBALL(MagicSchool.EVOCATION, 3, "1 action", "150 feet",
-        "V, S, M ", "Instantaneous", "A bright streak flashes from your pointing finger to a "
-        + "point you choose within range and then blossoms with a low roar into an explosion of "
-        + "flame. Each creature in a 20-foot-radius sphere centered on that point must make a "
-        + "Dexterity saving throw. A target takes 8d6 fire damage on a failed save, or half as "
-        + "much damage on a successful one. The fire spreads around corners. It ignites flammable "
-        + "objects in the area that aren't being worn or carried. At Higher Levels. When you cast "
-        + "this spell using a spell slot of 4th level or higher, the damage increases by 1d6 for "
-        + "each slot level above 3rd."),
-    FLY(MagicSchool.TRANSMUTATION, 3, "1 action", "Touch", "V, S, M ",
-        "up to 10 minutes", "You touch a willing creature. The target gains a flying speed of "
-        + "60 feet for the duration. When the spell ends, the target falls if it is still aloft, "
-        + "unless it can stop the fall. At Higher Levels. When you cast this spell using a spell "
-        + "slot of 4th level or higher, you can target one additional creature for each slot "
-        + "level above 3rd."),
-    GASEOUS_FORM(MagicSchool.TRANSMUTATION, 3, "1 action", "Touch",
-        "V, S, M ", "up to 1 hour", "You transform a willing creature you touch, along with "
-        + "everything it's wearing and carrying, into a misty cloud for the duration. The spell "
-        + "ends if the creature drops to 0 hit points. An incorporeal creature isn't affected. "
-        + "While in this form, the target's only method of movement is a flying speed of 10 feet. "
-        + "The target can enter and occupy the space of another creature. The target has "
-        + "resistance to nonmagical damage, and it has advantage on Strength, Dexterity, and "
-        + "Constitution saving throws. The target can pass through small holes, narrow openings, "
-        + "and even mere cracks, though it treats liquids as though they were solid surfaces. The "
-        + "target can't fall and remains hovering in the air even when stunned or otherwise "
-        + "incapacitated. While in the form of a misty cloud, the target can't talk or manipulate "
-        + "objects, and any objects it was carrying or holding can't be dropped, used, or "
-        + "otherwise interacted with. The target can't attack or cast spells."),
-    GLYPH_OF_WARDING(MagicSchool.ABJURATION, 3, "1 hour", "Touch",
-        "V, S, M ", "Until dispelled or triggered", "When you cast this spell, you inscribe a "
-        + "glyph that harms other creatures, either upon a surface (such as a table or a section "
-        + "of floor or wall) or within an object that can be closed (such as a book, a scroll, or "
-        + "a treasure chest) to conceal the glyph. If you choose a surface, the glyph can cover "
-        + "an area of the surface no larger than 10 feet in diameter. If you choose an object, "
-        + "that object must remain in its place; if the object is moved more than 10 feet from "
-        + "where you cast this spell, the glyph is broken, and the spell ends without being "
-        + "triggered. The glyph is nearly invisible and requires a successful Intelligence "
-        + "(Investigation) check against your spell save DC to be found. You decide what triggers "
-        + "the glyph when you cast the spell. For glyphs inscribed on a surface, the most typical "
-        + "triggers include touching or standing on the glyph, removing another object covering "
-        + "the glyph, approaching within a certain distance of the glyph, or manipulating the "
-        + "object on which the glyph is inscribed. For glyphs inscribed within an object, the "
-        + "most common triggers include opening that object, approaching within a certain "
-        + "distance of the object, or seeing or reading the glyph. Once a glyph is triggered, "
-        + "this spell ends. You can further refine the trigger so the spell activates only under "
-        + "certain circumstances or according to physical characteristics (such as height or "
-        + "weight), creature kind (for example, the ward could be set to affect aberrations or "
-        + "drow), or alignment. You can also set conditions for creatures that don't trigger the "
-        + "glyph, such as those who say a certain password. When you inscribe the glyph, choose "
-        + "explosive runes or a spell glyph. Explosive Runes. When triggered, the glyph erupts "
-        + "with magical energy in a 20-foot-radius sphere centered on the glyph. The sphere "
-        + "spreads around corners. Each creature in the area must make a Dexterity saving throw. "
-        + "A creature takes 5d8 acid, cold, fire, lightning, or thunder damage on a failed saving "
-        + "throw (your choice when you create the glyph), or half as much damage on a successful "
-        + "one. Spell Glyph. You can store a prepared spell of 3rd level or lower in the glyph by "
-        + "casting it as part of creating the glyph. The spell must target a single creature or "
-        + "an area. The spell being stored has no immediate effect when cast in this way. When "
-        + "the glyph is triggered, the stored spell is cast. If the spell has a target, it "
-        + "targets the creature that triggered the glyph. If the spell affects an area, the area "
-        + "is centered on that creature. If the spell summons hostile creatures or creates "
-        + "harmful objects or traps, they appear as close as possible to the intruder and attack "
-        + "it. If the spell requires concentration, it lasts until the end of its full duration. "
-        + "At Higher Levels. When you cast this spell using a spell slot of 4th level or higher, "
-        + "the damage of an explosive runes glyph increases by 1d8 for each slot level above 3rd. "
-        + "If you create a spell glyph, you can store any spell of up to the same level as the "
-        + "slot you use for the glyph of warding."),
-    HASTE(MagicSchool.TRANSMUTATION, 3, "1 action", "30 feet",
-        "V, S, M ", "up to 1 minute", "Choose a willing creature that you can see within "
-        + "range. Until the spell ends, the target's speed is doubled, it gains a +2 bonus to AC, "
-        + "it has advantage on Dexterity saving throws, and it gains an additional action on each "
-        + "of its turns. That action can be used only to take the Attack (one weapon attack "
-        + "only), Dash, Disengage, Hide, or Use an Object action. When the spell ends, the target "
-        + "can't move or take actions until after its next turn, as a wave of lethargy sweeps "
-        + "over it."),
-    HYPNOTIC_PATTERN(MagicSchool.ILLUSION, 3, "1 action", "120 feet",
-        "S, M ", "up to 1 minute", "You create a twisting pattern of colors that weaves "
-        + "through the air inside a 30-foot cube within range. The pattern appears for a moment "
-        + "and vanishes. Each creature in the area who sees the pattern must make a Wisdom saving "
-        + "throw. On a failed save, the creature becomes charmed for the duration. While charmed "
-        + "by this spell, the creature is incapacitated and has a speed of 0. The spell ends for "
-        + "an affected creature if it takes any damage or if someone else uses an action to shake "
-        + "the creature out of its stupor."),
-    LIGHTNING_BOLT(MagicSchool.EVOCATION, 3, "1 action", "Self (100-foot line)",
-        "V, S, M ", "Instantaneous", "A stroke of lightning forming a line 100 feet long and "
-        + "5 feet wide blasts out from you in a direction you choose. Each creature in the line "
-        + "must make a Dexterity saving throw. A creature takes 8d6 lightning damage on a failed "
-        + "save, or half as much damage on a successful one. The lightning ignites flammable "
-        + "objects in the area that aren't being worn or carried. At Higher Levels. When you cast "
-        + "this spell using a spell slot of 4th level or higher, the damage increases by 1d6 for "
-        + "each slot level above 3rd."),
-    MAGIC_CIRCLE(MagicSchool.ABJURATION, 3, "1 minute", "10 feet",
-        "V, S, M ", "1 hour You create a 10-foot-radius, 20-foot-tall cylinder of magical "
-        + "energy centered on a point on the ground that you can see within range. Glowing runes "
-        + "appear wherever the cylinder intersects with the floor or other surface. Choose one or "
-        + "more of the following types of creatures: celestials, elementals, fey, fiends, or "
-        + "undead. The circle affects a creature of the chosen type in the following ways:",
-        "The creature can't willingly enter the cylinder by nonmagical means. If the creature "
-        + "tries to use teleportation or interplanar travel to do so, it must first succeed on a "
-        + "Charisma saving throw. The creature has disadvantage on attack rolls against targets "
-        + "within the cylinder. Targets within the cylinder can't be charmed, frightened, or "
-        + "possessed by the creature. When you cast this spell, you can elect to cause its magic "
-        + "to operate in the reverse direction, preventing a creature of the specified type from "
-        + "leaving the cylinder and protecting targets outside it. At Higher Levels. When you "
-        + "cast this spell using a spell slot of 4th level or higher, the duration increases by 1 "
-        + "hour for each slot level above 3rd."),
-    MAJOR_IMAGE(MagicSchool.ILLUSION, 3, "1 action", "120 feet",
-        "V, S, M ", "up to 10 minutes", "You create the image of an object, a creature, or "
-        + "some other visible phenomenon that is no larger than a 20-foot cube. The image appears "
-        + "at a spot that you can see within range and lasts for the duration. It seems "
-        + "completely real, including sounds, smells, and temperature appropriate to the thing "
-        + "depicted. You can't create sufficient heat or cold to cause damage, a sound loud "
-        + "enough to deal thunder damage or deafen a creature, or a smell that might sicken a "
-        + "creature (like a troglodyte's stench). As long as you are within range of the "
-        + "illusion, you can use your action to cause the image to move to any other spot within "
-        + "range. As the image changes location, you can alter its appearance so that its "
-        + "movements appear natural for the image. For example, if you create an image of a "
-        + "creature and move it, you can alter the image so that it appears to be walking. "
-        + "Similarly, you can cause the illusion to make different sounds at different times, "
-        + "even making it carry on a conversation, for example. Physical interaction with the "
-        + "image reveals it to be an illusion, because things can pass through it. A creature "
-        + "that uses its action to examine the image can determine that it is an illusion with a "
-        + "successful Intelligence (Investigation) check against your spell save DC. If a "
-        + "creature discerns the illusion for what it is, the creature can see through the image, "
-        + "and its other sensory qualities become faint to the creature. At Higher Levels. When "
-        + "you cast this spell using a spell slot of 6th level or higher, the spell lasts until "
-        + "dispelled, without requiring your concentration."),
-    MASS_HEALING_WORD(MagicSchool.EVOCATION, 3, "1 bonus action",
-        "60 feet", "V", "Instantaneous", "As you call out words of restoration, up to six "
-        + "creatures of your choice that you can see within range regain hit points equal to 1d4 "
-        + "+ your spellcasting ability modifier. This spell has no effect on undead or "
-        + "constructs. At Higher Levels. When you cast this spell using a spell slot of 4th level "
-        + "or higher, the healing increases by 1d4 for each slot level above 3rd."),
-    MELD_INTO_STONE(MagicSchool.TRANSMUTATION, 3, "1 action", "Touch",
-        "V, S", "8 hours", "You step into a stone object or surface large enough to fully "
-        + "contain your body, melding yourself and all the equipment you carry with the stone for "
-        + "the duration. Using your movement, you step into the stone at a point you can touch. "
-        + "Nothing of your presence remains visible or otherwise detectable by nonmagical senses. "
-        + "While merged with the stone, you can't see what occurs outside it, and any Wisdom "
-        + "(Perception) checks you make to hear sounds outside it are made with disadvantage. You "
-        + "remain aware of the passage of time and can cast spells on yourself while merged in "
-        + "the stone. You can use your movement to leave the stone where you entered it, which "
-        + "ends the spell. You otherwise can't move. Minor physical damage to the stone doesn't "
-        + "harm you, but its partial destruction or a change in its shape (to the extent that you "
-        + "no longer fit within it) expels you and deals 6d6 bludgeoning damage to you. The "
-        + "stone's complete destruction (or transmutation into a different substance) expels you "
-        + "and deals 50 bludgeoning damage to you. If expelled, you fall prone in an unoccupied "
-        + "space closest to where you first entered."),
-    NONDETECTION(MagicSchool.ABJURATION, 3, "1 action", "Touch",
-        "V, S, M ", "8 hours", "For the duration, you hide a target that you touch from "
-        + "divination magic. The target can be a willing creature or a place or an object no "
-        + "larger than 10 feet in any dimension. The target can't be targeted by any divination "
-        + "magic or perceived through magical scrying sensors."),
-    PHANTOM_STEED(MagicSchool.ILLUSION, 3, "1 minute", "30 feet",
-        "V, S", "1 hour", "A Large quasi-real, horselike creature appears on the ground in an "
-        + "unoccupied space of your choice within range. You decide the creature's appearance, "
-        + "but it is equipped with a saddle, bit, and bridle. Any of the equipment created by the "
-        + "spell vanishes in a puff of smoke if it is carried more than 10 feet away from the "
-        + "steed. For the duration, you or a creature you choose can ride the steed. The creature "
-        + "uses the statistics for a riding horse, except it has a speed of 100 feet and can "
-        + "travel 10 miles in an hour, or 13 miles at a fast pace. When the spell ends, the steed "
-        + "gradually fades, giving the rider 1 minute to dismount. The spell ends if you use an "
-        + "action to dismiss it or if the steed takes any damage."),
-    PLANT_GROWTH(MagicSchool.TRANSMUTATION, 3, "1 action or 8 hours",
-        "150 feet", "V, S", "Instantaneous", "This spell channels vitality into plants within "
-        + "a specific area. There are two possible uses for the spell, granting either immediate "
-        + "or long-term benefits. If you cast this spell using 1 action, choose a point within "
-        + "range. All normal plants in a 100-foot radius centered on that point become thick and "
-        + "overgrown. A creature moving through the area must spend 4 feet of movement for every "
-        + "1 foot it moves. You can exclude one or more areas of any size within the spell's area "
-        + "from being affected. If you cast this spell over 8 hours, you enrich the land. All "
-        + "plants in a half-mile radius centered on a point within range become enriched for 1 "
-        + "year. The plants yield twice the normal amount of food when harvested."),
-    PROTECTION_FROM_ENERGY(MagicSchool.ABJURATION, 3, "1 action",
-        "Touch", "V, S", "up to 1 hour", "For the duration, the willing creature you touch "
-        + "has resistance to one damage type of your choice: acid, cold, fire, lightning, or "
-        + "thunder."),
-    REMOVE_CURSE(MagicSchool.ABJURATION, 3, "1 action", "Touch",
-        "V, S", "Instantaneous", "At your touch, all curses affecting one creature or object "
-        + "end. If the object is a cursed magic item, its curse remains, but the spell breaks its "
-        + "owner's attunement to the object so it can be removed or discarded."),
-    REVIVIFY(MagicSchool.NECROMANCY, 3, "1 action", "Touch", "V, S, M ",
-        "Instantaneous", "You touch a creature that has died within the last minute. That "
-        + "creature returns to life with 1 hit point. This spell can't return to life a creature "
-        + "that has died of old age, nor can it restore any missing body parts."),
-    SENDING(MagicSchool.EVOCATION, 3, "1 action", "Unlimited",
-        "V, S, M ", "1 round", "You send a short message of twenty-five words or less to a "
-        + "creature with which you are familiar. The creature hears the message in its mind, "
-        + "recognizes you as the sender if it knows you, and can answer in a like manner "
-        + "immediately. The spell enables creatures with Intelligence scores of at least 1 to "
-        + "understand the meaning of your message. You can send the message across any distance "
-        + "and even to other planes of existence, but if the target is on a different plane than "
-        + "you, there is a 5 percent chance that the message doesn't arrive."),
-    SLEET_STORM(MagicSchool.CONJURATION, 3, "1 action", "150 feet",
-        "V, S, M ", "up to 1 minute", "Until the spell ends, freezing rain and sleet fall in "
-        + "a 20-foot-tall cylinder with a 40-foot radius centered on a point you choose within "
-        + "range. The area is heavily obscured, and exposed flames in the area are doused. The "
-        + "ground in the area is covered with slick ice, making it difficult terrain. When a "
-        + "creature enters the spell's area for the first time on a turn or starts its turn "
-        + "there, it must make a Dexterity saving throw. On a failed save, it falls prone. If a "
-        + "creature is concentrating in the spell's area, the creature must make a successful "
-        + "Constitution saving throw against your spell save DC or lose concentration."),
-    SLOW(MagicSchool.TRANSMUTATION, 3, "1 action", "120 feet",
-        "V, S, M ", "up to 1 minute", "You alter time around up to six creatures of your "
-        + "choice in a 40-foot cube within range. Each target must succeed on a Wisdom saving "
-        + "throw or be affected by this spell for the duration. An affected target's speed is "
-        + "halved, it takes a −2 penalty to AC and Dexterity saving throws, and it can't use "
-        + "reactions. On its turn, it can use either an action or a bonus action, not both. "
-        + "Regardless of the creature's abilities or magic items, it can't make more than one "
-        + "melee or ranged attack during its turn. If the creature attempts to cast a spell with "
-        + "a casting time of 1 action, roll a d20. On an 11 or higher, the spell doesn't take "
-        + "effect until the creature's next turn, and the creature must use its action on that "
-        + "turn to complete the spell. If it can't, the spell is wasted. A creature affected by "
-        + "this spell makes another Wisdom saving throw at the end of its turn. On a successful "
-        + "save, the effect ends for it."),
-    SPEAK_WITH_DEAD(MagicSchool.NECROMANCY, 3, "1 action", "10 feet",
-        "V, S, M ", "10 minutes", "You grant the semblance of life and intelligence to a "
-        + "corpse of your choice within range, allowing it to answer the questions you pose. The "
-        + "corpse must still have a mouth and can't be undead. The spell fails if the corpse was "
-        + "the target of this spell within the last 10 days. Until the spell ends, you can ask "
-        + "the corpse up to five questions. The corpse knows only what it knew in life, including "
-        + "the languages it knew. Answers are usually brief, cryptic, or repetitive, and the "
-        + "corpse is under no compulsion to offer a truthful answer if you are hostile to it or "
-        + "it recognizes you as an enemy. This spell doesn't return the creature's soul to its "
-        + "body, only its animating spirit. Thus, the corpse can't learn new information, doesn't "
-        + "comprehend anything that has happened since it died, and can't speculate about future "
-        + "events."),
-    SPEAK_WITH_PLANTS(MagicSchool.TRANSMUTATION, 3, "1 action",
-        "Self (30-foot radius)", "V, S", "10 minutes", "You imbue plants within 30 feet of "
-        + "you with limited sentience and animation, giving them the ability to communicate with "
-        + "you and follow your simple commands. You can question plants about events in the "
-        + "spell's area within the past day, gaining information about creatures that have "
-        + "passed, weather, and other circumstances. You can also turn difficult terrain caused "
-        + "by plant growth (such as thickets and undergrowth) into ordinary terrain that lasts "
-        + "for the duration. Or you can turn ordinary terrain where plants are present into "
-        + "difficult terrain that lasts for the duration, causing vines and branches to hinder "
-        + "pursuers, for example. Plants might be able to perform other tasks on your behalf, at "
-        + "the GM's discretion. The spell doesn't enable plants to uproot themselves and move "
-        + "about, but they can freely move branches, tendrils, and stalks. If a plant creature is "
-        + "in the area, you can communicate with it as if you shared a common language, but you "
-        + "gain no magical ability to influence it. This spell can cause the plants created by "
-        + "the entangle spell to release a restrained creature."),
-    SPIRIT_GUARDIANS(MagicSchool.CONJURATION, 3, "1 action", "Self (15-foot radius)",
-        "V, S, M ", "up to 10 minutes", "You call forth spirits to protect you. They flit "
-        + "around you to a distance of 15 feet for the duration. If you are good or neutral, "
-        + "their spectral form appears angelic or fey (your choice). If you are evil, they appear "
-        + "fiendish. When you cast this spell, you can designate any number of creatures you can "
-        + "see to be unaffected by it. An affected creature's speed is halved in the area, and "
-        + "when the creature enters the area for the first time on a turn or starts its turn "
-        + "there, it must make a Wisdom saving throw. On a failed save, the creature takes 3d8 "
-        + "radiant damage (if you are good or neutral) or 3d8 necrotic damage (if you are evil). "
-        + "On a successful save, the creature takes half as much damage. At Higher Levels. When "
-        + "you cast this spell using a spell slot of 4th level or higher, the damage increases by "
-        + "1d8 for each slot level above 3rd."),
-    STINKING_CLOUD(MagicSchool.CONJURATION, 3, "1 action", "90 feet",
-        "V, S, M ", "up to 1 minute", "You create a 20-foot-radius sphere of yellow, "
-        + "nauseating gas centered on a point within range. The cloud spreads around corners, and "
-        + "its area is heavily obscured. The cloud lingers in the air for the duration. Each "
-        + "creature that is completely within the cloud at the start of its turn must make a "
-        + "Constitution saving throw against poison. On a failed save, the creature spends its "
-        + "action that turn retching and reeling. Creatures that don't need to breathe or are "
-        + "immune to poison automatically succeed on this saving throw. A moderate wind (at least "
-        + "10 miles per hour) disperses the cloud after 4 rounds. A strong wind (at least 20 "
-        + "miles per hour) disperses it after 1 round."),
-    TINY_HUT(MagicSchool.EVOCATION, 3, "1 minute", "Self (10-foot-radius hemisphere)",
-        "V, S, M ", "8 hours", "A 10-foot-radius immobile dome of force springs into "
-        + "existence around and above you and remains stationary for the duration. The spell ends "
-        + "if you leave its area. Nine creatures of Medium size or smaller can fit inside the "
-        + "dome with you. The spell fails if its area includes a larger creature or more than "
-        + "nine creatures. Creatures and objects within the dome when you cast this spell can "
-        + "move through it freely. All other creatures and objects are barred from passing "
-        + "through it. Spells and other magical effects can't extend through the dome or be cast "
-        + "through it. The atmosphere inside the space is comfortable and dry, regardless of the "
-        + "weather outside. Until the spell ends, you can command the interior to become dimly "
-        + "lit or dark. The dome is opaque from the outside, of any color you choose, but it is "
-        + "transparent from the inside."),
-    TONGUES(MagicSchool.DIVINATION, 3, "1 action", "Touch", "V, M ",
-        "1 hour", "This spell grants the creature you touch the ability to understand any "
-        + "spoken language it hears. Moreover, when the target speaks, any creature that knows at "
-        + "least one language and can hear the target understands what it says."),
-    WATER_BREATHING(MagicSchool.TRANSMUTATION, 3, "1 action", "30 feet",
-        "V, S, M ", "24 hours", "This spell grants up to ten willing creatures you can see "
-        + "within range the ability to breathe underwater until the spell ends. Affected "
-        + "creatures also retain their normal mode of respiration."),
-    WATER_WALK(MagicSchool.TRANSMUTATION, 3, "1 action", "30 feet",
-        "V, S, M ", "1 hour", "This spell grants the ability to move across any liquid "
-        + "surface--such as water, acid, mud, snow, quicksand, or lava--as if it were harmless "
-        + "solid ground (creatures crossing molten lava can still take damage from the heat). Up "
-        + "to ten willing creatures you can see within range gain this ability for the duration. "
-        + "If you target a creature submerged in a liquid, the spell carries the target to the "
-        + "surface of the liquid at a rate of 60 feet per round."),
-    WIND_WALL(MagicSchool.EVOCATION, 3, "1 action", "120 feet",
-        "V, S, M ", "up to 1 minute", "A wall of strong wind rises from the ground at a point "
-        + "you choose within range. You can make the wall up to 50 feet long, 15 feet high, and 1 "
-        + "foot thick. You can shape the wall in any way you choose so long as it makes one "
-        + "continuous path along the ground. The wall lasts for the duration. When the wall "
-        + "appears, each creature within its area must make a Strength saving throw. A creature "
-        + "takes 3d8 bludgeoning damage on a failed save, or half as much damage on a successful "
-        + "one. The strong wind keeps fog, smoke, and other gases at bay. Small or smaller flying "
-        + "creatures or objects can't pass through the wall. Loose, lightweight materials brought "
-        + "into the wall fly upward. Arrows, bolts, and other ordinary projectiles launched at "
-        + "targets behind the wall are deflected upward and automatically miss. (Boulders hurled "
-        + "by giants or siege engines, and similar projectiles, are unaffected.) Creatures in "
-        + "gaseous form can't pass through it."),
     ARCANE_EYE(MagicSchool.DIVINATION, 4, "1 action", "30 feet",
         "V, S, M ", "up to 1 hour", "You create an invisible, magical eye within range that "
         + "hovers in the air for the duration. You mentally receive visual information from the "
@@ -2662,7 +2291,8 @@ public enum Spell implements Attribute {
     ARCANE_LOCK(MagicSchool.ABJURATION, 2, "1 action", "Touch",
         "1 entryway", "V, S, M ", "Until dispelled", "Magic lock. +10 DC to break or pick."),
     ARCANISTS_MAGIC_AURA(MagicSchool.ILLUSION, 2, "1 action", "Touch",
-        "1 creature or object", "V, S, M ", "24 hours", "Cause false magical aura or mask."),
+        "1 creature or object", "V, S, M ", "24 hours", "Cause false magical aura or mask "
+        + "magical effect."),
     AUGURY(MagicSchool.DIVINATION, 2, "1 minute", "Self", "-",
         "V, S, M ", "Instantaneous", "Divine outcomes of plan: Weal, Woe, Weal and Woe or "
         + "Nothing"),
@@ -2764,9 +2394,6 @@ public enum Spell implements Attribute {
         "5-foot-radius, 40-foot-high cylinder", "V, S, M ", "up to 1 minute",
         "Creatures entering 2d10 radiant damage. Con. save for half.\nUse an action to move "
         + "beam 60 feet.\n+1d10 damage / extra level."),
-    NYSTULS_MAGIC_AURA(MagicSchool.ILLUSION, 2, "1 action", "Touch",
-        "1 creature or object", "V, S, M ", "24 hours", "Create false magical aura or mask "
-        + "magical effect."),
     PASS_WITHOUT_TRACE(MagicSchool.ABJURATION, 2, "1 action", "Self",
         "Allies within 30'", "V, S, M ", "up to 1 hour", "+10 bonus to Stealth checks. Cannot "
         + "be tracked."),
@@ -2843,30 +2470,126 @@ public enum Spell implements Attribute {
     CLAIRVOYANCE(MagicSchool.DIVINATION, 3, "10 minutes", "1 mile",
         "1 location", "V, S, M ", "up to 10 minutes", "Create invisible sensor that can "
         + "either see or hear."),
+    CONJURE_ANIMALS(MagicSchool.CONJURATION, 3, "1 action", "60 feet",
+        "Unoccupied space", "V, S", "up to 1 hour", "Summon fey beasts: 1 CR2 or 2 CR1 or 4 "
+        + "CR1/2. Increase number at levels 5th: x2, 7th: x3, 9th: x4."),
     CONJURE_BARRAGE(MagicSchool.CONJURATION, 3, "1 action", "Self",
         "60-foot cone", "V, S, M ", "Instantaneous", "3d8 damage, Dex. save for half."),
+    COUNTERSPELL(MagicSchool.ABJURATION, 3, "1 reaction", "60 feet",
+        "1 creature casting spell", "S", "Instantaneous", "Spells level 1-3 fail. Level 4+ "
+        + "Ability check DC 10+spell level. Level of check increases with level of cast."),
+    CREATE_FOOD_AND_WATER(MagicSchool.CONJURATION, 3, "1 action",
+        "30 feet", "Unoccupied space", "V, S", "Instantaneous", "Create provisions for 24 "
+        + "hours."),
     CRUSADERS_MANTLE(MagicSchool.EVOCATION, 3, "1 action", "Self",
         "30-foot radius", "V", "Concentration, up to 1 minute", "Allies deal +1d4 radiant "
         + "damage with weapon attacks."),
+    DAYLIGHT(MagicSchool.EVOCATION, 3, "1 action", "60 feet", "60-foot-radius sphere",
+        "V, S", "1 hour", "Create bright light."),
+    DISPEL_MAGIC(MagicSchool.ABJURATION, 3, "1 action", "120 feet",
+        "1 creature, object or effect", "V, S", "Instantaneous", "Spells to slot level end. "
+        + "Otherwise ability check DC 10 + spell level."),
     ELEMENTAL_WEAPON(MagicSchool.TRANSMUTATION, 3, "1 action",
         "Touch", "1 weapon", "V, S ", "Concentration, up to 1 hour",
         "+1 attack +1d4 damage (choose type). 5th level +2 attack +2d4 damage. 7th level +3 "
         + "attack +3d4 damage."),
+    FEAR(MagicSchool.ILLUSION, 3, "1 action", "Self", "30-foot cone",
+        "V, S, M ", "up to 1 minute", "Wis. save or drop item and become frightened. Must "
+        + "take the Dash action away from caster."),
     FEIGN_DEATH(MagicSchool.NECROMANCY, 3, "1 action", "Touch",
         "1 willing creature", "V, S, M", "1 hour", "Target appears dead."),
+    FIREBALL(MagicSchool.EVOCATION, 3, "1 action", "150 feet",
+        "20-foot-radius sphere", "V, S, M ", "Instantaneous", "8d6 fire damage. Dex save for "
+        + "half. +1d6 / extra level."),
+    FLY(MagicSchool.TRANSMUTATION, 3, "1 action", "Touch", "1 willing creature",
+        "V, S, M ", "up to 10 minutes", "Flying speed of 60 feet for the duration. +1 "
+        + "creature / extra level."),
+    GASEOUS_FORM(MagicSchool.TRANSMUTATION, 3, "1 action", "Touch",
+        "1 willing creature", "V, S, M ", "up to 1 hour", "YTransform target into misty "
+        + "cloud. Fly speed 10."),
+    GLYPH_OF_WARDING(MagicSchool.ABJURATION, 3, "1 hour", "Touch",
+        "surface or object", "V, S, M ", "Until dispelled or triggered",
+        "Hidden glyph. Investigation check to find.On trigger: explode in 20-foot-radius "
+        + "sphere 5d8 (+1d8 / extra level) damage Dex. save for half, or prepare spell of same "
+        + "level cast on triggerer. "),
+    HASTE(MagicSchool.TRANSMUTATION, 3, "1 action", "30 feet",
+        "1 willing creature", "V, S, M ", "up to 1 minute", "Double speed, +2 AC, advantage "
+        + "on Dex. saves, +1 action. 1 turn of inactivity when spell ends."),
     HUNGER_OF_HADAR(MagicSchool.CONJURATION, 3, "1 action", "150 feet",
         "20-foot radius", "V, S, M", "Concentration, up to 1 minute",
         "2d6 cold damage at start of turn. Dex. save or 2d6 acid damage at end of turn."),
-    LEOMUNDS_TINY_HUT(MagicSchool.EVOCATION, 3, "1 minute", "Self",
-        "10-foot hemisphere", "V, S, M ", "8 hours", "Dome of force that can contain up to 9 "
-        + "creatures."),
+    HYPNOTIC_PATTERN(MagicSchool.ILLUSION, 3, "1 action", "120 feet",
+        "30-foot cube", "S, M ", "up to 1 minute", "Wis. save or charmed. Incapacitated and "
+        + "speed 0."),
     LIGHTNING_ARROW(MagicSchool.TRANSMUTATION, 3, "1 bonus action",
         "Self", "-", "V, S ", "Concentration, up to 1 minute", "Next ranged attack 4d8 "
         + "lightning damage on hit, half on miss.Creatures within 10 feet 2d8 lightning damage. "
         + "Dex. save for half. +1d8 damage / extra level"),
+    LIGHTNING_BOLT(MagicSchool.EVOCATION, 3, "1 action", "Self",
+        "100-foot line", "V, S, M ", "Instantaneous", "8d6 lightning damage. Dex. save for "
+        + "half. +1d6 damage / extra level."),
+    MAGIC_CIRCLE(MagicSchool.ABJURATION, 3, "1 minute", "10 feet",
+        "10-foot-radius, 20-foot-tall cylinder", "V, S, M ", "1 hour",
+        "Specified type of creature cannot enter cylinder. +1 hour / extra level."),
+    MAJOR_IMAGE(MagicSchool.ILLUSION, 3, "1 action", "120 feet",
+        "20-foot cube", "V, S, M ", "up to 10 minutes", "Create an illusion. Investigation "
+        + "check DC [$spell_dc] to discern illusion. 6th level: lasts until dispelled."),
+    MASS_HEALING_WORD(MagicSchool.EVOCATION, 3, "1 bonus action",
+        "60 feet", "up to 6 creatures", "V", "Instantaneous", "Regain 1d4+[$spell_mod] HP. "
+        + "+1d4 / extra level."),
+    MELD_INTO_STONE(MagicSchool.TRANSMUTATION, 3, "1 action", "Touch",
+        "Stone object or surface", "V, S", "8 hours", "Meld body and equipment. Disadvantage "
+        + "on Perception checks."),
+    NONDETECTION(MagicSchool.ABJURATION, 3, "1 action", "Touch",
+        "willing creature, place or object", "V, S, M ", "8 hours",
+        "Hide target from divination magic."),
+    PHANTOM_STEED(MagicSchool.ILLUSION, 3, "1 minute", "30 feet",
+        "Unoccupied space", "V, S", "1 hour", "Summon horselike creature to ride. Speed 100."),
+    PLANT_GROWTH(MagicSchool.TRANSMUTATION, 3, "1 action or 8 hours",
+        "150 feet", "100-foot radius", "V, S", "Instantaneous", "1 action: creatures spend 4 "
+        + "feet of movement. 8 hours: enrich plants for 1 year."),
+    PROTECTION_FROM_ENERGY(MagicSchool.ABJURATION, 3, "1 action",
+        "Touch", "1 willing creature", "V, S", "up to 1 hour", "Resistance to acid, cold, "
+        + "fire, lightning, or thunder."),
+    REMOVE_CURSE(MagicSchool.ABJURATION, 3, "1 action", "Touch",
+        "1 creature or object", "V, S", "Instantaneous", "All curses on creature end. Breaks "
+        + "attunement to cursed object."),
+    REVIVIFY(MagicSchool.NECROMANCY, 3, "1 action", "Touch", "1 creature dead less than 1 "
+        + "minute", "V, S, M ", "Instantaneous", "Creature returns to life with 1 HP."),
+    SENDING(MagicSchool.EVOCATION, 3, "1 action", "Unlimited",
+        "1 creature", "V, S, M ", "1 round", "Send a short message to target and receive "
+        + "reply."),
+    SLEET_STORM(MagicSchool.CONJURATION, 3, "1 action", "150 feet",
+        "20-foot-tall 40-foot radius cylinder", "V, S, M ", "up to 1 minute",
+        "Freezing rain and sleet fall in area. Heavily obscured. Dex. save or fall prone. "
+        + "Con. save DC [$spell_dc] or lose concentration. "),
+    SLOW(MagicSchool.TRANSMUTATION, 3, "1 action", "120 feet",
+        "up to 6 creature in 40-foot cube", "V, S, M ", "up to 1 minute",
+        "Wis. save each turn. Speed halved -2 AC and Dex. save and no reactions. On spell "
+        + "cast on 11+ on d20 spell effect next turn."),
+    SPEAK_WITH_DEAD(MagicSchool.NECROMANCY, 3, "1 action", "10 feet",
+        "1 corpse", "V, S, M ", "10 minutes", "Ask corpse 5 questions."),
+    SPEAK_WITH_PLANTS(MagicSchool.TRANSMUTATION, 3, "1 action",
+        "Self", "30-foot radius", "V, S", "10 minutes", "Question and command plants. "),
+    SPIRIT_GUARDIANS(MagicSchool.CONJURATION, 3, "1 action", "Self",
+        "15-foot radius", "V, S, M ", "up to 10 minutes", "Speed halved, 3d8 radiant/necrotic "
+        + "damage. Wis. save for half. +1d8 / extra level."),
+    STINKING_CLOUD(MagicSchool.CONJURATION, 3, "1 action", "90 feet",
+        "20-foot-radius sphere", "V, S, M ", "up to 1 minute", "Incapacitated. Con. save."),
+    TINY_HUT(MagicSchool.EVOCATION, 3, "1 minute", "Self", "10-foot hemisphere",
+        "V, S, M ", "8 hours", "Dome of force that can contain up to 9 creatures."),
+    TONGUES(MagicSchool.DIVINATION, 3, "1 action", "Touch", "1 creature",
+        "V, M ", "1 hour", "Understand and speak any spoken language."),
     VAMPIRIC_TOUCH(MagicSchool.NECROMANCY, 3, "1 action", "Self",
         "1 creature", "V, S", "up to 1 minute", "Melee spell attack 3d6 necrotic damage and "
         + "regain half as HP. +1d6 / extra level."),
+    WATER_BREATHING(MagicSchool.TRANSMUTATION, 3, "1 action", "30 feet",
+        "10 willing creatures", "V, S, M ", "24 hours", "Breathe underwater."),
+    WATER_WALK(MagicSchool.TRANSMUTATION, 3, "1 action", "30 feet",
+        "10 willing creatures", "V, S, M ", "1 hour", "Move across any liquid."),
+    WIND_WALL(MagicSchool.EVOCATION, 3, "1 action", "120 feet",
+        "50-feet long, 15-feet high, 1-foot thick", "V, S, M ", "up to 1 minute",
+        "3d8 bludgeoning damage. Str. save for half."),
     AURA_OF_LIFE(MagicSchool.ABJURATION, 4, "1 action", "Self",
         "30-foot radius", "V", "Concentration, up to 10 minutes", "Allies resistant to "
         + "necrotic damage. Allies with 0 HP at start of turn regain 1 HP."),
@@ -2900,8 +2623,29 @@ public enum Spell implements Attribute {
         + "for 4d8 damage, push target [5+5*$spell_mod] feet, grapple target and then crush for "
         + "2d6+[$spell_mod] or provide half cover and prevent movement towards caster.\nAttack "
         + "+2d8 and crush +2d6 / extra level."),
+    BANISHING_SMITE(MagicSchool.ABJURATION, 5, "1 bonus action",
+        "Self", "-", "V", "Concentration, up to 1 minute", "Next hit with weapon: +5d10 force "
+        + "damage. If 50 HP or less, banish."),
+    CIRCLE_OF_POWER(MagicSchool.ABJURATION, 5, "1 action", "Self",
+        "30-foot radius", "V", "Concentration, up to 10 minutes", "Allies in area have "
+        + "advantage on Save vs. spells. Half damage becomes no damage. "),
     CONE_OF_COLD(MagicSchool.EVOCATION, 5, "1 action", "Self",
         "60-foot cone", "V, S, M ", "Instantaneous", "8d8 cold damage. Con. save for half."),
+    CONJURE_VOLLEY(MagicSchool.CONJURATION, 5, "1 action", "150 feet",
+        "40-foot radius, 20-foot high cylinder", "V, S, M ", "Instantaneous",
+        "8d8 damage. Dex. save for half."),
+    DESTRUCTIVE_WAVE(MagicSchool.EVOCATION, 5, "1 action", "Self",
+        "30-foot radius", "V", "Instantaneous", "5d6 thunder damage +5d6 radiant or necrotic "
+        + "damage and knocked prone. Con. save for half."),
+    RARYS_TELEPATHIC_BOND(MagicSchool.DIVINATION, 5, "1 action",
+        "30 feet", "8 willing creatures", "V, S, M ", "1 hour", "Communicate telepathically "
+        + "between targets."),
+    SWIFT_QUIVER(MagicSchool.TRANSMUTATION, 5, "1 bonus action",
+        "Touch", "quiver", "V, S, M ", "Concentration, up to 1 minute",
+        "As bonus action make two attacks with weapon using ammunition from quiver."),
+    ARCANE_GATE(MagicSchool.CONJURATION, 6, "1 action", "500 feet",
+        "2 points", "V, S ", "Concentration, up to 10 minutes", "Create teleportation "
+        + "portals. As bonus action rotate portals."),
     BLADE_BARRIER(MagicSchool.EVOCATION, 6, "1 action", "90 feet",
         "20' high x5' thick wall\n100' straight or 60' diameter ringed",
         "V, S", "up to 10 minutes", "Three-quarters cover. Difficult terrain. 6d10 slashing "
@@ -2914,6 +2658,9 @@ public enum Spell implements Attribute {
     ARCANE_SWORD(MagicSchool.EVOCATION, 7, "1 action", "60 feet",
         "", "V, S, M ", "up to 1 minute", "Melee spell attack +[$spell_mod]. 3d10 force "
         + "damage. Use bonus action to move up to 20 feet and attack."),
+    MORDENKAINENS_SWORD(MagicSchool.EVOCATION, 7, "1 action", "60 feet",
+        "-", "V, S, M\n250GP", "Concentration, up to 1 minute.", "Melee spell attack 3d10 "
+        + "force damage. As bonus action move 20 feet and attack."),
     PLANE_SHIFT(MagicSchool.CONJURATION, 7, "1 action", "Touch",
         "Up to 8 allies or 1 enemy", "V, S, M ", "Instantaneous", "Targets transported to "
         + "different plane."),
@@ -2923,8 +2670,15 @@ public enum Spell implements Attribute {
     ANIMAL_SHAPES(MagicSchool.TRANSMUTATION, 8, "1 action", "30 feet",
         "any number of willing creatures", "V, S", "up to 24 hours",
         "Transform into beasts with CR of 4 or lower."),
+    TELEPATHY(MagicSchool.EVOCATION, 8, "1 action", "Unlimited",
+        "1 willing creature", "V, S, M ", "24 hours", "Create telepathic link."),
+    TSUNAMI(MagicSchool.CONJURATION, 8, "1 minute", "Sight", "300-feet long, 300-feet "
+        + "high, 50-feet thick", "V, S ", "Concentration, up to 6 rounds",
+        "6d10 bludgeoning damage. Str. save for half. -1d10 each round."),
     IMPRISONMENT(MagicSchool.ABJURATION, 9, "1 minute", "30 feet",
-        "1 creature", "V, S, M", "Until dispelled", "Imprison creature.\nWis. save."),;
+        "1 creature", "V, S, M", "Until dispelled", "Imprison creature.\nWis. save."),
+    POWER_WORD_HEAL(MagicSchool.EVOCATION, 9, "1 action", "Touch",
+        "1 creature", "V, S ", "Instantaneous", "Regain all HP. End all conditions."),;
 
     private final MagicSchool school;
     private final int level;

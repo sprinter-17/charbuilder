@@ -6,6 +6,7 @@ import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
+import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.EquipmentType;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
@@ -86,6 +87,11 @@ public class EquipmentChoice extends OptionChoice {
 
     public EquipmentChoice with(Equipment... equipment) {
         equipmentList.add(new MultiEquipment(equipment));
+        return this;
+    }
+
+    public EquipmentChoice with(Equipment equipment, int count) {
+        equipmentList.add(new EquipmentSet(equipment, count));
         return this;
     }
 
