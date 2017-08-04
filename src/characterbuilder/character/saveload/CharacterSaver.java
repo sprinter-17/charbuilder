@@ -1,11 +1,14 @@
 package characterbuilder.character.saveload;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -42,17 +45,14 @@ public class CharacterSaver {
     }
 
     private void saveAttributes(Character character, Node node) {
-        character.getAllAttributes().forEach(attr -> node.appendChild(attr.save(doc)));
-    }
-
-    private Element element(String tag, String value) {
-        Element el = doc.createElement(tag);
-        el.setTextContent(value);
-        return el;
+        character.getAllAttributes()
+            .sorted(Comparator.comparing(Attribute::getType).thenComparing(Attribute::toString))
+            .forEach(attr -> node.appendChild(attr.save(doc)));
     }
 
     private void saveEquipment(Character character, Node node) {
         character.getInventory()
+            .sorted(Comparator.comparing(Equipment::getCategory).thenComparing(Equipment::toString))
             .map(eq -> eq.save(doc))
             .forEach(node::appendChild);
     }

@@ -6,6 +6,18 @@ import java.util.stream.Stream;
 
 public class AttributeSet {
 
+    public static final Attribute NULL_ATTRIBUTE = new Attribute() {
+        @Override
+        public AttributeType getType() {
+            throw new IllegalStateException("Attempt to get type of null attribute");
+        }
+
+        @Override
+        public String toString() {
+            return "";
+        }
+    };
+
     private final Set<Attribute> attributes = new HashSet<>();
 
     public void addAttribute(Attribute attribute) {
@@ -29,8 +41,7 @@ public class AttributeSet {
 
     public <T extends Attribute> T getAttribute(AttributeType type) {
         return (T) getAttributes(type)
-            .findAny()
-            .orElseThrow(() -> new IllegalArgumentException("Non-existent attribute type " + type));
+            .findAny().orElse(NULL_ATTRIBUTE);
     }
 
     public <T extends Attribute> Stream<T> getAttributes(AttributeType type, Class<T> attrClass) {

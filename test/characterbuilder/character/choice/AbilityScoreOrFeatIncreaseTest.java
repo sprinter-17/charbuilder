@@ -45,7 +45,7 @@ public class AbilityScoreOrFeatIncreaseTest {
     @Test
     public void testIncreaseStrength() {
         ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 10)));
-        selector.withChoice("Intelligence");
+        selector.withChoice("+1 Intelligence");
         increase.select(character, selector);
         assertThat(character.getIntAttribute(INTELLIGENCE), is(11));
     }
@@ -55,7 +55,7 @@ public class AbilityScoreOrFeatIncreaseTest {
         character.addAttribute(new IntAttribute(LEVEL, 7));
         ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 10)));
         character.addAttribute(new IntAttribute(HIT_POINTS, 0));
-        selector.withChoice("Constitution");
+        selector.withChoice("+1 Constitution");
         increase.select(character, selector);
         assertThat(character.getIntAttribute(HIT_POINTS), is(0));
         increase.select(character, selector);
@@ -74,6 +74,7 @@ public class AbilityScoreOrFeatIncreaseTest {
 
     @Test
     public void testWithFeats() {
+        assertThat(increase.toString(), is("Feat or Ability Score Increase"));
         ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 12)));
         character.addChoice(increase);
         character.selectChoice(increase);
@@ -82,8 +83,18 @@ public class AbilityScoreOrFeatIncreaseTest {
 
     @Test
     public void testWithoutFeats() {
+        increase = increase.withoutFeats();
+        assertThat(increase.toString(), is("Ability Score Increase"));
         ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 12)));
-        increase.withoutFeats();
+        character.addChoice(increase);
+        character.selectChoice(increase);
+        assertFalse(selector.hadOption(Ability.ATHLETE));
+    }
+
+    @Test
+    public void testExistingFeatsExcluded() {
+        ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 12)));
+        character.addAttribute(Ability.ATHLETE);
         character.addChoice(increase);
         character.selectChoice(increase);
         assertFalse(selector.hadOption(Ability.ATHLETE));

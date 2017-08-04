@@ -46,9 +46,9 @@ public class AttributeSetTest {
         assertTrue(attributes.hasAttribute(Proficiency.ALL_SIMPLE_MELEE));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testGetNonExistentAttribute() {
-        attributes.getAttribute(STRENGTH);
+        assertThat(attributes.getAttribute(STRENGTH), is(AttributeSet.NULL_ATTRIBUTE));
     }
 
     @Test

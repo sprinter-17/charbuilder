@@ -39,7 +39,7 @@ public class AbilityScoreOrFeatIncrease extends OptionChoice {
 
         @Override
         public String toString() {
-            return score.toString();
+            return "+1 " + score.toString();
         }
     }
 
@@ -47,18 +47,21 @@ public class AbilityScoreOrFeatIncrease extends OptionChoice {
     private final List<AttributeType> scoresAllowed = new ArrayList<>();
 
     public AbilityScoreOrFeatIncrease() {
-        super("Increase Ability Score");
+        super("Feat or Ability Score Increase");
         AttributeType.ABILITY_SCORES.forEach(scoresAllowed::add);
     }
 
     public AbilityScoreOrFeatIncrease(String name, AttributeType... scores) {
         super(name);
+        this.featsAllowed = false;
         Arrays.stream(scores).forEach(scoresAllowed::add);
     }
 
     public AbilityScoreOrFeatIncrease withoutFeats() {
-        this.featsAllowed = false;
-        return this;
+        AbilityScoreOrFeatIncrease copy = new AbilityScoreOrFeatIncrease("Ability Score Increase");
+        copy.featsAllowed = false;
+        copy.scoresAllowed.addAll(scoresAllowed);
+        return copy;
     }
 
     @Override
@@ -74,6 +77,7 @@ public class AbilityScoreOrFeatIncrease extends OptionChoice {
             Arrays.stream(Ability.values())
                 .filter(ab -> ab.hasType(AttributeType.FEAT))
                 .filter(ab -> ab.isAllowed(character))
+                .filter(ab -> !character.hasAttribute(ab))
                 .forEach(options::add);
         }
         selector.chooseOption(options.build(), o -> o.choose(character));
