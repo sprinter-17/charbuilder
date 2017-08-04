@@ -2751,12 +2751,12 @@ public enum Spell implements Attribute {
     @Override
     public Stream<String> getDescription(Character character) {
         return Stream.of(
-            school.toString() + " level " + level,
-            "casting time " + castingTime,
-            "range " + range,
-            "area of effect " + area,
-            "duration " + duration,
-            "effect " + getEffect(character));
+            school.toString(),
+            "<b>Casting time</b> " + castingTime,
+            "<b>Range</b> " + range,
+            "<b>Area of effect</b> " + area,
+            "<b>Duration</b> " + duration,
+            getEffect(character));
     }
 
     public static Spell load(Node node) {

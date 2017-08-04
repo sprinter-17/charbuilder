@@ -26,12 +26,12 @@ public class OptionPanel extends JPanel {
     public OptionPanel(String name, Stream<String> description,
         Runnable selectAction, JButton selectButton) {
         super(new BorderLayout());
-        String descriptionText = description.collect(joining("<br>&bull;&nbsp;"));
+        String descriptionText = description.collect(joining("<br>"));
         if (descriptionText.isEmpty())
             this.description = Optional.empty();
         else
             this.description = Optional.
-                of(new JLabel("<html>&bull;&nbsp;" + descriptionText + "</html>"));
+                of(new JLabel("<html><div style='width:130px'>" + descriptionText + "</div></html>"));
         this.selectAction = selectAction;
         this.selectButton = selectButton;
         JLabel label = new JLabel("<html><em>" + name.replaceAll(", ", "<br>") + "</em></html>");

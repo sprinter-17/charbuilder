@@ -35,7 +35,7 @@ public enum RangerArchetype implements Attribute {
 
     @Override
     public AttributeType getType() {
-        return AttributeType.ROGUISH_ARCHETYPE;
+        return AttributeType.RANGER_ARCHETYPE;
     }
 
     @Override
