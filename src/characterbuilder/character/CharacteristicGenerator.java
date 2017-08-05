@@ -411,7 +411,8 @@ public class CharacteristicGenerator {
 
     private Optional<Attribute> generateOfType(Character character, AttributeType type) {
         List<Attribute> potential = characteristics
-            .get(character.getAttribute(AttributeType.BACKGROUND)).get(type)
+            .get(character.getAttribute(AttributeType.BACKGROUND, Background.class))
+            .get(type)
             .stream()
             .filter(ch -> ch.condition.test(character))
             .map(Characteristic::toAttribute)

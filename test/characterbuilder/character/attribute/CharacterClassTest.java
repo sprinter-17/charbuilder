@@ -31,8 +31,7 @@ public class CharacterClassTest {
 
     @Test
     public void testInitialDivineDomainSpells() {
-        character.addAttribute(new IntAttribute(AttributeType.LEVEL, 1));
-        CharacterClass.CLERIC.generateLevelChoices(character);
+        CharacterClass.CLERIC.choose(character);
         selector.withAttribute(DivineDomain.LIFE);
         character.selectChoice(firstChoice("Divine Domain").get());
         assertFalse(firstChoice("Divine Domain").isPresent());
@@ -56,43 +55,10 @@ public class CharacterClassTest {
         assertTrue(character.hasAttribute(Spell.SPIRITUAL_WEAPON));
     }
 
-    @Test
-    public void testTotalClericSpell() {
-        IntAttribute level = new IntAttribute(AttributeType.LEVEL, 1);
-        character.addAttribute(level);
-        AttributeType.ABILITY_SCORES
-            .forEach(as -> character.addAttribute(new IntAttribute(as, 10)));
-        String spellMatch = "(Cantrip|Spell Level \\d)( \\(x\\d\\))?";
-        while (level.getValue() <= 20) {
-            CharacterClass.CLERIC.generateLevelChoices(character);
-            while (firstChoice(spellMatch).isPresent()) {
-                character.selectChoice(firstChoice(spellMatch).get());
-            }
-            level.addValue(1);
-        }
-        assertThat(spellLevelCount(0), is(5));
-        assertThat(spellLevelCount(1), is(4));
-        assertThat(spellLevelCount(2), is(3));
-        assertThat(spellLevelCount(3), is(3));
-        assertThat(spellLevelCount(4), is(3));
-        assertThat(spellLevelCount(5), is(3));
-        assertThat(spellLevelCount(6), is(2));
-        assertThat(spellLevelCount(7), is(2));
-        assertThat(spellLevelCount(8), is(1));
-        assertThat(spellLevelCount(9), is(1));
-    }
-
     private Optional<OptionChoice> firstChoice(String match) {
         return IntStream.range(0, character.getChoiceCount())
             .mapToObj(character::getChoice)
             .filter(c -> c.toString().matches(match))
             .findFirst();
     }
-
-    private int spellLevelCount(int level) {
-        return (int) character.getAllAttributes()
-            .filter(att -> att.hasType(AttributeType.SPELL) && ((Spell) att).getLevel() == level)
-            .count();
-    }
-
 }

@@ -2,69 +2,116 @@ package characterbuilder.sheet;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Spell;
-import java.util.Arrays;
+import characterbuilder.character.ability.SpellCasting;
+import characterbuilder.character.attribute.AttributeType;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
+import java.util.stream.Stream;
 
 public class SpellPage extends Page {
 
-    public SpellPage(Character character) {
+    private final boolean firstSpellPage;
+    private final List<Spell> spells;
+
+    public SpellPage(Character character, boolean firstSpellPage, Stream<Spell> spells) {
         super(character);
+        this.firstSpellPage = firstSpellPage;
+        this.spells = spells.collect(toList());
     }
 
     @Override
     public PageBuilder.Container getPage() {
-        return builder.page()
-            .with(builder.shadedSection(0, 0, 100, 100))
-            .with(builder.borderedSection(1, 1, 98, 98)
-                .with(builder.caption("Spell", 11, 2, PageBuilder.Align.CENTRE))
-                .with(builder.verticalLine(22, 100))
-                .with(builder.caption("Casting", 28, 2, PageBuilder.Align.CENTRE))
-                .with(builder.caption("Time", 28, 3, PageBuilder.Align.CENTRE))
-                .with(builder.verticalLine(33, 100))
-                .with(builder.caption("Components", 39, 2, PageBuilder.Align.CENTRE))
-                .with(builder.verticalLine(44, 100))
-                .with(builder.caption("Range", 50, 2, PageBuilder.Align.CENTRE))
-                .with(builder.verticalLine(55, 100))
-                .with(builder.caption("Area", 61, 2, PageBuilder.Align.CENTRE))
-                .with(builder.verticalLine(66, 100))
-                .with(builder.caption("Duration", 72, 2, PageBuilder.Align.CENTRE))
-                .with(builder.verticalLine(78, 100))
-                .with(builder.caption("Effect", 86, 2, PageBuilder.Align.CENTRE))
-                .with(builder.writing(allSpellText(), 2, 3, 96, 95)));
+        PageBuilder.Container page = builder.page();
+        if (firstSpellPage) {
+            page.with(ability(), saveDC(), attackBonus(), spellSlots(), spellDetails(20));
+        } else {
+            page.with(spellDetails(0));
+        }
+        return page;
+    }
+
+    private PageBuilder.Component ability() {
+        return builder.borderedSection(0, 0, 40, 6)
+            .with(builder.caption("Spellcasting Ability", 20, 4, PageBuilder.Align.CENTRE))
+            .with(builder.value(casting().getAbilityScore().toString(),
+                20, 2, PageBuilder.Align.CENTRE));
+    }
+
+    private PageBuilder.Component saveDC() {
+        return builder.borderedSection(40, 0, 30, 6)
+            .with(builder.caption("Spell Save DC", 15, 4, PageBuilder.Align.CENTRE))
+            .with(builder.value(casting().getSaveDC(character), 15, 2, PageBuilder.Align.CENTRE));
+    }
+
+    private PageBuilder.Component attackBonus() {
+        return builder.borderedSection(70, 0, 30, 6)
+            .with(builder.caption("Spell Attack Bonus", 15, 4, PageBuilder.Align.CENTRE))
+            .with(builder.value(casting().getModifier(character), 15, 2, PageBuilder.Align.CENTRE));
+    }
+
+    private PageBuilder.Component spellSlots() {
+        final int rows = 3;
+        PageBuilder.Container spellSlotPanel = builder.borderedSection(0, 6, 100, 14)
+            .with(builder.caption("Spell Slots", 50, 12, PageBuilder.Align.CENTRE));
+        for (int l = 1; l <= casting().getMaxSlot(); l++) {
+            int yp = (l - 1) % rows * 3 + 3;
+            int xp = 30 * ((l - 1) / rows) + 5;
+            spellSlotPanel
+                .with(builder.caption("Level " + l, xp, yp, PageBuilder.Align.CENTRE_LEFT));
+            for (int s = 0; s < casting().getSlotsAtLevel(l); s++) {
+                spellSlotPanel.with(builder.circle(xp + 12 + s * 4, yp, 2));
+            }
+        }
+        return spellSlotPanel;
+    }
+
+    private PageBuilder.Component spellDetails(int yp) {
+        return builder.borderedSection(0, yp, 100, 100 - yp)
+            .with(builder.caption("Casting Time", 32, 2, PageBuilder.Align.CENTRE))
+            .with(builder.caption("Components", 48, 2, PageBuilder.Align.CENTRE))
+            .with(builder.caption("Range", 64, 2, PageBuilder.Align.CENTRE))
+            .with(builder.caption("Area", 76, 2, PageBuilder.Align.CENTRE))
+            .with(builder.caption("Duration", 90, 2, PageBuilder.Align.CENTRE))
+            .with(builder.writing(allSpellText(), 2, 3, 96, 95 - yp));
     }
 
     private String allSpellText() {
         StringBuilder text = new StringBuilder();
         text.append("<html>");
-        Map<Integer, List<Spell>> spells = Arrays.stream(Spell.values())
-            .filter(character::hasAttribute)
-            .collect(Collectors.groupingBy(Spell::getLevel));
-        spells.forEach((level, spellList) -> spellLevelText(text, level, spellList));
+        spells.stream()
+            .collect(Collectors.groupingBy(Spell::getLevel))
+            .forEach((level, spellList) -> text.append(spellLevelText(level, spellList)));
         text.append("</html>");
         return text.toString();
     }
 
-    private void spellLevelText(StringBuilder text, int level, List<Spell> spells) {
-        text.append("<h5 style='margin-bottom: 0px; margin-top: 3px'>");
-        text.append(level > 0 ? "Level " + level : "Cantrips");
+    private String spellLevelText(int level, List<Spell> spells) {
+        StringBuilder text = new StringBuilder();
+        text.append("<h2 style='margin-bottom: 0px; margin-top: 3px'>");
+        text.append(level > 0 ? "Level " + level + " Spells" : "Cantrips");
         text.append("</h5>");
-        text.append("<table style=\"width:385px; padding-left:5px\">");
-        spells.forEach(spell -> spellText(text, spell));
+        text.append("<table style=\"width:385px; padding-left:10px; border-spacing:0px\">");
+        spells.forEach(spell -> spellText(text, spell, spells.indexOf(spell) % 2 == 0));
         text.append("</table>");
+        return text.toString();
     }
 
-    private void spellText(StringBuilder text, Spell spell) {
-        text.append("<tr>");
+    private void spellText(StringBuilder text, Spell spell, boolean even) {
+        String colour = even ? "#f0f0f0" : "#ffffff";
+        String tr = String.format("<tr style='background-color:%s'>", colour);
+        text.append(tr);
         spellName(text, spell.toString(), 20);
         spellValue(text, spell.getCastingTime(), 12);
         spellValue(text, spell.getComponents(), 12);
         spellValue(text, spell.getRange(), 12);
         spellValue(text, spell.getArea(), 12);
         spellValue(text, spell.getDuration(), 12);
-        spellValue(text, spell.getEffect(character), 20);
         text.append("</tr>");
+        text.append(tr)
+            .append("<td/><td colspan='5'><em>")
+            .append(spell.getEffect(character))
+            .append("</em></td></tr>");
     }
 
     private void spellName(StringBuilder text, String value, int size) {
@@ -76,10 +123,15 @@ public class SpellPage extends Page {
     }
 
     private void spellCell(StringBuilder text, String value, String tag, String align, int size) {
-        text.append(String.format("<%s style=\"text-align:%s; height:5px; width:%d%%; padding:-15px\">",
-            tag, align, size));
+        text.append(String
+            .format("<%s style=\"text-align:%s; height:5px; width:%d%%; padding:-15px\">",
+                tag, align, size));
         text.append(value);
         text.append(String.format("</%s>", tag));
+    }
+
+    private SpellCasting casting() {
+        return character.getAttribute(AttributeType.SPELLCASTING);
     }
 
 }

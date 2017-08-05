@@ -36,5 +36,4 @@ public class AbilityTreeRoot extends DefaultMutableTreeNode {
             });
         typeNodes.values().forEach(this::add);
     }
-
 }

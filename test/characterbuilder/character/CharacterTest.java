@@ -6,7 +6,6 @@ import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CONSTITUTION;
 import static characterbuilder.character.attribute.AttributeType.EXPERIENCE_POINTS;
 import static characterbuilder.character.attribute.AttributeType.HIT_POINTS;
-import static characterbuilder.character.attribute.AttributeType.LEVEL;
 import static characterbuilder.character.attribute.AttributeType.RACE;
 import characterbuilder.character.attribute.CharacterClass;
 import characterbuilder.character.attribute.IntAttribute;
@@ -19,6 +18,7 @@ import characterbuilder.character.choice.TestOptionChoice;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.EquipmentSet;
 import java.util.Optional;
+import java.util.stream.Stream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -266,12 +266,10 @@ public class CharacterTest {
     }
 
     private void setLevel(CharacterClass charClass, int level) {
-        character.addAttributes(
+        Stream.of(
             charClass,
             Race.HUMAN,
-            new IntAttribute(LEVEL, level),
-            new IntAttribute(EXPERIENCE_POINTS, Character.XP_LEVELS[level - 1]),
             new IntAttribute(HIT_POINTS, charClass.getHitDie()),
-            new IntAttribute(CONSTITUTION, 10));
+            new IntAttribute(CONSTITUTION, 10)).forEach(attr -> attr.choose(character));
     }
 }

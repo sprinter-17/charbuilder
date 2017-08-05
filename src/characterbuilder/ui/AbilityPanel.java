@@ -2,15 +2,17 @@ package characterbuilder.ui;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.AttributeChoice;
+import characterbuilder.character.attribute.Attribute;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import static java.util.stream.Collectors.joining;
 import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.ToolTipManager;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -27,13 +29,24 @@ public class AbilityPanel extends CharacterSubPanel {
         abilityTree.addTreeSelectionListener(this::selectNode);
         TreeCellRenderer renderer = abilityTree.getCellRenderer();
         abilityTree.setCellRenderer((tree, value, selected, expanded, leaf, row, focus) -> {
-            Component component = renderer
+            JComponent component = (JComponent) renderer
                 .getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, focus);
-            if (value instanceof DefaultMutableTreeNode
-                && ((DefaultMutableTreeNode) value).getUserObject() instanceof AttributeChoice)
-                component.setForeground(Color.RED);
+            String description = "";
+            if (value instanceof DefaultMutableTreeNode) {
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+                if (node.getUserObject() instanceof Attribute) {
+                    Attribute attribute = (Attribute) node.getUserObject();
+                    description = attribute.getDescription(getCharacter())
+                        .collect(joining("<br>"));
+                }
+            }
+            if (description.isEmpty())
+                component.setToolTipText(null);
+            else
+                component.setToolTipText("<html>" + description + "</html>");
             return component;
         });
+        ToolTipManager.sharedInstance().registerComponent(abilityTree);
         add(new JScrollPane(abilityTree), BorderLayout.CENTER);
     }
 
@@ -45,13 +58,14 @@ public class AbilityPanel extends CharacterSubPanel {
                 if (node.getUserObject() instanceof AttributeChoice) {
                     AttributeChoice choice = (AttributeChoice) node.getUserObject();
                     JPopupMenu menu = new JPopupMenu();
-                    choice.getAttributes().forEach(ab -> menu.add(new AbstractAction(ab.toString()) {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            getCharacter().addAttribute(ab);
-                            triggerUpdate(getCharacter());
-                        }
-                    }));
+                    choice.getAttributes().forEach(ab -> menu
+                        .add(new AbstractAction(ab.toString()) {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                getCharacter().addAttribute(ab);
+                                triggerUpdate(getCharacter());
+                            }
+                        }));
                     menu.show(abilityTree, 0, 0);
                 }
             }

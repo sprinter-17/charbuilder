@@ -3,8 +3,11 @@ package characterbuilder.character.choice;
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Spell;
+import characterbuilder.character.ability.SpellCasting;
+import characterbuilder.character.ability.SpellClassMap;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.attribute.CharacterClass;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Token;
@@ -76,6 +79,28 @@ public class ChoiceGenerator {
         };
     }
 
+    public static Choice spellChoice(int count, int level) {
+        String name = level == 0 ? "Cantrip" : "Spell Level " + level;
+        return new OptionChoice(name, count) {
+            @Override
+            public void select(Character character, ChoiceSelector selector) {
+                selector.chooseOption(
+                    SpellClassMap.spellsForClass(character
+                        .getAttribute(AttributeType.CHARACTER_CLASS))
+                        .filter(sp -> sp.isLevel(level))
+                        .filter(sp -> !character.hasAttribute(sp)),
+                    spell -> character.addAttribute(spell));
+            }
+
+            @Override
+            public boolean isAllowed(Character character) {
+                return character.hasAttribute(AttributeType.CHARACTER_CLASS)
+                    && character.hasAttribute(AttributeType.SPELLCASTING)
+                    && AttributeType.ABILITY_SCORES.stream().allMatch(character::hasAttribute);
+            }
+        };
+    }
+
     public ChoiceGenerator addAction(String name, Consumer<Character> action) {
         choices.add(new Choice() {
             @Override
@@ -129,6 +154,26 @@ public class ChoiceGenerator {
     public ChoiceGenerator addWeaponProficiencies(Weapon... weapons) {
         Arrays.stream(weapons).map(Weapon::getProficiency)
             .forEach(wp -> addAttributes(wp));
+        return this;
+    }
+
+    public ChoiceGenerator addSpellSlots(int level, int slots) {
+        addAction("Spell Slots",
+            ch -> ch.getAttribute(AttributeType.SPELLCASTING, SpellCasting.class)
+                .addSlots(level, slots));
+        return this;
+    }
+
+    public ChoiceGenerator addAllSpells() {
+        addAction("Add Spells",
+            ch -> {
+            SpellCasting casting = ch.getAttribute(AttributeType.SPELLCASTING);
+            CharacterClass characterClass = ch.getAttribute(AttributeType.CHARACTER_CLASS);
+            characterClass.getSpells()
+                .filter(sp -> sp.getLevel() > 0 && sp.getLevel() <= casting.getMaxSlot())
+                .filter(sp -> !ch.hasAttribute(sp))
+                .forEach(ch::addAttribute);
+        });
         return this;
     }
 

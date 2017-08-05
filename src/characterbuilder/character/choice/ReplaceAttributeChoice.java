@@ -1,13 +1,24 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.SpellCasting;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import java.util.List;
-import static java.util.stream.Collectors.toList;
+import characterbuilder.character.attribute.CharacterClass;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class ReplaceAttributeChoice<T extends Attribute> extends OptionChoice {
+
+    public static Choice replaceSpell() {
+        return new ReplaceAttributeChoice<>("Spell", ch -> {
+            CharacterClass characterClass = ch.getAttribute(AttributeType.CHARACTER_CLASS);
+            SpellCasting casting = ch.getAttribute(AttributeType.SPELLCASTING);
+            return characterClass.getSpells()
+                .filter(sp -> !sp.isCantrip())
+                .filter(sp -> sp.getLevel() <= casting.getMaxSlot());
+        });
+    }
 
     private static final Attribute NO_REPLACEMENT = new Attribute() {
 
@@ -26,29 +37,26 @@ public class ReplaceAttributeChoice<T extends Attribute> extends OptionChoice {
             return "None";
         }
     };
-    private final List<T> attributes;
-    private final OptionChoice replacementChoice;
+    private final Function<Character, Stream<T>> attributes;
 
-    public ReplaceAttributeChoice(String name, int count, Stream<T> attributes) {
-        super("Remove " + name, count);
-        this.attributes = attributes.collect(toList());
-        this.replacementChoice = new AttributeChoice("Replacement " + name,
-            this.attributes.stream().map(attr -> (Attribute) attr));
+    public ReplaceAttributeChoice(String name, Function<Character, Stream<T>> attributes) {
+        super("Remove " + name, 1);
+        this.attributes = attributes;
     }
 
     @Override
     public void select(Character character, ChoiceSelector selector) {
         selector.chooseOption(
             Stream.concat(Stream.of(NO_REPLACEMENT),
-                attributes.stream().filter(character::hasAttribute)),
+                attributes.apply(character).filter(character::hasAttribute)),
             attr -> remove(character, attr));
     }
 
     private void remove(Character character, Attribute attribute) {
         if (attribute != NO_REPLACEMENT) {
             character.removeAttribute(attribute);
-            character.addChoice(replacementChoice);
-
+            character.addChoice(new AttributeChoice(getName().replace("Remove ", "Replace "),
+                this.attributes.apply(character).map(attr -> (Attribute) attr)));
         }
     }
 

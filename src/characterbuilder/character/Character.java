@@ -164,7 +164,10 @@ public class Character {
     }
 
     public int getModifier(AttributeType abilityScore) {
-        return getIntAttribute(abilityScore) / 2 - 5;
+        if (hasAttribute(abilityScore))
+            return getIntAttribute(abilityScore) / 2 - 5;
+        else
+            return 0;
     }
 
     public int getSavingsThrowBonus(AttributeType type) {

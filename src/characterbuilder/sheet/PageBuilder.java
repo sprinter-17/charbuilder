@@ -210,19 +210,24 @@ public class PageBuilder {
         return new Component() {
             @Override
             public void paint(Graphics2D g, int zoom) {
-                JLabel label = new JLabel();
-                label.setVerticalAlignment(JLabel.TOP);
-                label.setSize(new Dimension(horz(wp, zoom), vert(hp, zoom)));
-                label.setFont(new Font("optima", Font.PLAIN, 10 * zoom));
-                label.setForeground(Color.BLACK);
-                label.setText(text);
                 BufferedImage image = new BufferedImage(horz(wp, zoom), vert(hp, zoom),
                     BufferedImage.TYPE_INT_ARGB);
-                label.doLayout();
+                JLabel label = label(text, zoom);
+                label.setSize(new Dimension(horz(wp, zoom), vert(hp, zoom)));
+                label.validate();
                 label.print(image.getGraphics());
                 g.drawImage(image, x(zoom) + horz(xp, zoom), y(zoom) + vert(yp, zoom), null);
             }
         };
+    }
+
+    private JLabel label(String text, int zoom) {
+        JLabel label = new JLabel();
+        label.setVerticalAlignment(JLabel.TOP);
+        label.setFont(new Font("optima", Font.PLAIN, 10 * zoom));
+        label.setForeground(Color.BLACK);
+        label.setText(text);
+        return label;
     }
 
     public Component value(String text, int xp, int yp, Align align) {

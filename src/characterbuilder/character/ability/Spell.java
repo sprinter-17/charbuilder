@@ -2225,13 +2225,9 @@ public enum Spell implements Attribute {
         "3 darts", "V, S", "Instantaneous", "1d4 + 1 force damage. +1 dart / extra level."),
     PROTECTION_FROM_EVIL_AND_GOOD(MagicSchool.ABJURATION, 1, "1 action",
         "Touch", "1 willing creature", "V, S, M ", "Concentration up to 10 minutes",
-        "Until the spell ends, one willing creature you touch is protected against certain "
-        + "types of creatures: aberrations, celestials, elementals, fey, fiends, and undead. The "
-        + "protection grants several benefits. Creatures of those types have disadvantage on "
-        + "attack rolls against the target. The target also can't be charmed, frightened, or "
-        + "possessed by them. If the target is already charmed, frightened, or possessed by such "
-        + "a creature, the target has advantage on any new saving throw against the relevant "
-        + "effect."),
+        "Protected against aberrations, celestials, elementals, fey, fiends, and undead. "
+        + "Can't be charmed, frightened or possessed by these creatures. "
+        + "Creatures have disadvantage on attacks. "),
     PURIFY_FOOD_AND_DRINK(MagicSchool.TRANSMUTATION, 1, "1 action",
         "10 feet", "5-foot-radius sphere", "V, S", "Instantaneous",
         "Food and drink rendered free of poison and disease."),
@@ -2718,6 +2714,14 @@ public enum Spell implements Attribute {
 
     public int getLevel() {
         return level;
+    }
+
+    public boolean isCantrip() {
+        return level == 0;
+    }
+
+    public boolean isLevel(int level) {
+        return this.level == level;
     }
 
     public String getEffect(Character character) {

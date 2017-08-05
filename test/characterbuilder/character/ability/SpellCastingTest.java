@@ -32,6 +32,11 @@ public class SpellCastingTest {
     }
 
     @Test
+    public void testNoSpellSlots() {
+        assertThat(casting.getMaxSlot(), is(0));
+    }
+
+    @Test
     public void testAttackModifier() {
         assertThat(casting.getModifier(character), is(2 + 3));
         level.setValue(8);
@@ -45,8 +50,35 @@ public class SpellCastingTest {
         assertThat(casting.getSaveDC(character), is(8 + 2 + 3));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetSlotUnderRange() {
+        casting.getSlotsAtLevel(0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetSlotOverRange() {
+        casting.addSlots(1, 1);
+        casting.getSlotsAtLevel(2);
+    }
+
+    @Test
+    public void testAddSlots() {
+        assertThat(casting.getMaxSlot(), is(0));
+        casting.addSlots(1, 2);
+        assertThat(casting.getMaxSlot(), is(1));
+        assertThat(casting.getSlotsAtLevel(1), is(2));
+        casting.addSlots(2, 3);
+        assertThat(casting.getMaxSlot(), is(2));
+        assertThat(casting.getSlotsAtLevel(2), is(3));
+        casting.addSlots(1, 1);
+        assertThat(casting.getMaxSlot(), is(2));
+        assertThat(casting.getSlotsAtLevel(1), is(3));
+    }
+
     @Test
     public void testSaveAndLoad() {
+        casting.addSlots(1, 5);
+        casting.addSlots(3, 2);
         assertThat(AttributeType.load(casting.save(TestDoc.doc())), is(casting));
     }
 }

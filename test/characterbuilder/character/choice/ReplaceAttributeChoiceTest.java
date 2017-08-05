@@ -16,7 +16,7 @@ public class ReplaceAttributeChoiceTest {
 
     @Before
     public void setup() {
-        choice = new ReplaceAttributeChoice("Test", 5, Arrays.stream(Skill.values()));
+        choice = new ReplaceAttributeChoice("Test", ch -> Arrays.stream(Skill.values()));
         character = new Character();
         selector = new TestChoiceSelector();
         character.addChoiceList(selector);
@@ -29,9 +29,9 @@ public class ReplaceAttributeChoiceTest {
         selector.withAttribute(Skill.ATHLETICS);
         character.selectChoice(choice);
         assertFalse(character.hasAttribute(Skill.ATHLETICS));
-        assertTrue(character.hasChoice("Replacement Test"));
+        assertTrue(character.hasChoice("Replace Test"));
         selector.withAttribute(Skill.DECEPTION);
-        character.selectChoice(character.getChoice(1));
+        character.selectChoice(character.getChoice(0));
         assertTrue(character.hasAttribute(Skill.DECEPTION));
     }
 

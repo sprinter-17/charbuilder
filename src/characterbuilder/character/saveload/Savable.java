@@ -1,5 +1,6 @@
 package characterbuilder.character.saveload;
 
+import java.util.stream.Stream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,11 +21,18 @@ public interface Savable {
         throw new IllegalArgumentException("Attempt to get text from textless node");
     }
 
-    static Element child(Node node) {
+    static Stream<Element> children(Node node) {
+        Stream.Builder<Element> builder = Stream.builder();
         for (Node child = node.getFirstChild(); child != null; child = child.getNextSibling()) {
             if (child.getNodeType() == Node.ELEMENT_NODE)
-                return (Element) child;
+                builder.accept((Element) child);
         }
-        throw new IllegalArgumentException("Attempt to get element from childless node");
+        return builder.build();
+    }
+
+    static Element child(Node node) {
+        return children(node).findFirst()
+            .orElseThrow(()
+                -> new IllegalArgumentException("Attempt to get child of childless node"));
     }
 }
