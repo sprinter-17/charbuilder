@@ -18,6 +18,10 @@ public class ChoiceList {
         choices.add(choice);
     }
 
+    public void push(OptionChoice choice) {
+        choices.add(0, choice);
+    }
+
     public boolean isEmpty() {
         return choices.isEmpty();
     }

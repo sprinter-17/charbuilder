@@ -35,7 +35,7 @@ public class InitialChoiceGeneratorTest {
     public void testAttributeAdded() {
         assertFalse(character.hasAttribute(AttributeType.RACE));
         character.getChoice(0).select(character, selector);
-        assertThat(character.getAttribute(AttributeType.RACE), is(Race.values()[0]));
+        assertThat(character.getAttribute(AttributeType.RACE), is(Race.HUMAN));
     }
 
     @Test

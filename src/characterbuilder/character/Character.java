@@ -49,6 +49,10 @@ public class Character {
         choices.add(choice);
     }
 
+    public void pushChoice(OptionChoice choice) {
+        choices.push(choice);
+    }
+
     public OptionChoice getChoice(int index) {
         assert choices != null;
         return getChoices().skip(index).findFirst()

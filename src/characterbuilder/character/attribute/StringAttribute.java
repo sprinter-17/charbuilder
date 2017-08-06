@@ -49,10 +49,10 @@ public class StringAttribute implements Attribute {
 
     @Override
     public boolean equals(Object obj) {
-        return obj != null
-            && getClass() == obj.getClass()
-            && ((StringAttribute) obj).type.equals(type)
-            && ((StringAttribute) obj).value.equals(value);
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        StringAttribute other = (StringAttribute) obj;
+        return other.type.equals(type) && other.value.equals(value);
     }
 
 }

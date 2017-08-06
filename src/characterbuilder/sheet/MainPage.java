@@ -196,12 +196,8 @@ public class MainPage extends Page {
     private String otherProficiencies() {
         StringBuilder text = new StringBuilder();
         text.append("<html>");
-        List<AttributeType> types = new ArrayList<>();
-        Proficiency.getTypes().forEach(types::add);
-        types.add(AttributeType.EXPERTISE);
-        types.add(AttributeType.MUSICAL_INSTRUMENT_PROFICIENCY);
         character.getAllAttributes()
-            .filter(attr -> types.contains(attr.getType()))
+            .filter(AttributePlacement.SUMMARY::isPlacementFor)
             .collect(Collectors.groupingByConcurrent(Attribute::getType))
             .forEach((at, al) -> addProficiencies(text, at, al));
         text.append("</html>");

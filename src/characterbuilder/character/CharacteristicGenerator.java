@@ -267,6 +267,62 @@ public class CharacteristicGenerator {
             + "if I were a tyrant lording over the land.");
         add("I have trouble trusting in my allies.");
 
+        background = Background.GUILD_ARTISAN;
+        type = TRAIT;
+        add("I believe that anything worth doing is worth doing right. I cannot help it..."
+            + "I'm a perfectionist.");
+        add("I'm a snob who looks down on those who cannot appreciate fine art.");
+        add("I always want to know how things work and what makes people tick.");
+        add("I'm full of witty aphorisms and hava a proverb for every occasion.");
+        add("I'm rude to people who lack my commitment to hard work and fair play.");
+        add("I like to talk at length about my profession");
+        add("I don't part with my money easily and will haggle tirelessly to get the best deal "
+            + "possible");
+        add("I'm well know for my work, and I want to make sure everyone appreciates it. "
+            + "I'm always taken aback when people haven't heard of me.");
+
+        type = IDEAL;
+        add("It is the duty of all civilized people to strengthen the bonds of community and the "
+            + "security of civilization.", Alignment::isLawful);
+        add("My talents were given to me so that I can use them to benefit the world. ",
+            Alignment::isGood);
+        add("Everyone should be free to pursue his or her own livelihood.", Alignment::isChaotic);
+        add("I'm on in it for the money. ", Alignment::isEvil);
+        add("I'm committed to the people I care about, not to ideals.", Alignment::isNeutral);
+        add("I work hard to be the best there is at my craft.");
+
+        type = BOND;
+        add("The workshop where I learned my trade is the most important place in the world to me.");
+        add("I created a great work for someone, then found them unworthy to receive it. "
+            + "I'm still looking for someone worthy.");
+        add("I owe my guild a great debt for forging me into the person I am today. ");
+        add("I pursue wealth to secure someone's love.");
+        add("One day I will return to my guild and prove that I am the greatest artisan of them all");
+        add("I will get revenge on the evil forces that destroyed my place of business and ruined "
+            + "my livelihood.");
+
+        type = FLAW;
+        add("I'll do anything to get my hands on something rare or priceless.");
+        add("I'm quick to assume that someone is trying to cheat me.");
+        add("No one must ever learn that I once stole money from guild coffers.");
+        add("I'm never satisfied with what I have - I always want more.");
+        add("I would kill to acquire a noble title.");
+        add("I'm horribly jealous of anyone who can outshine my handiwork. "
+            + "Everywhere I go, I'm surrounded by rivals.");
+
+        background = Background.HERMIT;
+        type = TRAIT;
+        add("");
+
+        type = IDEAL;
+        add("");
+
+        type = BOND;
+        add("");
+
+        type = FLAW;
+        add("");
+
         background = Background.NOBLE;
         type = TRAIT;
         add("My eloquent flattery makes everyone I talk to feel like the most wonderful "
@@ -310,6 +366,50 @@ public class CharacteristicGenerator {
         add("In fact, the world does revolve around me.");
         add("By my words and actions, I often bring shame to my family.");
 
+        background = Background.OUTLANDER;
+        type = TRAIT;
+        add("I'm driven by wanderlust that led me away from home.");
+        add("I watch over my friends as if they were a liter of newborn pups.");
+        add("I once ran twenty-five miles without stopping to warn my clan of an approaching "
+            + "horde. I'd do it again if I had to.");
+        add("I have a lesson for every situation, drawn from observing nature. ");
+        add("I place no stock in wealthy or well-mannered folk. Money and manners won't save you "
+            + "from a hungry owlbear.");
+        add("I'm always picking things up, absently fiddling with them, and sometimes accidentally "
+            + "breaking them.");
+        add("I feel far more comfortable around animals than people.");
+        add("I was, in fact, raised by wolves.");
+
+        type = IDEAL;
+        add("Life is like the seasons, in constant change, and we must change with it. ",
+            Alignment::isChaotic);
+        add("It is each person's responsibility to make the most happiness for the whole tribe.",
+            Alignment::isGood);
+        add("If I dishonour myself, I dishonour my whole clan. ", Alignment::isLawful);
+        add("The strongest are meant to rule. ", Alignment::isEvil);
+        add("The natural world is more important than all the constructs of civilization.",
+            Alignment::isNeutral);
+        add("I must earn glory in battle, for myself and my clan.");
+
+        type = BOND;
+        add("My family, clan, or tribe is the most important thing in my life, even when they "
+            + "are far from me.");
+        add("An injury to the unspoiled wilderness of my home is an injury to me.");
+        add("I will bring terrible wrath down on the evildoers who destroyed my homeland.");
+        add("I am the last of the trip, and it is up to me to ensure their names enter legend.");
+        add("I suffer awful visions of a coming disaster and will do anything to prevent it.");
+        add("It is my duty to provide children to sustain my tribe.");
+
+        type = FLAW;
+        add("I am too enamoured of ale, wine and other intoxicants.");
+        add("There's no room for caution in a life lived to the fullest.");
+        add("I remember every insult I've received and nurse a silent resentment towards anyone "
+            + "who's every wronged me.");
+        add("I am slow to trust members of other races, tribes, and societies.");
+        add("Violence is my answer to almost any challenge.");
+        add("Don't expect me to save those who can't save themselves. It is nature's way that "
+            + "the strong thrive and the weak perish.");
+
         background = Background.SAGE;
         type = TRAIT;
         add("I use polysyllabic words that convey the impression of great erudition.");
@@ -351,6 +451,19 @@ public class CharacteristicGenerator {
         add("I speak without really thinking through my words, invariably insulting others.");
         add("I can’t keep a secret to save my life, or anyone else’s.");
 
+        background = Background.SAILOR;
+        type = TRAIT;
+        add("");
+
+        type = IDEAL;
+        add("");
+
+        type = BOND;
+        add("");
+
+        type = FLAW;
+        add("");
+
         background = Background.SOLDIER;
         type = TRAIT;
         add("I’m always polite and respectful.");
@@ -389,6 +502,20 @@ public class CharacteristicGenerator {
         add("My hatred of my enemies is blind and unreasoning.");
         add("I obey the law even if the law causes misery.");
         add("I’d rather eat my armor than admit when I’m wrong.");
+
+        background = Background.URCHIN;
+        type = TRAIT;
+        add("");
+
+        type = IDEAL;
+        add("");
+
+        type = BOND;
+        add("");
+
+        type = FLAW;
+        add("");
+
     }
 
     private void add(String description) {

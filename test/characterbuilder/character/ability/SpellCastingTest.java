@@ -18,7 +18,7 @@ public class SpellCastingTest {
 
     @Before
     public void setup() {
-        casting = new SpellCasting(AttributeType.CHARISMA);
+        casting = new SpellCasting(AttributeType.CHARISMA, "[$level * 2]");
         character = new Character();
         level = new IntAttribute(AttributeType.LEVEL, 4);
         character.addAttribute(level);
@@ -59,6 +59,13 @@ public class SpellCastingTest {
     public void testGetSlotOverRange() {
         casting.addSlots(1, 1);
         casting.getSlotsAtLevel(2);
+    }
+
+    @Test
+    public void testPreparedSpellText() {
+        assertThat(casting.getPreparedSpells(character), is("8"));
+        level.setValue(10);
+        assertThat(casting.getPreparedSpells(character), is("20"));
     }
 
     @Test

@@ -4,6 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.saveload.Savable;
+import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
@@ -13,10 +14,16 @@ import org.w3c.dom.Node;
 public class SpellCasting implements Attribute {
 
     private final AttributeType spellAbilityScore;
+    private final String preparedSpellText;
     private int[] spellSlots = {};
 
     public SpellCasting(AttributeType spellAbilityScore) {
+        this(spellAbilityScore, "All");
+    }
+
+    public SpellCasting(AttributeType spellAbilityScore, String preparedSpellText) {
         this.spellAbilityScore = spellAbilityScore;
+        this.preparedSpellText = preparedSpellText;
     }
 
     @Override
@@ -68,11 +75,17 @@ public class SpellCasting implements Attribute {
             return 0;
     }
 
+    public String getPreparedSpells(Character character) {
+        return StringUtils.expand(preparedSpellText, character);
+    }
+
     @Override
     public Node save(Document doc) {
         Node node = getType().save(doc);
         node.appendChild(doc.createElement("ability_score"))
             .setTextContent(spellAbilityScore.name());
+        node.appendChild(doc.createElement("prepared_spells"))
+            .setTextContent(preparedSpellText);
         for (int i = 0; i < spellSlots.length; i++) {
             Element slot = doc.createElement("spell_slot");
             slot.setAttribute("level", String.valueOf(i + 1));
@@ -83,11 +96,10 @@ public class SpellCasting implements Attribute {
     }
 
     public static SpellCasting load(Node node) {
-        AttributeType abilityScore = Savable.children(node)
-            .filter(el -> el.getTagName().equals("ability_score"))
-            .map(el -> AttributeType.valueOf(el.getTextContent()))
-            .findAny().orElse(AttributeType.INTELLIGENCE);
-        SpellCasting casting = new SpellCasting(abilityScore);
+        AttributeType abilityScore
+            = AttributeType.valueOf(Savable.child(node, "ability_score").getTextContent());
+        String preparedSpellText = Savable.child(node, "prepared_spells").getTextContent();
+        SpellCasting casting = new SpellCasting(abilityScore, preparedSpellText);
         Savable.children(node)
             .filter(el -> el.getTagName().equals("spell_slot"))
             .forEach(el -> loadSpellSlot(casting, el));
@@ -111,6 +123,7 @@ public class SpellCasting implements Attribute {
             return false;
         SpellCasting other = (SpellCasting) obj;
         return other.spellAbilityScore.equals(spellAbilityScore)
+            && other.preparedSpellText.equals(preparedSpellText)
             && Arrays.equals(other.spellSlots, spellSlots);
     }
 

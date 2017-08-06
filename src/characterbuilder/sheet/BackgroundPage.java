@@ -7,7 +7,6 @@ import static characterbuilder.character.attribute.AttributeType.AGE;
 import static characterbuilder.character.attribute.AttributeType.PHYSICAL_DESCRIPTION;
 import static characterbuilder.character.attribute.AttributeType.WEIGHT;
 import characterbuilder.character.equipment.EquipmentCategory;
-import java.util.Arrays;
 import static java.util.stream.Collectors.joining;
 
 public class BackgroundPage extends Page {
@@ -59,7 +58,7 @@ public class BackgroundPage extends Page {
         return html(
             element("table",
                 character.getAllAttributes()
-                    .filter(Arrays.asList(Ability.values())::contains)
+                    .filter(AttributePlacement.DETAIL::isPlacementFor)
                     .map(ab -> abilityRow((Ability) ab)).collect(joining())));
     }
 

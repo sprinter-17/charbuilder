@@ -24,7 +24,8 @@ public class SpellPage extends Page {
     public PageBuilder.Container getPage() {
         PageBuilder.Container page = builder.page();
         if (firstSpellPage) {
-            page.with(ability(), saveDC(), attackBonus(), spellSlots(), spellDetails(20));
+            page.with(ability(), saveDC(), attackBonus(), spellSlots(), preparedSpells(),
+                spellDetails(20));
         } else {
             page.with(spellDetails(0));
         }
@@ -32,22 +33,31 @@ public class SpellPage extends Page {
     }
 
     private PageBuilder.Component ability() {
-        return builder.borderedSection(0, 0, 40, 6)
-            .with(builder.caption("Spellcasting Ability", 20, 4, PageBuilder.Align.CENTRE))
+        return builder.borderedSection(0, 0, 34, 6)
+            .with(builder.caption("Spellcasting Ability", 17, 4, PageBuilder.Align.CENTRE))
             .with(builder.value(casting().getAbilityScore().toString(),
-                20, 2, PageBuilder.Align.CENTRE));
+                17, 2, PageBuilder.Align.CENTRE));
     }
 
     private PageBuilder.Component saveDC() {
-        return builder.borderedSection(40, 0, 30, 6)
-            .with(builder.caption("Spell Save DC", 15, 4, PageBuilder.Align.CENTRE))
-            .with(builder.value(casting().getSaveDC(character), 15, 2, PageBuilder.Align.CENTRE));
+        int saveDC = casting().getSaveDC(character);
+        return builder.borderedSection(34, 0, 22, 6)
+            .with(builder.caption("Spell Save DC", 11, 4, PageBuilder.Align.CENTRE))
+            .with(builder.value(saveDC, 11, 2, PageBuilder.Align.CENTRE));
     }
 
     private PageBuilder.Component attackBonus() {
-        return builder.borderedSection(70, 0, 30, 6)
-            .with(builder.caption("Spell Attack Bonus", 15, 4, PageBuilder.Align.CENTRE))
-            .with(builder.value(casting().getModifier(character), 15, 2, PageBuilder.Align.CENTRE));
+        int attackBonus = casting().getModifier(character);
+        return builder.borderedSection(56, 0, 22, 6)
+            .with(builder.caption("Spell Attack Bonus", 11, 4, PageBuilder.Align.CENTRE))
+            .with(builder.value(attackBonus, 11, 2, PageBuilder.Align.CENTRE));
+    }
+
+    private PageBuilder.Component preparedSpells() {
+        String preparedSpells = casting().getPreparedSpells(character);
+        return builder.borderedSection(78, 0, 22, 6)
+            .with(builder.caption("Prepared Spells", 11, 4, PageBuilder.Align.CENTRE))
+            .with(builder.value(preparedSpells, 11, 2, PageBuilder.Align.CENTRE));
     }
 
     private PageBuilder.Component spellSlots() {
@@ -101,6 +111,7 @@ public class SpellPage extends Page {
         String colour = even ? "#f0f0f0" : "#ffffff";
         String tr = String.format("<tr style='background-color:%s'>", colour);
         text.append(tr);
+        spellValue(text, "&#x25A2;", 5);
         spellName(text, spell.toString(), 20);
         spellValue(text, spell.getCastingTime(), 12);
         spellValue(text, spell.getComponents(), 12);
@@ -109,7 +120,7 @@ public class SpellPage extends Page {
         spellValue(text, spell.getDuration(), 12);
         text.append("</tr>");
         text.append(tr)
-            .append("<td/><td colspan='5'><em>")
+            .append("<td/><td colspan='6'><em>")
             .append(spell.getEffect(character))
             .append("</em></td></tr>");
     }

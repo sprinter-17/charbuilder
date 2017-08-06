@@ -30,6 +30,13 @@ public interface Savable {
         return builder.build();
     }
 
+    static Element child(Node node, String tag) {
+        return children(node)
+            .filter(el -> el.getTagName().equals(tag))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Attempt to get child " + tag));
+    }
+
     static Element child(Node node) {
         return children(node).findFirst()
             .orElseThrow(()

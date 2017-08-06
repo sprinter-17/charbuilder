@@ -89,7 +89,7 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addChoice(3, new AttributeChoice("Musical Instrument Proficiency",
             MusicalInstrument.getAllProficiencies()));
         gen.level(1).addChoice(new EquipmentChoice("Musical Instrument")
-            .with(EquipmentCategory.MUSICAL_INSTRUMENTS));
+            .with(EquipmentCategory.MUSICAL_INSTRUMENT));
         gen.level(1).addAttributes(BARDIC_INSPIRATION);
         gen.level(2).addAttributes(JACK_OF_ALL_TRADES);
         gen.level(2).addAttributes(SONG_OF_REST);
@@ -132,7 +132,7 @@ public enum CharacterClass implements Attribute {
     },
     CLERIC(8, DIVINE_DOMAIN, WISDOM, CHARISMA,
         Arrays.asList(WISDOM, CONSTITUTION, STRENGTH), gen -> {
-        gen.level(1).addAttributes(new SpellCasting(WISDOM));
+        gen.level(1).addAttributes(new SpellCasting(WISDOM, "[$wis_mod + $level]"));
         gen.level(1).addChoice(spellChoice(3, 0));
         gen.level(1).addSpellSlots(1, 2);
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
@@ -150,7 +150,7 @@ public enum CharacterClass implements Attribute {
         gen.level(2).addAttributes(TURN_UNDEAD, CHANNEL_DIVINITY);
         gen.level(2, 3).addSpellSlots(1, 1);
         gen.level(3).addSpellSlots(2, 2);
-        gen.level(4, 8, 12, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
+        gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
         gen.level(4).addSpellSlots(2, 1);
         gen.level(5).addAttributes(DESTROY_UNDEAD).addSpellSlots(3, 2);
         gen.level(5, 10).addChoice(spellChoice(1, 0));
@@ -165,7 +165,22 @@ public enum CharacterClass implements Attribute {
         gen.level(1, 3, 5, 7, 9, 11, 13, 15, 17).addAllSpells();
     }),
     DRUID(8, DRUID_CIRCLE, INTELLIGENCE, WISDOM, Arrays.asList(WISDOM, CONSTITUTION), gen -> {
-        gen.level(1).addAttributes(new SpellCasting(WISDOM));
+        gen.level(1).addAttributes(new SpellCasting(WISDOM, "[$wis_mod + $level]"));
+        gen.level(1).addChoice(spellChoice(2, 0));
+        gen.level(4, 10).addChoice(spellChoice(1, 0));
+        gen.level(1).addSpellSlots(1, 2);
+        gen.level(2, 3).addSpellSlots(1, 1);
+        gen.level(3).addSpellSlots(2, 2);
+        gen.level(4).addSpellSlots(2, 1);
+        gen.level(5).addSpellSlots(3, 4);
+        gen.level(6).addSpellSlots(3, 1);
+        gen.level(7, 8, 9).addSpellSlots(4, 1);
+        gen.level(9, 10, 18).addSpellSlots(5, 1);
+        gen.level(11, 19).addSpellSlots(6, 1);
+        gen.level(13, 20).addSpellSlots(7, 1);
+        gen.level(15).addSpellSlots(8, 1);
+        gen.level(17).addSpellSlots(9, 1);
+        gen.level(1, 3, 5, 7, 9, 11, 13, 15, 17).addAllSpells();
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD, DRUIDIC);
         gen.level(1).addWeaponProficiencies(CLUB, DAGGER, DART, JAVELIN, MACE, QUARTERSTAFF,
@@ -179,57 +194,9 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addEquipment(LEATHER_ARMOUR, EXPLORER_PACK);
         gen.level(1).addChoice(new EquipmentChoice("Focus").with(DRUIDIC_FOCUS));
         gen.level(2).addAttributes(WILD_SHAPE);
-        final int[][] spellCount = {
-            {},
-            {2, 2},
-            {2, 3},
-            {2, 4, 2},
-            {3, 4, 3},
-            {3, 4, 3, 2},
-            {3, 4, 3, 3},
-            {3, 4, 3, 3, 1},
-            {3, 4, 3, 3, 2},
-            {3, 4, 3, 3, 3, 1},
-            {4, 4, 3, 3, 3, 2},
-            {4, 4, 3, 3, 3, 2, 1},
-            {4, 4, 3, 3, 3, 2, 1},
-            {4, 4, 3, 3, 3, 2, 1, 1},
-            {4, 4, 3, 3, 3, 2, 1, 1},
-            {4, 4, 3, 3, 3, 2, 1, 1, 1},
-            {4, 4, 3, 3, 3, 2, 1, 1, 1},
-            {4, 4, 3, 3, 3, 2, 1, 1, 1, 1},
-            {4, 4, 3, 3, 3, 3, 1, 1, 1, 1},
-            {4, 4, 3, 3, 3, 3, 2, 1, 1, 1},
-            {4, 4, 3, 3, 3, 3, 2, 2, 1, 1}
-        };
-    },
-        DRUIDCRAFT, GUIDANCE, MENDING, POISON_SPRAY, PRODUCE_FLAME, RESISTANCE, SHILLELAGH,
-        THORN_WHIP,
-        ANIMAL_FRIENDSHIP, CHARM_PERSON, CREATE_OR_DESTROY_WATER, CURE_WOUNDS, DETECT_MAGIC,
-        DETECT_POISON_AND_DISEASE, ENTANGLE, FAERIE_FIRE, FOG_CLOUD, GOODBERRY,
-        HEALING_WORD, JUMP, LONGSTRIDER, PURIFY_FOOD_AND_DRINK, SPEAK_WITH_ANIMALS,
-        THUNDERWAVE,
-        ANIMAL_MESSENGER, BARKSKIN, BEAST_SENSE, Spell.DARKVISION, ENHANCE_ABILITY,
-        FIND_TRAPS, FLAME_BLADE, FLAMING_SPHERE, GUST_OF_WIND, HEAT_METAL, HOLD_PERSON,
-        LESSER_RESTORATION, LOCATE_ANIMALS_OR_PLANTS, LOCATE_OBJECT, MOONBEAM,
-        PASS_WITHOUT_TRACE, PROTECTION_FROM_POISON, SPIKE_GROWTH,
-        CALL_LIGHTNING, CONJURE_ANIMALS, DAYLIGHT, DISPEL_MAGIC, FEIGN_DEATH,
-        MELD_INTO_STONE, PLANT_GROWTH, PROTECTION_FROM_ENERGY, SLEET_STORM,
-        SPEAK_WITH_PLANTS, WATER_BREATHING, WATER_WALK, WIND_WALL,
-        BLIGHT, CONFUSION, CONJURE_MINOR_ELEMENTALS, CONJURE_WOODLAND_BEINGS, CONTROL_WATER,
-        DOMINATE_BEAST, FREEDOM_OF_MOVEMENT, GIANT_INSECT, GRASPING_VINE,
-        HALLUCINATORY_TERRAIN, ICE_STORM, LOCATE_CREATURE, POLYMORPH, STONE_SHAPE,
-        STONESKIN, WALL_OF_FIRE,
-        ANTILIFE_SHELL, AWAKEN, COMMUNE_WITH_NATURE, CONJURE_ELEMENTAL, CONTAGION, GEAS,
-        GREATER_RESTORATION, INSECT_PLAGUE, MASS_CURE_WOUNDS, PLANAR_BINDING, REINCARNATE,
-        SCRYING, TREE_STRIDE, WALL_OF_STONE,
-        CONJURE_FEY, FIND_THE_PATH, HEAL, HEROES_FEAST, MOVE_EARTH, SUNBEAM,
-        TRANSPORT_VIA_PLANTS, WALL_OF_THORNS, WIND_WALK,
-        FIRE_STORM, MIRAGE_ARCANE, PLANE_SHIFT, REGENERATE, REVERSE_GRAVITY,
-        ANIMAL_SHAPES, ANTIPATHY_SYMPATHY, CONTROL_WEATHER, EARTHQUAKE, FEEBLEMIND,
-        SUNBURST, TSUNAMI,
-        FORESIGHT, SHAPECHANGE, STORM_OF_VENGEANCE, TRUE_RESURRECTION
-    ),
+        gen.level(2).addChoice(new AttributeChoice("Druid Circle", DruidCircle.values()));
+        gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
+    }),
     FIGHTER(10, MARTIAL_ARCHETYPE, STRENGTH, CONSTITUTION,
         Arrays.asList(STRENGTH, DEXTERITY, CONSTITUTION), gen -> {
         gen.level(1).

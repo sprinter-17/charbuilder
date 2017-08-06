@@ -30,7 +30,7 @@ public class EquipmentSetTest {
 
     @Test
     public void testGetCategory() {
-        assertThat(set.getCategory(), is(EquipmentCategory.CONTAINERS));
+        assertThat(set.getCategory(), is(EquipmentCategory.CONTAINER));
     }
 
     @Test

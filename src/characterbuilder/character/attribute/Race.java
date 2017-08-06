@@ -13,6 +13,8 @@ import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.spellChoice;
+import characterbuilder.character.choice.Option;
+import characterbuilder.character.choice.OptionChoice;
 import static characterbuilder.character.equipment.Weapon.*;
 import characterbuilder.utils.StringUtils;
 import java.util.EnumMap;
@@ -20,6 +22,7 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 public enum Race implements Attribute {
@@ -163,6 +166,46 @@ public enum Race implements Attribute {
 
     public static Race load(Node node) {
         return Race.valueOf(node.getTextContent());
+    }
+
+    private static class SuperRace implements Option {
+
+        private final String name;
+        private final OptionChoice subRaceSelection;
+
+        public SuperRace(String name, Race... subraces) {
+            this.name = name;
+            this.subRaceSelection = new AttributeChoice(name + " Subrace", subraces);
+        }
+
+        @Override
+        public void choose(Character character) {
+            character.pushChoice(subRaceSelection);
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+
+        @Override
+        public Node save(Document doc) {
+            throw new UnsupportedOperationException("Cannot save race selection option.");
+        }
+    }
+
+    public static Stream<Option> initialRaceValues() {
+        return Stream.of(
+            HUMAN,
+            new SuperRace("Elf", HIGH_ELF, WOOD_ELF, DARK_ELF),
+            new SuperRace("Dwarf", HILL_DWARF, MOUNTAIN_DWARF),
+            new SuperRace("Halfling", LIGHFOOT_HALFLING, STOUT_HALFLING),
+            new SuperRace("Gnome", FOREST_GNOME, ROCK_GNOME),
+            DRAGONBORN,
+            TIEFLING,
+            HALF_ELF,
+            HALF_ORC
+        );
     }
 
 }

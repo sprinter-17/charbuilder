@@ -5,8 +5,7 @@ import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.*;
 import static characterbuilder.character.ability.Skill.*;
-import static characterbuilder.character.attribute.AttributeType.ARTISAN;
-import static characterbuilder.character.attribute.AttributeType.LANGUAGE;
+import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.choice.EquipmentChoice;
@@ -27,17 +26,32 @@ public enum Background implements Attribute {
             .addEquipment(INCENSE_BLOCK, 5)
             .addChoice(new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL))
             .addChoice(new AttributeChoice(LANGUAGE).withCount(2))),
-    CHARLATAN(gen -> {
-
-    }),
+    CHARLATAN(gen
+        -> gen.addAttributes(DECEPTION, SLEIGHT_OF_HAND)
+            .addAttributes(Proficiency.DISGUISE_KIT, Proficiency.FORGERY_KIT)
+            .addEquipment(FINE_CLOTHES, EquipmentType.DISGUISE_KIT)
+            .addChoice(new EquipmentChoice("Tools of the Con",
+                new Token("Bottles of coloured liquid"),
+                new Token("Set of Weighted Dice"),
+                new Token("Deck of Marked Cards"),
+                new Token("Signet Ring of Imaginary Duke")))
+            .addEquipment(GOLD_PIECE, 15)
+            .addAttributes(Ability.FALSE_IDENTITY)),
     CRIMINAL(gen
         -> gen.addAttributes(DECEPTION, STEALTH, Proficiency.THIEVES_TOOLS)
             .addEquipment(EquipmentType.GOLD_PIECE, 15)
             .addEquipment(CROWBAR, COMMON_CLOTHES)
             .addChoice(new AttributeChoice(LANGUAGE))),
-    ENTERTAINER(gen -> {
-
-    }),
+    ENTERTAINER(gen
+        -> gen.addAttributes(ACROBATICS, PERFORMANCE, Ability.BY_POPULAR_DEMAND)
+            .addAttributes(Proficiency.DISGUISE_KIT)
+            .addChoice(new AttributeChoice("Musical Instrument Proficiency",
+                MusicalInstrument.getAllProficiencies()))
+            .addChoice(new EquipmentChoice(EquipmentCategory.MUSICAL_INSTRUMENT))
+            .addEquipment(GOLD_PIECE, 15)
+            .addTokens("the favour of an admirer.")
+            .addEquipment(COSTUME)
+            .addChoice(3, new AttributeChoice(AttributeType.ENTERTAINER_ROUTINE))),
     FOLK_HERO(gen
         -> gen.addAttributes(ANIMAL_HANDLING, SURVIVAL, LAND_VEHICLES)
             .addEquipment(EquipmentType.GOLD_PIECE, 10)
@@ -50,6 +64,8 @@ public enum Background implements Attribute {
         gen.addTokens("Letter of introduction from guild");
         gen.addEquipment(TRAVELERS_CLOTHES);
         gen.addEquipment(GOLD_PIECE, 15);
+        gen.addChoice(new AttributeChoice(GUILD_BUSINESS));
+        gen.addAttributes(Ability.GUILD_MEMBERSHIP);
     }),
     HERMIT(gen -> {
         gen.addAttributes(MEDICINE, RELIGION, Proficiency.HERBALISM_KIT);

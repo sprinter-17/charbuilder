@@ -11,12 +11,17 @@ import characterbuilder.character.attribute.Sex;
 public class InitialChoiceGenerator extends ChoiceGenerator {
 
     public InitialChoiceGenerator() {
-        addChoice(new AttributeChoice("Race", Race.values()));
+        addChoice(new OptionChoice("Race") {
+            @Override
+            public void select(Character character, ChoiceSelector selector) {
+                selector.chooseOption(Race.initialRaceValues(), o -> o.choose(character));
+            }
+        });
         addChoice(new AttributeChoice("Sex", Sex.values()));
         addChoice(new AttributeChoice("Class", CharacterClass.values()));
+        addChoice(generateAbilityScores());
         addChoice(new AttributeChoice("Background", Background.values()));
         addChoice(new AttributeChoice("Alignment", Alignment.values()));
-        addChoice(generateAbilityScores());
     }
 
     private OptionChoice generateAbilityScores() {

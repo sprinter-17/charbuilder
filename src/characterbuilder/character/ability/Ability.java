@@ -496,6 +496,13 @@ public enum Ability implements Attribute {
         "Excellent memory for maps and geography. Can find food if available."),
     DISCOVERY(BACKGROUND_FEATURE, "Discovery",
         "Have made a unique and powerful discovery."),
+    BY_POPULAR_DEMAND(BACKGROUND_FEATURE, "By Popular Demand",
+        "Find a place to perform is each town, receiving free lodging."),
+    FALSE_IDENTITY(BACKGROUND_FEATURE, "False Identity",
+        "Can assume persona of second identity. "
+        + "Can forge official papers and letters if samples are available. "),
+    GUILD_MEMBERSHIP(BACKGROUND_FEATURE, "Guild Membership",
+        "Guild will provide lodging and food. Must pay dues of 5GP each month."),
 
     /*
      * Feats
@@ -506,7 +513,8 @@ public enum Ability implements Attribute {
         + "running jump after 5 feet.") {
         @Override
         public void generateInitialChoices(Character character) {
-            character.addChoice(new AbilityScoreOrFeatIncrease("Athletic Ability", STRENGTH, DEXTERITY));
+            character
+                .addChoice(new AbilityScoreOrFeatIncrease("Athletic Ability", STRENGTH, DEXTERITY));
         }
     },
     ACTOR(FEAT, "Advantage on Deception and Performance checks; "

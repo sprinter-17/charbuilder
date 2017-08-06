@@ -55,6 +55,8 @@ public enum AttributeType {
     RACIAL_TALENT(false, Ability::load),
     CLASS_TALENT(false, Ability::load),
     BACKGROUND_FEATURE(false, Ability::load),
+    ENTERTAINER_ROUTINE(false, Proficiency::load),
+    GUILD_BUSINESS(false, Proficiency::load),
     SPELLCASTING(true, SpellCasting::load),
     SPELL_MASTERY(false, SpellMastery::load),
     ARCANE_TRADITION(true, MagicSchool::load),
