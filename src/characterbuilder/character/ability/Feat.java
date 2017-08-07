@@ -2,23 +2,16 @@ package characterbuilder.character.ability;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.DamageType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
-import characterbuilder.character.choice.ChoiceGenerator;
-import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.equipment.Weapon;
 import characterbuilder.utils.StringUtils;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import static java.util.stream.Collectors.joining;
 import java.util.stream.Stream;
 import org.w3c.dom.Node;
 
@@ -125,74 +118,9 @@ public enum Feat implements Attribute {
         .withChoice(4, new AttributeChoice("Weapon Proficiency",
             Arrays.stream(Weapon.values()).map(Weapon::getProficiency))));
 
-    private static class FeatBuilder {
+    private static class FeatBuilder extends AttributeDelegate {
 
-        private Optional<String> name = Optional.empty();
-        private final List<String> description = new ArrayList<>();
-        private List<Predicate<Character>> prerequisites = new ArrayList<>();
-        private final ChoiceGenerator generator = new ChoiceGenerator();
         private boolean addToCharacter = true;
-
-        public Stream<String> getDescription(Character character) {
-            return Stream.concat(
-                description.stream(),
-                generator.getDescription(character))
-                .map(desc -> StringUtils.expand(desc, character));
-        }
-
-        public FeatBuilder withName(String name) {
-            this.name = Optional.of(name);
-            return this;
-        }
-
-        public FeatBuilder withDescription(String description) {
-            this.description.add(description);
-            return this;
-        }
-
-        public FeatBuilder withPrerequisite(Predicate<Character> prerequisite) {
-            prerequisites.add(prerequisite);
-            return this;
-        }
-
-        public FeatBuilder withPrerequisite(AttributeType score, int value) {
-            return withPrerequisite(ch -> ch.getIntAttribute(score) >= value);
-        }
-
-        public FeatBuilder withPrerequisite(AttributeType attribute) {
-            return withPrerequisite(ch -> ch.hasAttribute(attribute));
-        }
-
-        public FeatBuilder withChoice(OptionChoice choice) {
-            this.generator.addChoice(choice);
-            return this;
-        }
-
-        public FeatBuilder withChoice(int count, OptionChoice choice) {
-            this.generator.addChoice(count, choice);
-            return this;
-        }
-
-        public FeatBuilder withAction(String name, Consumer<Character> action) {
-            generator.addAction(name, action);
-            return this;
-        }
-
-        public FeatBuilder withIncrease(AttributeType score) {
-            generator.addAction("Increase " + score.toString(), ch -> {
-                IntAttribute value = ch.getAttribute(score);
-                value.addValue(1);
-                value.setInRange(1, 20);
-            });
-            return this;
-        }
-
-        public FeatBuilder withIncreaseChoice(AttributeType... scores) {
-            String increaseName = "Increase "
-                + Arrays.stream(scores).map(AttributeType::toString).collect(joining(" or "));
-            generator.addChoice(new AbilityScoreOrFeatIncrease(increaseName, scores));
-            return this;
-        }
 
         public FeatBuilder withDoNotAddToCharacter() {
             addToCharacter = false;
@@ -202,8 +130,8 @@ public enum Feat implements Attribute {
 
     private final FeatBuilder delegate;
 
-    private Feat(FeatBuilder delegate) {
-        this.delegate = delegate;
+    private Feat(AttributeDelegate delegate) {
+        this.delegate = (FeatBuilder) delegate;
     }
 
     private Feat(String description) {
@@ -221,7 +149,7 @@ public enum Feat implements Attribute {
 
     @Override
     public String toString() {
-        return delegate.name.orElse(StringUtils.capitaliseEnumName(name()));
+        return delegate.getName().orElse(StringUtils.capitaliseEnumName(name()));
     }
 
     @Override
@@ -233,11 +161,11 @@ public enum Feat implements Attribute {
     public void choose(Character character) {
         if (delegate.addToCharacter)
             character.addAttribute(this);
-        delegate.generator.generateChoices(character);
+        delegate.generateChoices(character);
     }
 
     public final boolean isAllowed(Character character) {
-        return delegate.prerequisites.stream().allMatch(p -> p.test(character));
+        return delegate.isAllowed(character);
     }
 
     public static Feat load(Node node) {
