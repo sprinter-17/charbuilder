@@ -182,8 +182,7 @@ public class Character {
 
     public int getSavingsThrowBonus(AttributeType type) {
         int modifier = getModifier(type);
-        CharacterClass characterClass = getAttribute(AttributeType.CHARACTER_CLASS);
-        if (characterClass.hasSavingsThrow(type))
+        if (hasAttribute(type) && getScore(type).hasProficientSaves())
             modifier += getProficiencyBonus();
         return modifier;
     }

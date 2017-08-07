@@ -1,5 +1,6 @@
 package characterbuilder.character.choice;
 
+import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,7 @@ public class TestChoiceSelector implements ChoiceSelector {
     }
 
     @Override
-    public void generateAbilityScores(Consumer<Stream<Attribute>> consumer) {
+    public void generateAbilityScores(Consumer<Stream<AbilityScore>> consumer) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

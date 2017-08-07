@@ -3,10 +3,8 @@ package characterbuilder.ui;
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.attribute.AbilityScore;
-import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.CharacterClass;
-import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.Option;
@@ -107,7 +105,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     }
 
     @Override
-    public void generateAbilityScores(Consumer<Stream<Attribute>> consumer) {
+    public void generateAbilityScores(Consumer<Stream<AbilityScore>> consumer) {
         detailPanel.removeAll();
         List<AttributeType> scores = generateOrderedScores();
         List<Integer> values = generateValues();
@@ -122,7 +120,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectOption(() -> consumer.accept(IntStream.range(0, 6)
-                    .mapToObj(i -> new IntAttribute(scores.get(i), values.get(i)))));
+                    .mapToObj(i -> new AbilityScore(scores.get(i), values.get(i)))));
             }
         });
         padDetailPanel();

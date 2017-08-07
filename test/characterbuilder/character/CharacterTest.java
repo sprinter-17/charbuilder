@@ -7,6 +7,7 @@ import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CONSTITUTION;
 import static characterbuilder.character.attribute.AttributeType.EXPERIENCE_POINTS;
 import static characterbuilder.character.attribute.AttributeType.HIT_POINTS;
+import static characterbuilder.character.attribute.AttributeType.LEVEL;
 import static characterbuilder.character.attribute.AttributeType.RACE;
 import characterbuilder.character.attribute.CharacterClass;
 import characterbuilder.character.attribute.IntAttribute;
@@ -155,6 +156,16 @@ public class CharacterTest {
     }
 
     @Test
+    public void testSavingThrow() {
+        AbilityScore con = new AbilityScore(CONSTITUTION, 12);
+        character.addAttribute(con);
+        assertThat(character.getSavingsThrowBonus(CONSTITUTION), is(1));
+        character.addAttribute(new IntAttribute(LEVEL, 4));
+        con.setProficientSaves();
+        assertThat(character.getSavingsThrowBonus(CONSTITUTION), is(3));
+    }
+
+    @Test
     public void testHitPointIncrease() {
         setLevel(CharacterClass.FIGHTER, 1);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(10));
@@ -272,6 +283,6 @@ public class CharacterTest {
             charClass,
             Race.HUMAN,
             new IntAttribute(HIT_POINTS, charClass.getHitDie()),
-            new IntAttribute(CONSTITUTION, 10)).forEach(attr -> attr.choose(character));
+            new AbilityScore(CONSTITUTION, 10)).forEach(attr -> attr.choose(character));
     }
 }

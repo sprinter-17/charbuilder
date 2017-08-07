@@ -1,6 +1,6 @@
 package characterbuilder.character.choice;
 
-import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AbilityScore;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -8,7 +8,7 @@ public interface ChoiceSelector {
 
     <T extends Option> void chooseOption(Stream<T> options, Consumer<T> followUp);
 
-    void generateAbilityScores(Consumer<Stream<Attribute>> consumer);
+    void generateAbilityScores(Consumer<Stream<AbilityScore>> consumer);
 
     default void choiceMade() {
 
@@ -25,7 +25,7 @@ public interface ChoiceSelector {
             }
 
             @Override
-            public void generateAbilityScores(Consumer<Stream<Attribute>> consumer) {
+            public void generateAbilityScores(Consumer<Stream<AbilityScore>> consumer) {
                 ChoiceSelector.this.generateAbilityScores(sa -> {
                     consumer.accept(sa);
                     choiceMade();

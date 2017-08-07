@@ -1,6 +1,7 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Alignment;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Background;
@@ -27,17 +28,24 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
     private OptionChoice generateAbilityScores() {
         return new OptionChoice("Generate ability scores") {
             @Override
+            public boolean isAllowed(Character character) {
+                return character.hasAttribute(AttributeType.RACE)
+                    && character.hasAttribute(AttributeType.CHARACTER_CLASS);
+            }
+
+            @Override
             public void select(Character character, ChoiceSelector selector) {
                 selector.generateAbilityScores(scores -> {
-                    scores.forEach(character::addAttribute);
+                    scores.forEach(as -> addAbilityScore(character, as));
                     character.generateHitPoints();
                 });
             }
 
-            @Override
-            public boolean isAllowed(Character character) {
-                return character.hasAttribute(AttributeType.RACE)
-                    && character.hasAttribute(AttributeType.CHARACTER_CLASS);
+            private void addAbilityScore(Character character, AbilityScore score) {
+                if (character.getAttribute(AttributeType.CHARACTER_CLASS, CharacterClass.class)
+                    .hasSavingsThrow(score.getType()))
+                    score.setProficientSaves();
+                character.addAttribute(score);
             }
         };
     }
