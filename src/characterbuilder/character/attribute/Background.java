@@ -120,6 +120,7 @@ public enum Background implements Attribute {
             Proficiency.THIEVES_TOOLS, Proficiency.DISGUISE_KIT);
         gen.addEquipment(EquipmentType.KNIFE_SMALL,
             new Token("Map of city"), new Token("Pet mouse"), new Token("Momento of parents"));
+        gen.addEquipment(COMMON_CLOTHES);
         gen.addEquipment(EquipmentType.GOLD_PIECE, 10);
         gen.addAttributes(Ability.CITY_SECRETS);
     });

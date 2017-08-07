@@ -2,7 +2,9 @@ package characterbuilder.character.attribute;
 
 import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.DivineDomain;
+import characterbuilder.character.ability.ElementalAdept;
 import characterbuilder.character.ability.Expertise;
+import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.MagicSchool;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
@@ -69,7 +71,8 @@ public enum AttributeType {
     FAVOURED_TERRAIN(false, FavouredTerrain::load),
     RANGERS_COMPANION(true, RangerCompanion::load),
     SKILL(false, Skill::load),
-    FEAT(false, Ability::load),
+    FEAT(false, Feat::load),
+    ELEMENTAL_ADEPT(false, ElementalAdept::load),
     EXPERTISE(false, Expertise::load),
     SPELL(false, Spell::load),
     WEAPON_PROFICIENCY(false, Weapon::loadProficiency),

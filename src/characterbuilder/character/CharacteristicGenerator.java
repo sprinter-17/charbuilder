@@ -505,17 +505,42 @@ public class CharacteristicGenerator {
 
         background = Background.URCHIN;
         type = TRAIT;
-        add("");
+        add("I hide scraps of food and trinkets away in my pockets.");
+        add("I ask a lot of questions.");
+        add("I like to squeeze into small spaces where no one else can get to me.");
+        add("I sleep with my back to a wall or tree, with everything I own wrapped in a bundle "
+            + "in my arms.");
+        add("I eat like a pig and have bad manners.");
+        add("I think anyone who's nice to me is hiding evil intent.");
+        add("I don't like to bathe.");
+        add("I bluntly say what other people are hinting or hiding.");
 
         type = IDEAL;
-        add("");
+        add("All people, rich or poor, deserve respect.", Alignment::isGood);
+        add("We have to take care of each otehr, because no on else is going to do it. ",
+            Alignment::isLawful);
+        add("The low are lifted up and the high and mighty are brought down. Change is the nature "
+            + "of things.", Alignment::isChaotic);
+        add("The rich need to be shown what life and death are like in the gutters.",
+            Alignment::isEvil);
+        add("I help the people who help me - that's what keeps us alive. ", Alignment::isNeutral);
+        add("I'm going to prove taht I'm worthy of a better life.");
 
         type = BOND;
-        add("");
+        add("My town or city is my home and I'll fight to defend it.");
+        add("I sponsor an orphanage to keep others from enduring what I was forced to endure.");
+        add("I owe my survival to another urchin who taught me to live on the streets.");
+        add("I owe a debt I can never repay to the person who took pity on me.");
+        add("I escaped my life of poverty by robbing an important person and I'm wanted for it.");
+        add("No one else should have to endure the hardships I've been through.");
 
         type = FLAW;
-        add("");
-
+        add("If I'm outnumbered, I will run away from a fight.");
+        add("Gold seems like a lot of money to me and I'll do just about anything for more of it.");
+        add("I will never fully trust anyone other than myself.");
+        add("I'd rather kill someone in their sleep than fight fair.");
+        add("It's not stealing if I need it more than someone else.");
+        add("People who can't take care of themselves get what they deserve.");
     }
 
     private void add(String description) {

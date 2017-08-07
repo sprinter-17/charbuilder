@@ -102,6 +102,8 @@ int_expr returns [int value]
     | '$level' {$value = character().getLevel();}
     | '$prof'  {$value = character().getProficiencyBonus();}
     | '$speed' {$value = character().getAttribute(RACE, Race.class).getSpeed();}
+    | 'max(' SPACE? int1=int_expr SPACE? ',' SPACE? int2=int_expr SPACE? ')'
+        {$value = Math.max($int1.value, $int2.value);}
     | spell_expr '_mod' 
         {$value = $spell_expr.value.getModifier(character());}
     | spell_expr '_dc' 

@@ -12,7 +12,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,23 +46,6 @@ public class AbilityTest {
         level.setValue(6);
         assertThat(Ability.CHANNEL_DIVINITY.getDescription(character).collect(joining()),
             startsWith("Use two channel divinity powers"));
-    }
-
-    @Test
-    public void testFeatAddChoice() {
-        Ability.ATHLETE.generateInitialChoices(character);
-        AttributeType.ABILITY_SCORES
-            .forEach(as -> character.addAttribute(new IntAttribute(as, 10)));
-        assertTrue(character.hasChoice("Athletic Ability"));
-    }
-
-    @Test
-    public void testFeatPrerequisite() {
-        IntAttribute dex = new IntAttribute(AttributeType.DEXTERITY, 12);
-        character.addAttribute(dex);
-        assertFalse(Ability.DEFENSIVE_DUELIST.isAllowed(character));
-        dex.setValue(13);
-        assertTrue(Ability.DEFENSIVE_DUELIST.isAllowed(character));
     }
 
     @Test

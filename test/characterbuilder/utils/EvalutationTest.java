@@ -65,6 +65,12 @@ public class EvalutationTest {
     }
 
     @Test
+    public void testMaxExpression() {
+        assertThat(eval("max(4, 1)", context), is("4"));
+        assertThat(eval("max(1, 4)", context), is("4"));
+    }
+
+    @Test
     public void testPlural() {
         assertThat(eval("plural(object, objects)", context), is("object"));
         context.setPlural(true);

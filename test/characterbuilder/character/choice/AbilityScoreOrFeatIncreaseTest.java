@@ -1,7 +1,7 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Ability;
+import characterbuilder.character.ability.Feat;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.IntAttribute;
@@ -78,7 +78,7 @@ public class AbilityScoreOrFeatIncreaseTest {
         ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 12)));
         character.addChoice(increase);
         character.selectChoice(increase);
-        assertTrue(selector.hadOption(Ability.ATHLETE));
+        assertTrue(selector.hadOption(Feat.ATHLETE));
     }
 
     @Test
@@ -88,16 +88,16 @@ public class AbilityScoreOrFeatIncreaseTest {
         ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 12)));
         character.addChoice(increase);
         character.selectChoice(increase);
-        assertFalse(selector.hadOption(Ability.ATHLETE));
+        assertFalse(selector.hadOption(Feat.ATHLETE));
     }
 
     @Test
     public void testExistingFeatsExcluded() {
         ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 12)));
-        character.addAttribute(Ability.ATHLETE);
+        character.addAttribute(Feat.ATHLETE);
         character.addChoice(increase);
         character.selectChoice(increase);
-        assertFalse(selector.hadOption(Ability.ATHLETE));
+        assertFalse(selector.hadOption(Feat.ATHLETE));
     }
 
 }

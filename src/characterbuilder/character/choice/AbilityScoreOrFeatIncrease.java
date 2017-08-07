@@ -1,7 +1,7 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Ability;
+import characterbuilder.character.ability.Feat;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import java.util.ArrayList;
@@ -74,7 +74,7 @@ public class AbilityScoreOrFeatIncrease extends OptionChoice {
             .map(AbilityScoreIncrease::new)
             .forEach(options::add);
         if (featsAllowed) {
-            Arrays.stream(Ability.values())
+            Arrays.stream(Feat.values())
                 .filter(ab -> ab.hasType(AttributeType.FEAT))
                 .filter(ab -> ab.isAllowed(character))
                 .filter(ab -> !character.hasAttribute(ab))

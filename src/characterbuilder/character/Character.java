@@ -2,6 +2,7 @@ package characterbuilder.character;
 
 import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Expertise;
+import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeSet;
@@ -138,6 +139,10 @@ public class Character {
         dirty = attributes.removeAttributesOfType(type) || dirty;
     }
 
+    public int getAttributeCount(AttributeType type) {
+        return (int) attributes.getAttributes(type).count();
+    }
+
     public <T extends Attribute> T getAttribute(AttributeType type) {
         return attributes.getAttribute(type);
     }
@@ -227,6 +232,8 @@ public class Character {
         hitPoints += getModifier(CONSTITUTION);
         if (getAttribute(RACE).equals(Race.HILL_DWARF))
             hitPoints++;
+        if (hasAttribute(Feat.TOUGH))
+            hitPoints += 2;
         return Math.max(1, hitPoints);
     }
 

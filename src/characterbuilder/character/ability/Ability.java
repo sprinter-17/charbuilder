@@ -4,8 +4,6 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
-import characterbuilder.character.attribute.IntAttribute;
-import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -502,45 +500,7 @@ public enum Ability implements Attribute {
         "Can assume persona of second identity. "
         + "Can forge official papers and letters if samples are available. "),
     GUILD_MEMBERSHIP(BACKGROUND_FEATURE, "Guild Membership",
-        "Guild will provide lodging and food. Must pay dues of 5GP each month."),
-
-    /*
-     * Feats
-    **/
-    ALERT(FEAT, "+5 initiative; cannot be surprised; "
-        + "unseen enemies do not gain adavantage on attack."),
-    ATHLETE(FEAT, "Standing up uses only 5 feet of movement; climb at normal speed; "
-        + "running jump after 5 feet.") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character
-                .addChoice(new AbilityScoreOrFeatIncrease("Athletic Ability", STRENGTH, DEXTERITY));
-        }
-    },
-    ACTOR(FEAT, "Advantage on Deception and Performance checks; "
-        + "mimic speech or sounds: Insight vs. Deception to detect. ") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            IntAttribute charisma = character.getAttribute(CHARISMA);
-            charisma.addValue(1);
-            charisma.setInRange(1, 20);
-        }
-    },
-    CHARGER(FEAT, "When action Dash, make 1 melee weapon attack or shove as reaction; "
-        + "+5 damage or +10 feet shove if move 10 feet in straight line."),
-    CROSSBOW_EXPERT(FEAT,
-        "Ignore loading cost of crossbows; not disadvantaged while engaged; "
-        + "while attacking with one-handed weapon, "
-        + "also attack with hand crossbow as bonus action."),
-    DEFENSIVE_DUELIST(FEAT, "While wielding a finesse weapon, as a reaction to being hit by a "
-        + "melee weapon +[$prof] AC.") {
-        @Override
-        public boolean isAllowed(Character character) {
-            return character.getIntAttribute(DEXTERITY) >= 13;
-        }
-    },
-    DUAL_WIELDER(FEAT, "+1 AC while wielding two weapons; can use two heavy weapons; draw/stow "
-        + "two weapons in same time as one.");
+        "Guild will provide lodging and food. Must pay dues of 5GP each month."),;
 
     private final AttributeType type;
     private final String name;
@@ -565,10 +525,6 @@ public enum Ability implements Attribute {
     @Override
     public AttributeType getType() {
         return type;
-    }
-
-    public boolean isAllowed(Character character) {
-        return true;
     }
 
     @Override

@@ -8,6 +8,7 @@ import characterbuilder.character.ability.SpellClassMap;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.CharacterClass;
+import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Token;
@@ -114,6 +115,14 @@ public class ChoiceGenerator {
             }
         });
         return this;
+    }
+
+    public ChoiceGenerator increaseAbilityScore(AttributeType abilityScore, int amount) {
+        return addAction("+" + amount + " " + abilityScore.toString(), ch -> {
+            IntAttribute score = ch.getAttribute(abilityScore);
+            score.addValue(amount);
+            score.setInRange(1, 20);
+        });
     }
 
     public ChoiceGenerator addEquipment(Equipment... equipment) {
