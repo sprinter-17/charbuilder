@@ -2,6 +2,7 @@ package characterbuilder.ui;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
+import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.CharacterClass;
@@ -130,7 +131,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     }
 
     private List<AttributeType> generateOrderedScores() {
-        List<AttributeType> scores = new ArrayList<>(AttributeType.ABILITY_SCORES);
+        List<AttributeType> scores = new ArrayList<>(AbilityScore.SCORES);
         CharacterClass characterClass = character.get().getAttribute(AttributeType.CHARACTER_CLASS);
         List<AttributeType> primaryScores = characterClass.getPrimaryAttributes().collect(toList());
         Collections.shuffle(scores);

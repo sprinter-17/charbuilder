@@ -55,6 +55,10 @@ public class AttributeDelegate {
         return withPrerequisite(ch -> ch.hasAttribute(attribute));
     }
 
+    public AttributeDelegate withPrerequisite(Attribute attribute) {
+        return withPrerequisite(ch -> ch.hasAttribute(attribute));
+    }
+
     public AttributeDelegate withChoice(OptionChoice choice) {
         this.generator.addChoice(choice);
         return this;
@@ -70,12 +74,12 @@ public class AttributeDelegate {
         return this;
     }
 
+    public AttributeDelegate withAttribute(Attribute attribute) {
+        return withAction(attribute.toString(), ch -> ch.addAttribute(attribute));
+    }
+
     public AttributeDelegate withIncrease(AttributeType score) {
-        generator.addAction("Increase " + score.toString(), ch -> {
-            IntAttribute value = ch.getAttribute(score);
-            value.addValue(1);
-            value.setInRange(1, 20);
-        });
+        generator.addAction("Increase " + score.toString(), ch -> ch.getScore(score).addValue(1));
         return this;
     }
 

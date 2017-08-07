@@ -2,7 +2,7 @@ package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Feat;
-import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.attribute.AbilityScore;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.IntAttribute;
 import static org.hamcrest.CoreMatchers.is;
@@ -33,7 +33,7 @@ public class AbilityScoreOrFeatIncreaseTest {
 
     @Test
     public void testAllowedAfterAbilityScoresAdded() {
-        AttributeType.ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 10)));
+        AbilityScore.SCORES.forEach(s -> character.addAttribute(new AbilityScore(s, 10)));
         assertTrue(increase.isAllowed(character));
     }
 
@@ -44,7 +44,7 @@ public class AbilityScoreOrFeatIncreaseTest {
 
     @Test
     public void testIncreaseStrength() {
-        ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 10)));
+        AbilityScore.SCORES.forEach(s -> character.addAttribute(new AbilityScore(s, 10)));
         selector.withChoice("+1 Intelligence");
         increase.select(character, selector);
         assertThat(character.getIntAttribute(INTELLIGENCE), is(11));
@@ -53,7 +53,7 @@ public class AbilityScoreOrFeatIncreaseTest {
     @Test
     public void testIncreaseConstitutionIncreaseHitPoints() {
         character.addAttribute(new IntAttribute(LEVEL, 7));
-        ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 10)));
+        AbilityScore.SCORES.forEach(s -> character.addAttribute(new AbilityScore(s, 10)));
         character.addAttribute(new IntAttribute(HIT_POINTS, 0));
         selector.withChoice("+1 Constitution");
         increase.select(character, selector);
@@ -64,7 +64,7 @@ public class AbilityScoreOrFeatIncreaseTest {
 
     @Test
     public void testAllowSpecificScores() {
-        ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 12)));
+        AbilityScore.SCORES.forEach(s -> character.addAttribute(new AbilityScore(s, 12)));
         increase = new AbilityScoreOrFeatIncrease("Test", INTELLIGENCE, WISDOM);
         character.addChoice(increase);
         assertTrue(character.hasChoice("Test"));
@@ -75,7 +75,7 @@ public class AbilityScoreOrFeatIncreaseTest {
     @Test
     public void testWithFeats() {
         assertThat(increase.toString(), is("Feat or Ability Score Increase"));
-        ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 12)));
+        AbilityScore.SCORES.forEach(s -> character.addAttribute(new AbilityScore(s, 12)));
         character.addChoice(increase);
         character.selectChoice(increase);
         assertTrue(selector.hadOption(Feat.ATHLETE));
@@ -85,7 +85,7 @@ public class AbilityScoreOrFeatIncreaseTest {
     public void testWithoutFeats() {
         increase = increase.withoutFeats();
         assertThat(increase.toString(), is("Ability Score Increase"));
-        ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 12)));
+        AbilityScore.SCORES.forEach(s -> character.addAttribute(new AbilityScore(s, 12)));
         character.addChoice(increase);
         character.selectChoice(increase);
         assertFalse(selector.hadOption(Feat.ATHLETE));
@@ -93,7 +93,7 @@ public class AbilityScoreOrFeatIncreaseTest {
 
     @Test
     public void testExistingFeatsExcluded() {
-        ABILITY_SCORES.forEach(s -> character.addAttribute(new IntAttribute(s, 12)));
+        AbilityScore.SCORES.forEach(s -> character.addAttribute(new AbilityScore(s, 12)));
         character.addAttribute(Feat.ATHLETE);
         character.addChoice(increase);
         character.selectChoice(increase);

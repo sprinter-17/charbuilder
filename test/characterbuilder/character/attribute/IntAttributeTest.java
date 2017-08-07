@@ -12,12 +12,12 @@ public class IntAttributeTest {
 
     @Before
     public void setup() {
-        attr = new IntAttribute(AttributeType.CHARISMA, 17);
+        attr = new IntAttribute(AttributeType.LEVEL, 17);
     }
 
     @Test
     public void testGetType() {
-        assertThat(attr.getType(), is(AttributeType.CHARISMA));
+        assertThat(attr.getType(), is(AttributeType.LEVEL));
     }
 
     @Test
@@ -37,16 +37,6 @@ public class IntAttributeTest {
         assertThat(attr.getValue(), is(19));
         attr.addValue(-10);
         assertThat(attr.getValue(), is(9));
-    }
-
-    @Test
-    public void testSetInRange() {
-        attr.setValue(17);
-        attr.setInRange(11, 15);
-        assertThat(attr.getValue(), is(15));
-        attr.setValue(9);
-        attr.setInRange(11, 15);
-        assertThat(attr.getValue(), is(11));
     }
 
     @Test

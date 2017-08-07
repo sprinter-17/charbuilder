@@ -3,6 +3,7 @@ package characterbuilder.sheet;
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
+import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
@@ -50,7 +51,7 @@ public class MainPage extends Page {
 
     private PageBuilder.Component abilityScores() {
         PageBuilder.Container attributes = builder.shadedSection(1, 9, 14, 66);
-        AttributeType.ABILITY_SCORES.stream()
+        AbilityScore.SCORES.stream()
             .forEach(attr -> attributes.with(abilityScore(attr)));
         return attributes;
     }
@@ -79,7 +80,7 @@ public class MainPage extends Page {
     private PageBuilder.Component savingsThrows() {
         PageBuilder.Container savingsThrows = builder.borderedSection(16, 17, 26, 17)
             .with(builder.caption("Savings Throws", 13, 15, BOTTOM_CENTRE));
-        AttributeType.ABILITY_SCORES.forEach(attr -> savingsThrows.with(savingsThrow(attr)));
+        AbilityScore.SCORES.forEach(attr -> savingsThrows.with(savingsThrow(attr)));
         return savingsThrows;
     }
 
@@ -90,7 +91,7 @@ public class MainPage extends Page {
     }
 
     private int abilityScoreIndex(AttributeType abilityScore) {
-        return AttributeType.ABILITY_SCORES.indexOf(abilityScore);
+        return AbilityScore.SCORES.indexOf(abilityScore);
     }
 
     private PageBuilder.Component skills() {

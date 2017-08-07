@@ -1,6 +1,7 @@
 package characterbuilder.character;
 
 import characterbuilder.character.ability.Ability;
+import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CONSTITUTION;
@@ -17,6 +18,7 @@ import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.choice.TestOptionChoice;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.EquipmentSet;
+import characterbuilder.utils.TestCharacter;
 import java.util.Optional;
 import java.util.stream.Stream;
 import static org.hamcrest.CoreMatchers.is;
@@ -31,7 +33,7 @@ import static org.mockito.Mockito.when;
 
 public class CharacterTest {
 
-    private Character character;
+    private TestCharacter character;
     private CharacterRandom random;
 
     @Before
@@ -57,7 +59,7 @@ public class CharacterTest {
                 return 1;
             }
         };
-        character = new Character();
+        character = new TestCharacter();
         character.addChoiceList(new TestChoiceSelector());
     }
 
@@ -77,9 +79,9 @@ public class CharacterTest {
     public void testGenerateAbilityScores() {
         character.addAttribute(Race.HILL_DWARF);
         character.addAttribute(CharacterClass.WIZARD);
-        assertTrue(AttributeType.ABILITY_SCORES.stream().noneMatch(character::hasAttribute));
+        assertTrue(AbilityScore.SCORES.stream().noneMatch(character::hasAttribute));
         character.generateAbilityScores(random);
-        assertTrue(AttributeType.ABILITY_SCORES.stream().allMatch(character::hasAttribute));
+        assertTrue(AbilityScore.SCORES.stream().allMatch(character::hasAttribute));
     }
 
     @Test
@@ -103,8 +105,8 @@ public class CharacterTest {
     @Test
     public void testSwapAttributes() {
         character.addAttribute(Race.HILL_DWARF);
-        character.addAttribute(new IntAttribute(AttributeType.STRENGTH, 19));
-        character.addAttribute(new IntAttribute(AttributeType.CONSTITUTION, 12));
+        character.addAttribute(new AbilityScore(AttributeType.STRENGTH, 19));
+        character.addAttribute(new AbilityScore(AttributeType.CONSTITUTION, 12));
         character.swapAttributes(AttributeType.STRENGTH, AttributeType.CONSTITUTION);
         assertThat(character.getIntAttribute(AttributeType.STRENGTH), is(10));
         assertThat(character.getIntAttribute(AttributeType.CONSTITUTION), is(20));

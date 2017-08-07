@@ -32,11 +32,6 @@ public class IntAttribute implements Attribute {
         return value;
     }
 
-    public void setInRange(int min, int max) {
-        value = Math.max(min, value);
-        value = Math.min(max, value);
-    }
-
     @Override
     public String toString() {
         return Integer.toString(value);

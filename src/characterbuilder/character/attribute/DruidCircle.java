@@ -1,5 +1,6 @@
 package characterbuilder.character.attribute;
 
+import characterbuilder.utils.StringUtils;
 import org.w3c.dom.Node;
 
 public enum DruidCircle implements Attribute {
@@ -9,6 +10,11 @@ public enum DruidCircle implements Attribute {
     @Override
     public AttributeType getType() {
         return AttributeType.DRUID_CIRCLE;
+    }
+
+    @Override
+    public String toString() {
+        return StringUtils.capitaliseEnumName(name());
     }
 
     public static DruidCircle load(Node node) {

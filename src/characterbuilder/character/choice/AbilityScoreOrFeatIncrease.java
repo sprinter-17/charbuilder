@@ -2,6 +2,7 @@ package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Feat;
+import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class AbilityScoreOrFeatIncrease extends OptionChoice {
 
     public AbilityScoreOrFeatIncrease() {
         super("Feat or Ability Score Increase");
-        AttributeType.ABILITY_SCORES.forEach(scoresAllowed::add);
+        AbilityScore.SCORES.forEach(scoresAllowed::add);
     }
 
     public AbilityScoreOrFeatIncrease(String name, AttributeType... scores) {
@@ -85,6 +86,6 @@ public class AbilityScoreOrFeatIncrease extends OptionChoice {
 
     @Override
     public boolean isAllowed(Character character) {
-        return AttributeType.ABILITY_SCORES.stream().allMatch(character::hasAttribute);
+        return AbilityScore.SCORES.stream().allMatch(character::hasAttribute);
     }
 }

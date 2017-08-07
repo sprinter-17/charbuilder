@@ -27,18 +27,20 @@ public enum Feat implements Attribute {
         .withDescription("Advantage on Deception and Performance checks; "
             + "mimic speech or sounds: Insight vs. Deception to detect. ")
         .withIncrease(CHARISMA)),
-    CHARGER("When action Dash, make 1 melee weapon attack or shove as reaction; "
-        + "+5 damage or +10 feet shove if move 10 feet in straight line."),
-    CROSSBOW_EXPERT(
-        "Ignore loading cost of crossbows; not disadvantaged while engaged; "
-        + "while attacking with one-handed weapon, "
-        + "also attack with hand crossbow as bonus action."),
+    CHARGER(feat()
+        .withDescription("When action Dash, make 1 melee weapon attack or shove as reaction; "
+            + "+5 damage or +10 feet shove if move 10 feet in straight line.")),
+    CROSSBOW_EXPERT(feat()
+        .withDescription("Ignore loading cost of crossbows; not disadvantaged while engaged; "
+            + "while attacking with one-handed weapon, "
+            + "also attack with hand crossbow as bonus action.")),
     DEFENSIVE_DUELIST(feat()
         .withDescription("While wielding a finesse weapon, as a reaction to being hit by a "
             + "melee weapon +[$prof] AC.")
         .withPrerequisite(ch -> ch.getIntAttribute(DEXTERITY) >= 13)),
-    DUAL_WIELDER("+1 AC while wielding two weapons; can use two heavy weapons; draw/stow "
-        + "two weapons in same time as one."),
+    DUAL_WIELDER(feat()
+        .withDescription("+1 AC while wielding two weapons; can use two heavy weapons; draw/stow "
+            + "two weapons in same time as one.")),
     DUNGEON_DELVER(feat()
         .withDescription("Advantage on Perception and Investigation checks for secret doors.")
         .withDescription("Advantage on saves and resistance to damage for traps.")
@@ -52,44 +54,78 @@ public enum Feat implements Attribute {
         .withChoice(new AttributeChoice("Adept With Element",
             Stream.of(DamageType.ACID, DamageType.COLD, DamageType.LIGHTNING, DamageType.THUNDER)
                 .map(ElementalAdept::new)))),
-    GRAPPLER(""),
-    GREAT_WEAPON_MASTER(""),
-    HEALER(""),
-    HEAVILY_ARMOURED(""),
-    HEAVY_WEAPON_MASTER(""),
-    INSPIRING_LEADER(""),
-    KEEN_MIND(""),
-    LIGHTLY_ARMOURED(""),
-    LINGUIST(""),
-    LUCKY(""),
-    MAGE_SLAYER(""),
-    MAGIC_INITIATE(""),
-    MARTIAL_ADEPT(""),
-    MEDIUM_ARMOUR_MASTER(""),
-    MOBILE(""),
-    MODERATELY_ARMOURED(""),
-    MOUNTED_COMBATANT(""),
-    OBSERVANT(""),
-    POLEARM_MASTER(""),
-    RESILIENT(""),
+    GRAPPLER(feat()
+        .withPrerequisite(DEXTERITY, 13)
+        .withDescription("Advantage on attacks against grappled creatures. ")
+        .withDescription("As an action attempt to pin a grappled creature. ")),
+    GREAT_WEAPON_MASTER(feat()
+        .withDescription("When scoring a critical hit or reducing a creature to 0 with a "
+            + "melee attack, make a second melee attack as a bonus action. ")
+        .withDescription("May choose -5 attack, +10 damage on attacks with heavy weapon. ")),
+    HEALER(feat()
+        .withDescription("1 HP healing when using a kit to stabilize a dying creature. ")
+        .withDescription("As an action cure 1d6 + 4 + target's hit dice with a healer's kit. ")),
+    HEAVILY_ARMOURED(feat().withDoNotAddToCharacter()
+        .withPrerequisite(ch -> ch.hasAttribute(Proficiency.MEDIUM_ARMOUR))
+        .withIncrease(STRENGTH)
+        .withAttribute(Proficiency.HEAVY_ARMOUR)),
+    HEAVY_ARMOUR_MASTER(feat()
+        .withPrerequisite(Proficiency.HEAVY_ARMOUR)
+        .withIncrease(STRENGTH)
+        .withDescription("-3 damage from bludgeoning, piercing and slashing while wearing "
+            + "heavy armour.")),
+    INSPIRING_LEADER(feat()
+        .withPrerequisite(CHARISMA, 13)
+        .withDescription("Spend 10 minutes; 6 allies within 30 feet gain [$level + $chr_mod] HP.")),
+    KEEN_MIND(feat()
+        .withIncrease(INTELLIGENCE)
+        .withDescription("Direction and time sense. Accurate recall of events.")),
+    LIGHTLY_ARMOURED(feat().withDoNotAddToCharacter()
+        .withIncreaseChoice(STRENGTH, DEXTERITY)
+        .withAttribute(Proficiency.LIGHT_ARMOUR)),
+    LINGUIST(feat()
+        .withIncrease(INTELLIGENCE)
+        .withChoice(3, new AttributeChoice(LANGUAGE))
+        .withDescription("Create written ciphers. DC [$int + $prof] to decipher.")),
+    LUCKY(feat()
+        .withDescription("Up to 3 times between each long rest reroll a d20 for an attack, "
+            + "ability check, save or an attacker's attack roll.")),
+    MAGE_SLAYER(feat()
+        .withDescription("As a reaction make a melee attack against a creature casting a spell. ")
+        .withDescription("Disadvantage concentration checks when damage caused. ")
+        .withDescription("Advantage on saves against engaged creatures. ")),
+    MAGIC_INITIATE(feat()),
+    MARTIAL_ADEPT(feat()),
+    MEDIUM_ARMOUR_MASTER(feat()),
+    MOBILE(feat()),
+    MODERATELY_ARMOURED(feat()),
+    MOUNTED_COMBATANT(feat()),
+    OBSERVANT(feat()),
+    POLEARM_MASTER(feat()),
+    RESILIENT(feat()),
     RITUAL_CASTER(feat()
         .withDescription("Owns a ritual book and able to cast spells as rituals.")
         .withPrerequisite(
             ch -> ch.getIntAttribute(INTELLIGENCE) >= 13 || ch.getIntAttribute(WISDOM) >= 13)),
-    SAVAGE_ATTACKER("Once per turn, reroll melee weapon's damage dice."),
-    SENTINEL("On hit of an opportunity attack, target's speed becomes 0."),
-    SHARPSHOOTER("For ranged attacks: o disadvantage at long range; "
-        + "ignore half and three-quarter cover; may choose -5 attack, +10 damage."),
-    SHIELD_MASTER("As a bonus action attempt to shove a target when attacking. "
-        + "Add shield's AC to Dex. save against spell or effect. "
-        + "As a reaction, convert half damage from successful Dex. save to no damage."),
+    SAVAGE_ATTACKER(feat()
+        .withDescription("Once per turn, reroll melee weapon's damage dice.")),
+    SENTINEL(feat()
+        .withDescription("On hit of an opportunity attack, target's speed becomes 0.")),
+    SHARPSHOOTER(feat()
+        .withDescription("For ranged attacks: o disadvantage at long range; "
+            + "ignore half and three-quarter cover; may choose -5 attack, +10 damage.")),
+    SHIELD_MASTER(feat()
+        .withDescription("As a bonus action attempt to shove a target when attacking. "
+            + "Add shield's AC to Dex. save against spell or effect. "
+            + "As a reaction, convert half damage from successful Dex. save to no damage.")),
     SKILLED(feat()
         .withDescription("Additional skills")
         .withChoice(new AttributeChoice("Skill or Tool",
             Stream.concat(Arrays.stream(Skill.values()),
-                Arrays.stream(Proficiency.values()).filter(p -> p.hasType(TOOLS)))))),
+                Arrays.stream(Proficiency.values()).filter(TOOLS::isTypeOfAttribute))))),
     SKULKER(feat()
-        .withDescription("Attemp to hide when lightly obscured. Missing ranged attack does not reveal position. "
+        .withDescription("Attemp to hide when lightly obscured. "
+            + "Missing ranged attack does not reveal position. "
             + "Dim light does not disadvantage perception checks.")
         .withPrerequisite(DEXTERITY, 13)),
     SPELL_SNIPER(feat()
@@ -103,8 +139,7 @@ public enum Feat implements Attribute {
         .withDescription("Proficient with improvised weapons. Unarmed strike uses d4 for damage. "
             + "Attempt to Grapple as a bonus action after hitting with "
             + "unarmed strike or improvised weapon. ")
-        .withChoice(new AbilityScoreOrFeatIncrease("+1 Str. or +1 Dex.",
-            STRENGTH, DEXTERITY))),
+        .withChoice(new AbilityScoreOrFeatIncrease("+1 Str. or +1 Dex.", STRENGTH, DEXTERITY))),
     TOUGH(feat()
         .withAction("+2HP / level", ch -> ch
         .getAttribute(HIT_POINTS, IntAttribute.class).addValue(2 * ch.getLevel()))),
@@ -132,10 +167,6 @@ public enum Feat implements Attribute {
 
     private Feat(AttributeDelegate delegate) {
         this.delegate = (FeatBuilder) delegate;
-    }
-
-    private Feat(String description) {
-        this(feat().withDescription(description));
     }
 
     private static FeatBuilder feat() {

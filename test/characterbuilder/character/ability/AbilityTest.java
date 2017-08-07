@@ -1,6 +1,7 @@
 package characterbuilder.character.ability;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.DraconicAncestory;
 import characterbuilder.character.attribute.IntAttribute;
@@ -58,8 +59,8 @@ public class AbilityTest {
         character.addAttribute(Race.HALF_ELF);
         character.addAttribute(DraconicAncestory.BLUE);
         character.addAttribute(new IntAttribute(AttributeType.HIT_POINTS, 10));
-        AttributeType.ABILITY_SCORES.stream()
-            .forEach(attr -> character.addAttribute(new IntAttribute(attr, 14)));
+        AbilityScore.SCORES.stream()
+            .forEach(attr -> character.addAttribute(new AbilityScore(attr, 14)));
         for (Ability ability : Ability.values()) {
             try {
                 String desc = ability.getDescription(character).collect(joining());

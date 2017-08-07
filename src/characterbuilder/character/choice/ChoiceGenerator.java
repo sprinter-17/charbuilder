@@ -5,10 +5,10 @@ import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Spell;
 import characterbuilder.character.ability.SpellCasting;
 import characterbuilder.character.ability.SpellClassMap;
+import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.CharacterClass;
-import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Token;
@@ -75,7 +75,7 @@ public class ChoiceGenerator {
             @Override
             public boolean isAllowed(Character character) {
                 return character.hasAttribute(AttributeType.SPELLCASTING)
-                    && AttributeType.ABILITY_SCORES.stream().allMatch(character::hasAttribute);
+                    && AbilityScore.SCORES.stream().allMatch(character::hasAttribute);
             }
         };
     }
@@ -97,7 +97,7 @@ public class ChoiceGenerator {
             public boolean isAllowed(Character character) {
                 return character.hasAttribute(AttributeType.CHARACTER_CLASS)
                     && character.hasAttribute(AttributeType.SPELLCASTING)
-                    && AttributeType.ABILITY_SCORES.stream().allMatch(character::hasAttribute);
+                    && AbilityScore.SCORES.stream().allMatch(character::hasAttribute);
             }
         };
     }
@@ -118,11 +118,8 @@ public class ChoiceGenerator {
     }
 
     public ChoiceGenerator increaseAbilityScore(AttributeType abilityScore, int amount) {
-        return addAction("+" + amount + " " + abilityScore.toString(), ch -> {
-            IntAttribute score = ch.getAttribute(abilityScore);
-            score.addValue(amount);
-            score.setInRange(1, 20);
-        });
+        return addAction("+" + amount + " " + abilityScore.toString(), ch -> ch
+            .getScore(abilityScore).addValue(amount));
     }
 
     public ChoiceGenerator addEquipment(Equipment... equipment) {

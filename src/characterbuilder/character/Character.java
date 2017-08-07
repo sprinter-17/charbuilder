@@ -4,6 +4,7 @@ import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Expertise;
 import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.Skill;
+import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeSet;
 import characterbuilder.character.attribute.AttributeType;
@@ -88,18 +89,14 @@ public class Character {
             .sorted(Comparator.reverseOrder())
             .collect(Collectors.toList());
         characterClass.getPrimaryAttributes()
-            .forEach(attr -> addAttribute(new IntAttribute(attr, abilityScores.remove(0))));
+            .forEach(attr -> addAttribute(new AbilityScore(attr, abilityScores.remove(0))));
         Collections.shuffle(abilityScores);
-        AttributeType.ABILITY_SCORES.stream()
+        AbilityScore.SCORES.stream()
             .filter(as -> !hasAttribute(as))
-            .forEach(as -> addAttribute(new IntAttribute(as, abilityScores.remove(0))));
+            .forEach(as -> addAttribute(new AbilityScore(as, abilityScores.remove(0))));
         Race race = getAttribute(RACE);
-        AttributeType.ABILITY_SCORES.stream()
-            .forEach(attr -> {
-                IntAttribute value = attributes.getAttribute(attr);
-                value.addValue(race.getAttributeAdjustment(attr));
-                value.setInRange(1, 20);
-            });
+        AbilityScore.SCORES
+            .forEach(attr -> getScore(attr).addValue(race.getAttributeAdjustment(attr)));
     }
 
     public boolean isDirty() {
@@ -141,6 +138,10 @@ public class Character {
 
     public int getAttributeCount(AttributeType type) {
         return (int) attributes.getAttributes(type).count();
+    }
+
+    public AbilityScore getScore(AttributeType type) {
+        return getAttribute(type);
     }
 
     public <T extends Attribute> T getAttribute(AttributeType type) {
@@ -201,16 +202,14 @@ public class Character {
             throw new IllegalArgumentException("Attempt to swap non-existent attributes");
         if (!attribute1.equals(attribute2)) {
             Race race = getAttribute(RACE);
-            IntAttribute score1 = getAttribute(attribute1);
-            IntAttribute score2 = getAttribute(attribute2);
+            AbilityScore score1 = getAttribute(attribute1);
+            AbilityScore score2 = getAttribute(attribute2);
             int mod1 = race.getAttributeAdjustment(attribute1);
             int mod2 = race.getAttributeAdjustment(attribute2);
             int unadjusted1 = score1.getValue() - mod1;
             int unadjusted2 = score2.getValue() - mod2;
             score1.setValue(unadjusted2 + mod1);
             score2.setValue(unadjusted1 + mod2);
-            score1.setInRange(1, 20);
-            score2.setInRange(1, 20);
             dirty = true;
         }
     }

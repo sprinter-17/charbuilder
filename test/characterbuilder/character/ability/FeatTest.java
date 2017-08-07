@@ -4,6 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.choice.TestChoiceSelector;
+import characterbuilder.utils.TestCharacter;
 import java.util.stream.IntStream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -18,10 +19,8 @@ public class FeatTest {
 
     @Before
     public void setup() {
-        character = new Character();
+        character = new TestCharacter().withScores(10);
         character.addChoiceList(new TestChoiceSelector());
-        AttributeType.ABILITY_SCORES
-            .forEach(as -> character.addAttribute(new IntAttribute(as, 10)));
     }
 
     @Test

@@ -1,7 +1,7 @@
 package characterbuilder.sheet;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Ability;
+import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.AGE;
 import static characterbuilder.character.attribute.AttributeType.PHYSICAL_DESCRIPTION;
@@ -59,10 +59,10 @@ public class BackgroundPage extends Page {
             element("table",
                 character.getAllAttributes()
                     .filter(AttributePlacement.DETAIL::isPlacementFor)
-                    .map(ab -> abilityRow((Ability) ab)).collect(joining())));
+                    .map(ab -> abilityRow(ab)).collect(joining())));
     }
 
-    private String abilityRow(Ability ability) {
+    private String abilityRow(Attribute ability) {
         return element("tr",
             element("th style='text-align:left'", nbsp(ability.toString()))
             + element("td", ability.getDescription(character).collect(joining(", "))));

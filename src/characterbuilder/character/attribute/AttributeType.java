@@ -25,12 +25,12 @@ public enum AttributeType {
     RACE(true, Race::load),
     CHARACTER_CLASS(true, CharacterClass::load),
     BACKGROUND(true, Background::load),
-    STRENGTH(true, IntAttribute::load),
-    DEXTERITY(true, IntAttribute::load),
-    CONSTITUTION(true, IntAttribute::load),
-    INTELLIGENCE(true, IntAttribute::load),
-    WISDOM(true, IntAttribute::load),
-    CHARISMA(true, IntAttribute::load),
+    STRENGTH(true, AbilityScore::load),
+    DEXTERITY(true, AbilityScore::load),
+    CONSTITUTION(true, AbilityScore::load),
+    INTELLIGENCE(true, AbilityScore::load),
+    WISDOM(true, AbilityScore::load),
+    CHARISMA(true, AbilityScore::load),
     ALIGNMENT(true, Alignment::load),
     EXPERIENCE_POINTS(true, IntAttribute::load),
     LEVEL(true, IntAttribute::load),
@@ -87,9 +87,6 @@ public enum AttributeType {
 
         Attribute load(AttributeType type, Node node);
     }
-
-    public static final List<AttributeType> ABILITY_SCORES = Arrays.asList(
-        STRENGTH, DEXTERITY, CONSTITUTION, INTELLIGENCE, WISDOM, CHARISMA);
 
     public static final List<AttributeType> ABILITIES = Arrays.
         asList(RACIAL_TALENT, CLASS_TALENT, DIVINE_DOMAIN_ABILITY, SKILL, SPELLCASTING, SPELL,
