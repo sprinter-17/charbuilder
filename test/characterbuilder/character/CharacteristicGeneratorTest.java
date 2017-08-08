@@ -3,7 +3,7 @@ package characterbuilder.character;
 import characterbuilder.character.attribute.Alignment;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Background;
-import characterbuilder.character.attribute.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.Race;
 import java.util.Random;
 import static org.hamcrest.CoreMatchers.is;

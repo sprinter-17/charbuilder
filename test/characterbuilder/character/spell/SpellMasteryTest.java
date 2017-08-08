@@ -1,6 +1,9 @@
-package characterbuilder.character.attribute;
+package characterbuilder.character.spell;
 
+import characterbuilder.character.spell.SpellMastery;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.Character;
+import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;

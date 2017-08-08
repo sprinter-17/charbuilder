@@ -1,5 +1,21 @@
 package characterbuilder.character.attribute;
 
+import characterbuilder.character.spell.SpellMastery;
+import characterbuilder.character.characterclass.SacredOath;
+import characterbuilder.character.characterclass.DraconicAncestory;
+import characterbuilder.character.characterclass.FavouredEnemy;
+import characterbuilder.character.characterclass.FavouredTerrain;
+import characterbuilder.character.characterclass.OtherwordlyPatron;
+import characterbuilder.character.characterclass.PrimalPath;
+import characterbuilder.character.characterclass.MonasticTradition;
+import characterbuilder.character.characterclass.RoguishArchetype;
+import characterbuilder.character.characterclass.DruidCircle;
+import characterbuilder.character.characterclass.MartialArchetype;
+import characterbuilder.character.characterclass.RangerCompanion;
+import characterbuilder.character.characterclass.SorcerousOrigin;
+import characterbuilder.character.characterclass.RangerArchetype;
+import characterbuilder.character.characterclass.BardicCollege;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.DivineDomain;
 import characterbuilder.character.ability.ElementalAdept;

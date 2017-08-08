@@ -1,6 +1,7 @@
-package characterbuilder.character.attribute;
+package characterbuilder.character.spell;
 
-import characterbuilder.character.spell.Spell;
+import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.saveload.Savable.child;
 import static characterbuilder.character.saveload.Savable.text;
 import java.util.Objects;

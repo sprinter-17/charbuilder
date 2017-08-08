@@ -9,7 +9,7 @@ import characterbuilder.character.spell.Spell;
 import characterbuilder.character.attribute.Alignment;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.Background;
-import characterbuilder.character.attribute.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.Height;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;

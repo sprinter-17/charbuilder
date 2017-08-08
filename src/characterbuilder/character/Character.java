@@ -9,7 +9,7 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeSet;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
-import characterbuilder.character.attribute.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.Value;

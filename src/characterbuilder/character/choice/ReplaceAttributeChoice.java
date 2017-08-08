@@ -4,7 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClass;
 import java.util.function.Function;
 import java.util.stream.Stream;
 

@@ -1,5 +1,6 @@
-package characterbuilder.character.attribute;
+package characterbuilder.character.characterclass;
 
+import characterbuilder.character.attribute.AttributeType;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.junit.Test;

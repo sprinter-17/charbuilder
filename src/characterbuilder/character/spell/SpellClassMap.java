@@ -1,8 +1,8 @@
 package characterbuilder.character.spell;
 
 import static characterbuilder.character.spell.Spell.*;
-import characterbuilder.character.attribute.CharacterClass;
-import static characterbuilder.character.attribute.CharacterClass.*;
+import characterbuilder.character.characterclass.CharacterClass;
+import static characterbuilder.character.characterclass.CharacterClass.*;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;

@@ -1,7 +1,9 @@
-package characterbuilder.character.attribute;
+package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Ability;
+import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.stream.Stream;

@@ -2,7 +2,7 @@ package characterbuilder.ui;
 
 import characterbuilder.character.Character;
 import static characterbuilder.character.attribute.AttributeType.*;
-import characterbuilder.character.attribute.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.StringAttribute;
 import java.awt.Color;
 import java.awt.Dimension;

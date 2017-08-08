@@ -1,7 +1,7 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.Race;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;

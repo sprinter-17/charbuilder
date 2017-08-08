@@ -1,5 +1,7 @@
-package characterbuilder.character.attribute;
+package characterbuilder.character.characterclass;
 
+import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.utils.StringUtils;
 import org.w3c.dom.Node;
 

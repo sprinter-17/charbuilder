@@ -8,7 +8,7 @@ import characterbuilder.character.spell.SpellClassMap;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Token;

@@ -4,7 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.Option;

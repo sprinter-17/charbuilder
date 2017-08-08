@@ -1,13 +1,13 @@
-package characterbuilder.character.attribute;
+package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.DivineDomain;
-import characterbuilder.character.spell.Spell;
+import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.DIVINE_DOMAIN;
-import static characterbuilder.character.attribute.CharacterClass.CLERIC;
-import static characterbuilder.character.attribute.CharacterClass.FIGHTER;
+import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.choice.TestChoiceSelector;
+import characterbuilder.character.spell.Spell;
 import java.util.Optional;
 import java.util.stream.IntStream;
 import static org.hamcrest.CoreMatchers.is;
@@ -31,7 +31,7 @@ public class CharacterClassTest {
 
     @Test
     public void testInitialDivineDomainSpells() {
-        CharacterClass.CLERIC.choose(character);
+        CLERIC.choose(character);
         selector.withAttribute(DivineDomain.LIFE);
         character.selectChoice(firstChoice("Divine Domain").get());
         assertFalse(firstChoice("Divine Domain").isPresent());

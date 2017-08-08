@@ -10,7 +10,7 @@ import static characterbuilder.character.attribute.AttributeType.EXPERIENCE_POIN
 import static characterbuilder.character.attribute.AttributeType.HIT_POINTS;
 import static characterbuilder.character.attribute.AttributeType.LEVEL;
 import static characterbuilder.character.attribute.AttributeType.RACE;
-import characterbuilder.character.attribute.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.Value;

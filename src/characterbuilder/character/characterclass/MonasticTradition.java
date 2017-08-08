@@ -1,6 +1,8 @@
-package characterbuilder.character.attribute;
+package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.choice.AttributeChoice;

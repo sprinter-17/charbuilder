@@ -1,4 +1,4 @@
-package characterbuilder.character.attribute;
+package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
@@ -7,6 +7,15 @@ import characterbuilder.character.ability.MagicSchool;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.*;
 import characterbuilder.character.ability.Skill;
+import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.attribute.FavouredEnemy;
+import characterbuilder.character.attribute.FavouredTerrain;
+import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.attribute.MonasticTradition;
+import characterbuilder.character.attribute.PrimalPath;
+import characterbuilder.character.attribute.RoguishArchetype;
+import characterbuilder.character.attribute.SacredOath;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.spell.Spell.*;

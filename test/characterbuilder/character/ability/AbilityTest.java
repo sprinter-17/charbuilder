@@ -3,7 +3,7 @@ package characterbuilder.character.ability;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.DraconicAncestory;
+import characterbuilder.character.characterclass.DraconicAncestory;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.choice.TestChoiceSelector;
