@@ -1,7 +1,8 @@
 package characterbuilder.character.ability;
 
+import characterbuilder.character.spell.Spell;
 import characterbuilder.character.Character;
-import static characterbuilder.character.ability.Spell.*;
+import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import java.util.Arrays;

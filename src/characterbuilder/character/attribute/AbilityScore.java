@@ -25,6 +25,10 @@ public class AbilityScore extends IntAttribute {
         this.max = max;
     }
 
+    public boolean isAtMax() {
+        return getValue() == max;
+    }
+
     @Override
     public void addValue(int delta) {
         super.addValue(delta);

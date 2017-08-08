@@ -3,7 +3,7 @@ package characterbuilder.character.ability;
 import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
 import static characterbuilder.character.ability.Skill.*;
-import static characterbuilder.character.ability.Spell.*;
+import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.AttributeChoice;

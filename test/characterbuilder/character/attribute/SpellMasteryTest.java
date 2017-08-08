@@ -1,7 +1,7 @@
 package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Spell;
+import characterbuilder.character.spell.Spell;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;

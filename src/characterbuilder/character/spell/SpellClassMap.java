@@ -1,6 +1,6 @@
-package characterbuilder.character.ability;
+package characterbuilder.character.spell;
 
-import static characterbuilder.character.ability.Spell.*;
+import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.character.attribute.CharacterClass;
 import static characterbuilder.character.attribute.CharacterClass.*;
 import java.util.EnumMap;

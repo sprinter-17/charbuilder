@@ -2,7 +2,7 @@ package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.DivineDomain;
-import characterbuilder.character.ability.Spell;
+import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.attribute.AttributeType.DIVINE_DOMAIN;
 import static characterbuilder.character.attribute.CharacterClass.CLERIC;
 import static characterbuilder.character.attribute.CharacterClass.FIGHTER;

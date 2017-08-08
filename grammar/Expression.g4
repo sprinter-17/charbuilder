@@ -16,7 +16,7 @@ grammar Expression;
     import java.util.stream.Collectors;
     import characterbuilder.character.Character;
     import characterbuilder.character.attribute.*;
-    import characterbuilder.character.ability.SpellCasting;
+    import characterbuilder.character.spell.SpellCasting;
     import static characterbuilder.character.attribute.AttributeType.*;
     import characterbuilder.utils.EvaluationContext;
 }

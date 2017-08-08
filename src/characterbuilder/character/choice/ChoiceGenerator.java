@@ -2,9 +2,9 @@ package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Proficiency;
-import characterbuilder.character.ability.Spell;
-import characterbuilder.character.ability.SpellCasting;
-import characterbuilder.character.ability.SpellClassMap;
+import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellCasting;
+import characterbuilder.character.spell.SpellClassMap;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;

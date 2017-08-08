@@ -5,7 +5,7 @@ import static characterbuilder.character.ability.Ability.DARKVISION;
 import characterbuilder.character.ability.DivineDomain;
 import static characterbuilder.character.ability.Proficiency.COMMON;
 import characterbuilder.character.ability.Skill;
-import characterbuilder.character.ability.Spell;
+import characterbuilder.character.spell.Spell;
 import characterbuilder.character.attribute.Alignment;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.Background;

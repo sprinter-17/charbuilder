@@ -4,7 +4,7 @@ import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
 import static characterbuilder.character.ability.Proficiency.*;
 import characterbuilder.character.ability.Skill;
-import characterbuilder.character.ability.Spell;
+import characterbuilder.character.spell.Spell;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.utils.StringUtils;

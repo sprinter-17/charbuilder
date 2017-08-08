@@ -1,7 +1,7 @@
 package characterbuilder.character.attribute;
 
 import static characterbuilder.character.ability.Ability.*;
-import static characterbuilder.character.ability.Spell.*;
+import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;

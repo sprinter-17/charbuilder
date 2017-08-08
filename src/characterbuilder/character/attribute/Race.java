@@ -6,7 +6,7 @@ import static characterbuilder.character.ability.Ability.*;
 import static characterbuilder.character.ability.Proficiency.*;
 import characterbuilder.character.ability.Skill;
 import static characterbuilder.character.ability.Skill.*;
-import characterbuilder.character.ability.Spell;
+import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.attribute.AttributeType.*;
 import static characterbuilder.character.attribute.CharacterClass.WIZARD;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;

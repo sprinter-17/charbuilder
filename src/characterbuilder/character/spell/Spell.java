@@ -1,6 +1,7 @@
-package characterbuilder.character.ability;
+package characterbuilder.character.spell;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.MagicSchool;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.utils.StringUtils;

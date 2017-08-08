@@ -1,7 +1,7 @@
 package characterbuilder.ui;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Spell;
+import characterbuilder.character.spell.Spell;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import java.util.EnumMap;

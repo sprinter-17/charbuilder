@@ -1,8 +1,8 @@
 package characterbuilder.sheet;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Spell;
-import characterbuilder.character.ability.SpellCasting;
+import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.attribute.AttributeType;
 import java.util.List;
 import java.util.stream.Collectors;

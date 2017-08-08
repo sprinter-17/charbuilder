@@ -26,9 +26,7 @@ public class AttributeDelegate {
     }
 
     public Stream<String> getDescription(Character character) {
-        return Stream.concat(
-            description.stream(),
-            generator.getDescription(character))
+        return Stream.concat(description.stream(), generator.getDescription(character))
             .map(desc -> StringUtils.expand(desc, character));
     }
 
@@ -75,12 +73,13 @@ public class AttributeDelegate {
     }
 
     public AttributeDelegate withAttribute(Attribute attribute) {
-        return withAction(attribute.toString(), ch -> ch.addAttribute(attribute));
+        return withPrerequisite(ch -> !ch.hasAttribute(attribute))
+            .withAction(attribute.toString(), ch -> ch.addAttribute(attribute));
     }
 
     public AttributeDelegate withIncrease(AttributeType score) {
-        generator.addAction("Increase " + score.toString(), ch -> ch.getScore(score).addValue(1));
-        return this;
+        return withPrerequisite(ch -> ch.getScore(score).isAtMax())
+            .withAction("Increase " + score.toString(), ch -> ch.getScore(score).addValue(1));
     }
 
     public AttributeDelegate withIncreaseChoice(AttributeType... scores) {

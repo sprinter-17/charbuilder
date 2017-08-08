@@ -2,7 +2,7 @@ package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
-import characterbuilder.character.ability.Spell;
+import characterbuilder.character.spell.Spell;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import java.util.function.Supplier;

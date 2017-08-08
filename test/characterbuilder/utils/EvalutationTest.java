@@ -1,7 +1,7 @@
 package characterbuilder.utils;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.SpellCasting;
+import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;

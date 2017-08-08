@@ -1,5 +1,7 @@
-package characterbuilder.character.ability;
+package characterbuilder.character.spell;
 
+import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;

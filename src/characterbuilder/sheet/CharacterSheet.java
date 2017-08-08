@@ -1,7 +1,7 @@
 package characterbuilder.sheet;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Spell;
+import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.attribute.AttributeType.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;

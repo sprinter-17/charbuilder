@@ -1,5 +1,6 @@
 package characterbuilder.character.ability;
 
+import characterbuilder.character.spell.Spell;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;

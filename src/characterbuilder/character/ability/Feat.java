@@ -1,5 +1,6 @@
 package characterbuilder.character.ability;
 
+import characterbuilder.character.spell.Spell;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
@@ -107,9 +108,10 @@ public enum Feat implements Attribute {
     MOBILE(feat()
         .withDescription("Difficult terrain does not cost extra movement during Dash.")
         .withDescription("Do not provoke opportunity attacks from creatures attacked during turn.")),
-    // prof in medium armour and shields
-    // Str+1 or Dex+1
-    MODERATELY_ARMOURED(feat()),
+    MODERATELY_ARMOURED(feat().withDoNotAddToCharacter()
+        .withPrerequisite(Proficiency.LIGHT_ARMOUR)
+        .withIncreaseChoice(STRENGTH, DEXTERITY)
+        .withAttribute(Proficiency.MEDIUM_ARMOUR)),
     MOUNTED_COMBATANT(feat()),
     OBSERVANT(feat()),
     POLEARM_MASTER(feat()),
