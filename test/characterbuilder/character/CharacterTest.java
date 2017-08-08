@@ -1,6 +1,7 @@
 package characterbuilder.character;
 
 import characterbuilder.character.ability.Ability;
+import characterbuilder.character.ability.Feat;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
@@ -258,6 +259,8 @@ public class CharacterTest {
         assertThat(character.getSpeed(), is(35));
         character.addEquipment(Armour.LEATHER_ARMOUR);
         assertThat(character.getSpeed(), is(25));
+        character.addAttribute(Feat.MOBILE);
+        assertThat(character.getSpeed(), is(35));
     }
 
     @Test

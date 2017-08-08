@@ -94,15 +94,28 @@ public enum Feat implements Attribute {
         .withDescription("As a reaction make a melee attack against a creature casting a spell. ")
         .withDescription("Disadvantage concentration checks when damage caused. ")
         .withDescription("Advantage on saves against engaged creatures. ")),
+    // choose a class: bard, cleric, druid, sorcerer, warlock, wizard
+    // learn two cantrips from that class. 1 first level spell cast as feat
+    // spellcasting ability depends on class: chr for bard, sorcerer, warlock
+    // wis for cleric or druid, int for wizard
     MAGIC_INITIATE(feat()),
     MARTIAL_ADEPT(feat()),
-    MEDIUM_ARMOUR_MASTER(feat()),
-    MOBILE(feat()),
+    MEDIUM_ARMOUR_MASTER(feat()
+        .withPrerequisite(Proficiency.MEDIUM_ARMOUR)
+        .withDescription("Medium armour does not impose disadvantage on Stealth.")
+        .withDescription("Max +3 AC (rather than +2) for Dex. modifier.")),
+    MOBILE(feat()
+        .withDescription("Difficult terrain does not cost extra movement during Dash.")
+        .withDescription("Do not provoke opportunity attacks from creatures attacked during turn.")),
+    // prof in medium armour and shields
+    // Str+1 or Dex+1
     MODERATELY_ARMOURED(feat()),
     MOUNTED_COMBATANT(feat()),
     OBSERVANT(feat()),
     POLEARM_MASTER(feat()),
-    RESILIENT(feat()),
+    RESILIENT(feat().withDoNotAddToCharacter()
+        .withChoice(new AbilityScoreOrFeatIncrease().withProficiency())
+        .withDescription("Gain proficiency in saves using chosen ability.")),
     RITUAL_CASTER(feat()
         .withDescription("Owns a ritual book and able to cast spells as rituals.")
         .withPrerequisite(

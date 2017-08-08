@@ -2,6 +2,7 @@ package characterbuilder.character.equipment;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Ability;
+import characterbuilder.character.ability.Feat;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Value;
 import static characterbuilder.character.attribute.Value.gp;
@@ -76,11 +77,27 @@ public enum Armour implements Equipment {
             ac += 2;
         else if (!bestArmour.isPresent() && character.hasAttribute(Ability.UNARMORED_DEFENCE_MONK))
             ac += character.getModifier(AttributeType.WISDOM);
-        if (!bestArmour.isPresent() || !bestArmour.get().category.equals(HEAVY_ARMOUR))
-            ac += character.getModifier(AttributeType.DEXTERITY);
+
+        ac += bestArmour.map(armour -> armour.getDexBonus(character))
+            .orElse(character.getModifier(AttributeType.DEXTERITY));
+
         if (!bestArmour.isPresent() && character.hasAttribute(Ability.UNARMORED_DEFENCE_BARBARIAN))
             ac += character.getModifier(AttributeType.CONSTITUTION);
         return ac;
+    }
+
+    private int getDexBonus(Character character) {
+        final int dexMod = character.getModifier(AttributeType.DEXTERITY);
+        switch (getCategory()) {
+            case HEAVY_ARMOUR:
+                return 0;
+            case MEDIUM_ARMOUR:
+                return Math.min(dexMod, character.hasAttribute(Feat.MEDIUM_ARMOUR_MASTER) ? 3 : 2);
+            case LIGHT_ARMOUR:
+                return dexMod;
+            default:
+                throw new IllegalStateException("Getting dex mod for shield");
+        }
     }
 
     public static Optional<Armour> bestArmour(Character character) {

@@ -2,6 +2,8 @@ package characterbuilder.character.equipment;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Ability;
+import characterbuilder.character.ability.Feat;
+import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.saveload.TestDoc;
@@ -13,12 +15,12 @@ import org.junit.Test;
 public class ArmourTest {
 
     private Character character;
-    private IntAttribute dexterity;
+    private AbilityScore dexterity;
 
     @Before
     public void setup() {
         character = new Character();
-        dexterity = new IntAttribute(AttributeType.DEXTERITY, 10);
+        dexterity = new AbilityScore(AttributeType.DEXTERITY, 10);
         character.addAttribute(dexterity);
     }
 
@@ -56,6 +58,21 @@ public class ArmourTest {
         character.addEquipment(Armour.LEATHER_ARMOUR);
         character.addEquipment(Armour.SCALE_MAIL_ARMOUR);
         assertThat(Armour.getArmourClass(character), is(14));
+    }
+
+    @Test
+    public void testMaxTwoDexBonusForMediumArmour() {
+        dexterity.setValue(18);
+        character.addEquipment(Armour.HIDE_ARMOUR);
+        assertThat(Armour.getArmourClass(character), is(14));
+    }
+
+    @Test
+    public void testMaxThreeDexBonusForMediumArmourMaster() {
+        dexterity.setValue(18);
+        character.addEquipment(Armour.HIDE_ARMOUR);
+        character.addAttribute(Feat.MEDIUM_ARMOUR_MASTER);
+        assertThat(Armour.getArmourClass(character), is(15));
     }
 
     @Test

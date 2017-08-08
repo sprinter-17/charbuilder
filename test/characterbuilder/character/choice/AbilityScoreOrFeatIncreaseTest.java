@@ -1,10 +1,10 @@
 package characterbuilder.character.choice;
 
-import characterbuilder.character.Character;
 import characterbuilder.character.ability.Feat;
 import characterbuilder.character.attribute.AbilityScore;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -15,14 +15,14 @@ import org.junit.Test;
 public class AbilityScoreOrFeatIncreaseTest {
 
     private AbilityScoreOrFeatIncrease increase;
-    private Character character;
+    private TestCharacter character;
     private TestChoiceSelector selector;
 
     @Before
     public void setup() {
         selector = new TestChoiceSelector();
         increase = new AbilityScoreOrFeatIncrease();
-        character = new Character();
+        character = new TestCharacter();
         character.addChoiceList(selector);
     }
 
@@ -33,7 +33,7 @@ public class AbilityScoreOrFeatIncreaseTest {
 
     @Test
     public void testAllowedAfterAbilityScoresAdded() {
-        AbilityScore.SCORES.forEach(s -> character.addAttribute(new AbilityScore(s, 10)));
+        character.withScores(10);
         assertTrue(increase.isAllowed(character));
     }
 
@@ -44,16 +44,26 @@ public class AbilityScoreOrFeatIncreaseTest {
 
     @Test
     public void testIncreaseStrength() {
-        AbilityScore.SCORES.forEach(s -> character.addAttribute(new AbilityScore(s, 10)));
+        character.withScores(10);
         selector.withChoice("+1 Intelligence");
         increase.select(character, selector);
         assertThat(character.getIntAttribute(INTELLIGENCE), is(11));
     }
 
     @Test
+    public void testAddProficiency() {
+        character.addAttribute(new IntAttribute(LEVEL, 9));
+        character.withScores(13);
+        selector.withChoice("+1 Wisdom");
+        assertThat(character.getSavingsThrowBonus(WISDOM), is(1));
+        increase.withProficiency().select(character, selector);
+        assertThat(character.getSavingsThrowBonus(WISDOM), is(6));
+    }
+
+    @Test
     public void testIncreaseConstitutionIncreaseHitPoints() {
         character.addAttribute(new IntAttribute(LEVEL, 7));
-        AbilityScore.SCORES.forEach(s -> character.addAttribute(new AbilityScore(s, 10)));
+        character.withScores(10);
         character.addAttribute(new IntAttribute(HIT_POINTS, 0));
         selector.withChoice("+1 Constitution");
         increase.select(character, selector);

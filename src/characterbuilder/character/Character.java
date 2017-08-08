@@ -324,6 +324,8 @@ public class Character {
         int speed = race.getSpeed();
         if (hasAttribute(Ability.FAST_MOVEMENT) && !Armour.bestArmour(this).isPresent())
             speed += 10;
+        if (hasAttribute(Feat.MOBILE))
+            speed += 10;
         return speed;
     }
 }

@@ -24,8 +24,10 @@ public class AbilityScoreOrFeatIncrease extends OptionChoice {
 
         @Override
         public void choose(Character character) {
-            IntAttribute attr = character.getAttribute(score);
+            AbilityScore attr = character.getAttribute(score);
             attr.addValue(1);
+            if (addProficiency)
+                attr.setProficientSaves();
             if (score.equals(AttributeType.CONSTITUTION)
                 && attr.getValue() % 2 == 0) {
                 IntAttribute hp = character.getAttribute(AttributeType.HIT_POINTS);
@@ -44,6 +46,7 @@ public class AbilityScoreOrFeatIncrease extends OptionChoice {
         }
     }
 
+    private boolean addProficiency = false;
     private boolean featsAllowed = true;
     private final List<AttributeType> scoresAllowed = new ArrayList<>();
 
@@ -61,6 +64,16 @@ public class AbilityScoreOrFeatIncrease extends OptionChoice {
     public AbilityScoreOrFeatIncrease withoutFeats() {
         AbilityScoreOrFeatIncrease copy = new AbilityScoreOrFeatIncrease("Ability Score Increase");
         copy.featsAllowed = false;
+        copy.addProficiency = addProficiency;
+        copy.scoresAllowed.addAll(scoresAllowed);
+        return copy;
+    }
+
+    public AbilityScoreOrFeatIncrease withProficiency() {
+        AbilityScoreOrFeatIncrease copy = new AbilityScoreOrFeatIncrease(
+            getName() + " With Proficiency");
+        copy.featsAllowed = featsAllowed;
+        copy.addProficiency = true;
         copy.scoresAllowed.addAll(scoresAllowed);
         return copy;
     }
