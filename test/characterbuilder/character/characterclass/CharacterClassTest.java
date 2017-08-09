@@ -5,6 +5,8 @@ import characterbuilder.character.ability.DivineDomain;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.DIVINE_DOMAIN;
 import characterbuilder.character.attribute.IntAttribute;
+import static characterbuilder.character.characterclass.CharacterClass.CLERIC;
+import static characterbuilder.character.characterclass.CharacterClass.FIGHTER;
 import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.spell.Spell;
