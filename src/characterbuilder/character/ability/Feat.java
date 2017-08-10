@@ -1,6 +1,5 @@
 package characterbuilder.character.ability;
 
-import characterbuilder.character.spell.Spell;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
@@ -146,9 +145,9 @@ public enum Feat implements Attribute {
     SPELL_SNIPER(feat()
         .withDescription("Double range of spell attacks. "
             + "Ranged spell attacks ignore half and three-quarter cover. ")
-        .withChoice(new AttributeChoice("Cantrip", Spell.CHILL_TOUCH,
-            Spell.ELDRITCH_BLAST, Spell.FIRE_BOLT, Spell.RAY_OF_FROST, Spell.SHOCKING_GRASP,
-            Spell.THORN_WHIP))
+        //        .withChoice(new AttributeChoice("Cantrip", Spell.CHILL_TOUCH,
+        //            Spell.ELDRITCH_BLAST, Spell.FIRE_BOLT, Spell.RAY_OF_FROST, Spell.SHOCKING_GRASP,
+        //            Spell.THORN_WHIP))
         .withPrerequisite(SPELLCASTING)),
     TAVERN_BRAWLER(feat()
         .withDescription("Proficient with improvised weapons. Unarmed strike uses d4 for damage. "

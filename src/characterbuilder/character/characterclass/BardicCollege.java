@@ -6,10 +6,11 @@ import static characterbuilder.character.ability.Proficiency.*;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.spell.Spell;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.spell.Spell;
 import characterbuilder.utils.StringUtils;
+import java.util.Arrays;
 import org.w3c.dom.Node;
 
 public enum BardicCollege implements Attribute {
@@ -19,9 +20,9 @@ public enum BardicCollege implements Attribute {
             ChoiceGenerator gen = new ChoiceGenerator();
             gen.level(3).addChoice(3, new AttributeChoice("Bonus Proficiencies", Skill.values()));
             gen.level(3).addAttributes(CUTTING_WORDS);
-            // need to check spell levels
-            gen.level(6).addChoice(2, new AttributeChoice("Additional Magical Secrets",
-                Spell.values()));
+            // TODO: check spell levels
+            gen.level(6).addChoice(ChoiceGenerator.spellChoice("Bard", 2, "Magical Secrets",
+                Arrays.stream(Spell.values())));
             gen.level(14).addAttributes(PEERLESS_SKILL);
             gen.generateChoices(character);
         }

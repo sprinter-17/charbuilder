@@ -1,21 +1,5 @@
 package characterbuilder.character.attribute;
 
-import characterbuilder.character.spell.SpellMastery;
-import characterbuilder.character.characterclass.SacredOath;
-import characterbuilder.character.characterclass.DraconicAncestory;
-import characterbuilder.character.characterclass.FavouredEnemy;
-import characterbuilder.character.characterclass.FavouredTerrain;
-import characterbuilder.character.characterclass.OtherwordlyPatron;
-import characterbuilder.character.characterclass.PrimalPath;
-import characterbuilder.character.characterclass.MonasticTradition;
-import characterbuilder.character.characterclass.RoguishArchetype;
-import characterbuilder.character.characterclass.DruidCircle;
-import characterbuilder.character.characterclass.MartialArchetype;
-import characterbuilder.character.characterclass.RangerCompanion;
-import characterbuilder.character.characterclass.SorcerousOrigin;
-import characterbuilder.character.characterclass.RangerArchetype;
-import characterbuilder.character.characterclass.BardicCollege;
-import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.DivineDomain;
 import characterbuilder.character.ability.ElementalAdept;
@@ -24,10 +8,25 @@ import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.MagicSchool;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
-import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellCasting;
+import characterbuilder.character.characterclass.BardicCollege;
+import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.DraconicAncestory;
+import characterbuilder.character.characterclass.DruidCircle;
+import characterbuilder.character.characterclass.FavouredEnemy;
+import characterbuilder.character.characterclass.FavouredTerrain;
+import characterbuilder.character.characterclass.MartialArchetype;
+import characterbuilder.character.characterclass.MonasticTradition;
+import characterbuilder.character.characterclass.OtherwordlyPatron;
+import characterbuilder.character.characterclass.PrimalPath;
+import characterbuilder.character.characterclass.RangerArchetype;
+import characterbuilder.character.characterclass.RangerCompanion;
+import characterbuilder.character.characterclass.RoguishArchetype;
+import characterbuilder.character.characterclass.SacredOath;
+import characterbuilder.character.characterclass.SorcerousOrigin;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
+import characterbuilder.character.spell.SpellCasting;
+import characterbuilder.character.spell.SpellMastery;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.List;
@@ -75,7 +74,7 @@ public enum AttributeType {
     BACKGROUND_FEATURE(false, Ability::load),
     ENTERTAINER_ROUTINE(false, Proficiency::load),
     GUILD_BUSINESS(false, Proficiency::load),
-    SPELLCASTING(true, SpellCasting::load),
+    SPELLCASTING(false, SpellCasting::load),
     SPELL_MASTERY(false, SpellMastery::load),
     ARCANE_TRADITION(true, MagicSchool::load),
     PRIMAL_PATH(true, PrimalPath::load),
@@ -90,7 +89,6 @@ public enum AttributeType {
     FEAT(false, Feat::load),
     ELEMENTAL_ADEPT(false, ElementalAdept::load),
     EXPERTISE(false, Expertise::load),
-    SPELL(false, Spell::load),
     WEAPON_PROFICIENCY(false, Weapon::loadProficiency),
     MUSICAL_INSTRUMENT_PROFICIENCY(false, MusicalInstrument::loadProficiency),
     ARMOUR_PROFICIENCY(false, Proficiency::load),
@@ -105,7 +103,7 @@ public enum AttributeType {
     }
 
     public static final List<AttributeType> ABILITIES = Arrays.
-        asList(RACIAL_TALENT, CLASS_TALENT, DIVINE_DOMAIN_ABILITY, SKILL, SPELLCASTING, SPELL,
+        asList(RACIAL_TALENT, CLASS_TALENT, DIVINE_DOMAIN_ABILITY, SKILL, SPELLCASTING,
             WEAPON_PROFICIENCY, ARMOUR_PROFICIENCY, LANGUAGE, ARTISAN, TOOLS, FIGHTING_STYLE,
             SPELL_MASTERY, EVOCATION_ABILITY, EXPERTISE, MUSICAL_INSTRUMENT_PROFICIENCY, FEAT);
 

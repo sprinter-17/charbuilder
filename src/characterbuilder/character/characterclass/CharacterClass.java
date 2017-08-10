@@ -22,7 +22,6 @@ import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.choice.ExpertiseChoice;
 import characterbuilder.character.choice.OptionChoice;
-import static characterbuilder.character.choice.ReplaceAttributeChoice.replaceSpell;
 import characterbuilder.character.equipment.Armour;
 import static characterbuilder.character.equipment.Armour.*;
 import characterbuilder.character.equipment.EquipmentCategory;
@@ -79,8 +78,9 @@ public enum CharacterClass implements Attribute {
     }),
     BARD(8, BARDIC_COLLEGE, DEXTERITY, CHARISMA,
         Arrays.asList(CHARISMA, DEXTERITY), gen -> {
-        gen.level(1).addAttributes(new SpellCasting(CHARISMA));
-        gen.level(1).addChoice(spellChoice(2, 0));
+        SpellCasting casting = new SpellCasting("Bard", CHARISMA);
+        gen.level(1).addAttributes(casting);
+        gen.level(1).addChoice(spellChoice("Bard", 2, 0));
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS);
         gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
         gen.level(1).addChoice(3, new AttributeChoice("Skill", Skill.values()));
@@ -98,34 +98,34 @@ public enum CharacterClass implements Attribute {
         gen.level(2).addAttributes(SONG_OF_REST);
         gen.level(3).addChoice(new AttributeChoice("Bard College", BardicCollege.values()));
         gen.level(3, 10).addChoice(2, new ExpertiseChoice());
-        gen.level(4, 10).addChoice(spellChoice(1, 0));
+        gen.level(4, 10).addChoice(spellChoice("Bard", 1, 0));
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
         gen.level(5).addAttributes(FONT_OF_INSPIRATION);
         gen.level(6).addAttributes(COUNTERCHARM);
         gen.level(20).addAttributes(SUPERIOR_INSPIRATION);
-        gen.level(1).addSpellSlots(1, 2);
-        gen.level(2, 3).addSpellSlots(1, 1);
-        gen.level(3).addSpellSlots(2, 2);
-        gen.level(4).addSpellSlots(2, 1);
-        gen.level(5).addSpellSlots(3, 2);
-        gen.level(6).addSpellSlots(3, 1);
-        gen.level(7, 8, 9).addSpellSlots(4, 1);
-        gen.level(9, 10).addSpellSlots(5, 1);
-        gen.level(11, 19).addSpellSlots(6, 1);
-        gen.level(13, 12).addSpellSlots(7, 1);
-        gen.level(15).addSpellSlots(8, 1);
-        gen.level(17).addSpellSlots(9, 1);
-        gen.cond(ch -> ch.getLevel() > 1).addChoice(replaceSpell());
-        gen.level(1).addChoice(spellChoice(4, 1));
-        gen.level(2).addChoice(spellChoice(1, 1));
-        gen.level(3, 4).addChoice(spellChoice(1, 2));
-        gen.level(5, 6).addChoice(spellChoice(1, 3));
-        gen.level(7, 8).addChoice(spellChoice(1, 4));
-        gen.level(9, 10).addChoice(spellChoice(1, 5));
-        gen.level(11, 12).addChoice(spellChoice(1, 6));
-        gen.level(13, 14).addChoice(spellChoice(1, 7));
-        gen.level(15, 16).addChoice(spellChoice(1, 8));
-        gen.level(17, 18, 19, 20).addChoice(spellChoice(1, 9));
+        gen.level(1).addSpellSlots("Bard", 1, 2);
+        gen.level(2, 3).addSpellSlots("Bard", 1, 1);
+        gen.level(3).addSpellSlots("Bard", 2, 2);
+        gen.level(4).addSpellSlots("Bard", 2, 1);
+        gen.level(5).addSpellSlots("Bard", 3, 2);
+        gen.level(6).addSpellSlots("Bard", 3, 1);
+        gen.level(7, 8, 9).addSpellSlots("Bard", 4, 1);
+        gen.level(9, 10).addSpellSlots("Bard", 5, 1);
+        gen.level(11, 19).addSpellSlots("Bard", 6, 1);
+        gen.level(13, 12).addSpellSlots("Bard", 7, 1);
+        gen.level(15).addSpellSlots("Bard", 8, 1);
+        gen.level(17).addSpellSlots("Bard", 9, 1);
+//        gen.cond(ch -> ch.getLevel() > 1).addChoice(replaceSpell());
+        gen.level(1).addChoice(spellChoice("Bard", 4, 1));
+        gen.level(2).addChoice(spellChoice("Bard", 1, 1));
+        gen.level(3, 4).addChoice(spellChoice("Bard", 1, 2));
+        gen.level(5, 6).addChoice(spellChoice("Bard", 1, 3));
+        gen.level(7, 8).addChoice(spellChoice("Bard", 1, 4));
+        gen.level(9, 10).addChoice(spellChoice("Bard", 1, 5));
+        gen.level(11, 12).addChoice(spellChoice("Bard", 1, 6));
+        gen.level(13, 14).addChoice(spellChoice("Bard", 1, 7));
+        gen.level(15, 16).addChoice(spellChoice("Bard", 1, 8));
+        gen.level(17, 18, 19, 20).addChoice(spellChoice("Bard", 1, 9));
 //        gen.level(10, 14, 18).addChoice(2, new AttributeChoice("Magical Secrets",
 //            Arrays.stream(Spell.values())
 //                .filter(sp -> sp.getLevel() <= spellCount[character.getLevel()].length)
@@ -135,9 +135,10 @@ public enum CharacterClass implements Attribute {
     },
     CLERIC(8, DIVINE_DOMAIN, WISDOM, CHARISMA,
         Arrays.asList(WISDOM, CONSTITUTION, STRENGTH), gen -> {
-        gen.level(1).addAttributes(new SpellCasting(WISDOM, "[$wis_mod + $level]"));
-        gen.level(1).addChoice(spellChoice(3, 0));
-        gen.level(1).addSpellSlots(1, 2);
+        SpellCasting casting = new SpellCasting("Cleric", WISDOM, "[$wis_mod + $level]");
+        gen.level(1).addAttributes(casting);
+        gen.level(1).addChoice(spellChoice("Cleric", 3, 0));
+        gen.level(1).addSpellSlots("Cleric", 1, 2);
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD, ALL_SIMPLE_WEAPONS);
         gen.level(1).addChoice(new AttributeChoice("Divine Domain", DivineDomain.values()));
@@ -151,39 +152,40 @@ public enum CharacterClass implements Attribute {
             SCALE_MAIL_ARMOUR, LEATHER_ARMOUR, CHAIN_MAIL_ARMOUR));
         gen.level(1).addChoice(new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL));
         gen.level(2).addAttributes(TURN_UNDEAD, CHANNEL_DIVINITY);
-        gen.level(2, 3).addSpellSlots(1, 1);
-        gen.level(3).addSpellSlots(2, 2);
+        gen.level(2, 3).addSpellSlots("Cleric", 1, 1);
+        gen.level(3).addSpellSlots("Cleric", 2, 2);
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
-        gen.level(4).addSpellSlots(2, 1);
-        gen.level(5).addAttributes(DESTROY_UNDEAD).addSpellSlots(3, 2);
-        gen.level(5, 10).addChoice(spellChoice(1, 0));
-        gen.level(6).addSpellSlots(3, 1);
-        gen.level(7, 8, 9).addSpellSlots(4, 1);
-        gen.level(9, 10, 18).addSpellSlots(5, 1);
+        gen.level(4).addSpellSlots("Cleric", 2, 1);
+        gen.level(5).addAttributes(DESTROY_UNDEAD).addSpellSlots("Cleric", 3, 2);
+        gen.level(5, 10).addChoice(spellChoice("Cleric", 1, 0));
+        gen.level(6).addSpellSlots("Cleric", 3, 1);
+        gen.level(7, 8, 9).addSpellSlots("Cleric", 4, 1);
+        gen.level(9, 10, 18).addSpellSlots("Cleric", 5, 1);
         gen.level(10).addAttributes(DIVINE_INTERVENTION);
-        gen.level(11, 19).addSpellSlots(6, 1);
-        gen.level(13, 20).addSpellSlots(7, 1);
-        gen.level(15).addSpellSlots(8, 1);
-        gen.level(17).addSpellSlots(9, 1);
-        gen.level(1, 3, 5, 7, 9, 11, 13, 15, 17).addAllSpells();
+        gen.level(11, 19).addSpellSlots("Cleric", 6, 1);
+        gen.level(13, 20).addSpellSlots("Cleric", 7, 1);
+        gen.level(15).addSpellSlots("Cleric", 8, 1);
+        gen.level(17).addSpellSlots("Cleric", 9, 1);
+        gen.level(1, 3, 5, 7, 9, 11, 13, 15, 17).addAllSpells("Cleric");
     }),
     DRUID(8, DRUID_CIRCLE, INTELLIGENCE, WISDOM, Arrays.asList(WISDOM, CONSTITUTION), gen -> {
-        gen.level(1).addAttributes(new SpellCasting(WISDOM, "[$wis_mod + $level]"));
-        gen.level(1).addChoice(spellChoice(2, 0));
-        gen.level(4, 10).addChoice(spellChoice(1, 0));
-        gen.level(1).addSpellSlots(1, 2);
-        gen.level(2, 3).addSpellSlots(1, 1);
-        gen.level(3).addSpellSlots(2, 2);
-        gen.level(4).addSpellSlots(2, 1);
-        gen.level(5).addSpellSlots(3, 4);
-        gen.level(6).addSpellSlots(3, 1);
-        gen.level(7, 8, 9).addSpellSlots(4, 1);
-        gen.level(9, 10, 18).addSpellSlots(5, 1);
-        gen.level(11, 19).addSpellSlots(6, 1);
-        gen.level(13, 20).addSpellSlots(7, 1);
-        gen.level(15).addSpellSlots(8, 1);
-        gen.level(17).addSpellSlots(9, 1);
-        gen.level(1, 3, 5, 7, 9, 11, 13, 15, 17).addAllSpells();
+        SpellCasting casting = new SpellCasting("Druid", WISDOM, "[$wis_mod + $level]");
+        gen.level(1).addAttributes(casting);
+        gen.level(1).addChoice(spellChoice("Druid", 2, 0));
+        gen.level(4, 10).addChoice(spellChoice("Druid", 1, 0));
+        gen.level(1).addSpellSlots("Druid", 1, 2);
+        gen.level(2, 3).addSpellSlots("Druid", 1, 1);
+        gen.level(3).addSpellSlots("Druid", 2, 2);
+        gen.level(4).addSpellSlots("Druid", 2, 1);
+        gen.level(5).addSpellSlots("Druid", 3, 4);
+        gen.level(6).addSpellSlots("Druid", 3, 1);
+        gen.level(7, 8, 9).addSpellSlots("Druid", 4, 1);
+        gen.level(9, 10, 18).addSpellSlots("Druid", 5, 1);
+        gen.level(11, 19).addSpellSlots("Druid", 6, 1);
+        gen.level(13, 20).addSpellSlots("Druid", 7, 1);
+        gen.level(15).addSpellSlots("Druid", 8, 1);
+        gen.level(17).addSpellSlots("Druid", 9, 1);
+        gen.level(1, 3, 5, 7, 9, 11, 13, 15, 17).addAllSpells("Druid");
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD, DRUIDIC);
         gen.level(1).addWeaponProficiencies(CLUB, DAGGER, DART, JAVELIN, MACE, QUARTERSTAFF,
@@ -277,7 +279,7 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addChoice(new EquipmentChoice(HOLY_SYMBOL));
         gen.level(1).addAttributes(DIVINE_SENSE, LAY_ON_HANDS);
         gen.level(2).addChoice(new AttributeChoice(FIGHTING_STYLE));
-        gen.level(2).addAttributes(new SpellCasting(CHARISMA), DIVINE_SMITE);
+        gen.level(2).addAttributes(new SpellCasting("Palidin", CHARISMA), DIVINE_SMITE);
         gen.level(3).addAttributes(DIVINE_HEALTH);
         gen.level(3).addChoice(new AttributeChoice("Sacred Oath", SacredOath.values()));
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
@@ -338,7 +340,7 @@ public enum CharacterClass implements Attribute {
             new AttributeChoice("Favoured Terrain", FavouredTerrain.values()));
         gen.level(2).addChoice(new AttributeChoice("Fighting Style",
             ARCHERY, DEFENSE, DUELING, TWO_WEAPON));
-        gen.level(2).addAttributes(new SpellCasting(WISDOM));
+        gen.level(2).addAttributes(new SpellCasting("Ranger", WISDOM));
         gen.level(3).addChoice(new AttributeChoice("Ranger Archetype",
             RangerArchetype.values()));
         gen.level(3).addAttributes(PRIMEVAL_AWARENESS);
@@ -418,7 +420,7 @@ public enum CharacterClass implements Attribute {
     }),
     SORCERER(6, SORCEROUS_ORIGIN, CONSTITUTION, CHARISMA,
         Arrays.asList(CHARISMA, CONSTITUTION), gen -> {
-        gen.level(1).addAttributes(new SpellCasting(CHARISMA));
+        gen.level(1).addAttributes(new SpellCasting("Sorcerer", CHARISMA));
         gen.level(1)
             .addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
         gen.level(1).addChoice(new AttributeChoice("Skill", ARCANA, DECEPTION, INSIGHT,
@@ -522,7 +524,7 @@ public enum CharacterClass implements Attribute {
         ASTRAL_PROJECTION, FORESIGHT, IMPRISONMENT, POWER_WORD_KILL, TRUE_POLYMORPH),
     WIZARD(6, ARCANE_TRADITION, INTELLIGENCE, WISDOM,
         Arrays.asList(INTELLIGENCE, DEXTERITY, CONSTITUTION), gen -> {
-        gen.level(1).addAttributes(new SpellCasting(INTELLIGENCE));
+        gen.level(1).addAttributes(new SpellCasting("Wizard", INTELLIGENCE));
         gen.level(1)
             .addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
         gen.level(1).addChoice(new AttributeChoice("Skill",
@@ -621,18 +623,6 @@ public enum CharacterClass implements Attribute {
     private final List<AttributeType> primaryAttributes;
     private final ChoiceGenerator generator = new ChoiceGenerator();
     private final List<Spell> allowedSpells = new ArrayList<>();
-
-    private static Choice spellChoiceAtLevel(int spellCount, int spellLevel, Spell[] allowed) {
-        String name = spellLevel == 0 ? "Cantrip" : "Spell Level " + spellLevel;
-        return ChoiceGenerator.spellChoice(spellCount, name,
-            Arrays.stream(allowed).filter(sp -> sp.getLevel() == spellLevel));
-    }
-
-    private static Choice spellChoiceToLevel(int spellCount, int spellLevel, Spell[] allowed) {
-        String name = "Spell to Level " + spellLevel;
-        return ChoiceGenerator.spellChoice(spellCount, name,
-            Arrays.stream(allowed).filter(sp -> sp.getLevel() <= spellLevel));
-    }
 
     private static Choice spellMasteryChoice(String name, int level) {
         return new OptionChoice(name) {

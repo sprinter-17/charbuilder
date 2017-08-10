@@ -1,12 +1,13 @@
 package characterbuilder.character.ability;
 
-import characterbuilder.character.spell.Spell;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
+import characterbuilder.character.spell.Spell;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.w3c.dom.Node;
 
@@ -234,12 +235,7 @@ public enum Ability implements Attribute {
         "Spend 1 Ki point on attack; extend unarmoured attack range by 10'. "
         + "Spend 1 further Ki point to deal 1d10 extra fire damage."),
     FIST_OF_FOUR_THUNDERS(CLASS_TALENT, "Fist of Four Thunders",
-        "Spend 2 Ki ponts to cast Thunderwave") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character.addAttribute(Spell.THUNDERWAVE);
-        }
-    },
+        "Spend 2 Ki ponts to cast Thunderwave", Spell.THUNDERWAVE),
     FIST_OF_UNBROKEN_AIR(CLASS_TALENT, "Fist of Unbroken Air",
         "Spend at least 2 Ki points as an action. A creature within 30' takes "
         + "3d10 bludgeoning damage + 1d10 for each extra Ki point and "
@@ -250,79 +246,28 @@ public enum Ability implements Attribute {
         "Spend at least 2 Ki points as an action. A creature within 30' takes "
         + "3d10 bludgeoning damage + 1d10 for each extra Ki point and is either knocked prone "
         + " or pulled 25' closer. Dex. save for half damage only."),
-    RUSH_OF_THE_GALE_SPIRITS(CLASS_TALENT, "Rush of the Gale Spirits",
-        "Spend 2 Ki points to cast Gust of Wind") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character.addAttribute(Spell.GUST_OF_WIND);
-        }
-    },
-    SWEEPING_CINDER_STRIKE(CLASS_TALENT, "Sweeping Cinder Strike",
-        "Spend 2 Ki points to cast Burning Hands") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character.addAttribute(Spell.BURNING_HANDS);
-        }
-    },
-    GONG_OF_THE_SUMMIT(CLASS_TALENT, "Gong of the Summit",
-        "Spend 3 Ki points to cast Shatter") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character.addAttribute(Spell.SHATTER);
-        }
-    },
-    CLENCH_OF_THE_NORTH_WIND(CLASS_TALENT, "Clench of the North Wind",
-        "Spend 3 Ki points to cast Hold Person") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character.addAttribute(Spell.HOLD_PERSON);
-        }
-    },
-    FLAMES_OF_THE_PHOENIX(CLASS_TALENT, "Flames of the Phoenix",
-        "Spend 4 Ki points to cast Fireball") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character.addAttribute(Spell.SHATTER);
-        }
-    },
-    MIST_STANCE(CLASS_TALENT, "Mist Stance",
-        "Spend 4 Ki points to cast Gaseous Form on self") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character.addAttribute(Spell.GASEOUS_FORM);
-        }
-    },
-    RIDE_THE_WIND(CLASS_TALENT, "Ride the Wind",
-        "Spend 4 Ki points to cast Fly") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character.addAttribute(Spell.FLY);
-        }
-    },
-    BREATH_OF_WINTER(CLASS_TALENT, "Spend 6 Ki points to cast Cone of Cold") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character.addAttribute(Spell.CONE_OF_COLD);
-        }
-    },
-    ENTERNAL_MOUNTAIN_DEFENCE(CLASS_TALENT, "Spend 5 Ki points to cast Stoneskin targeting self") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character.addAttribute(Spell.STONESKIN);
-        }
-    },
-    RIVER_OF_HUNGRY_FLAME(CLASS_TALENT, "Spend 5 Ki points to cast Wall of Fire") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character.addAttribute(Spell.WALL_OF_FIRE);
-        }
-    },
-    WAVE_OF_ROLLING_EARTH(CLASS_TALENT, "Spend 6 Ki points to cast Wall of Stone") {
-        @Override
-        public void generateInitialChoices(Character character) {
-            character.addAttribute(Spell.WALL_OF_STONE);
-        }
-    },
+//    RUSH_OF_THE_GALE_SPIRITS(CLASS_TALENT, "Rush of the Gale Spirits",
+//        "Spend 2 Ki points to cast Gust of Wind", Spell.GUST_OF_WIND),
+//    SWEEPING_CINDER_STRIKE(CLASS_TALENT, "Sweeping Cinder Strike",
+//        "Spend 2 Ki points to cast Burning Hands", Spell.BURNING_HANDS),
+//    GONG_OF_THE_SUMMIT(CLASS_TALENT, "Gong of the Summit",
+//        "Spend 3 Ki points to cast Shatter", Spell.SHATTER),
+//    CLENCH_OF_THE_NORTH_WIND(CLASS_TALENT, "Clench of the North Wind",
+//        "Spend 3 Ki points to cast Hold Person", Spell.HOLD_PERSON),
+//    FLAMES_OF_THE_PHOENIX(CLASS_TALENT, "Flames of the Phoenix",
+//        "Spend 4 Ki points to cast Fireball", Spell.SHATTER),
+//    MIST_STANCE(CLASS_TALENT, "Mist Stance",
+//        "Spend 4 Ki points to cast Gaseous Form on self", Spell.GASEOUS_FORM),
+//    RIDE_THE_WIND(CLASS_TALENT, "Ride the Wind",
+//        "Spend 4 Ki points to cast Fly", Spell.FLY),
+//    BREATH_OF_WINTER(CLASS_TALENT, "Breath of Winter",
+//        "Spend 6 Ki points to cast Cone of Cold", Spell.CONE_OF_COLD),
+//    ENTERNAL_MOUNTAIN_DEFENCE(CLASS_TALENT, "Enternal Mountain Defence",
+//        "Spend 5 Ki points to cast Stoneskin targeting self", Spell.STONESKIN),
+//    RIVER_OF_HUNGRY_FLAME(CLASS_TALENT, "River of Hungry Flame",
+//        "Spend 5 Ki points to cast Wall of Fire", Spell.WALL_OF_FIRE),
+//    WAVE_OF_ROLLING_EARTH(CLASS_TALENT, "Wave of Rolling Earth",
+//        "Spend 6 Ki points to cast Wall of Stone", Spell.WALL_OF_STONE),
     WILD_SHAPE(CLASS_TALENT,
         "As an action, assume the shape of a beast of up to CR[max($level 2:1/4,4:1/2,8:1)]."),
     FONT_OF_MAGIC(CLASS_TALENT,
@@ -506,6 +451,7 @@ public enum Ability implements Attribute {
     private final AttributeType type;
     private final String name;
     private final String description;
+    private final Optional<Spell> spell;
 
     public static Stream<AttributeType> getTypes() {
         return Arrays.stream(values()).map(Ability::getType).distinct();
@@ -515,12 +461,18 @@ public enum Ability implements Attribute {
         this.type = type;
         this.name = StringUtils.capitaliseEnumName(name());
         this.description = description;
+        this.spell = Optional.empty();
     }
 
     private Ability(AttributeType type, String name, String description) {
+        this(type, name, description, null);
+    }
+
+    private Ability(AttributeType type, String name, String description, Spell spell) {
         this.type = type;
         this.name = name;
         this.description = description;
+        this.spell = Optional.ofNullable(spell);
     }
 
     @Override

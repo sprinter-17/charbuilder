@@ -2,13 +2,13 @@ package characterbuilder.character.spell;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.MagicSchool;
-import characterbuilder.character.attribute.Attribute;
-import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.choice.Option;
 import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-public enum Spell implements Attribute {
+public enum Spell implements Option {
     ARCANE_EYE(MagicSchool.DIVINATION, 4, "1 action", "30 feet",
         "V, S, M ", "up to 1 hour", "You create an invisible, magical eye within range that "
         + "hovers in the air for the duration. You mentally receive visual information from the "
@@ -2708,11 +2708,6 @@ public enum Spell implements Attribute {
         this.effect = effect;
     }
 
-    @Override
-    public AttributeType getType() {
-        return AttributeType.SPELL;
-    }
-
     public int getLevel() {
         return level;
     }
@@ -2753,7 +2748,6 @@ public enum Spell implements Attribute {
         return StringUtils.capitaliseEnumName(name());
     }
 
-    @Override
     public Stream<String> getDescription(Character character) {
         return Stream.of(
             school.toString(),
@@ -2764,7 +2758,20 @@ public enum Spell implements Attribute {
             getEffect(character));
     }
 
+    @Override
+    public void choose(Character character) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Node save(Document doc) {
+        Node node = doc.createElement("spell");
+        node.setTextContent(name());
+        return node;
+    }
+
     public static Spell load(Node node) {
         return Spell.valueOf(node.getTextContent());
     }
+
 }

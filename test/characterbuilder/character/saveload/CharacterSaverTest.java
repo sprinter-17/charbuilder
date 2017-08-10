@@ -5,21 +5,22 @@ import static characterbuilder.character.ability.Ability.DARKVISION;
 import characterbuilder.character.ability.DivineDomain;
 import static characterbuilder.character.ability.Proficiency.COMMON;
 import characterbuilder.character.ability.Skill;
-import characterbuilder.character.spell.Spell;
 import characterbuilder.character.attribute.Alignment;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.Background;
-import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.Height;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.Sex;
 import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.attribute.Weight;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.equipment.EquipmentSet;
 import static characterbuilder.character.equipment.EquipmentType.BASKET;
 import characterbuilder.character.equipment.Token;
 import static characterbuilder.character.equipment.Weapon.WHIP;
+import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellCasting;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -135,9 +136,12 @@ public class CharacterSaverTest {
 
     @Test
     public void testSpells() {
-        character.addAttribute(Spell.ANTIMAGIC_FIELD);
+        SpellCasting casting = new SpellCasting("Spells", INTELLIGENCE);
+        casting.addLearntSpell(Spell.ANTIMAGIC_FIELD);
+        character.addAttribute(casting);
         saveAndLoad();
-        assertTrue(character.hasAttribute(Spell.ANTIMAGIC_FIELD));
+        casting = character.getAttribute(SPELLCASTING);
+        assertTrue(casting.hasLearntSpell(Spell.ANTIMAGIC_FIELD));
     }
 
     @Test

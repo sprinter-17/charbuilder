@@ -1,15 +1,14 @@
 package characterbuilder.character.attribute;
 
-import characterbuilder.character.characterclass.DraconicAncestory;
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
 import static characterbuilder.character.ability.Ability.*;
 import static characterbuilder.character.ability.Proficiency.*;
 import characterbuilder.character.ability.Skill;
 import static characterbuilder.character.ability.Skill.*;
-import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.attribute.AttributeType.*;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
+import characterbuilder.character.characterclass.DraconicAncestory;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -17,6 +16,7 @@ import static characterbuilder.character.choice.ChoiceGenerator.spellChoice;
 import characterbuilder.character.choice.Option;
 import characterbuilder.character.choice.OptionChoice;
 import static characterbuilder.character.equipment.Weapon.*;
+import characterbuilder.character.spell.Spell;
 import characterbuilder.utils.StringUtils;
 import java.util.EnumMap;
 import java.util.function.Consumer;
@@ -43,17 +43,19 @@ public enum Race implements Attribute {
         gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW);
         gen.addChoice(new AttributeChoice("Language",
             DWARVISH, GIANT, GNOMISH, HALFLING, GOBLIN, ORC));
-        gen.addChoice(spellChoice(1, "Elven Cantrip", WIZARD.getSpells().filter(Spell::isCantrip)));
+        gen.addChoice(spellChoice("High Elf", 1, "Elven Cantrip",
+            WIZARD.getSpells().filter(Spell::isCantrip)));
     }),
     WOOD_ELF(0, 2, 0, 0, 1, 0, 35, 100, "4'6\"", "2d10", "100lb", "1d4", gen -> {
         gen.addAttributes(DARKVISION, FEY_ANCESTORY, PERCEPTION, COMMON, ELVISH, MASK_OF_THE_WILD);
         gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW);
     }),
     DARK_ELF(0, 2, 0, 0, 0, 1, 30, 100, "4'6\"", "2d10", "100lb", "1d4", gen -> {
-        gen.addAttributes(SUPERIOR_DARKVISION, SUNLIGHT_SENSITIVITY, Spell.DANCING_LIGHTS);
+        gen.addAttributes(SUPERIOR_DARKVISION, SUNLIGHT_SENSITIVITY);
+        gen.addLearntSpells("Dark Elf", Spell.DANCING_LIGHTS);
         gen.addWeaponProficiencies(RAPIER, SHORTSWORD, HAND_CROSSBOW);
-        gen.level(3).addAttributes(Spell.FAERIE_FIRE);
-        gen.level(5).addAttributes(Spell.DARKNESS);
+        gen.level(3).addLearntSpells("Dark Elf", Spell.FAERIE_FIRE);
+        gen.level(5).addLearntSpells("Dark Elf", Spell.DARKNESS);
     }),
     LIGHFOOT_HALFLING(0, 2, 0, 0, 0, 1, 25, 20, "2'7\"", "2d4", "35lb", "1", gen -> {
         gen.addAttributes(LUCKY, BRAVE, NIMBLE, COMMON, HALFLING, STEALTHY);
@@ -73,8 +75,8 @@ public enum Race implements Attribute {
 
     }),
     FOREST_GNOME(0, 1, 0, 2, 0, 0, 25, 40, "2'11\"", "2d4", "35lb", "1", gen -> {
-        gen.addAttributes(GNOME_CUNNING, COMMON, GNOMISH, SPEAK_WITH_SMALL_BEASTS,
-            Spell.MINOR_ILLUSION);
+        gen.addAttributes(GNOME_CUNNING, COMMON, GNOMISH, SPEAK_WITH_SMALL_BEASTS);
+        gen.addLearntSpells("Forest Gnome", Spell.MINOR_ILLUSION);
     }),
     ROCK_GNOME(0, 0, 1, 2, 0, 0, 25, 40, "2'11\"", "2d4", "35lb", "1", gen -> {
         gen.addAttributes(GNOME_CUNNING, COMMON, GNOMISH, ARTIFICERS_LORE, TINKER);
@@ -88,9 +90,10 @@ public enum Race implements Attribute {
             DWARVISH, ELVISH, GIANT, GNOMISH, HALFLING, GOBLIN, ORC));
     }),
     TIEFLING(0, 0, 0, 1, 0, 2, 30, 18, "4'9\"", "2d8", "110lb", "2d4", gen -> {
-        gen.addAttributes(DARKVISION, HELLISH_RESISTANCE, Spell.THAUMATURGY, COMMON, INFERNAL);
-        gen.level(3).addAttributes(Spell.HELLISH_REBUKE);
-        gen.level(5).addAttributes(Spell.DARKNESS);
+        gen.addAttributes(DARKVISION, HELLISH_RESISTANCE, COMMON, INFERNAL);
+        gen.addLearntSpells("Tiefling", Spell.THAUMATURGY);
+        gen.level(3).addLearntSpells("Tiefling", Spell.HELLISH_REBUKE);
+        gen.level(5).addLearntSpells("Tiefling", Spell.DARKNESS);
     });
 
     private static final CharacterRandom RANDOM = new CharacterRandom();

@@ -1,10 +1,10 @@
 package characterbuilder.character.ability;
 
-import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.choice.TestChoiceSelector;
+import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.TestCharacter;
 import java.util.stream.IntStream;
 import static org.hamcrest.CoreMatchers.is;
@@ -62,7 +62,7 @@ public class FeatTest {
 
     @Test
     public void testElementalAdeptCanBeChosenFourTimes() {
-        character.addAttribute(new SpellCasting(AttributeType.STRENGTH));
+        character.addAttribute(new SpellCasting("Elemental", AttributeType.STRENGTH));
         IntStream.rangeClosed(1, 4).forEach(i -> {
             assertTrue(Feat.ELEMENTAL_ADEPT.isAllowed(character));
             Feat.ELEMENTAL_ADEPT.choose(character);

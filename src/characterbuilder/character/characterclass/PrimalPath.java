@@ -1,12 +1,12 @@
 package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
+import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import static characterbuilder.character.ability.Ability.*;
-import characterbuilder.character.spell.Spell;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.spell.Spell;
 import java.util.function.Supplier;
 import org.w3c.dom.Node;
 
@@ -21,12 +21,12 @@ public enum PrimalPath implements Attribute {
     }),
     PATH_OF_THE_TOTEM_WARRIOR("Path of the Totem Warrior", () -> {
         ChoiceGenerator gen = new ChoiceGenerator();
-        gen.level(3).addAttributes(Spell.BEAST_SENSE, Spell.SPEAK_WITH_ANIMALS);
+        gen.level(3).addLearntSpells("Barbarian", Spell.BEAST_SENSE, Spell.SPEAK_WITH_ANIMALS);
         gen.level(3).addChoice(new AttributeChoice("Totem Spirit",
             TOTEM_SPIRIT_BEAR, TOTEM_SPIRIT_EAGLE, TOTEM_SPIRIT_WOLF));
         gen.level(6).addChoice(new AttributeChoice("Totem Spirit",
             ASPECT_OF_BEAST_BEAR, ASPECT_OF_BEAST_EAGLE, ASPECT_OF_BEAST_WOLF));
-        gen.level(10).addAttributes(Spell.COMMUNE_WITH_NATURE);
+        gen.level(10).addLearntSpells("Barbarian", Spell.COMMUNE_WITH_NATURE);
         gen.level(14).addChoice(new AttributeChoice("Totem Spirit",
             TOTEMIC_ATTUNEMENT_BEAR, TOTEMIC_ATTUNEMENT_EAGLE, TOTEMIC_ATTUNEMENT_WOLF));
         return gen;

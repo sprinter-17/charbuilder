@@ -1,25 +1,23 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.characterclass.CharacterClass;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class ReplaceAttributeChoice<T extends Attribute> extends OptionChoice {
 
-    public static Choice replaceSpell() {
-        return new ReplaceAttributeChoice<>("Spell", ch -> {
-            CharacterClass characterClass = ch.getAttribute(AttributeType.CHARACTER_CLASS);
-            SpellCasting casting = ch.getAttribute(AttributeType.SPELLCASTING);
-            return characterClass.getSpells()
-                .filter(sp -> !sp.isCantrip())
-                .filter(sp -> sp.getLevel() <= casting.getMaxSlot());
-        });
-    }
-
+//    public static Choice replaceSpell() {
+//        return new ReplaceAttributeChoice<>("Spell", ch -> {
+//            CharacterClass characterClass = ch.getAttribute(AttributeType.CHARACTER_CLASS);
+//            SpellCasting casting = ch.getAttribute(AttributeType.SPELLCASTING);
+//            return characterClass.getSpells()
+//                .filter(sp -> !sp.isCantrip())
+//                .filter(sp -> sp.getLevel() <= casting.getMaxSlot());
+//        });
+//    }
+//
     private static final Attribute NO_REPLACEMENT = new Attribute() {
 
         @Override

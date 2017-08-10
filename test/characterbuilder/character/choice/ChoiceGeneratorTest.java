@@ -1,11 +1,11 @@
 package characterbuilder.character.choice;
 
-import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
 import static characterbuilder.character.ability.Proficiency.*;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -15,13 +15,13 @@ import org.junit.Test;
 
 public class ChoiceGeneratorTest {
 
-    private Character character;
+    private TestCharacter character;
     private ChoiceGenerator generator;
     private TestChoiceSelector selector;
 
     @Before
     public void setup() {
-        character = new Character();
+        character = new TestCharacter();
         generator = new ChoiceGenerator();
         selector = new TestChoiceSelector();
         character.addChoiceList(selector);
@@ -79,5 +79,4 @@ public class ChoiceGeneratorTest {
         character.selectChoice(character.getChoice(0));
         assertThat(character.getAttributes(AttributeType.SKILL, Skill.class).count(), is(4L));
     }
-
 }

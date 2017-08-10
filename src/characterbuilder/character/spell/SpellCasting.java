@@ -5,7 +5,9 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.saveload.Savable;
 import characterbuilder.utils.StringUtils;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -13,15 +15,18 @@ import org.w3c.dom.Node;
 
 public class SpellCasting implements Attribute {
 
+    private final String name;
     private final AttributeType spellAbilityScore;
     private final String preparedSpellText;
+    private final List<Spell> learntSpells = new ArrayList<>();
     private int[] spellSlots = {};
 
-    public SpellCasting(AttributeType spellAbilityScore) {
-        this(spellAbilityScore, "All");
+    public SpellCasting(String name, AttributeType spellAbilityScore) {
+        this(name, spellAbilityScore, "All");
     }
 
-    public SpellCasting(AttributeType spellAbilityScore, String preparedSpellText) {
+    public SpellCasting(String name, AttributeType spellAbilityScore, String preparedSpellText) {
+        this.name = name;
         this.spellAbilityScore = spellAbilityScore;
         this.preparedSpellText = preparedSpellText;
     }
@@ -29,6 +34,10 @@ public class SpellCasting implements Attribute {
     @Override
     public AttributeType getType() {
         return AttributeType.SPELLCASTING;
+    }
+
+    public boolean hasName(String name) {
+        return this.name.equals(name);
     }
 
     public void addSlots(int level, int slots) {
@@ -49,6 +58,18 @@ public class SpellCasting implements Attribute {
 
     public AttributeType getAbilityScore() {
         return spellAbilityScore;
+    }
+
+    public void addLearntSpell(Spell spell) {
+        learntSpells.add(spell);
+    }
+
+    public boolean hasLearntSpell(Spell spell) {
+        return learntSpells.contains(spell);
+    }
+
+    public Stream<Spell> getLearntSpells() {
+        return learntSpells.stream();
     }
 
     @Override
@@ -82,6 +103,8 @@ public class SpellCasting implements Attribute {
     @Override
     public Node save(Document doc) {
         Node node = getType().save(doc);
+        node.appendChild(doc.createElement("name"))
+            .setTextContent(name);
         node.appendChild(doc.createElement("ability_score"))
             .setTextContent(spellAbilityScore.name());
         node.appendChild(doc.createElement("prepared_spells"))
@@ -92,17 +115,23 @@ public class SpellCasting implements Attribute {
             slot.setTextContent(String.valueOf(spellSlots[i]));
             node.appendChild(slot);
         }
+        learntSpells.forEach(spell -> node.appendChild(doc.createElement("learnt_spell"))
+            .setTextContent(spell.name()));
         return node;
     }
 
     public static SpellCasting load(Node node) {
+        String name = Savable.child(node, "name").getTextContent();
         AttributeType abilityScore
             = AttributeType.valueOf(Savable.child(node, "ability_score").getTextContent());
         String preparedSpellText = Savable.child(node, "prepared_spells").getTextContent();
-        SpellCasting casting = new SpellCasting(abilityScore, preparedSpellText);
+        SpellCasting casting = new SpellCasting(name, abilityScore, preparedSpellText);
         Savable.children(node)
             .filter(el -> el.getTagName().equals("spell_slot"))
             .forEach(el -> loadSpellSlot(casting, el));
+        Savable.children(node)
+            .filter(el -> el.getTagName().equals("learnt_spell"))
+            .forEach(el -> casting.addLearntSpell(Spell.valueOf(el.getTextContent())));
         return casting;
     }
 
@@ -122,9 +151,11 @@ public class SpellCasting implements Attribute {
         if (obj == null || getClass() != obj.getClass())
             return false;
         SpellCasting other = (SpellCasting) obj;
-        return other.spellAbilityScore.equals(spellAbilityScore)
+        return other.name.equals(name)
+            && other.spellAbilityScore.equals(spellAbilityScore)
             && other.preparedSpellText.equals(preparedSpellText)
-            && Arrays.equals(other.spellSlots, spellSlots);
+            && Arrays.equals(other.spellSlots, spellSlots)
+            && other.learntSpells.equals(learntSpells);
     }
 
 }

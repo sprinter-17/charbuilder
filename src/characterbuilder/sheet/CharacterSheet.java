@@ -1,8 +1,9 @@
 package characterbuilder.sheet;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.attribute.AttributeType.*;
+import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellCasting;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -110,8 +111,9 @@ public class CharacterSheet extends JFrame {
         pages.add(new MainPage(character));
         pages.add(new BackgroundPage(character));
         if (character.hasAttribute(SPELLCASTING)) {
+            SpellCasting casting = character.getAttribute(SPELLCASTING);
             List<Spell> spells = Arrays.stream(Spell.values())
-                .filter(character::hasAttribute)
+                .filter(casting::hasLearntSpell)
                 .sorted(Comparator.comparingInt(Spell::getLevel).thenComparing(Spell::name))
                 .collect(toList());
             boolean firstSpellPage = true;
