@@ -2,8 +2,6 @@ package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
-import characterbuilder.character.ability.DivineDomain;
-import characterbuilder.character.ability.MagicSchool;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.*;
 import characterbuilder.character.ability.Skill;

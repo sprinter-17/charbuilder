@@ -1,7 +1,7 @@
 package characterbuilder.character.spell;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.MagicSchool;
+import characterbuilder.character.characterclass.MagicSchool;
 import characterbuilder.character.choice.Option;
 import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
@@ -2760,7 +2760,7 @@ public enum Spell implements Option {
 
     @Override
     public void choose(Character character) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Spells need spell caster context for choice.");
     }
 
     @Override

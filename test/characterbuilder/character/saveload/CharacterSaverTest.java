@@ -2,7 +2,7 @@ package characterbuilder.character.saveload;
 
 import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.DARKVISION;
-import characterbuilder.character.ability.DivineDomain;
+import characterbuilder.character.characterclass.DivineDomain;
 import static characterbuilder.character.ability.Proficiency.COMMON;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Alignment;

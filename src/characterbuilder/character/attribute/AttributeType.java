@@ -1,11 +1,11 @@
 package characterbuilder.character.attribute;
 
 import characterbuilder.character.ability.Ability;
-import characterbuilder.character.ability.DivineDomain;
-import characterbuilder.character.ability.ElementalAdept;
+import characterbuilder.character.characterclass.DivineDomain;
+import characterbuilder.character.characterclass.ElementalAdept;
 import characterbuilder.character.ability.Expertise;
 import characterbuilder.character.ability.Feat;
-import characterbuilder.character.ability.MagicSchool;
+import characterbuilder.character.characterclass.MagicSchool;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.characterclass.BardicCollege;

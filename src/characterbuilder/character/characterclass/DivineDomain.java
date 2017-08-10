@@ -1,6 +1,8 @@
-package characterbuilder.character.ability;
+package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.Proficiency;
+import characterbuilder.character.ability.Skill;
 import static characterbuilder.character.ability.Ability.*;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.Attribute;

@@ -1,4 +1,4 @@
-package characterbuilder.character.ability;
+package characterbuilder.character.characterclass;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;

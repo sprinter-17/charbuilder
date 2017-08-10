@@ -1,5 +1,6 @@
 package characterbuilder.character.ability;
 
+import characterbuilder.character.characterclass.ElementalAdept;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;

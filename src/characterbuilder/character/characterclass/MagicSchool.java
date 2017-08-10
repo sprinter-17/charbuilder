@@ -1,6 +1,7 @@
-package characterbuilder.character.ability;
+package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
+import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -22,11 +23,17 @@ public enum MagicSchool implements Attribute {
 
     }),
     EVOCATION(gen -> {
-//        gen.level(2).addAttributes(EVOCATION_SAVANT, SCULPT_SPELLS);
-//        gen.level(6).addAttributes(POTENT_CANTRIP);
-//        gen.level(10).addAttributes(EMPOWERED_EVOCATION);
-//        gen.level(14).addAttributes(OVERCHANNEL);
-    }),
+    }) {
+        @Override
+        public void generateLevelChoices(Character character) {
+            ChoiceGenerator gen = new ChoiceGenerator();
+            gen.level(2).addAttributes(EVOCATION_SAVANT, SCULPT_SPELLS);
+            gen.level(6).addAttributes(POTENT_CANTRIP);
+            gen.level(10).addAttributes(EMPOWERED_EVOCATION);
+            gen.level(14).addAttributes(OVERCHANNEL);
+            gen.generateChoices(character);
+        }
+    },
     ILLUSION(gen -> {
 
     }),
