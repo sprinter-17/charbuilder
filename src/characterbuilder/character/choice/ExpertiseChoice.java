@@ -17,11 +17,19 @@ public class ExpertiseChoice extends AttributeChoice {
 
     @Override
     public void select(Character character, ChoiceSelector selector) {
-        selector.chooseOption(Stream.concat(Arrays.stream((Attribute[]) Skill.values()),
+        selector.chooseOption(possibleExpertise(character), ex -> ex.choose(character));
+    }
+
+    @Override
+    public boolean isAllowed(Character character) {
+        return possibleExpertise(character).findAny().isPresent();
+    }
+
+    private Stream<Expertise> possibleExpertise(Character character) {
+        return Stream.concat(Arrays.stream((Attribute[]) Skill.values()),
             Stream.of(Proficiency.THIEVES_TOOLS))
             .filter(attr -> character.hasAttribute(attr))
             .map(Expertise::new)
-            .filter(ex -> !character.hasAttribute(ex)),
-            ex -> ex.choose(character));
+            .filter(ex -> !character.hasAttribute(ex));
     }
 }

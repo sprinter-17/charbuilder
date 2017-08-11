@@ -20,7 +20,6 @@ public enum BardicCollege implements Attribute {
             ChoiceGenerator gen = new ChoiceGenerator();
             gen.level(3).addChoice(3, new AttributeChoice("Bonus Proficiencies", Skill.values()));
             gen.level(3).addAttributes(CUTTING_WORDS);
-            // TODO: check spell levels
             gen.level(6).addChoice(ChoiceGenerator.spellChoice("Bard", 2, "Magical Secrets",
                 Arrays.stream(Spell.values())));
             gen.level(14).addAttributes(PEERLESS_SKILL);

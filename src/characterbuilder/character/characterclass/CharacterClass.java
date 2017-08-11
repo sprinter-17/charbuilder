@@ -14,6 +14,7 @@ import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.Choice;
 import characterbuilder.character.choice.ChoiceGenerator;
+import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import static characterbuilder.character.choice.ChoiceGenerator.levels;
 import static characterbuilder.character.choice.ChoiceGenerator.spellChoice;
 import characterbuilder.character.choice.ChoiceSelector;
@@ -76,9 +77,9 @@ public enum CharacterClass implements Attribute {
     }),
     BARD(8, BARDIC_COLLEGE, DEXTERITY, CHARISMA,
         Arrays.asList(CHARISMA, DEXTERITY), gen -> {
-        SpellCasting casting = new SpellCasting("Bard", CHARISMA);
-        gen.level(1).addAttributes(casting);
-        gen.level(1).addChoice(spellChoice("Bard", 2, 0));
+        gen.level(1).addSpellCasting("Bard", CHARISMA);
+        gen.level(1).addChoice(cantripChoice(2, CHARISMA));
+        gen.level(4, 10).addChoice(cantripChoice(1, CHARISMA));
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS);
         gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
         gen.level(1).addChoice(3, new AttributeChoice("Skill", Skill.values()));
@@ -96,7 +97,6 @@ public enum CharacterClass implements Attribute {
         gen.level(2).addAttributes(SONG_OF_REST);
         gen.level(3).addChoice(new AttributeChoice("Bard College", BardicCollege.values()));
         gen.level(3, 10).addChoice(2, new ExpertiseChoice());
-        gen.level(4, 10).addChoice(spellChoice("Bard", 1, 0));
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
         gen.level(5).addAttributes(FONT_OF_INSPIRATION);
         gen.level(6).addAttributes(COUNTERCHARM);
@@ -135,7 +135,8 @@ public enum CharacterClass implements Attribute {
         Arrays.asList(WISDOM, CONSTITUTION, STRENGTH), gen -> {
         SpellCasting casting = new SpellCasting("Cleric", WISDOM, "[$wis_mod + $level]");
         gen.level(1).addAttributes(casting);
-        gen.level(1).addChoice(spellChoice("Cleric", 3, 0));
+        gen.level(1).addChoice(cantripChoice(3, WISDOM));
+        gen.level(5, 10).addChoice(cantripChoice(1, WISDOM));
         gen.level(1).addSpellSlots("Cleric", 1, 2);
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD, ALL_SIMPLE_WEAPONS);
@@ -155,7 +156,6 @@ public enum CharacterClass implements Attribute {
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
         gen.level(4).addSpellSlots("Cleric", 2, 1);
         gen.level(5).addAttributes(DESTROY_UNDEAD).addSpellSlots("Cleric", 3, 2);
-        gen.level(5, 10).addChoice(spellChoice("Cleric", 1, 0));
         gen.level(6).addSpellSlots("Cleric", 3, 1);
         gen.level(7, 8, 9).addSpellSlots("Cleric", 4, 1);
         gen.level(9, 10, 18).addSpellSlots("Cleric", 5, 1);
@@ -169,8 +169,8 @@ public enum CharacterClass implements Attribute {
     DRUID(8, DRUID_CIRCLE, INTELLIGENCE, WISDOM, Arrays.asList(WISDOM, CONSTITUTION), gen -> {
         SpellCasting casting = new SpellCasting("Druid", WISDOM, "[$wis_mod + $level]");
         gen.level(1).addAttributes(casting);
-        gen.level(1).addChoice(spellChoice("Druid", 2, 0));
-        gen.level(4, 10).addChoice(spellChoice("Druid", 1, 0));
+        gen.level(1).addChoice(cantripChoice(2, WISDOM));
+        gen.level(4, 10).addChoice(cantripChoice(1, WISDOM));
         gen.level(1).addSpellSlots("Druid", 1, 2);
         gen.level(2, 3).addSpellSlots("Druid", 1, 1);
         gen.level(3).addSpellSlots("Druid", 2, 2);
@@ -523,8 +523,7 @@ public enum CharacterClass implements Attribute {
     WIZARD(6, ARCANE_TRADITION, INTELLIGENCE, WISDOM,
         Arrays.asList(INTELLIGENCE, DEXTERITY, CONSTITUTION), gen -> {
         gen.level(1).addAttributes(new SpellCasting("Wizard", INTELLIGENCE));
-        gen.level(1)
-            .addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
+        gen.level(1).addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
         gen.level(1).addChoice(new AttributeChoice("Skill",
             ARCANA, HISTORY, INSIGHT, INVESTIGATION, MEDICINE, RELIGION).withCount(2));
         gen.level(1).addChoice(new EquipmentChoice("Weapon", QUARTERSTAFF, DAGGER));
@@ -537,10 +536,9 @@ public enum CharacterClass implements Attribute {
         gen.level(2)
             .addChoice(new AttributeChoice("Arcane Tradition", MagicSchool.values()));
         gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
-        gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", 1));
-        gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", 2));
-        gen.level(20).addChoice(spellMasteryChoice("Signature Spell", 3));
-        gen.level(20).addChoice(spellMasteryChoice("Signature Spell", 3));
+        gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", "Wizard", 1));
+        gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", "Wizard", 2));
+        gen.level(20).addChoice(spellMasteryChoice("Signature Spell", "Wizard", 3));
         final int[][] spellCount = {
             {},
             {3, 2},
@@ -612,7 +610,6 @@ public enum CharacterClass implements Attribute {
             SUNBURST, TELEPATHY,
             ASTRAL_PROJECTION, FORESIGHT, GATE, IMPRISONMENT, METEOR_SWARM, POWER_WORD_KILL,
             PRISMATIC_WALL, SHAPECHANGE, TIME_STOP, TRUE_POLYMORPH, WEIRD, WISH};
-//        addSpellChoices(gen, spellCount, allowedSpells);
     });
 
     private final int hitDie;
@@ -622,12 +619,13 @@ public enum CharacterClass implements Attribute {
     private final ChoiceGenerator generator = new ChoiceGenerator();
     private final List<Spell> allowedSpells = new ArrayList<>();
 
-    private static Choice spellMasteryChoice(String name, int level) {
+    private static Choice spellMasteryChoice(String name, String casting, int level) {
         return new OptionChoice(name) {
 
             @Override
             public void select(Character character, ChoiceSelector selector) {
                 CharacterClass characterClass = character.getAttribute(CHARACTER_CLASS);
+                selector.choiceMade();
 //                selector.chooseOption(characterClass.getSpells()
 //                    .filter(sp -> sp.getLevel() == level)
 //                    .filter(sp

@@ -34,6 +34,7 @@ public interface ChoiceSelector {
 
             @Override
             public void choiceMade() {
+                ChoiceSelector.this.choiceMade();
                 action.run();
             }
         };

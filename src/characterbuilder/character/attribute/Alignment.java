@@ -12,7 +12,7 @@ public enum Alignment implements Attribute {
     NEUTRAL,
     NEUTRAL_EVIL,
     CHAOTIC_GOOD,
-    CAOTIC_NEUTRAL,
+    CHAOTIC_NEUTRAL,
     CHAOTIC_EVIL;
 
     @Override
@@ -34,7 +34,7 @@ public enum Alignment implements Attribute {
     }
 
     public boolean isChaotic() {
-        return EnumSet.of(CHAOTIC_GOOD, CAOTIC_NEUTRAL, CHAOTIC_EVIL).contains(this);
+        return EnumSet.of(CHAOTIC_GOOD, CHAOTIC_NEUTRAL, CHAOTIC_EVIL).contains(this);
     }
 
     public boolean isEvil() {
@@ -42,7 +42,7 @@ public enum Alignment implements Attribute {
     }
 
     public boolean isNeutral() {
-        return EnumSet.of(LAWFUL_NEUTRAL, CAOTIC_NEUTRAL, NEUTRAL_EVIL, NEUTRAL_GOOD, NEUTRAL)
+        return EnumSet.of(LAWFUL_NEUTRAL, CHAOTIC_NEUTRAL, NEUTRAL_EVIL, NEUTRAL_GOOD, NEUTRAL)
             .contains(this);
     }
 

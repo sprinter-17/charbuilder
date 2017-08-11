@@ -19,8 +19,10 @@ public enum MonasticTradition implements Attribute {
     }),
     WAY_OF_SHADOW(gen -> {
         gen.level(3).addAttributes(SHADOW_ARTS);
+        gen.level(3).addSpellCasting("Monk", AttributeType.WISDOM);
         gen.level(3).addLearntSpells("Monk", Spell.DARKNESS, Spell.DARKVISION,
-            Spell.PASS_WITHOUT_TRACE, Spell.SILENCE, Spell.MINOR_ILLUSION);
+            Spell.PASS_WITHOUT_TRACE, Spell.SILENCE);
+        gen.level(3).addCantrip(Spell.MINOR_ILLUSION, AttributeType.WISDOM);
         gen.level(6).addAttributes(SHADOW_STEP);
         gen.level(11).addAttributes(CLOAK_OF_SHADOWS);
         gen.level(17).addAttributes(OPPORTUNIST);

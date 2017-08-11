@@ -12,11 +12,13 @@ import characterbuilder.character.characterclass.DraconicAncestory;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
-import static characterbuilder.character.choice.ChoiceGenerator.spellChoice;
+import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import characterbuilder.character.choice.Option;
 import characterbuilder.character.choice.OptionChoice;
 import static characterbuilder.character.equipment.Weapon.*;
+import characterbuilder.character.spell.Cantrip;
 import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.StringUtils;
 import java.util.EnumMap;
 import java.util.function.Consumer;
@@ -43,7 +45,7 @@ public enum Race implements Attribute {
         gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW);
         gen.addChoice(new AttributeChoice("Language",
             DWARVISH, GIANT, GNOMISH, HALFLING, GOBLIN, ORC));
-        gen.addChoice(spellChoice("High Elf", 1, "Elven Cantrip",
+        gen.addChoice(cantripChoice(1, "Elven Cantrip", INTELLIGENCE,
             WIZARD.getSpells().filter(Spell::isCantrip)));
     }),
     WOOD_ELF(0, 2, 0, 0, 1, 0, 35, 100, "4'6\"", "2d10", "100lb", "1d4", gen -> {
@@ -52,7 +54,8 @@ public enum Race implements Attribute {
     }),
     DARK_ELF(0, 2, 0, 0, 0, 1, 30, 100, "4'6\"", "2d10", "100lb", "1d4", gen -> {
         gen.addAttributes(SUPERIOR_DARKVISION, SUNLIGHT_SENSITIVITY);
-        gen.addLearntSpells("Dark Elf", Spell.DANCING_LIGHTS);
+        gen.addAttributes(new SpellCasting("Dark Elf", INTELLIGENCE));
+        gen.addAttributes(new Cantrip(Spell.DANCING_LIGHTS, INTELLIGENCE));
         gen.addWeaponProficiencies(RAPIER, SHORTSWORD, HAND_CROSSBOW);
         gen.level(3).addLearntSpells("Dark Elf", Spell.FAERIE_FIRE);
         gen.level(5).addLearntSpells("Dark Elf", Spell.DARKNESS);
@@ -76,7 +79,7 @@ public enum Race implements Attribute {
     }),
     FOREST_GNOME(0, 1, 0, 2, 0, 0, 25, 40, "2'11\"", "2d4", "35lb", "1", gen -> {
         gen.addAttributes(GNOME_CUNNING, COMMON, GNOMISH, SPEAK_WITH_SMALL_BEASTS);
-        gen.addLearntSpells("Forest Gnome", Spell.MINOR_ILLUSION);
+        gen.addAttributes(new Cantrip(Spell.MINOR_ILLUSION, INTELLIGENCE));
     }),
     ROCK_GNOME(0, 0, 1, 2, 0, 0, 25, 40, "2'11\"", "2d4", "35lb", "1", gen -> {
         gen.addAttributes(GNOME_CUNNING, COMMON, GNOMISH, ARTIFICERS_LORE, TINKER);
@@ -91,7 +94,8 @@ public enum Race implements Attribute {
     }),
     TIEFLING(0, 0, 0, 1, 0, 2, 30, 18, "4'9\"", "2d8", "110lb", "2d4", gen -> {
         gen.addAttributes(DARKVISION, HELLISH_RESISTANCE, COMMON, INFERNAL);
-        gen.addLearntSpells("Tiefling", Spell.THAUMATURGY);
+        gen.addAttributes(new Cantrip(Spell.THAUMATURGY, INTELLIGENCE));
+        gen.addAttributes(new SpellCasting("Tiefling", INTELLIGENCE));
         gen.level(3).addLearntSpells("Tiefling", Spell.HELLISH_REBUKE);
         gen.level(5).addLearntSpells("Tiefling", Spell.DARKNESS);
     });

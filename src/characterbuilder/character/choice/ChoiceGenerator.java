@@ -10,6 +10,7 @@ import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Token;
 import characterbuilder.character.equipment.Weapon;
+import characterbuilder.character.spell.Cantrip;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.spell.SpellClassMap;
@@ -117,6 +118,10 @@ public class ChoiceGenerator {
         return this;
     }
 
+    public ChoiceGenerator addSpellCasting(String name, AttributeType abilityScore) {
+        return addAction(name, ch -> ch.addAttribute(new SpellCasting(name, abilityScore)));
+    }
+
     public ChoiceGenerator addWeaponProficiencies(Weapon... weapons) {
         Arrays.stream(weapons).map(Weapon::getProficiency)
             .forEach(wp -> addAttributes(wp));
@@ -126,6 +131,10 @@ public class ChoiceGenerator {
     public ChoiceGenerator addSpellSlots(String casting, int level, int slots) {
         addAction("Spell Slots", ch -> getCasting(ch, casting).addSlots(level, slots));
         return this;
+    }
+
+    public ChoiceGenerator addCantrip(Spell cantrip, AttributeType abilityScore) {
+        return addAction("Add Cantrip", ch -> ch.addAttribute(new Cantrip(cantrip, abilityScore)));
     }
 
     public ChoiceGenerator addLearntSpells(String casting, Spell... spells) {
@@ -148,14 +157,16 @@ public class ChoiceGenerator {
     }
 
     public static Choice spellChoice(String casting, int count, int level) {
-        String name = level == 0 ? "Cantrip" : "Spell Level " + level;
-        return new OptionChoice(name, count) {
+        assert level > 0;
+        return new OptionChoice("Spell Level " + level, count) {
             @Override
             public void select(Character character, ChoiceSelector selector) {
                 SpellCasting spellCasting = getCasting(character, casting);
-                selector.chooseOption(SpellClassMap.spellsForClass(character
-                    .getAttribute(AttributeType.CHARACTER_CLASS))
-                    .filter(sp -> sp.isLevel(level))
+                CharacterClass characterClass = character
+                    .getAttribute(AttributeType.CHARACTER_CLASS);
+                selector.chooseOption(SpellClassMap.spellsForClass(characterClass)
+                    .filter(sp -> !sp.isCantrip())
+                    .filter(sp -> sp.getLevel() <= level)
                     .filter(sp -> !spellCasting.hasLearntSpell(sp)),
                     spellCasting::addLearntSpell);
             }
@@ -176,13 +187,52 @@ public class ChoiceGenerator {
             .orElseThrow(() -> new IllegalArgumentException("No spellcasting of name " + name));
     }
 
+    public static Choice cantripChoice(int count, String name,
+        AttributeType abilityScore, Stream<Spell> cantrips) {
+        List<Cantrip> cantripList = cantrips
+            .map(c -> new Cantrip(c, abilityScore))
+            .collect(toList());
+        return new OptionChoice(name, count) {
+            @Override
+            public void select(Character character, ChoiceSelector selector) {
+                selector.chooseOption(cantripList.stream()
+                    .filter(sp -> !character.hasAttribute(sp)), character::addAttribute);
+            }
+
+            @Override
+            public boolean isAllowed(Character character) {
+                return AbilityScore.SCORES.stream().allMatch(character::hasAttribute);
+            }
+        };
+    }
+
+    public static Choice cantripChoice(int count, AttributeType abilityScore) {
+        return new OptionChoice("Cantrip", count) {
+            @Override
+            public void select(Character character, ChoiceSelector selector) {
+                selector.chooseOption(character
+                    .getAttribute(AttributeType.CHARACTER_CLASS, CharacterClass.class)
+                    .getSpells()
+                    .filter(Spell::isCantrip)
+                    .map(sp -> new Cantrip(sp, abilityScore))
+                    .filter(sp -> !character.hasAttribute(sp)), character::addAttribute);
+            }
+
+            @Override
+            public boolean isAllowed(Character character) {
+                return AbilityScore.SCORES.stream().allMatch(character::hasAttribute);
+            }
+        };
+    }
+
     public static Choice spellChoice(String casting, int count, String name, Stream<Spell> spells) {
         List<Spell> spellList = spells.collect(toList());
         return new OptionChoice(name, count) {
             @Override
             public void select(Character character, ChoiceSelector selector) {
-                SpellCasting spellCasting = getCasting(character, name);
+                SpellCasting spellCasting = getCasting(character, casting);
                 selector.chooseOption(spellList.stream()
+                    .filter(sp -> sp.getLevel() > 0 && sp.getLevel() <= spellCasting.getMaxSlot())
                     .filter(sp -> !spellCasting.hasLearntSpell(sp)), spellCasting::addLearntSpell);
             }
 

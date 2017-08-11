@@ -84,6 +84,11 @@ public class SpellCastingTest {
         assertThat(casting.getSlotsAtLevel(1), is(3));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testCannotAddCantripToSpellCasting() {
+        casting.addLearntSpell(Spell.MAGE_HAND);
+    }
+
     @Test
     public void testLearnSpell() {
         assertFalse(casting.getLearntSpells().anyMatch(Spell.AID::equals));

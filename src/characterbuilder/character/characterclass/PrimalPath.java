@@ -7,6 +7,7 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellCasting;
 import java.util.function.Supplier;
 import org.w3c.dom.Node;
 
@@ -21,6 +22,7 @@ public enum PrimalPath implements Attribute {
     }),
     PATH_OF_THE_TOTEM_WARRIOR("Path of the Totem Warrior", () -> {
         ChoiceGenerator gen = new ChoiceGenerator();
+        gen.level(3).addAttributes(new SpellCasting("Barbarian", AttributeType.STRENGTH));
         gen.level(3).addLearntSpells("Barbarian", Spell.BEAST_SENSE, Spell.SPEAK_WITH_ANIMALS);
         gen.level(3).addChoice(new AttributeChoice("Totem Spirit",
             TOTEM_SPIRIT_BEAR, TOTEM_SPIRIT_EAGLE, TOTEM_SPIRIT_WOLF));

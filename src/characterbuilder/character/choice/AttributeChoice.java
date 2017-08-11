@@ -33,8 +33,11 @@ public class AttributeChoice extends OptionChoice {
 
     @Override
     public void select(Character character, ChoiceSelector selector) {
-        selector.chooseOption(attributes.stream()
-            .filter(att -> !character.hasAttribute(att)),
-            attr -> attr.choose(character));
+        if (attributes.stream().allMatch(character::hasAttribute))
+            selector.choiceMade();
+        else
+            selector.chooseOption(attributes.stream()
+                .filter(attr -> !character.hasAttribute(attr)),
+                attr -> attr.choose(character));
     }
 }

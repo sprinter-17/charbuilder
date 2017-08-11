@@ -1,19 +1,19 @@
 package characterbuilder.character.attribute;
 
 import characterbuilder.character.ability.Ability;
-import characterbuilder.character.characterclass.DivineDomain;
-import characterbuilder.character.characterclass.ElementalAdept;
 import characterbuilder.character.ability.Expertise;
 import characterbuilder.character.ability.Feat;
-import characterbuilder.character.characterclass.MagicSchool;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.characterclass.BardicCollege;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.DivineDomain;
 import characterbuilder.character.characterclass.DraconicAncestory;
 import characterbuilder.character.characterclass.DruidCircle;
+import characterbuilder.character.characterclass.ElementalAdept;
 import characterbuilder.character.characterclass.FavouredEnemy;
 import characterbuilder.character.characterclass.FavouredTerrain;
+import characterbuilder.character.characterclass.MagicSchool;
 import characterbuilder.character.characterclass.MartialArchetype;
 import characterbuilder.character.characterclass.MonasticTradition;
 import characterbuilder.character.characterclass.OtherwordlyPatron;
@@ -25,6 +25,7 @@ import characterbuilder.character.characterclass.SacredOath;
 import characterbuilder.character.characterclass.SorcerousOrigin;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
+import characterbuilder.character.spell.Cantrip;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.spell.SpellMastery;
 import characterbuilder.utils.StringUtils;
@@ -74,6 +75,7 @@ public enum AttributeType {
     BACKGROUND_FEATURE(false, Ability::load),
     ENTERTAINER_ROUTINE(false, Proficiency::load),
     GUILD_BUSINESS(false, Proficiency::load),
+    CANTRIP(false, Cantrip::load),
     SPELLCASTING(false, SpellCasting::load),
     SPELL_MASTERY(false, SpellMastery::load),
     ARCANE_TRADITION(true, MagicSchool::load),
@@ -101,11 +103,6 @@ public enum AttributeType {
 
         Attribute load(AttributeType type, Node node);
     }
-
-    public static final List<AttributeType> ABILITIES = Arrays.
-        asList(RACIAL_TALENT, CLASS_TALENT, DIVINE_DOMAIN_ABILITY, SKILL, SPELLCASTING,
-            WEAPON_PROFICIENCY, ARMOUR_PROFICIENCY, LANGUAGE, ARTISAN, TOOLS, FIGHTING_STYLE,
-            SPELL_MASTERY, EVOCATION_ABILITY, EXPERTISE, MUSICAL_INSTRUMENT_PROFICIENCY, FEAT);
 
     public static final List<AttributeType> PERSONALITY = Arrays.asList(
         TRAIT, FLAW, BOND, IDEAL);

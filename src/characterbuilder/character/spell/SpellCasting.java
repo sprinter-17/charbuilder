@@ -61,6 +61,8 @@ public class SpellCasting implements Attribute {
     }
 
     public void addLearntSpell(Spell spell) {
+        if (spell.isCantrip())
+            throw new IllegalArgumentException("Cantrips cannot be learnt as spellcasting");
         learntSpells.add(spell);
     }
 
@@ -74,7 +76,7 @@ public class SpellCasting implements Attribute {
 
     @Override
     public String toString() {
-        return "Spell casting using " + spellAbilityScore.toString();
+        return name + " Spellcasting";
     }
 
     @Override
