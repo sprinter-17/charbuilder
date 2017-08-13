@@ -6,13 +6,14 @@ import characterbuilder.character.attribute.Value;
 import static characterbuilder.character.attribute.Value.gp;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.lb;
+import static characterbuilder.character.equipment.EquipmentCategory.MUSICAL_INSTRUMENT;
 import static characterbuilder.character.saveload.Savable.child;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import static characterbuilder.character.equipment.EquipmentCategory.MUSICAL_INSTRUMENT;
 
 public enum MusicalInstrument implements Equipment {
     BAGPIPES(gp(30), lb(6)),
@@ -38,10 +39,10 @@ public enum MusicalInstrument implements Equipment {
         }
 
         @Override
-        public Node save(Document doc) {
-            Node node = getType().save(doc);
-            node.appendChild(doc.createElement("instrument")).setTextContent(name());
-            return node;
+        public Element save(Document doc) {
+            Element element = getType().save(doc);
+            element.appendChild(doc.createElement("instrument")).setTextContent(name());
+            return element;
         }
 
         @Override

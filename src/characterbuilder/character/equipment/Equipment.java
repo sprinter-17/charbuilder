@@ -7,7 +7,7 @@ import characterbuilder.character.choice.Option;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 public interface Equipment extends Option {
 
@@ -43,11 +43,11 @@ public interface Equipment extends Option {
     Value getValue();
 
     @Override
-    public default Node save(Document doc) {
+    public default Element save(Document doc) {
         if (this instanceof Enum) {
-            Node node = doc.createElement(getCategory().name().toLowerCase());
-            node.setTextContent(((Enum) this).name());
-            return node;
+            Element element = doc.createElement(getCategory().name().toLowerCase());
+            element.setTextContent(((Enum) this).name());
+            return element;
         } else {
             throw new AbstractMethodError("object " + getClass().getName() + " does not have save");
         }

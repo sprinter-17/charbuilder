@@ -18,7 +18,6 @@ import characterbuilder.character.choice.OptionChoice;
 import static characterbuilder.character.equipment.Weapon.*;
 import characterbuilder.character.spell.Cantrip;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.StringUtils;
 import java.util.EnumMap;
 import java.util.function.Consumer;
@@ -26,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public enum Race implements Attribute {
@@ -54,9 +54,9 @@ public enum Race implements Attribute {
     }),
     DARK_ELF(0, 2, 0, 0, 0, 1, 30, 100, "4'6\"", "2d10", "100lb", "1d4", gen -> {
         gen.addAttributes(SUPERIOR_DARKVISION, SUNLIGHT_SENSITIVITY);
-        gen.addAttributes(new SpellCasting("Dark Elf", INTELLIGENCE));
         gen.addAttributes(new Cantrip(Spell.DANCING_LIGHTS, INTELLIGENCE));
         gen.addWeaponProficiencies(RAPIER, SHORTSWORD, HAND_CROSSBOW);
+        //TODO: add special spell ability
         gen.level(3).addLearntSpells("Dark Elf", Spell.FAERIE_FIRE);
         gen.level(5).addLearntSpells("Dark Elf", Spell.DARKNESS);
     }),
@@ -95,7 +95,7 @@ public enum Race implements Attribute {
     TIEFLING(0, 0, 0, 1, 0, 2, 30, 18, "4'9\"", "2d8", "110lb", "2d4", gen -> {
         gen.addAttributes(DARKVISION, HELLISH_RESISTANCE, COMMON, INFERNAL);
         gen.addAttributes(new Cantrip(Spell.THAUMATURGY, INTELLIGENCE));
-        gen.addAttributes(new SpellCasting("Tiefling", INTELLIGENCE));
+        //TODO: add special spell ability
         gen.level(3).addLearntSpells("Tiefling", Spell.HELLISH_REBUKE);
         gen.level(5).addLearntSpells("Tiefling", Spell.DARKNESS);
     });
@@ -197,7 +197,7 @@ public enum Race implements Attribute {
         }
 
         @Override
-        public Node save(Document doc) {
+        public Element save(Document doc) {
             throw new UnsupportedOperationException("Cannot save race selection option.");
         }
     }

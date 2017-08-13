@@ -50,14 +50,14 @@ public class AbilityScore extends IntAttribute {
     }
 
     @Override
-    public Node save(Document doc) {
-        Element node = getType().save(doc);
-        node.setTextContent(String.valueOf(getValue()));
+    public Element save(Document doc) {
+        Element element = getType().save(doc);
+        element.setTextContent(String.valueOf(getValue()));
         if (proficientSaves)
-            node.setAttribute("proficient", "y");
+            element.setAttribute("proficient", "y");
         if (max != 20)
-            node.setAttribute("max", String.valueOf(max));
-        return node;
+            element.setAttribute("max", String.valueOf(max));
+        return element;
     }
 
     public static AbilityScore load(AttributeType type, Node node) {

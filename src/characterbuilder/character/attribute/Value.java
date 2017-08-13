@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class Value implements Savable {
@@ -89,10 +90,10 @@ public class Value implements Savable {
     }
 
     @Override
-    public Node save(Document doc) {
-        Node node = doc.createElement("value");
-        node.setTextContent(String.valueOf(cpAmount));
-        return node;
+    public Element save(Document doc) {
+        Element element = doc.createElement("value");
+        element.setTextContent(String.valueOf(cpAmount));
+        return element;
     }
 
     public static Value load(Node node) {

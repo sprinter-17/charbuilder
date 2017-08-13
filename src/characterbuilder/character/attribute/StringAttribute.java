@@ -2,6 +2,7 @@ package characterbuilder.character.attribute;
 
 import java.util.Objects;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class StringAttribute implements Attribute {
@@ -29,10 +30,10 @@ public class StringAttribute implements Attribute {
     }
 
     @Override
-    public Node save(Document doc) {
-        Node node = getType().save(doc);
-        node.setTextContent(value);
-        return node;
+    public Element save(Document doc) {
+        Element element = getType().save(doc);
+        element.setTextContent(value);
+        return element;
     }
 
     public static StringAttribute load(AttributeType type, Node node) {

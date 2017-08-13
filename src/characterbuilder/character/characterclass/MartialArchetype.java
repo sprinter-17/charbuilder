@@ -36,7 +36,7 @@ public enum MartialArchetype implements Attribute {
     }),
     ELDRITCH_KNIGHT(gen -> {
         final String castingName = "Eldritch Knight";
-        gen.level(3).addAttributes(new SpellCasting(castingName, AttributeType.INTELLIGENCE));
+        gen.level(3).addAttributes(new SpellCasting(castingName, AttributeType.INTELLIGENCE, "All"));
         gen.level(3).addChoice(ChoiceGenerator.cantripChoice(2, castingName + " Cantrip",
             AttributeType.INTELLIGENCE, WIZARD.getSpells()));
         gen.level(3).addSpellSlots(castingName, 1, 2);

@@ -4,7 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.choice.Option;
 import java.util.Optional;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 public interface Attribute extends Option {
 
@@ -27,11 +27,11 @@ public interface Attribute extends Option {
     }
 
     @Override
-    default Node save(Document doc) {
+    default Element save(Document doc) {
         if (this instanceof Enum) {
-            Node node = getType().save(doc);
-            node.setTextContent(((Enum) this).name());
-            return node;
+            Element element = getType().save(doc);
+            element.setTextContent(((Enum) this).name());
+            return element;
         } else {
             throw new AbstractMethodError("No save method for " + getClass().getName());
         }

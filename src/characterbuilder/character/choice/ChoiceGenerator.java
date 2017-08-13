@@ -125,13 +125,16 @@ public class ChoiceGenerator {
         return this;
     }
 
-    public ChoiceGenerator addSpellCasting(String name, AttributeType abilityScore) {
-        return addAction(name, ch -> ch.addAttribute(new SpellCasting(name, abilityScore)));
-    }
-
     public ChoiceGenerator addWeaponProficiencies(Weapon... weapons) {
         Arrays.stream(weapons).map(Weapon::getProficiency)
             .forEach(wp -> addAttributes(wp));
+        return this;
+    }
+
+    public ChoiceGenerator addSpellCasting(String casting, AttributeType abilityScore,
+        String preparedSpellText) {
+        addAction("Add Spellcasting",
+            ch -> ch.addAttribute(new SpellCasting(casting, abilityScore, preparedSpellText)));
         return this;
     }
 
@@ -147,19 +150,6 @@ public class ChoiceGenerator {
     public ChoiceGenerator addLearntSpells(String casting, Spell... spells) {
         addAction("Add Spells", ch -> Arrays.stream(spells)
             .forEach(getCasting(ch, casting)::addLearntSpell));
-        return this;
-    }
-
-    public ChoiceGenerator addAllSpells(String casting) {
-        addAction("Add Spells",
-            ch -> {
-            CharacterClass characterClass = ch.getAttribute(AttributeType.CHARACTER_CLASS);
-            SpellCasting spellCasting = getCasting(ch, casting);
-            characterClass.getSpells()
-                .filter(sp -> sp.getLevel() > 0 && sp.getLevel() <= spellCasting.getMaxSlot())
-                .filter(sp -> !spellCasting.hasLearntSpell(sp))
-                .forEach(spellCasting::addLearntSpell);
-        });
         return this;
     }
 

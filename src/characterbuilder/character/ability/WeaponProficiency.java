@@ -28,7 +28,7 @@ public class WeaponProficiency implements Attribute {
     }
 
     @Override
-    public Node save(Document doc) {
+    public Element save(Document doc) {
         Element element = getType().save(doc);
         element.appendChild(weapon.save(doc));
         return element;

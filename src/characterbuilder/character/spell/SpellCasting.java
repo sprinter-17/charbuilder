@@ -104,28 +104,28 @@ public class SpellCasting implements Attribute {
             return 0;
     }
 
-    public String getPreparedSpells(Character character) {
+    public String getPreparedSpellText(Character character) {
         return StringUtils.expand(preparedSpellText, character);
     }
 
     @Override
-    public Node save(Document doc) {
-        Node node = getType().save(doc);
-        node.appendChild(doc.createElement("name"))
+    public Element save(Document doc) {
+        Element element = getType().save(doc);
+        element.appendChild(doc.createElement("name"))
             .setTextContent(name);
-        node.appendChild(doc.createElement("ability_score"))
+        element.appendChild(doc.createElement("ability_score"))
             .setTextContent(spellAbilityScore.name());
-        node.appendChild(doc.createElement("prepared_spells"))
+        element.appendChild(doc.createElement("prepared_spells"))
             .setTextContent(preparedSpellText);
         for (int i = 0; i < spellSlots.length; i++) {
             Element slot = doc.createElement("spell_slot");
             slot.setAttribute("level", String.valueOf(i + 1));
             slot.setTextContent(String.valueOf(spellSlots[i]));
-            node.appendChild(slot);
+            element.appendChild(slot);
         }
-        learntSpells.forEach(spell -> node.appendChild(doc.createElement("learnt_spell"))
+        learntSpells.forEach(spell -> element.appendChild(doc.createElement("learnt_spell"))
             .setTextContent(spell.name()));
-        return node;
+        return element;
     }
 
     public static SpellCasting load(Node node) {

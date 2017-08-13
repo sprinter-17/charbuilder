@@ -2,7 +2,7 @@ package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 public class NoOption implements Option {
 
@@ -22,7 +22,7 @@ public class NoOption implements Option {
     }
 
     @Override
-    public Node save(Document doc) {
+    public Element save(Document doc) {
         throw new UnsupportedOperationException("No options cannot be saved.");
     }
 

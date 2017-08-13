@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class Height implements Comparable<Height>, Attribute {
@@ -76,10 +77,10 @@ public class Height implements Comparable<Height>, Attribute {
     }
 
     @Override
-    public Node save(Document doc) {
-        Node node = getType().save(doc);
-        node.setTextContent(String.valueOf(inches));
-        return node;
+    public Element save(Document doc) {
+        Element element = getType().save(doc);
+        element.setTextContent(String.valueOf(inches));
+        return element;
     }
 
     public static Height load(Node node) {

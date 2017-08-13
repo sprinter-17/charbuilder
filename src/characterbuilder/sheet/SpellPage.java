@@ -1,9 +1,9 @@
 package characterbuilder.sheet;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellCasting;
-import characterbuilder.character.attribute.AttributeType;
 import java.util.List;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
@@ -54,7 +54,7 @@ public class SpellPage extends Page {
     }
 
     private PageBuilder.Component preparedSpells() {
-        String preparedSpells = casting().getPreparedSpells(character);
+        String preparedSpells = casting().getPreparedSpellText(character);
         return builder.borderedSection(78, 0, 22, 6)
             .with(builder.caption("Prepared Spells", 11, 4, PageBuilder.Align.CENTRE))
             .with(builder.value(preparedSpells, 11, 2, PageBuilder.Align.CENTRE));

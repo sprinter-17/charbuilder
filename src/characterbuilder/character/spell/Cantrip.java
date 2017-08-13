@@ -25,11 +25,11 @@ public class Cantrip implements Attribute {
     }
 
     @Override
-    public Node save(Document doc) {
-        Element node = getType().save(doc);
-        node.setAttribute("ability_score", abilityScore.name());
-        node.setTextContent(spell.name());
-        return node;
+    public Element save(Document doc) {
+        Element element = getType().save(doc);
+        element.setAttribute("ability_score", abilityScore.name());
+        element.setTextContent(spell.name());
+        return element;
     }
 
     @Override

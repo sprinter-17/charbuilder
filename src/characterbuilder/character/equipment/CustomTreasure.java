@@ -41,12 +41,12 @@ public class CustomTreasure implements Equipment {
     }
 
     @Override
-    public Node save(Document doc) {
-        Node node = getCategory().save(doc);
-        node.appendChild(value.save(doc));
-        node.appendChild(weight.save(doc));
-        node.appendChild(doc.createElement("description")).setTextContent(description);
-        return node;
+    public Element save(Document doc) {
+        Element element = getCategory().save(doc);
+        element.appendChild(value.save(doc));
+        element.appendChild(weight.save(doc));
+        element.appendChild(doc.createElement("description")).setTextContent(description);
+        return element;
     }
 
     public static CustomTreasure load(EquipmentCategory category, Node node) {

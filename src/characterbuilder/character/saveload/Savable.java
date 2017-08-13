@@ -7,7 +7,7 @@ import org.w3c.dom.Node;
 
 public interface Savable {
 
-    Node save(Document doc);
+    Element save(Document doc);
 
     static int intAttribute(String attribute, Node node) {
         return Integer.valueOf(((Element) node).getAttribute(attribute));

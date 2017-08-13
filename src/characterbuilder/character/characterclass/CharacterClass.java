@@ -77,7 +77,7 @@ public enum CharacterClass implements Attribute {
     }),
     BARD(8, BARDIC_COLLEGE, DEXTERITY, CHARISMA,
         Arrays.asList(CHARISMA, DEXTERITY), gen -> {
-        gen.level(1).addSpellCasting("Bard", CHARISMA);
+        gen.level(1).addSpellCasting("Bard", CHARISMA, "All");
         gen.level(1).addChoice(cantripChoice(2, CHARISMA));
         gen.level(4, 10).addChoice(cantripChoice(1, CHARISMA));
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS);
@@ -164,7 +164,7 @@ public enum CharacterClass implements Attribute {
         gen.level(13, 20).addSpellSlots("Cleric", 7, 1);
         gen.level(15).addSpellSlots("Cleric", 8, 1);
         gen.level(17).addSpellSlots("Cleric", 9, 1);
-        gen.level(1, 3, 5, 7, 9, 11, 13, 15, 17).addAllSpells("Cleric");
+//        gen.level(1, 3, 5, 7, 9, 11, 13, 15, 17).addAllSpells("Cleric");
     }),
     DRUID(8, DRUID_CIRCLE, INTELLIGENCE, WISDOM, Arrays.asList(WISDOM, CONSTITUTION), gen -> {
         SpellCasting casting = new SpellCasting("Druid", WISDOM, "[$wis_mod + $level]");
@@ -183,7 +183,7 @@ public enum CharacterClass implements Attribute {
         gen.level(13, 20).addSpellSlots("Druid", 7, 1);
         gen.level(15).addSpellSlots("Druid", 8, 1);
         gen.level(17).addSpellSlots("Druid", 9, 1);
-        gen.level(1, 3, 5, 7, 9, 11, 13, 15, 17).addAllSpells("Druid");
+//        gen.level(1, 3, 5, 7, 9, 11, 13, 15, 17).addAllSpells("Druid");
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD, DRUIDIC);
         gen.level(1).addWeaponProficiencies(CLUB, DAGGER, DART, JAVELIN, MACE, QUARTERSTAFF,
@@ -276,7 +276,7 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addChoice(new EquipmentChoice(HOLY_SYMBOL));
         gen.level(1).addAttributes(DIVINE_SENSE, LAY_ON_HANDS);
         gen.level(2).addChoice(new AttributeChoice(FIGHTING_STYLE));
-        gen.level(2).addAttributes(new SpellCasting("Palidin", CHARISMA), DIVINE_SMITE);
+        gen.level(2).addAttributes(new SpellCasting("Paladin", CHARISMA, ""), DIVINE_SMITE);
         gen.level(3).addAttributes(DIVINE_HEALTH);
         gen.level(3).addChoice(new AttributeChoice("Sacred Oath", SacredOath.values()));
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
@@ -337,7 +337,7 @@ public enum CharacterClass implements Attribute {
             new AttributeChoice("Favoured Terrain", FavouredTerrain.values()));
         gen.level(2).addChoice(new AttributeChoice("Fighting Style",
             ARCHERY, DEFENSE, DUELING, TWO_WEAPON));
-        gen.level(2).addAttributes(new SpellCasting("Ranger", WISDOM));
+        gen.level(2).addAttributes(new SpellCasting("Ranger", WISDOM, "All"));
         gen.level(3).addChoice(new AttributeChoice("Ranger Archetype",
             RangerArchetype.values()));
         gen.level(3).addAttributes(PRIMEVAL_AWARENESS);
@@ -417,7 +417,7 @@ public enum CharacterClass implements Attribute {
     }),
     SORCERER(6, SORCEROUS_ORIGIN, CONSTITUTION, CHARISMA,
         Arrays.asList(CHARISMA, CONSTITUTION), gen -> {
-        gen.level(1).addAttributes(new SpellCasting("Sorcerer", CHARISMA));
+        gen.level(1).addAttributes(new SpellCasting("Sorcerer", CHARISMA, "All"));
         gen.level(1)
             .addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
         gen.level(1).addChoice(new AttributeChoice("Skill", ARCANA, DECEPTION, INSIGHT,
@@ -521,7 +521,7 @@ public enum CharacterClass implements Attribute {
         ASTRAL_PROJECTION, FORESIGHT, IMPRISONMENT, POWER_WORD_KILL, TRUE_POLYMORPH),
     WIZARD(6, ARCANE_TRADITION, INTELLIGENCE, WISDOM,
         Arrays.asList(INTELLIGENCE, DEXTERITY, CONSTITUTION), gen -> {
-        gen.level(1).addAttributes(new SpellCasting("Wizard", INTELLIGENCE));
+        gen.level(1).addAttributes(new SpellCasting("Wizard", INTELLIGENCE, "All"));
         gen.level(1).addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
         gen.level(1).addChoice(new AttributeChoice("Skill",
             ARCANA, HISTORY, INSIGHT, INVESTIGATION, MEDICINE, RELIGION).withCount(2));

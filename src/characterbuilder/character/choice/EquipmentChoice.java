@@ -16,7 +16,7 @@ import java.util.List;
 import static java.util.stream.Collectors.joining;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 public class EquipmentChoice extends OptionChoice {
 
@@ -51,7 +51,7 @@ public class EquipmentChoice extends OptionChoice {
         }
 
         @Override
-        public Node save(Document doc) {
+        public Element save(Document doc) {
             throw new UnsupportedOperationException("Multi equipment for selection only");
         }
 

@@ -6,6 +6,7 @@ import characterbuilder.character.choice.Option;
 import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public enum Spell implements Option {
@@ -2764,10 +2765,10 @@ public enum Spell implements Option {
     }
 
     @Override
-    public Node save(Document doc) {
-        Node node = doc.createElement("spell");
-        node.setTextContent(name());
-        return node;
+    public Element save(Document doc) {
+        Element element = doc.createElement("spell");
+        element.setTextContent(name());
+        return element;
     }
 
     public static Spell load(Node node) {

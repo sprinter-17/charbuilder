@@ -6,6 +6,7 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.DamageType;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class ElementalAdept implements Attribute {
@@ -33,10 +34,10 @@ public class ElementalAdept implements Attribute {
     }
 
     @Override
-    public Node save(Document doc) {
-        Node node = getType().save(doc);
-        node.setTextContent(type.name());
-        return node;
+    public Element save(Document doc) {
+        Element element = getType().save(doc);
+        element.setTextContent(type.name());
+        return element;
     }
 
     public static ElementalAdept load(Node node) {

@@ -10,6 +10,7 @@ import static characterbuilder.character.characterclass.CharacterClass.FIGHTER;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.InitialChoiceGenerator;
 import characterbuilder.character.choice.Option;
+import characterbuilder.character.choice.OptionChoice;
 import java.util.List;
 import java.util.function.Consumer;
 import static java.util.stream.Collectors.toList;
@@ -36,14 +37,20 @@ public class CharacterClassTest {
             List<T> optionList = options.collect(toList());
             if (optionList.isEmpty())
                 throw new IllegalStateException("Empty option list");
-            T option = optionList.get(count++ % optionList.size());
+            T option = optionList.get(count(optionList.size()));
             followUp.accept(option);
         }
 
         @Override
         public void generateAbilityScores(Consumer<Stream<AbilityScore>> consumer) {
             consumer.accept(AbilityScore.SCORES.stream()
-                .map(score -> new AbilityScore(score, count++ % 16 + 3)));
+                .map(score -> new AbilityScore(score, count(16) + 3)));
+        }
+
+        private int count(int mod) {
+            int result = count % mod;
+            count = (241 * count + 2287) % 305017;
+            return result;
         }
     };
 
@@ -74,7 +81,15 @@ public class CharacterClassTest {
 
     private void exhaustChoices(Character character) {
         while (character.getChoiceCount() > 0) {
-            character.selectChoice(character.getChoice(choiceCount++ % character.getChoiceCount()));
+            OptionChoice choice = character.getChoice(choiceCount++ % character.getChoiceCount());
+            try {
+                character.selectChoice(choice);
+            } catch (IllegalStateException ex) {
+                String message = character.getAttribute(AttributeType.CHARACTER_CLASS).toString()
+                    + " Choosing " + choice.toString()
+                    + ": " + ex.getMessage();
+                throw new AssertionError(message);
+            }
         }
     }
 }

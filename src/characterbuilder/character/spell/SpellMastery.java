@@ -6,6 +6,7 @@ import static characterbuilder.character.saveload.Savable.child;
 import static characterbuilder.character.saveload.Savable.text;
 import java.util.Objects;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class SpellMastery implements Attribute {
@@ -29,11 +30,11 @@ public class SpellMastery implements Attribute {
     }
 
     @Override
-    public Node save(Document doc) {
-        Node node = getType().save(doc);
-        node.appendChild(doc.createTextNode(name));
-        node.appendChild(spell.save(doc));
-        return node;
+    public Element save(Document doc) {
+        Element element = getType().save(doc);
+        element.appendChild(doc.createTextNode(name));
+        element.appendChild(spell.save(doc));
+        return element;
     }
 
     public static SpellMastery load(AttributeType type, Node node) {

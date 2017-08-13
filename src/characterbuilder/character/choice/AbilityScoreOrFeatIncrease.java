@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 public class AbilityScoreOrFeatIncrease extends OptionChoice {
 
@@ -36,7 +36,7 @@ public class AbilityScoreOrFeatIncrease extends OptionChoice {
         }
 
         @Override
-        public Node save(Document doc) {
+        public Element save(Document doc) {
             throw new UnsupportedOperationException("Cannot save ability increase option.");
         }
 

@@ -1,29 +1,25 @@
 package characterbuilder.character.spell;
 
-import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.saveload.TestDoc;
+import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
 public class SpellCastingTest {
 
     private SpellCasting casting;
-    private Character character;
-    private IntAttribute level;
+    private TestCharacter character;
     private IntAttribute score;
 
     @Before
     public void setup() {
         casting = new SpellCasting("Spellcasting", AttributeType.CHARISMA, "[$level * 2]");
-        character = new Character();
-        level = new IntAttribute(AttributeType.LEVEL, 4);
-        character.addAttribute(level);
+        character = new TestCharacter();
+        character.setLevel(4);
         score = new IntAttribute(AttributeType.CHARISMA, 16);
         character.addAttribute(score);
     }
@@ -41,9 +37,9 @@ public class SpellCastingTest {
     @Test
     public void testAttackModifier() {
         assertThat(casting.getModifier(character), is(2 + 3));
-        level.setValue(8);
+        character.setLevel(8);
         assertThat(casting.getModifier(character), is(3 + 3));
-        score.setValue(20);
+        character.setScore(AttributeType.CHARISMA, 20);
         assertThat(casting.getModifier(character), is(3 + 5));
     }
 
@@ -61,13 +57,6 @@ public class SpellCastingTest {
     public void testGetSlotOverRange() {
         casting.addSlots(1, 1);
         casting.getSlotsAtLevel(2);
-    }
-
-    @Test
-    public void testPreparedSpellText() {
-        assertThat(casting.getPreparedSpells(character), is("8"));
-        level.setValue(10);
-        assertThat(casting.getPreparedSpells(character), is("20"));
     }
 
     @Test
@@ -110,5 +99,12 @@ public class SpellCastingTest {
         casting.addLearntSpell(Spell.HEAL);
         casting.addLearntSpell(Spell.ANIMAL_MESSENGER);
         assertThat(AttributeType.load(casting.save(TestDoc.doc())), is(casting));
+    }
+
+    @Test
+    public void testPreparedSpellText() {
+        assertThat(casting.getPreparedSpellText(character), is("8"));
+        character.setLevel(10);
+        assertThat(casting.getPreparedSpellText(character), is("20"));
     }
 }

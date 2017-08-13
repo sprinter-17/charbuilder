@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 public class EquipmentSet implements Equipment {
 
@@ -85,8 +84,8 @@ public class EquipmentSet implements Equipment {
     }
 
     @Override
-    public Node save(Document doc) {
-        Element element = (Element) equipment.save(doc);
+    public Element save(Document doc) {
+        Element element = equipment.save(doc);
         if (bonus != 0)
             element.setAttribute("bonus", String.valueOf(bonus));
         if (count != 1)

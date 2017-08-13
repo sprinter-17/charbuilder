@@ -66,7 +66,7 @@ public enum EquipmentCategory {
         return proficiency;
     }
 
-    protected Node save(Document doc) {
+    protected Element save(Document doc) {
         return doc.createElement(name().toLowerCase());
     }
 

@@ -5,6 +5,7 @@ import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.saveload.Savable.child;
 import java.util.Objects;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class Token implements Equipment {
@@ -36,10 +37,10 @@ public class Token implements Equipment {
     }
 
     @Override
-    public Node save(Document doc) {
-        Node node = getCategory().save(doc);
-        node.appendChild(doc.createElement("description")).setTextContent(name);
-        return node;
+    public Element save(Document doc) {
+        Element element = getCategory().save(doc);
+        element.appendChild(doc.createElement("description")).setTextContent(name);
+        return element;
     }
 
     public static Token load(Node node) {
