@@ -60,7 +60,7 @@ public enum Background implements Attribute {
         gen.addAttributes(INSIGHT, PERSUASION);
         gen.addChoice(new AttributeChoice(ARTISAN));
         gen.addChoice(new AttributeChoice(LANGUAGE));
-        gen.addChoice(new EquipmentChoice(EquipmentCategory.TOOLS));
+        gen.addChoice(new EquipmentChoice(EquipmentCategory.TOOL));
         gen.addTokens("Letter of introduction from guild");
         gen.addEquipment(TRAVELERS_CLOTHES);
         gen.addEquipment(GOLD_PIECE, 15);

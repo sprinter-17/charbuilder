@@ -103,6 +103,11 @@ public class SpellCasting implements Attribute {
         spellSlots[level - 1] += slots;
     }
 
+    public void setSlots(int level, int slots) {
+        this.spellSlots = new int[level];
+        spellSlots[level - 1] = slots;
+    }
+
     public void learnAllSpells() {
         this.learnAll = true;
     }

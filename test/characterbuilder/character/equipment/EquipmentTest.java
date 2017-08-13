@@ -11,5 +11,4 @@ public class EquipmentTest {
     public void testWeight() {
         assertThat(EquipmentType.ARROW.getWeight(30), is(Weight.OZ.times(24)));
     }
-
 }

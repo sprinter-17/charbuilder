@@ -1,5 +1,6 @@
 package characterbuilder.character.equipment;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Value;
 import static characterbuilder.character.attribute.Value.*;
 import characterbuilder.character.attribute.Weight;
@@ -55,14 +56,14 @@ public enum EquipmentType implements Equipment {
     TORCH(ADVENTURING_GEAR, CP, LB),
     WATERSKIN(ADVENTURING_GEAR, sp(2), lb(5)),
     //
-    THIEVES_TOOLS(TOOLS, gp(25), lb(1)),
-    POISONERS_KIT(TOOLS, gp(50), lb(2), 1, "Poisoner's Kit"),
-    NAVIGATORS_TOOLS(TOOLS, gp(25), lb(2), 1, "Navigator's Tools"),
-    HERBALISM_KIT(TOOLS, gp(5), lb(3)),
-    FORGERY_KIT(TOOLS, gp(15), lb(5)),
-    DISGUISE_KIT(TOOLS, gp(25), lb(3)),
-    CROWBAR(TOOLS, gp(2), lb(5)),
-    HAMMER(TOOLS, gp(1), lb(3)),
+    THIEVES_TOOLS(TOOL, gp(25), lb(1)),
+    POISONERS_KIT(TOOL, gp(50), lb(2), 1, "Poisoner's Kit"),
+    NAVIGATORS_TOOLS(TOOL, gp(25), lb(2), 1, "Navigator's Tools"),
+    HERBALISM_KIT(TOOL, gp(5), lb(3)),
+    FORGERY_KIT(TOOL, gp(15), lb(5)),
+    DISGUISE_KIT(TOOL, gp(25), lb(3)),
+    CROWBAR(TOOL, gp(2), lb(5)),
+    HAMMER(TOOL, gp(1), lb(3)),
     //
     VIAL(CONTAINER, gp(1), Weight.ZERO),
     CHEST(CONTAINER, gp(5), lb(25)),
@@ -148,6 +149,14 @@ public enum EquipmentType implements Equipment {
 
     public Weight getWeight(int count) {
         return weight.times(1f * count / perCount);
+    }
+
+    @Override
+    public Stream<String> getDescription(Character character) {
+        return Stream.of(getCategory().toString() + ": "
+            + "cost " + value.toString()
+            + ", weight " + weight.toString()
+            + (perCount > 1 ? " /" + perCount : ""));
     }
 
     @Override

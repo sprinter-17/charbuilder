@@ -32,8 +32,6 @@ import static characterbuilder.character.equipment.EquipmentType.*;
 import characterbuilder.character.equipment.MusicalInstrument;
 import static characterbuilder.character.equipment.Weapon.*;
 import characterbuilder.character.spell.Spell;
-import static characterbuilder.character.spell.Spell.*;
-import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.spell.SpellClassMap;
 import characterbuilder.utils.StringUtils;
 import java.util.ArrayList;
@@ -252,6 +250,7 @@ public enum CharacterClass implements Attribute {
         gen.level(20).addAttributes(PERFECT_SELF);
     }),
     PALADIN(10, SACRED_OATH, WISDOM, CHARISMA, Arrays.asList(STRENGTH, CHARISMA), (cls, gen) -> {
+        final String casting = cls.toString();
         gen.level(1).addAttributes(ALL_ARMOUR, ALL_WEAPONS);
         gen.level(1).addChoice(2, new AttributeChoice("Skill", ATHLETICS, INSIGHT,
             INTIMIDATION, MEDICINE, PERSUASION, RELIGION));
@@ -267,8 +266,18 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addChoice(new EquipmentChoice(HOLY_SYMBOL));
         gen.level(1).addAttributes(DIVINE_SENSE, LAY_ON_HANDS);
         gen.level(2).addChoice(new AttributeChoice(FIGHTING_STYLE));
-        gen.level(2).addAttributes(new SpellCasting("Paladin", CHARISMA, cls, ""), DIVINE_SMITE);
+        gen.level(2)
+            .addSpellCasting(casting, CHARISMA, cls, "[max(1, $chr_mod + $level/2)]")
+            .learnAllSpells(casting).addSpellSlots(casting, 1, 2)
+            .addAttributes(DIVINE_SMITE);
         gen.level(3).addAttributes(DIVINE_HEALTH);
+        gen.level(3, 5).addSpellSlots(casting, 1, 1);
+        gen.level(5).addSpellSlots(casting, 2, 2);
+        gen.level(7).addSpellSlots(casting, 2, 1);
+        gen.level(9).addSpellSlots(casting, 3, 2);
+        gen.level(13).addSpellSlots(casting, 3, 1);
+        gen.level(13, 15, 17).addSpellSlots(casting, 4, 1);
+        gen.level(17, 19).addSpellSlots(casting, 5, 1);
         gen.level(3).addChoice(new AttributeChoice("Sacred Oath", SacredOath.values()));
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
         gen.level(5).addAttributes(EXTRA_ATTACK);
@@ -276,42 +285,10 @@ public enum CharacterClass implements Attribute {
         gen.level(10).addAttributes(AURA_OF_COURAGE);
         gen.level(11).addAttributes(IMPROVED_DIVINE_SMITE);
         gen.level(14).addAttributes(CLEANSING_TOUCH);
-        final int[][] spellCount = {
-            {0},
-            {0},
-            {0, 2},
-            {0, 3},
-            {0, 3},
-            {0, 4, 2},
-            {0, 4, 2},
-            {0, 4, 3},
-            {0, 4, 3},
-            {0, 4, 3, 2},
-            {0, 4, 3, 2},
-            {0, 4, 3, 3},
-            {0, 4, 3, 3},
-            {0, 4, 3, 3, 1},
-            {0, 4, 3, 3, 1},
-            {0, 4, 3, 3, 2},
-            {0, 4, 3, 3, 2},
-            {0, 4, 3, 3, 3, 1},
-            {0, 4, 3, 3, 3, 1},
-            {0, 4, 3, 3, 3, 2},
-            {0, 4, 3, 3, 3, 2}
-        };
-    },
-        BLESS, COMMAND, COMPELLED_DUEL, CURE_WOUNDS, DETECT_EVIL_AND_GOOD, DETECT_MAGIC,
-        DETECT_POISON_AND_DISEASE, DIVINE_FAVOUR, HEROISM, PROTECTION_FROM_EVIL_AND_GOOD,
-        PURIFY_FOOD_AND_DRINK, SEARING_SMITE, SHIELD_OF_FAITH, THUNDEROUS_SMITE,
-        WRATHFUL_SMITE, AID, BRANDING_SMITE, FIND_STEED, LESSER_RESTORATION, LOCATE_OBJECT,
-        MAGIC_WEAPON, PROTECTION_FROM_POISON, ZONE_OF_TRUTH, AURA_OF_VITALITY,
-        BLINDING_SMITE, CREATE_FOOD_AND_WATER, CRUSADERS_MANTLE, DAYLIGHT, DISPEL_MAGIC,
-        ELEMENTAL_WEAPON, MAGIC_CIRCLE, REMOVE_CURSE, REVIVIFY, AURA_OF_LIFE,
-        AURA_OF_PURITY, BANISHMENT, DEATH_WARD, LOCATE_CREATURE, STAGGERING_SMITE,
-        BANISHING_SMITE, CIRCLE_OF_POWER, DESTRUCTIVE_WAVE, DISPEL_EVIL_AND_GOOD, GEAS,
-        RAISE_DEAD),
+    }),
     RANGER(10, RANGER_ARCHETYPE, STRENGTH, DEXTERITY, Arrays.asList(DEXTERITY, WISDOM), (cls, gen)
         -> {
+        String casting = cls.toString();
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD);
         gen.level(1).addAttributes(ALL_WEAPONS);
@@ -329,7 +306,6 @@ public enum CharacterClass implements Attribute {
             new AttributeChoice("Favoured Terrain", FavouredTerrain.values()));
         gen.level(2).addChoice(new AttributeChoice("Fighting Style",
             ARCHERY, DEFENSE, DUELING, TWO_WEAPON));
-        gen.level(2).addAttributes(new SpellCasting("Ranger", WISDOM, cls, "All"));
         gen.level(3).addChoice(new AttributeChoice("Ranger Archetype",
             RangerArchetype.values()));
         gen.level(3).addAttributes(PRIMEVAL_AWARENESS);
@@ -340,40 +316,20 @@ public enum CharacterClass implements Attribute {
         gen.level(14).addAttributes(VANISH);
         gen.level(18).addAttributes(FERAL_SENSES);
         gen.level(20).addAttributes(FOE_SLAYER);
-        final int[][] spellCount = {
-            {0},
-            {0},
-            {0, 2},
-            {0, 3},
-            {0, 3},
-            {0, 4, 2},
-            {0, 4, 2},
-            {0, 4, 3},
-            {0, 4, 3},
-            {0, 4, 3, 2},
-            {0, 4, 3, 2},
-            {0, 4, 3, 3},
-            {0, 4, 3, 3},
-            {0, 4, 3, 3, 1},
-            {0, 4, 3, 3, 1},
-            {0, 4, 3, 3, 2},
-            {0, 4, 3, 3, 2},
-            {0, 4, 3, 3, 3, 1},
-            {0, 4, 3, 3, 3, 1},
-            {0, 4, 3, 3, 3, 2},
-            {0, 4, 3, 3, 3, 2}
-        };
-    },
-        ALARM, ANIMAL_FRIENDSHIP, CURE_WOUNDS, DETECT_MAGIC, DETECT_POISON_AND_DISEASE,
-        ENSNARING_STRIKE, FOG_CLOUD, GOODBERRY, HAIL_OF_THORNS, HUNTERS_MARK, JUMP,
-        LONGSTRIDER, SPEAK_WITH_ANIMALS, ANIMAL_MESSENGER, BARKSKIN, BEAST_SENSE,
-        CORDON_OF_ARROWS, Spell.DARKVISION, FIND_TRAPS, LESSER_RESTORATION,
-        LOCATE_ANIMALS_OR_PLANTS, LOCATE_OBJECT, PASS_WITHOUT_TRACE, PROTECTION_FROM_POISON,
-        SILENCE, SPIKE_GROWTH, CONJURE_ANIMALS, CONJURE_BARRAGE, DAYLIGHT, LIGHTNING_ARROW,
-        NONDETECTION, PLANT_GROWTH, PROTECTION_FROM_ENERGY, SPEAK_WITH_PLANTS,
-        WATER_BREATHING, WATER_WALK, WIND_WALL, CONJURE_WOODLAND_BEINGS,
-        FREEDOM_OF_MOVEMENT, GRASPING_VINE, LOCATE_CREATURE, STONESKIN, COMMUNE_WITH_NATURE,
-        CONJURE_VOLLEY, SWIFT_QUIVER, TREE_STRIDE),
+        gen.level(2)
+            .addSpellCasting(casting, WISDOM, cls, "All")
+            .addSpellSlots(casting, 1, 2)
+            .addKnownSpells(casting, 2);
+        gen.level(3, 5).addSpellSlots(casting, 1, 2);
+        gen.level(5).addSpellSlots(casting, 2, 2);
+        gen.level(7).addSpellSlots(casting, 2, 1);
+        gen.level(9).addSpellSlots(casting, 3, 2);
+        gen.level(11).addSpellSlots(casting, 3, 1);
+        gen.level(13, 15, 17).addSpellSlots(casting, 4, 1);
+        gen.level(17, 19).addSpellSlots(casting, 5, 1);
+        gen.level(3, 5, 7, 9, 11, 13, 15, 17, 19).addKnownSpells(casting, 1);
+        gen.cond(ch -> ch.getLevel() > 2).replaceSpell(casting);
+    }),
     ROGUE(8, ROGUISH_ARCHETYPE, DEXTERITY, INTELLIGENCE,
         Arrays.asList(DEXTERITY, INTELLIGENCE, CHARISMA), (cls, gen) -> {
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS,
@@ -409,7 +365,7 @@ public enum CharacterClass implements Attribute {
     }),
     SORCERER(6, SORCEROUS_ORIGIN, CONSTITUTION, CHARISMA,
         Arrays.asList(CHARISMA, CONSTITUTION), (cls, gen) -> {
-        gen.level(1).addSpellCasting("Sorcer", CHARISMA, cls, "All");
+        String casting = cls.toString();
         gen.level(1)
             .addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
         gen.level(1).addChoice(new AttributeChoice("Skill", ARCANA, DECEPTION, INSIGHT,
@@ -417,103 +373,67 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addChoice(new EquipmentChoice("Weapon")
             .with(LIGHT_CROSSBOW, new EquipmentSet(CROSSBOW_BOLT, 20))
             .with(SIMPLE_MELEE).with(SIMPLE_RANGED));
-        gen.level(1).addChoice(new EquipmentChoice("Spellcasting")
+        gen.level(1).addChoice(new EquipmentChoice("Spell Equipment")
             .with(COMPONENT_POUCH).with(ARCANE_FOCUS));
         gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
             DUNGEONEER_PACK, EXPLORER_PACK));
         gen.level(2).addAttributes(FONT_OF_MAGIC);
-        final int[][] spellCount = {
-            {},
-            {4, 2},
-            {4, 3},
-            {4, 4, 2},
-            {5, 4, 3},
-            {5, 4, 3, 2},
-            {5, 4, 3, 3},
-            {5, 4, 3, 3, 1},
-            {5, 4, 3, 3, 2},
-            {5, 4, 3, 3, 3, 1},
-            {6, 4, 3, 3, 3, 2},
-            {6, 4, 3, 3, 3, 2, 1},
-            {6, 4, 3, 3, 3, 2, 1},
-            {6, 4, 3, 3, 3, 2, 1, 1},
-            {6, 4, 3, 3, 3, 2, 1, 1},
-            {6, 4, 3, 3, 3, 2, 1, 1, 1},
-            {6, 4, 3, 3, 3, 2, 1, 1, 1},
-            {6, 4, 3, 3, 3, 2, 1, 1, 1, 1},
-            {6, 4, 3, 3, 3, 3, 1, 1, 1, 1},
-            {6, 4, 3, 3, 3, 3, 2, 1, 1, 1},
-            {6, 4, 3, 3, 3, 3, 2, 2, 1, 1}
-        };
-//        addSpells(spellCount);
-    },
-        ACID_SPLASH, BLADE_WARD, CHILL_TOUCH, DANCING_LIGHTS, FIRE_BOLT, FRIENDS, LIGHT,
-        MAGE_HAND, MENDING, MESSAGE, MINOR_ILLUSION, POISON_SPRAY, PRESTIDIGITATION,
-        RAY_OF_FROST, SHOCKING_GRASP, TRUE_STRIKE, BURNING_HANDS, CHARM_PERSON,
-        CHROMATIC_ORB, COLOUR_SPRAY, COMPREHEND_LANGUAGES, DETECT_MAGIC, DISGUISE_SELF,
-        EXPEDITIOUS_RETREAT, FALSE_LIFE, FEATHER_FALL, FOG_CLOUD, JUMP, MAGE_ARMOR,
-        MAGIC_MISSILE, RAY_OF_SICKNESS, Spell.SHIELD, SILENT_IMAGE, SLEEP, THUNDERWAVE,
-        WITCH_BOLT, ALTER_SELF, BLINDNESS_DEAFNESS, BLUR, CLOUD_OF_DAGGERS,
-        CROWN_OF_MADNESS, DARKNESS, Spell.DARKVISION, DETECT_THOUGHTS, ENHANCE_ABILITY,
-        ENLARGE_REDUCE, GUST_OF_WIND, HOLD_PERSON, INVISIBILITY, KNOCK,
-        LEVITATE, MIRROR_IMAGE, MISTY_STEP, PHANTASMAL_FORCE, SCORCHING_RAY,
-        SEE_INVISIBILITY, SHATTER, SPIDER_CLIMB, SUGGESTION, WEB,
-        BLINK, CLAIRVOYANCE, COUNTERSPELL, DAYLIGHT, DISPEL_MAGIC, FEAR,
-        FIREBALL, FLY, GASEOUS_FORM, HASTE, HYPNOTIC_PATTERN,
-        LIGHTNING_BOLT, MAJOR_IMAGE, PROTECTION_FROM_ENERGY, SLEET_STORM, SLOW,
-        STINKING_CLOUD, TONGUES, WATER_BREATHING, WATER_WALK,
-        BANISHMENT, BLIGHT, CONFUSION,
-        DIMENSION_DOOR, DOMINATE_BEAST, GREATER_INVISIBILITY, ICE_STORM, POLYMORPH,
-        STONESKIN, WALL_OF_FIRE, ANIMATE_OBJECTS, CLOUDKILL, CONE_OF_COLD, CREATION,
-        DOMINATE_PERSON, HOLD_MONSTER, INSECT_PLAGUE, SEEMING, TELEKINESIS,
-        TELEPORTATION_CIRCLE, WALL_OF_STONE, ARCANE_GATE, CHAIN_LIGHTNING, CIRCLE_OF_DEATH,
-        DISINTEGRATE, EYEBITE, GLOBE_OF_INVULNERABILITY, MASS_SUGGESTION,
-        MOVE_EARTH, SUNBEAM, TRUE_SEEING, DELAYED_BLAST_FIREBALL, ETHEREALNESS,
-        FINGER_OF_DEATH, FIRE_STORM,
-        PLANE_SHIFT, PRISMATIC_SPRAY, REVERSE_GRAVITY, TELEPORT,
-        DOMINATE_MONSTER, EARTHQUAKE, INCENDIARY_CLOUD, POWER_WORD_STUN, SUNBURST,
-        GATE, METEOR_SWARM, POWER_WORD_KILL, TIME_STOP, WISH),
+
+        gen.level(1)
+            .addSpellCasting(casting, CHARISMA, cls, "All")
+            .addSpellSlots(casting, 1, 2).addKnownSpells(casting, 2);
+        gen.level(2, 3).addSpellSlots(casting, 1, 1);
+        gen.level(3).addSpellSlots(casting, 2, 2);
+        gen.level(4).addSpellSlots(casting, 2, 1);
+        gen.level(5).addSpellSlots(casting, 3, 2);
+        gen.level(6).addSpellSlots(casting, 3, 1);
+        gen.level(7, 8, 9).addSpellSlots(casting, 4, 1);
+        gen.level(9, 10, 18).addSpellSlots(casting, 5, 1);
+        gen.level(11, 19).addSpellSlots(casting, 6, 1);
+        gen.level(13, 20).addSpellSlots(casting, 7, 1);
+        gen.level(15).addSpellSlots(casting, 8, 1);
+        gen.level(17).addSpellSlots(casting, 9, 1);
+        gen.cond(ch -> ch.getLevel() > 1).replaceSpell(casting);
+        gen.level(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17).addKnownSpells(casting, 1);
+    }),
     WARLOCK(8, OTHERWORLDLY_PATRON, WISDOM, CHARISMA,
         Arrays.asList(CHARISMA, CONSTITUTION), (cls, gen) -> {
-//        gen.level(1).addAttributes(new SpellCasting(CHARISMA));
-//        gen.level(1).addChoice(spellChoice(2, "Cantrip", getSpells(l -> l == 0)));
-//        gen.level(1).addChoice(spellChoice(2, "Spell", getSpells(upTo(1))));
-//        gen.level(2).addChoice(new ReplaceAttributeChoice<>("Spell", 1, getSpells(upTo(1))));
-//        gen.level(2).addChoice(spellChoice(1, "Spell", getSpells(upTo(1))));
-//        gen.level(3).addChoice(spellChoice(1, "Spell", getSpells(upTo(2))));
-//        gen.level(4).addChoice(spellChoice(1, "Cantrip", getSpells(l -> l == 0)));
-//        gen.level(4).addChoice(spellChoice(1, "Spell", getSpells(upTo(2))));
-//        gen.level(5).addChoice(spellChoice(1, "Spell", getSpells(upTo(3))));
-//        gen.level(6).addChoice(spellChoice(1, "Spell", getSpells(upTo(3))));
-//        gen.level(7).addChoice(spellChoice(1, "Spell", getSpells(upTo(4))));
-//        gen.level(8).addChoice(spellChoice(1, "Spell", getSpells(upTo(4))));
-//        gen.level(9).addChoice(spellChoice(1, "Spell", getSpells(upTo(5))));
-//        gen.level(10).addChoice(spellChoice(1, "Cantrip", getSpells(l -> l == 0)));
-//        gen.level(11).addChoice(spellChoice(1, "Spell", getSpells(upTo(5))));
-//        gen.level(13).addChoice(spellChoice(1, "Spell", getSpells(upTo(5))));
-//        gen.level(15).addChoice(spellChoice(1, "Spell", getSpells(upTo(5))));
-//        gen.level(17).addChoice(spellChoice(1, "Spell", getSpells(upTo(5))));
-//        gen.level(19).addChoice(spellChoice(1, "Spell", getSpells(upTo(5))));
-    },
-        BLADE_WARD, CHILL_TOUCH, ELDRITCH_BLAST, FRIENDS, MAGE_HAND, MINOR_ILLUSION,
-        POISON_SPRAY, PRESTIDIGITATION, TRUE_STRIKE,
-        ARMOUR_OF_AGATHYS, ARMS_OF_HADAR, CHARM_PERSON, COMPREHEND_LANGUAGES,
-        EXPEDITIOUS_RETREAT, HELLISH_REBUKE, HEX, ILLUSORY_SCRIPT,
-        PROTECTION_FROM_EVIL_AND_GOOD, UNSEEN_SERVANT, WITCH_BOLT,
-        CLOUD_OF_DAGGERS, CROWN_OF_MADNESS, DARKNESS, ENTHRALL, HOLD_PERSON, INVISIBILITY,
-        MIRROR_IMAGE, MISTY_STEP, RAY_OF_ENFEEBLEMENT, SHATTER, SPIDER_CLIMB, SUGGESTION,
-        COUNTERSPELL, DISPEL_MAGIC, FEAR, FLY, GASEOUS_FORM, HUNGER_OF_HADAR,
-        HYPNOTIC_PATTERN, MAGIC_CIRCLE, MAJOR_IMAGE, REMOVE_CURSE, TONGUES, VAMPIRIC_TOUCH,
-        BANISHMENT, BLIGHT, DIMENSION_DOOR, HALLUCINATORY_TERRAIN,
-        CONTACT_OTHER_PLANE, DREAM, HOLD_MONSTER, SCRYING,
-        ARCANE_GATE, CIRCLE_OF_DEATH, CONJURE_FEY, CREATE_UNDEAD, EYEBITE, FLESH_TO_STONE,
-        MASS_SUGGESTION, TRUE_SEEING,
-        ETHEREALNESS, FINGER_OF_DEATH, FORCECAGE, PLANE_SHIFT,
-        DEMIPLANE, DOMINATE_MONSTER, FEEBLEMIND, GLIBNESS, POWER_WORD_STUN,
-        ASTRAL_PROJECTION, FORESIGHT, IMPRISONMENT, POWER_WORD_KILL, TRUE_POLYMORPH),
+        final String casting = cls.toString();
+        gen.level(1).addChoice(cantripChoice(2, CHARISMA));
+        gen.level(4, 10).addChoice(cantripChoice(1, CHARISMA));
+        gen.level(1).addSpellCasting(casting, CHARISMA, cls, "All")
+            .setSpellSlots(casting, 1, 1).addKnownSpells(casting, 2);
+        gen.level(2).setSpellSlots(casting, 1, 2);
+        gen.level(3).setSpellSlots(casting, 2, 2);
+        gen.level(5).setSpellSlots(casting, 3, 2);
+        gen.level(7).setSpellSlots(casting, 4, 2);
+        gen.level(9).setSpellSlots(casting, 5, 2);
+        gen.level(11).setSpellSlots(casting, 5, 3);
+        gen.level(17).setSpellSlots(casting, 5, 4);
+        gen.cond(ch -> ch.getLevel() > 1).replaceSpell(casting);
+        gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17, 19).addKnownSpells(casting, 1);
+    }),
     WIZARD(6, ARCANE_TRADITION, INTELLIGENCE, WISDOM,
         Arrays.asList(INTELLIGENCE, DEXTERITY, CONSTITUTION), (cls, gen) -> {
-        gen.level(1).addSpellCasting("Wizard", INTELLIGENCE, cls, "All");
+        final String casting = cls.toString();
+        gen.level(1).addChoice(cantripChoice(3, INTELLIGENCE));
+        gen.level(4, 10).addChoice(cantripChoice(1, INTELLIGENCE));
+        gen.level(1)
+            .addSpellCasting("Wizard", INTELLIGENCE, cls, "[$int_mod + $level]")
+            .addSpellSlots(casting, 1, 2);
+        gen.level(2, 3).addSpellSlots(casting, 1, 1);
+        gen.level(3).addSpellSlots(casting, 2, 2);
+        gen.level(4).addSpellSlots(casting, 2, 1);
+        gen.level(5).addSpellSlots(casting, 3, 2);
+        gen.level(6).addSpellSlots(casting, 3, 1);
+        gen.level(7, 8, 9).addSpellSlots(casting, 4, 1);
+        gen.level(9, 10, 18).addSpellSlots(casting, 5, 1);
+        gen.level(11, 19).addSpellSlots(casting, 6, 1);
+        gen.level(13, 20).addSpellSlots(casting, 7, 1);
+        gen.level(15).addSpellSlots(casting, 8, 1);
+        gen.level(17).addSpellSlots(casting, 9, 1);
+        gen.level(1).addKnownSpells(casting, 6);
+        gen.cond(ch -> ch.getLevel() > 1).addKnownSpells(casting, 2);
         gen.level(1).addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
         gen.level(1).addChoice(new AttributeChoice("Skill",
             ARCANA, HISTORY, INSIGHT, INVESTIGATION, MEDICINE, RELIGION).withCount(2));
@@ -524,83 +444,11 @@ public enum CharacterClass implements Attribute {
             SCHOLAR_PACK, EXPLORER_PACK));
         gen.level(1).addEquipment(SPELLBOOK);
         gen.level(1).addAttributes(ARCANE_RECOVERY);
-        gen.level(2)
-            .addChoice(new AttributeChoice("Arcane Tradition", MagicSchool.values()));
+        gen.level(2).addChoice(new AttributeChoice("Arcane Tradition", MagicSchool.values()));
         gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
         gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", "Wizard", 1));
         gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", "Wizard", 2));
         gen.level(20).addChoice(spellMasteryChoice("Signature Spell", "Wizard", 3));
-        final int[][] spellCount = {
-            {},
-            {3, 2},
-            {3, 3},
-            {3, 4, 2},
-            {4, 4, 3},
-            {4, 4, 3, 2},
-            {4, 4, 3, 3},
-            {4, 4, 3, 3, 1},
-            {4, 4, 3, 3, 2},
-            {4, 4, 3, 3, 3, 1},
-            {5, 4, 3, 3, 3, 2},
-            {5, 4, 3, 3, 3, 2, 1},
-            {5, 4, 3, 3, 3, 2, 1},
-            {5, 4, 3, 3, 3, 2, 1, 1},
-            {5, 4, 3, 3, 3, 2, 1, 1},
-            {5, 4, 3, 3, 3, 2, 1, 1, 1},
-            {5, 4, 3, 3, 3, 2, 1, 1, 1},
-            {5, 4, 3, 3, 3, 2, 1, 1, 1, 1},
-            {5, 4, 3, 3, 3, 3, 1, 1, 1, 1},
-            {5, 4, 3, 3, 3, 3, 2, 1, 1, 1},
-            {5, 4, 3, 3, 3, 3, 2, 2, 1, 1}
-        };
-        Spell[] allowedSpells = {
-            ACID_SPLASH, BLADE_WARD, CHILL_TOUCH, DANCING_LIGHTS, FIRE_BOLT, FRIENDS, LIGHT,
-            MAGE_HAND, MENDING, MESSAGE, MINOR_ILLUSION, POISON_SPRAY, PRESTIDIGITATION,
-            RAY_OF_FROST, SHOCKING_GRASP, TRUE_STRIKE,
-            ALARM, BURNING_HANDS, CHARM_PERSON, CHROMATIC_ORB, COLOUR_SPRAY,
-            COMPREHEND_LANGUAGES, DETECT_MAGIC, DISGUISE_SELF, EXPEDITIOUS_RETREAT,
-            FALSE_LIFE, FEATHER_FALL, FIND_FAMILIAR, FOG_CLOUD, GREASE, IDENTIFY,
-            ILLUSORY_SCRIPT, JUMP, LONGSTRIDER, MAGE_ARMOR, MAGIC_MISSILE,
-            PROTECTION_FROM_EVIL_AND_GOOD, RAY_OF_SICKNESS, Spell.SHIELD, SILENT_IMAGE,
-            SLEEP, TASHAS_HIDEOUS_LAGHTER, TENSERS_FLOATING_DISK, THUNDERWAVE,
-            UNSEEN_SERVANT, WITCH_BOLT,
-            ALTER_SELF, ARCANE_LOCK, BLINDNESS_DEAFNESS, BLUR, CLOUD_OF_DAGGERS,
-            CONTINUAL_FLAME, CROWN_OF_MADNESS, DARKNESS, DETECT_THOUGHTS, ENLARGE_REDUCE,
-            FLAMING_SPHERE, GENTLE_REPOSE, GUST_OF_WIND, HOLD_PERSON, INVISIBILITY, KNOCK,
-            LEVITATE, LOCATE_OBJECT, MAGIC_MOUTH, MAGIC_WEAPON, MELFS_ACID_ARROW,
-            MIRROR_IMAGE, MISTY_STEP, ARCANISTS_MAGIC_AURA, PHANTASMAL_FORCE,
-            RAY_OF_ENFEEBLEMENT, ROPE_TRICK, SCORCHING_RAY, SEE_INVISIBILITY, SHATTER,
-            SPIDER_CLIMB, SUGGESTION, WEB,
-            ANIMATE_DEAD, BESTOW_CURSE, BLINK, CLAIRVOYANCE, COUNTERSPELL, DISPEL_MAGIC, FEAR,
-            FEIGN_DEATH, FIREBALL, FLY, GASEOUS_FORM, GLYPH_OF_WARDING, HASTE, HYPNOTIC_PATTERN,
-            TINY_HUT, LIGHTNING_BOLT, MAGIC_CIRCLE, MAJOR_IMAGE, NONDETECTION,
-            PHANTOM_STEED, PROTECTION_FROM_ENERGY, REMOVE_CURSE, SENDING, STINKING_CLOUD,
-            SENDING, SLEET_STORM, SLOW, STINKING_CLOUD, TONGUES, VAMPIRIC_TOUCH,
-            WATER_BREATHING,
-            ARCANE_EYE, BANISHMENT, BLIGHT, CONFUSION, CONJURE_MINOR_ELEMENTALS, CONTROL_WATER,
-            DIMENSION_DOOR, EVARDS_BLACK_TENTACLES, FABRICATE, FIRE_SHIELD,
-            GREATER_INVISIBILITY, HALLUCINATORY_TERRAIN, ICE_STORM, LEOMUNDS_SECRET_CHEST,
-            LOCATE_CREATURE, MORDENKAINENS_FAITHFUL_HOUND, MORDENKAINENS_PRIVATE_SANCTUM,
-            PHANTASMAL_KILLER, POLYMORPH, STONE_SHAPE, STONESKIN, WALL_OF_FIRE,
-            ANIMATE_OBJECTS, ARCANE_HAND, CLOUDKILL, CONE_OF_COLD, CONJURE_ELEMENTAL,
-            CONTACT_OTHER_PLANE, CREATION, DOMINATE_PERSON, DREAM, GEAS, HOLD_MONSTER,
-            LEGEND_LORE, MISLEAD, MODIFY_MEMORY, PASSWALL, PLANAR_BINDING,
-            RARYS_TELEPATHIC_BOND, SCRYING, SEEMING, TELEKINESIS, TELEPORTATION_CIRCLE,
-            WALL_OF_FORCE, WALL_OF_STONE,
-            ARCANE_GATE, CHAIN_LIGHTNING, CIRCLE_OF_DEATH, CONTINGENCY, CREATE_UNDEAD,
-            DISINTEGRATE, DRAWMIJS_INSTANT_SUMMONS, EYEBITE, FLESH_TO_STONE,
-            GLOBE_OF_INVULNERABILITY, GUARDS_AND_WARDS, MAGIC_JAR, MASS_SUGGESTION,
-            MOVE_EARTH, FREEZING_SPHERE, IRRESISTIBLE_DANCE,
-            PROGRAMMED_ILLUSION, SUNBEAM, TRUE_SEEING, WALL_OF_ICE,
-            DELAYED_BLAST_FIREBALL, ETHEREALNESS, FINGER_OF_DEATH, FORCECAGE,
-            MIRAGE_ARCANE, MAGNIFICENT_MANSION, MORDENKAINENS_SWORD,
-            PLANE_SHIFT, PRISMATIC_SPRAY, PROJECT_IMAGE, REVERSE_GRAVITY, SEQUESTER,
-            SIMULACRUM, SYMBOL, TELEPORT,
-            ANTIMAGIC_FIELD, ANTIPATHY_SYMPATHY, CLONE, CONTROL_WEATHER, DEMIPLANE,
-            DOMINATE_MONSTER, FEEBLEMIND, INCENDIARY_CLOUD, MAZE, MIND_BLANK, POWER_WORD_STUN,
-            SUNBURST, TELEPATHY,
-            ASTRAL_PROJECTION, FORESIGHT, GATE, IMPRISONMENT, METEOR_SWARM, POWER_WORD_KILL,
-            PRISMATIC_WALL, SHAPECHANGE, TIME_STOP, TRUE_POLYMORPH, WEIRD, WISH};
     });
 
     private final int hitDie;

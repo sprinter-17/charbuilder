@@ -23,7 +23,7 @@ public enum EquipmentCategory {
     ADVENTURING_GEAR(EquipmentType::load),
     PROVISIONS(EquipmentType::load),
     MUSICAL_INSTRUMENT(MusicalInstrument::load),
-    TOOLS(EquipmentType::load),
+    TOOL(EquipmentType::load),
     CONTAINER(EquipmentType::load),
     GAMING_SET(EquipmentType::load),
     CLOTHES(EquipmentType::load),
