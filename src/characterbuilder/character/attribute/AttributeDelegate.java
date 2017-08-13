@@ -72,6 +72,11 @@ public class AttributeDelegate {
         return this;
     }
 
+    public AttributeDelegate withLevelAttributes(int level, Attribute... attributes) {
+        generator.level(level).addAttributes(attributes);
+        return this;
+    }
+
     public AttributeDelegate withAttribute(Attribute attribute) {
         return withPrerequisite(ch -> !ch.hasAttribute(attribute))
             .withAction(attribute.toString(), ch -> ch.addAttribute(attribute));

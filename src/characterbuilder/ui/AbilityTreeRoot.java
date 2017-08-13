@@ -38,7 +38,6 @@ public class AbilityTreeRoot extends DefaultMutableTreeNode {
             case FIGHTING_STYLE:
             case MANEUVER:
             case SPELL_MASTERY:
-            case EVOCATION_ABILITY:
             case EXPERTISE:
             case MUSICAL_INSTRUMENT_PROFICIENCY:
             case FEAT:

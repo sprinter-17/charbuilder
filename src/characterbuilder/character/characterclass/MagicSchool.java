@@ -1,53 +1,38 @@
 package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
-import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.utils.StringUtils;
-import java.util.function.Consumer;
 import org.w3c.dom.Node;
 
 public enum MagicSchool implements Attribute {
-    ABJURATION(gen -> {
+    ABJURATION(magicSchool()),
+//        .withLevelAttributes(2, ARCANE_WARD)
+//        .withLevelAttributes(6, PROJECTED_WARD)
+//        .withLevelAttributes(10, IMPROVED_ABJURATION)
+//        .withLevelAttributes(14, SPELL_RESISTANCE)),
+    CONJURATION(magicSchool()),
+    DIVINATION(magicSchool()),
+    ENCHANTMENT(magicSchool()),
+    EVOCATION(magicSchool()),
+//        .withLevelAttributes(2, SCULPT_SPELLS)
+//        .withLevelAttributes(6, POTENT_CANTRIP)
+//        .withLevelAttributes(10, EMPOWERED_EVOCATION)
+//        .withLevelAttributes(14, OVERCHANNEL)),
+    ILLUSION(magicSchool()),
+    NECROMANCY(magicSchool()),
+    TRANSMUTATION(magicSchool());
 
-    }),
-    CONJURATION(gen -> {
+    private final AttributeDelegate delegate;
 
-    }),
-    DIVINATION(gen -> {
+    private static AttributeDelegate magicSchool() {
+        return new AttributeDelegate();
+    }
 
-    }),
-    ENCHANTMENT(gen -> {
-
-    }),
-    EVOCATION(gen -> {
-    }) {
-        @Override
-        public void generateLevelChoices(Character character) {
-            ChoiceGenerator gen = new ChoiceGenerator();
-            gen.level(2).addAttributes(EVOCATION_SAVANT, SCULPT_SPELLS);
-            gen.level(6).addAttributes(POTENT_CANTRIP);
-            gen.level(10).addAttributes(EMPOWERED_EVOCATION);
-            gen.level(14).addAttributes(OVERCHANNEL);
-            gen.generateChoices(character);
-        }
-    },
-    ILLUSION(gen -> {
-
-    }),
-    NECROMANCY(gen -> {
-
-    }),
-    TRANSMUTATION(gen -> {
-
-    });
-
-    private final ChoiceGenerator generator = new ChoiceGenerator();
-
-    private MagicSchool(Consumer<ChoiceGenerator> generator) {
-        generator.accept(this.generator);
+    private MagicSchool(AttributeDelegate delegate) {
+        this.delegate = delegate;
     }
 
     @Override
@@ -57,7 +42,7 @@ public enum MagicSchool implements Attribute {
 
     @Override
     public void generateLevelChoices(Character character) {
-        generator.generateChoices(character);
+        delegate.generateChoices(character);
     }
 
     @Override

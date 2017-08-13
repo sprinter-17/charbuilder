@@ -1,6 +1,7 @@
 package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.Ability;
 import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.*;
@@ -12,14 +13,11 @@ import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
-import characterbuilder.character.choice.Choice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import static characterbuilder.character.choice.ChoiceGenerator.levels;
-import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.choice.ExpertiseChoice;
-import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.equipment.Armour;
 import static characterbuilder.character.equipment.Armour.*;
 import characterbuilder.character.equipment.EquipmentCategory;
@@ -31,6 +29,7 @@ import characterbuilder.character.equipment.EquipmentType;
 import static characterbuilder.character.equipment.EquipmentType.*;
 import characterbuilder.character.equipment.MusicalInstrument;
 import static characterbuilder.character.equipment.Weapon.*;
+import characterbuilder.character.spell.SignatureSpell;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellClassMap;
 import characterbuilder.utils.StringUtils;
@@ -419,7 +418,7 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addChoice(cantripChoice(3, INTELLIGENCE));
         gen.level(4, 10).addChoice(cantripChoice(1, INTELLIGENCE));
         gen.level(1)
-            .addSpellCasting("Wizard", INTELLIGENCE, cls, "[$int_mod + $level]")
+            .addSpellCasting(casting, INTELLIGENCE, cls, "[$int_mod + $level]")
             .addSpellSlots(casting, 1, 2);
         gen.level(2, 3).addSpellSlots(casting, 1, 1);
         gen.level(3).addSpellSlots(casting, 2, 2);
@@ -438,17 +437,17 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addChoice(new AttributeChoice("Skill",
             ARCANA, HISTORY, INSIGHT, INVESTIGATION, MEDICINE, RELIGION).withCount(2));
         gen.level(1).addChoice(new EquipmentChoice("Weapon", QUARTERSTAFF, DAGGER));
-        gen.level(1).addChoice(new EquipmentChoice("Wizard Gear", COMPONENT_POUCH,
-            CRYSTAL, ORB, ROD, STAFF, WAND));
+        gen.level(1).addChoice(new EquipmentChoice("Wizard Gear",
+            COMPONENT_POUCH, CRYSTAL, ORB, ROD, STAFF, WAND));
         gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
             SCHOLAR_PACK, EXPLORER_PACK));
         gen.level(1).addEquipment(SPELLBOOK);
         gen.level(1).addAttributes(ARCANE_RECOVERY);
         gen.level(2).addChoice(new AttributeChoice("Arcane Tradition", MagicSchool.values()));
+        gen.level(2).addAttributes(MAGIC_SCHOOL_SAVANT);
         gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
-        gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", "Wizard", 1));
-        gen.level(18).addChoice(spellMasteryChoice("Spell Mastery", "Wizard", 2));
-        gen.level(20).addChoice(spellMasteryChoice("Signature Spell", "Wizard", 3));
+        gen.level(18).addAttributes(Ability.SPELL_MASTERY);
+        gen.level(20).addAction("Signature Spell", ch -> ch.addAttribute(new SignatureSpell()));
     });
 
     private final int hitDie;
@@ -457,27 +456,6 @@ public enum CharacterClass implements Attribute {
     private final List<AttributeType> primaryAttributes;
     private final ChoiceGenerator generator = new ChoiceGenerator();
     private final List<Spell> allowedSpells = new ArrayList<>();
-
-    private static Choice spellMasteryChoice(String name, String casting, int level) {
-        return new OptionChoice(name) {
-
-            @Override
-            public void select(Character character, ChoiceSelector selector) {
-                CharacterClass characterClass = character.getAttribute(CHARACTER_CLASS);
-                selector.choiceMade();
-//                selector.chooseOption(characterClass.getSpells()
-//                    .filter(sp -> sp.getLevel() == level)
-//                    .filter(sp
-//                        -> character.getAllAttributes()
-//                        .noneMatch(attr -> attr.toString().equals(name + " " + sp.toString()))
-//                    )
-//                    .map(sp -> (Attribute) sp),
-//                    spell -> {
-//                    character.addAttribute(new SpellMastery(name, (Spell) spell));
-//                });
-            }
-        };
-    }
 
     private CharacterClass(int hitDie, AttributeType classAttribute,
         AttributeType savingThrow1, AttributeType savingThrow2,

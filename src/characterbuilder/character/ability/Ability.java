@@ -89,6 +89,9 @@ public enum Ability implements Attribute {
         + "failed saving [plural(throw,throws)] between each rest."),
     ARCANE_RECOVERY(CLASS_TALENT, "Once per day, following a short rest, "
         + "recover [$level /^ 2] [plural(level,levels)] of expended spell slots below sixth level."),
+    SPELL_MASTERY(classTalent()
+        .withDescription("Choose one first and one second level spell from spellbook.")
+        .withDescription("Cast at lowest level without spending a spell slot.")),
     SNEAK_ATTACK(CLASS_TALENT,
         "Extra [$level /^ 2]d6 damage on one attack with advantage each turn."),
     CUNNING_ACTION(CLASS_TALENT,
@@ -436,21 +439,29 @@ public enum Ability implements Attribute {
     DISCIPLE_OF_LIFE(DIVINE_DOMAIN_ABILITY, "Disciple of life",
         "Healing spells restore an additional 2 + spell level HP."),
 
-    /*
-     * Evocation abilities
-    **/
-    EVOCATION_SAVANT(EVOCATION_ABILITY,
-        "Evocation Savant",
-        "Halve the time and cost to copy evocation spells."),
-    SCULPT_SPELLS(EVOCATION_ABILITY, "Sculpt Spells",
-        "Cause up to 1 + spell level creatures automatically save on evocation spells."),
-    POTENT_CANTRIP(EVOCATION_ABILITY, "Potent Cantrip",
-        "Targets savings against cantrips take half damage."),
-    EMPOWERED_EVOCATION(EVOCATION_ABILITY, "Empowered Evocation",
-        "Add [$int_mode] to damage of evocation spells."),
-    OVERCHANNEL(EVOCATION_ABILITY, "Overchannel",
-        "Deal maximum damage on spell of level 5 or less. "
-        + "More than one use between rests causes necrotic damage."),
+    MAGIC_SCHOOL_SAVANT(classTalent()
+        .withDescription("Halve gold and time to copy [$magic_school] spells into spellbook.")),
+    ARCANE_WARD(classTalent()
+        .withDescription("On casting Abjuration spell of 1st level or higher, "
+            + "gain [$level * 2 + $int_mod] temporary HP.")
+        .withDescription("When at 0 HP, regain 2x spell level when casting Abjuration spell.")),
+    PROJECTED_WARD(classTalent()
+        .withDescription("As a reaction, use Arcane Ward to absorb damage from ally within 30 feet.")),
+    IMPROVED_ABJURATION(classTalent()
+        .withDescription("Add [$prof] to ability checks when casting Abjuration spells.")),
+    SPELL_RESISTANCE(classTalent()
+        .withDescription("Advantage on saves vs. spells.")
+        .withDescription("Resistance to spell damage.")),
+
+    SCULPT_SPELLS(classTalent()
+        .withDescription("Up to 1 + spell level allies automatically save on evocation spells.")),
+    POTENT_CANTRIP(classTalent()
+        .withDescription("Targets savings against cantrips take half damage.")),
+    EMPOWERED_EVOCATION(classTalent()
+        .withDescription("Add [$int_mode] to damage of evocation spells.")),
+    OVERCHANNEL(classTalent()
+        .withDescription("Deal maximum damage on spell of level 5 or less.")
+        .withDescription("After first use take 2d12 + 1d12 / use necrotic damage per spell level.")),
 
     /*
      * Background abilities

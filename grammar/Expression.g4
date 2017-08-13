@@ -67,6 +67,8 @@ string_expr returns [String value]
         {$value = String.valueOf($int_expr.value);}
     | '$breath' {$value = character().getAttribute(DRACONIC_ANCESTORY, 
                     DraconicAncestory.class).getBreathWeapon();}
+    | '$magic_school'
+        {$value = character().getAttribute(ARCANE_TRADITION).toString();}
     | 'if(' bool_expr SPACE? ':' SPACE? string_expr ')'
         {$value = $bool_expr.value ? $string_expr.value : ""; }
     | 'if(' bool_expr SPACE? ':' SPACE? str1=string_expr SPACE? 

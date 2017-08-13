@@ -27,8 +27,8 @@ import characterbuilder.character.characterclass.SorcerousOrigin;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
 import characterbuilder.character.spell.Cantrip;
+import characterbuilder.character.spell.SignatureSpell;
 import characterbuilder.character.spell.SpellCasting;
-import characterbuilder.character.spell.SpellMastery;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.List;
@@ -78,11 +78,11 @@ public enum AttributeType {
     GUILD_BUSINESS(false, Proficiency::load),
     CANTRIP(false, Cantrip::load),
     SPELLCASTING(false, SpellCasting::load),
-    SPELL_MASTERY(false, SpellMastery::load),
+    SPELL_MASTERY(false, Ability::load),
+    SIGNATURE_SPELL(true, SignatureSpell::load),
     ARCANE_TRADITION(true, MagicSchool::load),
     PRIMAL_PATH(true, PrimalPath::load),
     BARDIC_COLLEGE(true, BardicCollege::load),
-    EVOCATION_ABILITY(false, Ability::load),
     DIVINE_DOMAIN(true, DivineDomain::load),
     DIVINE_DOMAIN_ABILITY(false, Ability::load),
     FAVOURED_ENEMY(false, FavouredEnemy::load),
