@@ -101,6 +101,13 @@ public class ArmourTest {
     }
 
     @Test
+    public void testDefenseAbility() {
+        character.addEquipment(Armour.SPLINT_ARMOUR);
+        character.addAttribute(Ability.DEFENSE);
+        assertThat(Armour.getArmourClass(character), is(18));
+    }
+
+    @Test
     public void testSaveAndLoad() {
         assertThat(EquipmentCategory.load(Armour.SHIELD.save(TestDoc.doc())), is(Armour.SHIELD));
     }

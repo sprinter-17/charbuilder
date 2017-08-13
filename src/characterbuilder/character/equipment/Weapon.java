@@ -1,6 +1,7 @@
 package characterbuilder.character.equipment;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.WeaponProficiency;
 import characterbuilder.character.attribute.Attribute;
@@ -25,19 +26,26 @@ import org.w3c.dom.Node;
 
 public enum Weapon implements Equipment {
 
-    CLUB(SIMPLE_MELEE, cp(10), lb(2), attack("1d4", Weapon::melee)),
-    DAGGER(SIMPLE_MELEE, cp(200), lb(1), attack("1d4", Weapon::finessed, "20/60")),
-    GREATCLUB(SIMPLE_MELEE, cp(20), lb(10), attack("1d8", Weapon::melee)),
+    CLUB(SIMPLE_MELEE, cp(10), lb(2),
+        attack("1d4", Weapon::melee)),
+    DAGGER(SIMPLE_MELEE, cp(200), lb(1),
+        attack("1d4", Weapon::finessed, "20/60")),
+    GREATCLUB(SIMPLE_MELEE, cp(20), lb(10),
+        attack("1d8", Weapon::melee)),
     HANDAXE(SIMPLE_MELEE, cp(500), lb(2), attack("1d6", Weapon::melee, "20/60")),
     JAVELIN(SIMPLE_MELEE, cp(50), lb(2), attack("1d6", Weapon::melee, "30/120")),
     LIGHT_HAMMER(SIMPLE_MELEE, cp(200), lb(2), attack("1d4", Weapon::melee, "20/60")),
     MACE(SIMPLE_MELEE, cp(500), lb(4), attack("1d6", Weapon::melee)),
-    QUARTERSTAFF(SIMPLE_MELEE, cp(20), lb(4), attack("1d6", Weapon::melee, "1H"),
+    QUARTERSTAFF(SIMPLE_MELEE, cp(20), lb(4),
+        attack("1d6", Weapon::melee, "1H"),
         attack("1d8", Weapon::melee, "2H")),
-    SICKLE(SIMPLE_MELEE, cp(100), lb(2), attack("1d4", Weapon::melee)),
+    SICKLE(SIMPLE_MELEE, cp(100), lb(2),
+        attack("1d4", Weapon::melee)),
     SPEAR(SIMPLE_MELEE, cp(100), lb(3),
-        attack("1d6", Weapon::melee, "20/60"), attack("1d8", Weapon::melee, "2H")),
-    BATTLEAXE(MARTIAL_MELEE, cp(1000), lb(4), attack("1d8", Weapon::melee, "1H"),
+        attack("1d6", Weapon::melee, "20/60"),
+        attack("1d8", Weapon::melee, "2H")),
+    BATTLEAXE(MARTIAL_MELEE, cp(1000), lb(4),
+        attack("1d8", Weapon::melee, "1H"),
         attack("1d10", Weapon::melee, "2H")),
     FLAIL(MARTIAL_MELEE, cp(1000), lb(2), attack("1d8", Weapon::melee)),
     GLAIVE(MARTIAL_MELEE, cp(2000), lb(6), attack("1d10", Weapon::melee, "reach")),
@@ -45,7 +53,8 @@ public enum Weapon implements Equipment {
     GREATSWORD(MARTIAL_MELEE, cp(5000), lb(6), attack("2d6", Weapon::melee)),
     HALBERD(MARTIAL_MELEE, cp(2000), lb(6), attack("1d10", Weapon::melee, "reach")),
     LANCE(MARTIAL_MELEE, cp(1000), lb(6), attack("1d12", Weapon::melee, "reach")),
-    LONGSWORD(MARTIAL_MELEE, cp(1500), lb(3), attack("1d8", Weapon::melee, "1H"),
+    LONGSWORD(MARTIAL_MELEE, cp(1500), lb(3),
+        attack("1d8", Weapon::melee, "1H"),
         attack("1d10", Weapon::melee, "2H")),
     MAUL(MARTIAL_MELEE, cp(1000), lb(10), attack("2d6", Weapon::melee)),
     MORNINGSTAR(MARTIAL_MELEE, cp(1500), lb(4), attack("1d8", Weapon::melee)),
@@ -55,7 +64,8 @@ public enum Weapon implements Equipment {
     SHORTSWORD(MARTIAL_MELEE, cp(1000), lb(2), attack("1d6", Weapon::finessed)),
     TRIDENT(MARTIAL_MELEE, cp(500), lb(4), attack("1d6", Weapon::melee)),
     WAR_PICK(MARTIAL_MELEE, cp(500), lb(2), attack("1d8", Weapon::melee)),
-    WARHAMMER(MARTIAL_MELEE, cp(1500), lb(2), attack("1d8", Weapon::melee, "1H"),
+    WARHAMMER(MARTIAL_MELEE, cp(1500), lb(2),
+        attack("1d8", Weapon::melee, "1H"),
         attack("1d10", Weapon::melee, "2H")),
     WHIP(MARTIAL_MELEE, cp(200), lb(3), attack("1d4", Weapon::finessed, "reach")),
     LIGHT_CROSSBOW(SIMPLE_RANGED, cp(2500), lb(5), attack("1d8", Weapon::ranged, "80/320")),
@@ -73,7 +83,10 @@ public enum Weapon implements Equipment {
     }
 
     private static int ranged(Character character) {
-        return character.getModifier(DEXTERITY);
+        int bonus = character.getModifier(DEXTERITY);
+        if (character.hasAttribute(Ability.ARCHERY))
+            bonus += 2;
+        return bonus;
     }
 
     private static int finessed(Character character) {

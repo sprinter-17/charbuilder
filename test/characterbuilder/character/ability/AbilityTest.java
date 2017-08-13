@@ -1,13 +1,12 @@
 package characterbuilder.character.ability;
 
-import characterbuilder.character.Character;
-import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.characterclass.DraconicAncestory;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
+import characterbuilder.character.characterclass.DraconicAncestory;
 import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.saveload.TestDoc;
+import characterbuilder.utils.TestCharacter;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
@@ -19,14 +18,12 @@ import org.junit.Test;
 
 public class AbilityTest {
 
-    private Character character;
-    private IntAttribute level;
+    private TestCharacter character;
 
     @Before
     public void setup() {
-        character = new Character();
-        level = new IntAttribute(AttributeType.LEVEL, 1);
-        character.addAttribute(level);
+        character = new TestCharacter();
+        character.setLevel(1);
         character.addChoiceList(new TestChoiceSelector());
     }
 
@@ -38,15 +35,20 @@ public class AbilityTest {
 
     @Test
     public void testChannelDivinityDescription() {
-        level.setValue(2);
+        character.setLevel(2);
         assertThat(Ability.CHANNEL_DIVINITY.getDescription(character).collect(joining()),
             startsWith("Use one channel divinity power"));
-        level.setValue(5);
+        character.setLevel(5);
         assertThat(Ability.CHANNEL_DIVINITY.getDescription(character).collect(joining()),
             startsWith("Use one channel divinity power"));
-        level.setValue(6);
+        character.setLevel(6);
         assertThat(Ability.CHANNEL_DIVINITY.getDescription(character).collect(joining()),
             startsWith("Use two channel divinity powers"));
+    }
+
+    @Test
+    public void testMultipleDescriptions() {
+        assertThat(Ability.SECOND_WIND.getDescription(character).count(), is(2L));
     }
 
     @Test
@@ -59,8 +61,7 @@ public class AbilityTest {
         character.addAttribute(Race.HALF_ELF);
         character.addAttribute(DraconicAncestory.BLUE);
         character.addAttribute(new IntAttribute(AttributeType.HIT_POINTS, 10));
-        AbilityScore.SCORES.stream()
-            .forEach(attr -> character.addAttribute(new AbilityScore(attr, 14)));
+        character.withScores(14);
         for (Ability ability : Ability.values()) {
             try {
                 String desc = ability.getDescription(character).collect(joining());

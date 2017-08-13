@@ -66,6 +66,12 @@ public class SpellCasting implements Attribute {
         learntSpells.add(spell);
     }
 
+    public void removeLearntSpell(Spell spell) {
+        if (!hasLearntSpell(spell))
+            throw new IllegalArgumentException("Attempt to remove non-existent spell " + spell);
+        learntSpells.remove(spell);
+    }
+
     public boolean hasLearntSpell(Spell spell) {
         return learntSpells.contains(spell);
     }

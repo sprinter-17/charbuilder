@@ -112,6 +112,13 @@ public class ChoiceGenerator {
         return addAction("Remove " + attribute.toString(), ch -> ch.removeAttribute(attribute));
     }
 
+    public ChoiceGenerator replaceAttribute(Attribute remove, Attribute replace) {
+        return addAction("Replace " + remove.toString() + " with " + replace.toString(), ch -> {
+            ch.removeAttribute(remove);
+            ch.addAttribute(replace);
+        });
+    }
+
     public ChoiceGenerator addAttributes(Attribute... attributes) {
         Arrays.stream(attributes)
             .forEach(attr -> addAction(attr.toString(), ch -> ch.addAttribute(attr)));
@@ -190,6 +197,7 @@ public class ChoiceGenerator {
     public static Choice cantripChoice(int count, String name,
         AttributeType abilityScore, Stream<Spell> cantrips) {
         List<Cantrip> cantripList = cantrips
+            .filter(Spell::isCantrip)
             .map(c -> new Cantrip(c, abilityScore))
             .collect(toList());
         return new OptionChoice(name, count) {
@@ -225,7 +233,8 @@ public class ChoiceGenerator {
         };
     }
 
-    public static Choice spellChoice(String casting, int count, String name, Stream<Spell> spells) {
+    public static OptionChoice spellChoice(String casting, int count, String name,
+        Stream<Spell> spells) {
         List<Spell> spellList = spells.collect(toList());
         return new OptionChoice(name, count) {
             @Override

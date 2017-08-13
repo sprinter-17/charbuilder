@@ -81,6 +81,8 @@ string_expr returns [String value]
             .orElse("");}
     | 'plural(' singular=string_expr SPACE? ',' SPACE? plural=string_expr ')'
         {$value = context.isPlural() ? $plural.value : $singular.value;}
+    | 'bonus(' SPACE? int_expr SPACE? ')'
+        {$value = $int_expr.value != 0 ? String.format("%+d", $int_expr.value) : "";}
     | WORD            
         {$value = $WORD.text;}
     | WORD SPACE   

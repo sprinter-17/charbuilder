@@ -19,6 +19,10 @@ public class TestCharacter extends Character {
         return this;
     }
 
+    public void setScore(AttributeType score, int value) {
+        getAttribute(score, IntAttribute.class).setValue(value);
+    }
+
     public void setLevel(int level) {
         if (hasAttribute(AttributeType.LEVEL))
             getAttribute(AttributeType.LEVEL, IntAttribute.class).setValue(level);

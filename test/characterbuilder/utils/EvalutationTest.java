@@ -1,6 +1,5 @@
 package characterbuilder.utils;
 
-import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
@@ -14,15 +13,14 @@ import org.junit.Test;
 
 public class EvalutationTest {
 
-    private Character character;
+    private TestCharacter character;
     private IntAttribute level;
     private EvaluationContext context;
 
     @Before
     public void setup() {
-        character = new Character();
-        level = new IntAttribute(AttributeType.LEVEL, 1);
-        character.addAttribute(level);
+        character = new TestCharacter();
+        character.setLevel(1);
         context = new EvaluationContext();
         context.setCharacter(character);
     }
@@ -81,6 +79,18 @@ public class EvalutationTest {
     public void testParentheses() {
         assertThat(eval("4 + (3 * 2)", context), is("10"));
         assertThat(eval("(4 + 3) * 2", context), is("14"));
+    }
+
+    @Test
+    public void testBonus() {
+        character.withScores(10);
+        assertThat(eval("bonus($chr_mod)", context), is(""));
+        character.setScore(AttributeType.CHARISMA, 12);
+        assertThat(eval("bonus($chr_mod)", context), is("+1"));
+        character.setScore(AttributeType.CHARISMA, 15);
+        assertThat(eval("bonus($chr_mod)", context), is("+2"));
+        character.setScore(AttributeType.CHARISMA, 7);
+        assertThat(eval("bonus($chr_mod)", context), is("-2"));
     }
 
     @Test

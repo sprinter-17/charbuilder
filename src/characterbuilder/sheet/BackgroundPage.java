@@ -7,6 +7,7 @@ import static characterbuilder.character.attribute.AttributeType.AGE;
 import static characterbuilder.character.attribute.AttributeType.PHYSICAL_DESCRIPTION;
 import static characterbuilder.character.attribute.AttributeType.WEIGHT;
 import characterbuilder.character.equipment.EquipmentCategory;
+import java.util.Comparator;
 import static java.util.stream.Collectors.joining;
 
 public class BackgroundPage extends Page {
@@ -59,12 +60,13 @@ public class BackgroundPage extends Page {
             element("table",
                 character.getAllAttributes()
                     .filter(AttributePlacement.DETAIL::isPlacementFor)
+                    .sorted(Comparator.comparing(Attribute::getType))
                     .map(ab -> abilityRow(ab)).collect(joining())));
     }
 
     private String abilityRow(Attribute ability) {
         return element("tr",
             element("th style='text-align:left'", nbsp(ability.toString()))
-            + element("td", ability.getDescription(character).collect(joining(", "))));
+            + element("td", ability.getDescription(character).collect(joining("<br>"))));
     }
 }

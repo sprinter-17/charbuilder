@@ -3,21 +3,12 @@ package characterbuilder.character.choice;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import java.util.Arrays;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class ReplaceAttributeChoice<T extends Attribute> extends OptionChoice {
 
-//    public static Choice replaceSpell() {
-//        return new ReplaceAttributeChoice<>("Spell", ch -> {
-//            CharacterClass characterClass = ch.getAttribute(AttributeType.CHARACTER_CLASS);
-//            SpellCasting casting = ch.getAttribute(AttributeType.SPELLCASTING);
-//            return characterClass.getSpells()
-//                .filter(sp -> !sp.isCantrip())
-//                .filter(sp -> sp.getLevel() <= casting.getMaxSlot());
-//        });
-//    }
-//
     private static final Attribute NO_REPLACEMENT = new Attribute() {
 
         @Override
@@ -27,7 +18,7 @@ public class ReplaceAttributeChoice<T extends Attribute> extends OptionChoice {
 
         @Override
         public void choose(Character character) {
-            // do nothing on selection.
+            // do nothing on selection other than remove choice
         }
 
         @Override
@@ -40,6 +31,10 @@ public class ReplaceAttributeChoice<T extends Attribute> extends OptionChoice {
     public ReplaceAttributeChoice(String name, Function<Character, Stream<T>> attributes) {
         super("Remove " + name, 1);
         this.attributes = attributes;
+    }
+
+    public ReplaceAttributeChoice(String name, T... attributes) {
+        this(name, ch -> Arrays.stream(attributes));
     }
 
     @Override

@@ -5,13 +5,14 @@ import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Alignment;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Background;
-import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.Sex;
+import characterbuilder.character.characterclass.CharacterClass;
 
 public class InitialChoiceGenerator extends ChoiceGenerator {
 
     public InitialChoiceGenerator() {
+        addChoice(new AttributeChoice("Class", CharacterClass.values()));
         addChoice(new OptionChoice("Race") {
             @Override
             public void select(Character character, ChoiceSelector selector) {
@@ -19,7 +20,6 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
             }
         });
         addChoice(new AttributeChoice("Sex", Sex.values()));
-        addChoice(new AttributeChoice("Class", CharacterClass.values()));
         addChoice(generateAbilityScores());
         addChoice(new AttributeChoice("Background", Background.values()));
         addChoice(new AttributeChoice("Alignment", Alignment.values()));

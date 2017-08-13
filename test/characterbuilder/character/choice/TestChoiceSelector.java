@@ -34,7 +34,8 @@ public class TestChoiceSelector implements ChoiceSelector {
                 .filter(o -> o.toString().equals(choiceName.get()))
                 .findAny()
                 .orElseThrow(()
-                    -> new IllegalArgumentException("Option " + choiceName.get() + " not in list")));
+                    -> new IllegalArgumentException("Option " + choiceName.get()
+                    + " not in list " + optionList)));
         else
             followUp.accept(((T) optionList.get(0)));
     }

@@ -1,8 +1,8 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.Race;
+import characterbuilder.character.characterclass.CharacterClass;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -34,14 +34,14 @@ public class InitialChoiceGeneratorTest {
     @Test
     public void testAttributeAdded() {
         assertFalse(character.hasAttribute(AttributeType.RACE));
-        character.getChoice(0).select(character, selector);
+        character.getChoice(1).select(character, selector);
         assertThat(character.getAttribute(AttributeType.RACE), is(Race.HUMAN));
     }
 
     @Test
     public void testChoiceRemoved() {
         assertTrue(character.hasChoice("Race"));
-        character.selectChoice(character.getChoice(0));
+        character.selectChoice(character.getChoice(1));
         assertFalse(character.hasChoice("Race"));
     }
 

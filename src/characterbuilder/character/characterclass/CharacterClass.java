@@ -202,8 +202,7 @@ public enum CharacterClass implements Attribute {
     }),
     FIGHTER(10, MARTIAL_ARCHETYPE, STRENGTH, CONSTITUTION,
         Arrays.asList(STRENGTH, DEXTERITY, CONSTITUTION), gen -> {
-        gen.level(1).
-            addAttributes(ALL_ARMOUR, ALL_WEAPONS, SECOND_WIND);
+        gen.level(1).addAttributes(ALL_ARMOUR, ALL_WEAPONS, SECOND_WIND);
         gen.level(1).addChoice(new AttributeChoice("Skill",
             ACROBATICS, ANIMAL_HANDLING, ATHLETICS, HISTORY, INSIGHT,
             INTIMIDATION, PERCEPTION, SURVIVAL).withCount(2))

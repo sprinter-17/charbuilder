@@ -14,6 +14,7 @@ import characterbuilder.character.characterclass.ElementalAdept;
 import characterbuilder.character.characterclass.FavouredEnemy;
 import characterbuilder.character.characterclass.FavouredTerrain;
 import characterbuilder.character.characterclass.MagicSchool;
+import characterbuilder.character.characterclass.Maneuver;
 import characterbuilder.character.characterclass.MartialArchetype;
 import characterbuilder.character.characterclass.MonasticTradition;
 import characterbuilder.character.characterclass.OtherwordlyPatron;
@@ -60,9 +61,12 @@ public enum AttributeType {
     IDEAL(false, StringAttribute::load),
     BOND(false, StringAttribute::load),
     FLAW(false, StringAttribute::load),
+    RACIAL_TALENT(false, Ability::load),
     DRACONIC_ANCESTORY(true, DraconicAncestory::load),
-    FIGHTING_STYLE(false, Ability::load),
+    CLASS_TALENT(false, Ability::load),
+    MANEUVER(false, Maneuver::load),
     MARTIAL_ARCHETYPE(true, MartialArchetype::load),
+    FIGHTING_STYLE(false, Ability::load),
     ROGUISH_ARCHETYPE(true, RoguishArchetype::load),
     MONASTIC_TRADITION(true, MonasticTradition::load),
     DRUID_CIRCLE(true, DruidCircle::load),
@@ -70,8 +74,6 @@ public enum AttributeType {
     RANGER_ARCHETYPE(true, RangerArchetype::load),
     SORCEROUS_ORIGIN(true, SorcerousOrigin::load),
     OTHERWORLDLY_PATRON(true, OtherwordlyPatron::load),
-    RACIAL_TALENT(false, Ability::load),
-    CLASS_TALENT(false, Ability::load),
     BACKGROUND_FEATURE(false, Ability::load),
     ENTERTAINER_ROUTINE(false, Proficiency::load),
     GUILD_BUSINESS(false, Proficiency::load),

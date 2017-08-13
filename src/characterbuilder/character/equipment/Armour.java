@@ -81,6 +81,9 @@ public enum Armour implements Equipment {
         ac += bestArmour.map(armour -> armour.getDexBonus(character))
             .orElse(character.getModifier(AttributeType.DEXTERITY));
 
+        if (bestArmour.isPresent() && character.hasAttribute(Ability.DEFENSE))
+            ac += 1;
+
         if (!bestArmour.isPresent() && character.hasAttribute(Ability.UNARMORED_DEFENCE_BARBARIAN))
             ac += character.getModifier(AttributeType.CONSTITUTION);
         return ac;

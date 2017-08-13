@@ -2,6 +2,7 @@ package characterbuilder.character.ability;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.spell.Spell;
@@ -46,15 +47,39 @@ public enum Ability implements Attribute {
         "Disadvantage attacks against other targets with 5' when using a shield."),
     TWO_WEAPON(FIGHTING_STYLE, "Add ability modifier to damage of second weapon attack."),
     //
-    SECOND_WIND(CLASS_TALENT,
-        "Use a bonus action to regain 1d10+[$level] hit points. Use once between each rest. "),
-    ACTION_SURGE(CLASS_TALENT, "Action Surge",
-        "Take an additional action [max($level 2:one time, 17:two times)] between each rest."),
+    SECOND_WIND(classTalent()
+        .withDescription("Use a bonus action to regain 1d10+[$level] hit points.")
+        .withDescription("Use once between each rest.")),
+    ACTION_SURGE(classTalent()
+        .withDescription("Take an additional action [max($level 2:one time, 17:two times)] "
+            + "between each rest.")),
+//        CLASS_TALENT, "Action Surge",
+//        ""),
     IMPROVED_CRITICAL(CLASS_TALENT, "Score a critical on a roll of 19 or 20."),
     SUPERIOR_CRITICAL(CLASS_TALENT, "Improved Critical",
         "Score a critical on a roll of 18, 19 or 20."),
     SURVIVOR(CLASS_TALENT,
         "Regain [5 + $con_mod] HP each turn if no more than [$hp / 2] hit points remaining."),
+    COMBAT_SUPERIORITY(classTalent()
+        .withDescription("Can use one maneuver per attack.")
+        .withDescription("[max($level 3:4,7:5,15:6)] [max($level 3:1d8,10:1d10,18:1d12)] "
+            + "superiority dice.")
+        .withDescription("Regain expended superiority dice after rest.")
+        .withDescription("Maneuver save DC [8+$prof+max($str_mod,$dex_mod)].")),
+    KNOW_YOUR_ENEMY(classTalent()
+        .withDescription("After 1 minute of observation, "
+            + "know relative strength of two characteristics: "
+            + "Strength, Dexterity, Consitution, AC, Current HP, Total Levels, Fighter Level.")),
+    RELENTLESS(classTalent()
+        .withDescription("On initiative, regain 1 superiority die if none remaining.")),
+    WAR_MAGIC(classTalent()
+        .withDescription("On casting a [max($level 7:cantrip,18:spell)], "
+            + "make one weapon attack as a bonus action.")),
+    ELDRITCH_STRIKE(classTalent()
+        .withDescription("On hitting with a weapon, "
+            + "for one turn target has disadvantage on saves against spells.")),
+    ARCANE_CHARGE(classTalent()
+        .withDescription("On Action Surge, teleport up to 30 feet.")),
     REMARKABLE_ATHLETE(CLASS_TALENT,
         "Add [$prof / 2] to Str, Dex and Con checks. Add [$str_mod]' to running long jump length."),
     EXTRA_ATTACK_FIGHTER(CLASS_TALENT, "Extra Attack",
@@ -448,46 +473,64 @@ public enum Ability implements Attribute {
     GUILD_MEMBERSHIP(BACKGROUND_FEATURE, "Guild Membership",
         "Guild will provide lodging and food. Must pay dues of 5GP each month."),;
 
-    private final AttributeType type;
-    private final String name;
-    private final String description;
-    private final Optional<Spell> spell;
+    private static class AbilityDelegate extends AttributeDelegate {
+
+        private final AttributeType type;
+        private Optional<Spell> spell = Optional.empty();
+
+        public AbilityDelegate(AttributeType type) {
+            this.type = type;
+        }
+
+        public AbilityDelegate withSpell(Spell spell) {
+            this.spell = Optional.of(spell);
+            return this;
+        }
+    }
+
+    private static AbilityDelegate classTalent() {
+        return new AbilityDelegate(CLASS_TALENT);
+    }
+
+    private static AbilityDelegate ability(AttributeType type) {
+        return new AbilityDelegate(type);
+    }
+
+    private final AbilityDelegate delegate;
 
     public static Stream<AttributeType> getTypes() {
         return Arrays.stream(values()).map(Ability::getType).distinct();
     }
 
+    private Ability(AttributeDelegate delegate) {
+        this.delegate = (AbilityDelegate) delegate;
+    }
+
     private Ability(AttributeType type, String description) {
-        this.type = type;
-        this.name = StringUtils.capitaliseEnumName(name());
-        this.description = description;
-        this.spell = Optional.empty();
+        this(ability(type).withDescription(description));
     }
 
     private Ability(AttributeType type, String name, String description) {
-        this(type, name, description, null);
+        this(ability(type).withName(name).withDescription(description));
     }
 
     private Ability(AttributeType type, String name, String description, Spell spell) {
-        this.type = type;
-        this.name = name;
-        this.description = description;
-        this.spell = Optional.ofNullable(spell);
+        this(ability(type).withSpell(spell).withName(name).withDescription(description));
     }
 
     @Override
     public AttributeType getType() {
-        return type;
+        return delegate.type;
     }
 
     @Override
     public String toString() {
-        return name;
+        return delegate.getName().orElse(StringUtils.capitaliseEnumName(name()));
     }
 
     @Override
     public Stream<String> getDescription(Character character) {
-        return Stream.of(StringUtils.expand(description, character));
+        return delegate.getDescription(character);
     }
 
     public static Ability load(AttributeType type, Node node) {
