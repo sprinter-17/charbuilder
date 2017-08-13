@@ -132,14 +132,30 @@ public class ChoiceGenerator {
     }
 
     public ChoiceGenerator addSpellCasting(String casting, AttributeType abilityScore,
-        String preparedSpellText) {
+        CharacterClass spellClass, String preparedText) {
         addAction("Add Spellcasting",
-            ch -> ch.addAttribute(new SpellCasting(casting, abilityScore, preparedSpellText)));
+            ch -> new SpellCasting(casting, abilityScore, spellClass, preparedText).choose(ch));
+        return this;
+    }
+
+    public ChoiceGenerator learnAllSpells(String casting) {
+        addAction("Learn all spells",
+            ch -> getCasting(ch, casting).learnAllSpells());
         return this;
     }
 
     public ChoiceGenerator addSpellSlots(String casting, int level, int slots) {
         addAction("Spell Slots", ch -> getCasting(ch, casting).addSlots(level, slots));
+        return this;
+    }
+
+    public ChoiceGenerator replaceSpell(String casting) {
+        addAction("Replace Spell", ch -> getCasting(ch, casting).replaceSpell(ch));
+        return this;
+    }
+
+    public ChoiceGenerator addKnownSpells(String casting, int count) {
+        addAction("Add Known Spells", ch -> getCasting(ch, casting).addKnownSpells(ch, count));
         return this;
     }
 

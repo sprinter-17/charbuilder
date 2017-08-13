@@ -1,7 +1,9 @@
 package characterbuilder.character.spell;
 
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.attribute.IntAttribute;
+import static characterbuilder.character.characterclass.CharacterClass.CLERIC;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
@@ -17,7 +19,7 @@ public class SpellCastingTest {
 
     @Before
     public void setup() {
-        casting = new SpellCasting("Spellcasting", AttributeType.CHARISMA, "[$level * 2]");
+        casting = new SpellCasting("Spellcasting", CHARISMA, CLERIC, "[$level * 2]");
         character = new TestCharacter();
         character.setLevel(4);
         score = new IntAttribute(AttributeType.CHARISMA, 16);
@@ -93,12 +95,21 @@ public class SpellCastingTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
-        casting.addSlots(1, 5);
-        casting.addSlots(3, 2);
-        casting.addLearntSpell(Spell.HEAL);
-        casting.addLearntSpell(Spell.ANIMAL_MESSENGER);
-        assertThat(AttributeType.load(casting.save(TestDoc.doc())), is(casting));
+    public void testLearnAllSpells() {
+        casting.learnAllSpells();
+        casting.addSlots(1, 1);
+        assertTrue(casting.hasLearntSpell(Spell.CURE_WOUNDS));
+        assertFalse(casting.hasLearntSpell(Spell.AID));
+        assertFalse(casting.hasLearntSpell(Spell.MENDING));
+    }
+
+    @Test
+    public void testKnownSpells() {
+        casting.choose(character);
+        casting.addSlots(1, 3);
+        assertFalse(character.hasChoice("Spellcasting Spell"));
+        casting.addKnownSpells(character, 4);
+        assertTrue(character.hasChoice("Spellcasting Spell (x4)"));
     }
 
     @Test
@@ -106,5 +117,45 @@ public class SpellCastingTest {
         assertThat(casting.getPreparedSpellText(character), is("8"));
         character.setLevel(10);
         assertThat(casting.getPreparedSpellText(character), is("20"));
+    }
+
+    @Test
+    public void testSelectNone() {
+        casting.addLearntSpell(Spell.ALARM);
+        casting.replaceSpell(character);
+        character.selectChoice("Replace Spellcasting Spell", "None");
+        assertFalse(character.hasChoice("Remove Spellcasting Spell"));
+        assertTrue(casting.hasLearntSpell(Spell.ALARM));
+    }
+
+    @Test
+    public void testRemoveSpell() {
+        casting.addLearntSpell(Spell.ALARM);
+        casting.replaceSpell(character);
+        character.selectChoice("Replace Spellcasting Spell", "Alarm");
+        assertFalse(character.hasChoice("Remove Spellcasting Spell"));
+        assertFalse(casting.hasLearntSpell(Spell.ALARM));
+    }
+
+    @Test
+    public void testHasNewChoice() {
+        casting.choose(character);
+        casting.addSlots(1, 1);
+        casting.addKnownSpells(character, 4);
+        casting.addLearntSpell(Spell.ALARM);
+        assertTrue(character.hasChoice("Spellcasting Spell (x3)"));
+        casting.replaceSpell(character);
+        character.selectChoice("Replace Spellcasting Spell", "Alarm");
+        assertTrue(character.hasChoice("Spellcasting Spell (x4)"));
+    }
+
+    @Test
+    public void testSaveAndLoad() {
+        casting.addSlots(1, 5);
+        casting.addSlots(3, 2);
+        casting.addLearntSpell(Spell.HEAL);
+        casting.addLearntSpell(Spell.ANIMAL_MESSENGER);
+        casting.learnAllSpells();
+        assertThat(AttributeType.load(casting.save(TestDoc.doc())), is(casting));
     }
 }

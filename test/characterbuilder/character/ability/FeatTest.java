@@ -3,6 +3,7 @@ package characterbuilder.character.ability;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.TestCharacter;
@@ -62,7 +63,8 @@ public class FeatTest {
 
     @Test
     public void testElementalAdeptCanBeChosenFourTimes() {
-        character.addAttribute(new SpellCasting("Elemental", AttributeType.STRENGTH));
+        character.addAttribute(new SpellCasting("Elemental", AttributeType.STRENGTH,
+            CharacterClass.DRUID, "All"));
         IntStream.rangeClosed(1, 4).forEach(i -> {
             assertTrue(Feat.ELEMENTAL_ADEPT.isAllowed(character));
             Feat.ELEMENTAL_ADEPT.choose(character);

@@ -3,6 +3,10 @@ package characterbuilder.character.spell;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.choice.ChoiceSelector;
+import characterbuilder.character.choice.NoOption;
+import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.saveload.Savable;
 import characterbuilder.utils.StringUtils;
 import java.util.ArrayList;
@@ -11,24 +15,77 @@ import java.util.List;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 public class SpellCasting implements Attribute {
+
+    private class ReplaceSpell extends OptionChoice {
+
+        public ReplaceSpell() {
+            super("Replace " + name + " Spell");
+        }
+
+        @Override
+        public void select(Character character, ChoiceSelector selector) {
+            selector.chooseOption(
+                Stream.concat(Stream.of(NoOption.NONE), getLearntSpells()), opt -> {
+                if (opt instanceof Spell) {
+                    Spell spell = (Spell) opt;
+                    removeLearntSpell(spell);
+                    choice.useAndCheck();
+                }
+            });
+        }
+
+        @Override
+        public boolean isAllowed(Character character) {
+            return !learntSpells.isEmpty();
+        }
+    }
+
+    private class ChooseSpell extends OptionChoice {
+
+        public ChooseSpell() {
+            super(name + " Spell", Integer.MAX_VALUE);
+        }
+
+        @Override
+        public void select(Character character, ChoiceSelector selector) {
+            selector.chooseOption(spellClass.getSpells()
+                .filter(sp -> !sp.isCantrip())
+                .filter(sp -> sp.getLevel() <= getMaxSlot())
+                .filter(sp -> !hasLearntSpell(sp)),
+                SpellCasting.this::addLearntSpell);
+        }
+
+        @Override
+        public boolean useAndCheck() {
+            withCount(knownSpells - learntSpells.size());
+            return false;
+        }
+
+        @Override
+        public boolean isAllowed(Character character) {
+            return character.hasAttribute(spellAbilityScore) && knownSpells > learntSpells.size();
+        }
+    }
 
     private final String name;
     private final AttributeType spellAbilityScore;
     private final String preparedSpellText;
+    private final CharacterClass spellClass;
     private final List<Spell> learntSpells = new ArrayList<>();
+    private final ChooseSpell choice;
+    private boolean learnAll = false;
+    private int knownSpells = 0;
     private int[] spellSlots = {};
 
-    public SpellCasting(String name, AttributeType spellAbilityScore) {
-        this(name, spellAbilityScore, "All");
-    }
-
-    public SpellCasting(String name, AttributeType spellAbilityScore, String preparedSpellText) {
+    public SpellCasting(String name, AttributeType spellAbilityScore,
+        CharacterClass spellClass, String preparedSpellText) {
         this.name = name;
         this.spellAbilityScore = spellAbilityScore;
+        this.spellClass = spellClass;
         this.preparedSpellText = preparedSpellText;
+        this.choice = new ChooseSpell();
     }
 
     @Override
@@ -46,6 +103,10 @@ public class SpellCasting implements Attribute {
         spellSlots[level - 1] += slots;
     }
 
+    public void learnAllSpells() {
+        this.learnAll = true;
+    }
+
     public int getSlotsAtLevel(int level) {
         if (level < 1 || level > spellSlots.length)
             throw new IllegalArgumentException("Attempt to get unavailable spell slot count");
@@ -60,10 +121,20 @@ public class SpellCasting implements Attribute {
         return spellAbilityScore;
     }
 
+    public void replaceSpell(Character character) {
+        character.pushChoice(new ReplaceSpell());
+    }
+
+    public void addKnownSpells(Character character, int count) {
+        knownSpells += count;
+        choice.useAndCheck();
+    }
+
     public void addLearntSpell(Spell spell) {
         if (spell.isCantrip())
             throw new IllegalArgumentException("Cantrips cannot be learnt as spellcasting");
         learntSpells.add(spell);
+        choice.useAndCheck();
     }
 
     public void removeLearntSpell(Spell spell) {
@@ -73,11 +144,24 @@ public class SpellCasting implements Attribute {
     }
 
     public boolean hasLearntSpell(Spell spell) {
-        return learntSpells.contains(spell);
+        return getLearntSpells().anyMatch(spell::equals);
     }
 
     public Stream<Spell> getLearntSpells() {
-        return learntSpells.stream();
+        return Stream.concat(getLearnAllSpells(), learntSpells.stream());
+    }
+
+    private Stream<Spell> getLearnAllSpells() {
+        if (learnAll)
+            return spellClass.getSpells()
+                .filter(sp -> sp.getLevel() <= getMaxSlot() && !sp.isCantrip());
+        else
+            return Stream.empty();
+    }
+
+    @Override
+    public void generateLevelChoices(Character character) {
+        character.addChoice(choice);
     }
 
     @Override
@@ -115,8 +199,11 @@ public class SpellCasting implements Attribute {
             .setTextContent(name);
         element.appendChild(doc.createElement("ability_score"))
             .setTextContent(spellAbilityScore.name());
+        element.appendChild(doc.createElement("spell_class"))
+            .setTextContent(spellClass.name());
         element.appendChild(doc.createElement("prepared_spells"))
             .setTextContent(preparedSpellText);
+        element.setAttribute("learn_all", Boolean.toString(learnAll));
         for (int i = 0; i < spellSlots.length; i++) {
             Element slot = doc.createElement("spell_slot");
             slot.setAttribute("level", String.valueOf(i + 1));
@@ -128,16 +215,22 @@ public class SpellCasting implements Attribute {
         return element;
     }
 
-    public static SpellCasting load(Node node) {
-        String name = Savable.child(node, "name").getTextContent();
+    public static SpellCasting load(Element element) {
+        String name = Savable.child(element, "name").getTextContent();
         AttributeType abilityScore
-            = AttributeType.valueOf(Savable.child(node, "ability_score").getTextContent());
-        String preparedSpellText = Savable.child(node, "prepared_spells").getTextContent();
-        SpellCasting casting = new SpellCasting(name, abilityScore, preparedSpellText);
-        Savable.children(node)
+            = AttributeType.valueOf(Savable.child(element, "ability_score").getTextContent());
+        String preparedSpellText = Savable.child(element, "prepared_spells").getTextContent();
+        CharacterClass spellClass
+            = CharacterClass.valueOf(Savable.child(element, "spell_class").getTextContent());
+        SpellCasting casting = new SpellCasting(name, abilityScore, spellClass, preparedSpellText);
+        if (Boolean.valueOf(element.getAttribute("learn_all")))
+            casting.learnAllSpells();
+        if (Boolean.valueOf(element.getAttribute("learn_all")))
+            casting.learnAllSpells();
+        Savable.children(element)
             .filter(el -> el.getTagName().equals("spell_slot"))
             .forEach(el -> loadSpellSlot(casting, el));
-        Savable.children(node)
+        Savable.children(element)
             .filter(el -> el.getTagName().equals("learnt_spell"))
             .forEach(el -> casting.addLearntSpell(Spell.valueOf(el.getTextContent())));
         return casting;
@@ -163,6 +256,8 @@ public class SpellCasting implements Attribute {
             && other.spellAbilityScore.equals(spellAbilityScore)
             && other.preparedSpellText.equals(preparedSpellText)
             && Arrays.equals(other.spellSlots, spellSlots)
+            && other.spellClass.equals(spellClass)
+            && other.learnAll == learnAll
             && other.learntSpells.equals(learntSpells);
     }
 

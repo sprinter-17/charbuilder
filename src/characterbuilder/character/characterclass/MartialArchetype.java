@@ -4,12 +4,12 @@ import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.attribute.AttributeType.INTELLIGENCE;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.spellChoice;
 import characterbuilder.character.choice.ReplaceAttributeChoice;
-import characterbuilder.character.choice.ReplaceSpell;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
@@ -36,14 +36,14 @@ public enum MartialArchetype implements Attribute {
     }),
     ELDRITCH_KNIGHT(gen -> {
         final String castingName = "Eldritch Knight";
-        gen.level(3).addAttributes(new SpellCasting(castingName, AttributeType.INTELLIGENCE, "All"));
+        gen.level(3).addAttributes(new SpellCasting(castingName, INTELLIGENCE, WIZARD, "All"));
         gen.level(3).addChoice(ChoiceGenerator.cantripChoice(2, castingName + " Cantrip",
             AttributeType.INTELLIGENCE, WIZARD.getSpells()));
         gen.level(3).addSpellSlots(castingName, 1, 2);
         gen.level(3).addChoice(spellChoice(castingName, 3, castingName + " Spell",
             WIZARD.getSpells()));
         gen.level(4, 7, 8, 10, 11, 13, 14, 16, 19, 20)
-            .addChoice(new ReplaceSpell(castingName, WIZARD.getSpells()))
+            //            .addChoice(new ReplaceSpell(castingName, WIZARD.getSpells()))
             .addChoice(spellChoice(castingName, 1, castingName + " Spell", WIZARD.getSpells()));
         gen.level(4).addSpellSlots(castingName, 1, 1);
         gen.level(7).addAttributes(WAR_MAGIC);

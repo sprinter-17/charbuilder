@@ -15,11 +15,13 @@ public class ChoiceList {
     }
 
     public void add(OptionChoice choice) {
-        choices.add(choice);
+        if (!choices.contains(choice))
+            choices.add(choice);
     }
 
     public void push(OptionChoice choice) {
-        choices.add(0, choice);
+        if (!choices.contains(choice))
+            choices.add(0, choice);
     }
 
     public boolean isEmpty() {

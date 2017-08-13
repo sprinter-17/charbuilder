@@ -4,9 +4,11 @@ import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.attribute.AttributeType.WISDOM;
+import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellCasting;
+import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
 import org.w3c.dom.Node;
@@ -19,11 +21,11 @@ public enum MonasticTradition implements Attribute {
         gen.level(17).addAttributes(QUIVERING_PALM);
     }),
     WAY_OF_SHADOW(gen -> {
-        gen.level(3).addAttributes(SHADOW_ARTS);
-        gen.level(3).addAttributes(new SpellCasting("Monk", AttributeType.WISDOM, "All"));
-        gen.level(3).addLearntSpells("Monk", Spell.DARKNESS, Spell.DARKVISION,
-            Spell.PASS_WITHOUT_TRACE, Spell.SILENCE);
-        gen.level(3).addCantrip(Spell.MINOR_ILLUSION, AttributeType.WISDOM);
+        gen.level(3)
+            .addAttributes(SHADOW_ARTS)
+            .addSpellCasting("Monk", WISDOM, WIZARD, "All")
+            .addLearntSpells("Monk", DARKNESS, Spell.DARKVISION, PASS_WITHOUT_TRACE, SILENCE);
+        gen.level(3).addCantrip(MINOR_ILLUSION, WISDOM);
         gen.level(6).addAttributes(SHADOW_STEP);
         gen.level(11).addAttributes(CLOAK_OF_SHADOWS);
         gen.level(17).addAttributes(OPPORTUNIST);

@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.function.Function;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 public enum AttributeType {
     NAME(true, StringAttribute::load),
@@ -103,7 +102,7 @@ public enum AttributeType {
     @FunctionalInterface
     private interface Loader {
 
-        Attribute load(AttributeType type, Node node);
+        Attribute load(AttributeType type, Element element);
     }
 
     public static final List<AttributeType> PERSONALITY = Arrays.asList(
@@ -112,7 +111,7 @@ public enum AttributeType {
     private final boolean unique;
     private final Loader loader;
 
-    private AttributeType(boolean unique, Function<Node, Attribute> loader) {
+    private AttributeType(boolean unique, Function<Element, Attribute> loader) {
         this(unique, (t, n) -> loader.apply(n));
     }
 
@@ -133,9 +132,9 @@ public enum AttributeType {
         return doc.createElement(name().toLowerCase());
     }
 
-    public static Attribute load(Node node) {
-        AttributeType type = AttributeType.valueOf(node.getNodeName().toUpperCase());
-        return type.loader.load(type, node);
+    public static Attribute load(Element element) {
+        AttributeType type = AttributeType.valueOf(element.getTagName().toUpperCase());
+        return type.loader.load(type, element);
     }
 
     public String toString() {

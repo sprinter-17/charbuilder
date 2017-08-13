@@ -14,6 +14,7 @@ import characterbuilder.character.attribute.Sex;
 import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.characterclass.CharacterClass;
+import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import characterbuilder.character.characterclass.DivineDomain;
 import characterbuilder.character.equipment.EquipmentSet;
 import static characterbuilder.character.equipment.EquipmentType.BASKET;
@@ -136,7 +137,7 @@ public class CharacterSaverTest {
 
     @Test
     public void testLearntSpells() {
-        SpellCasting casting = new SpellCasting("Spells", INTELLIGENCE);
+        SpellCasting casting = new SpellCasting("Spells", INTELLIGENCE, WIZARD, "All");
         casting.addLearntSpell(Spell.ANTIMAGIC_FIELD);
         character.addAttribute(casting);
         saveAndLoad();

@@ -3,6 +3,7 @@ package characterbuilder.character.spell;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
@@ -59,7 +60,8 @@ public class SpellTest {
     private Character level(int level) {
         Character character = new Character();
         character.addAttribute(new IntAttribute(AttributeType.LEVEL, level));
-        character.addAttribute(new SpellCasting("SpellCasting", AttributeType.CONSTITUTION));
+        character.addAttribute(new SpellCasting("SpellCasting", AttributeType.CONSTITUTION,
+            CharacterClass.WIZARD, "All"));
         character.addAttribute(new IntAttribute(AttributeType.CONSTITUTION, 15));
         character.addAttribute(new IntAttribute(AttributeType.DEXTERITY, 15));
         character.addAttribute(new IntAttribute(AttributeType.HIT_POINTS, 30));

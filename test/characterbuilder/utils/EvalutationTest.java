@@ -3,6 +3,7 @@ package characterbuilder.utils;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.spell.SpellCasting;
 import static characterbuilder.utils.ExpressionParser.eval;
 import static org.hamcrest.CoreMatchers.is;
@@ -101,7 +102,8 @@ public class EvalutationTest {
 
     @Test
     public void testSpellModAndDC() {
-        character.addAttribute(new SpellCasting("Spellcasting", AttributeType.DEXTERITY));
+        character.addAttribute(new SpellCasting("Spellcasting", AttributeType.DEXTERITY,
+            CharacterClass.WIZARD, "All"));
         character.addAttribute(new IntAttribute(AttributeType.DEXTERITY, 14));
         assertThat(eval("$spell_mod", context), is("4"));
         assertThat(eval("$spell_dc", context), is("12"));

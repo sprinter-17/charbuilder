@@ -103,7 +103,7 @@ public class CharacterSaver {
         for (Node child = attributesNode.getFirstChild(); child != null;
             child = child.getNextSibling()) {
             if (child.getNodeType() == Node.ELEMENT_NODE) {
-                character.addAttribute(AttributeType.load(child));
+                character.addAttribute(AttributeType.load((Element) child));
             }
         }
     }

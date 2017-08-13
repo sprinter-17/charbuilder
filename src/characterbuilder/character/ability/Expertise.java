@@ -2,9 +2,9 @@ package characterbuilder.character.ability;
 
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.saveload.Savable.child;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 public class Expertise implements Attribute {
 
@@ -35,8 +35,8 @@ public class Expertise implements Attribute {
         return element;
     }
 
-    public static Expertise load(AttributeType type, Node node) {
-        return new Expertise(AttributeType.load(node.getFirstChild()));
+    public static Expertise load(AttributeType type, Element element) {
+        return new Expertise(AttributeType.load(child(element)));
     }
 
     @Override

@@ -9,11 +9,11 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeSet;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
-import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.choice.ChoiceList;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.OptionChoice;
@@ -69,6 +69,10 @@ public class Character {
     public void selectChoice(OptionChoice choice) {
         assert choices != null;
         choices.select(this, choice);
+    }
+
+    public boolean hasChoice(OptionChoice choice) {
+        return choices.has(choice);
     }
 
     public boolean hasChoice(String name) {

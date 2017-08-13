@@ -16,7 +16,6 @@ import characterbuilder.character.choice.Choice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import static characterbuilder.character.choice.ChoiceGenerator.levels;
-import static characterbuilder.character.choice.ChoiceGenerator.spellChoice;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.choice.ExpertiseChoice;
@@ -41,13 +40,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 import org.w3c.dom.Node;
 
 public enum CharacterClass implements Attribute {
     BARBARIAN(12, PRIMAL_PATH, STRENGTH, CONSTITUTION,
-        Arrays.asList(STRENGTH, CONSTITUTION), gen -> {
+        Arrays.asList(STRENGTH, CONSTITUTION), (cls, gen) -> {
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD, ALL_WEAPONS);
         gen.level(1).addChoice(2, new AttributeChoice("Skill",
@@ -76,8 +75,8 @@ public enum CharacterClass implements Attribute {
         gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
     }),
     BARD(8, BARDIC_COLLEGE, DEXTERITY, CHARISMA,
-        Arrays.asList(CHARISMA, DEXTERITY), gen -> {
-        gen.level(1).addSpellCasting("Bard", CHARISMA, "All");
+        Arrays.asList(CHARISMA, DEXTERITY), (cls, gen) -> {
+        gen.level(1).addSpellCasting("Bard", CHARISMA, cls, "All");
         gen.level(1).addChoice(cantripChoice(2, CHARISMA));
         gen.level(4, 10).addChoice(cantripChoice(1, CHARISMA));
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS);
@@ -113,17 +112,10 @@ public enum CharacterClass implements Attribute {
         gen.level(13, 12).addSpellSlots("Bard", 7, 1);
         gen.level(15).addSpellSlots("Bard", 8, 1);
         gen.level(17).addSpellSlots("Bard", 9, 1);
-//        gen.cond(ch -> ch.getLevel() > 1).addChoice(replaceSpell());
-        gen.level(1).addChoice(spellChoice("Bard", 4, 1));
-        gen.level(2).addChoice(spellChoice("Bard", 1, 1));
-        gen.level(3, 4).addChoice(spellChoice("Bard", 1, 2));
-        gen.level(5, 6).addChoice(spellChoice("Bard", 1, 3));
-        gen.level(7, 8).addChoice(spellChoice("Bard", 1, 4));
-        gen.level(9, 10).addChoice(spellChoice("Bard", 1, 5));
-        gen.level(11, 12).addChoice(spellChoice("Bard", 1, 6));
-        gen.level(13, 14).addChoice(spellChoice("Bard", 1, 7));
-        gen.level(15, 16).addChoice(spellChoice("Bard", 1, 8));
-        gen.level(17, 18, 19, 20).addChoice(spellChoice("Bard", 1, 9));
+        gen.cond(ch -> ch.getLevel() > 1).replaceSpell("Bard");
+        gen.level(1).addKnownSpells("Bard", 4);
+        gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17).addKnownSpells("Bard", 1);
+        gen.level(9, 14, 18).addKnownSpells("Bard", 2);
 //        gen.level(10, 14, 18).addChoice(2, new AttributeChoice("Magical Secrets",
 //            Arrays.stream(Spell.values())
 //                .filter(sp -> sp.getLevel() <= spellCount[character.getLevel()].length)
@@ -132,9 +124,9 @@ public enum CharacterClass implements Attribute {
 
     },
     CLERIC(8, DIVINE_DOMAIN, WISDOM, CHARISMA,
-        Arrays.asList(WISDOM, CONSTITUTION, STRENGTH), gen -> {
-        SpellCasting casting = new SpellCasting("Cleric", WISDOM, "[$wis_mod + $level]");
-        gen.level(1).addAttributes(casting);
+        Arrays.asList(WISDOM, CONSTITUTION, STRENGTH), (cls, gen) -> {
+        gen.level(1).addSpellCasting("Cleric", WISDOM, cls, "[$wis_mod + $level]");
+        gen.level(1).learnAllSpells("Cleric");
         gen.level(1).addChoice(cantripChoice(3, WISDOM));
         gen.level(5, 10).addChoice(cantripChoice(1, WISDOM));
         gen.level(1).addSpellSlots("Cleric", 1, 2);
@@ -164,11 +156,11 @@ public enum CharacterClass implements Attribute {
         gen.level(13, 20).addSpellSlots("Cleric", 7, 1);
         gen.level(15).addSpellSlots("Cleric", 8, 1);
         gen.level(17).addSpellSlots("Cleric", 9, 1);
-//        gen.level(1, 3, 5, 7, 9, 11, 13, 15, 17).addAllSpells("Cleric");
     }),
-    DRUID(8, DRUID_CIRCLE, INTELLIGENCE, WISDOM, Arrays.asList(WISDOM, CONSTITUTION), gen -> {
-        SpellCasting casting = new SpellCasting("Druid", WISDOM, "[$wis_mod + $level]");
-        gen.level(1).addAttributes(casting);
+    DRUID(8, DRUID_CIRCLE, INTELLIGENCE, WISDOM, Arrays.asList(WISDOM, CONSTITUTION), (cls, gen)
+        -> {
+        gen.level(1).addSpellCasting("Druid", WISDOM, cls, "[$wis_mod + $level]");
+        gen.level(1).learnAllSpells("Druid");
         gen.level(1).addChoice(cantripChoice(2, WISDOM));
         gen.level(4, 10).addChoice(cantripChoice(1, WISDOM));
         gen.level(1).addSpellSlots("Druid", 1, 2);
@@ -183,7 +175,6 @@ public enum CharacterClass implements Attribute {
         gen.level(13, 20).addSpellSlots("Druid", 7, 1);
         gen.level(15).addSpellSlots("Druid", 8, 1);
         gen.level(17).addSpellSlots("Druid", 9, 1);
-//        gen.level(1, 3, 5, 7, 9, 11, 13, 15, 17).addAllSpells("Druid");
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD, DRUIDIC);
         gen.level(1).addWeaponProficiencies(CLUB, DAGGER, DART, JAVELIN, MACE, QUARTERSTAFF,
@@ -201,7 +192,7 @@ public enum CharacterClass implements Attribute {
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
     }),
     FIGHTER(10, MARTIAL_ARCHETYPE, STRENGTH, CONSTITUTION,
-        Arrays.asList(STRENGTH, DEXTERITY, CONSTITUTION), gen -> {
+        Arrays.asList(STRENGTH, DEXTERITY, CONSTITUTION), (cls, gen) -> {
         gen.level(1).addAttributes(ALL_ARMOUR, ALL_WEAPONS, SECOND_WIND);
         gen.level(1).addChoice(new AttributeChoice("Skill",
             ACROBATICS, ANIMAL_HANDLING, ATHLETICS, HISTORY, INSIGHT,
@@ -227,7 +218,7 @@ public enum CharacterClass implements Attribute {
         gen.cond(levels(4, 6, 8, 12, 14, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
     }),
     MONK(8, MONASTIC_TRADITION, STRENGTH, DEXTERITY,
-        Arrays.asList(DEXTERITY, WISDOM), gen -> {
+        Arrays.asList(DEXTERITY, WISDOM), (cls, gen) -> {
         gen.level(1).addWeaponProficiencies(SHORTSWORD);
         gen.level(1).addAttributes(ALL_SIMPLE_WEAPONS);
         gen.level(1).addChoice(new AttributeChoice("Tools",
@@ -260,7 +251,7 @@ public enum CharacterClass implements Attribute {
         gen.level(18).addAttributes(EMPTY_BODY);
         gen.level(20).addAttributes(PERFECT_SELF);
     }),
-    PALADIN(10, SACRED_OATH, WISDOM, CHARISMA, Arrays.asList(STRENGTH, CHARISMA), gen -> {
+    PALADIN(10, SACRED_OATH, WISDOM, CHARISMA, Arrays.asList(STRENGTH, CHARISMA), (cls, gen) -> {
         gen.level(1).addAttributes(ALL_ARMOUR, ALL_WEAPONS);
         gen.level(1).addChoice(2, new AttributeChoice("Skill", ATHLETICS, INSIGHT,
             INTIMIDATION, MEDICINE, PERSUASION, RELIGION));
@@ -276,7 +267,7 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addChoice(new EquipmentChoice(HOLY_SYMBOL));
         gen.level(1).addAttributes(DIVINE_SENSE, LAY_ON_HANDS);
         gen.level(2).addChoice(new AttributeChoice(FIGHTING_STYLE));
-        gen.level(2).addAttributes(new SpellCasting("Paladin", CHARISMA, ""), DIVINE_SMITE);
+        gen.level(2).addAttributes(new SpellCasting("Paladin", CHARISMA, cls, ""), DIVINE_SMITE);
         gen.level(3).addAttributes(DIVINE_HEALTH);
         gen.level(3).addChoice(new AttributeChoice("Sacred Oath", SacredOath.values()));
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
@@ -319,7 +310,8 @@ public enum CharacterClass implements Attribute {
         AURA_OF_PURITY, BANISHMENT, DEATH_WARD, LOCATE_CREATURE, STAGGERING_SMITE,
         BANISHING_SMITE, CIRCLE_OF_POWER, DESTRUCTIVE_WAVE, DISPEL_EVIL_AND_GOOD, GEAS,
         RAISE_DEAD),
-    RANGER(10, RANGER_ARCHETYPE, STRENGTH, DEXTERITY, Arrays.asList(DEXTERITY, WISDOM), gen -> {
+    RANGER(10, RANGER_ARCHETYPE, STRENGTH, DEXTERITY, Arrays.asList(DEXTERITY, WISDOM), (cls, gen)
+        -> {
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD);
         gen.level(1).addAttributes(ALL_WEAPONS);
@@ -337,7 +329,7 @@ public enum CharacterClass implements Attribute {
             new AttributeChoice("Favoured Terrain", FavouredTerrain.values()));
         gen.level(2).addChoice(new AttributeChoice("Fighting Style",
             ARCHERY, DEFENSE, DUELING, TWO_WEAPON));
-        gen.level(2).addAttributes(new SpellCasting("Ranger", WISDOM, "All"));
+        gen.level(2).addAttributes(new SpellCasting("Ranger", WISDOM, cls, "All"));
         gen.level(3).addChoice(new AttributeChoice("Ranger Archetype",
             RangerArchetype.values()));
         gen.level(3).addAttributes(PRIMEVAL_AWARENESS);
@@ -383,7 +375,7 @@ public enum CharacterClass implements Attribute {
         FREEDOM_OF_MOVEMENT, GRASPING_VINE, LOCATE_CREATURE, STONESKIN, COMMUNE_WITH_NATURE,
         CONJURE_VOLLEY, SWIFT_QUIVER, TREE_STRIDE),
     ROGUE(8, ROGUISH_ARCHETYPE, DEXTERITY, INTELLIGENCE,
-        Arrays.asList(DEXTERITY, INTELLIGENCE, CHARISMA), gen -> {
+        Arrays.asList(DEXTERITY, INTELLIGENCE, CHARISMA), (cls, gen) -> {
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS,
             Proficiency.THIEVES_TOOLS);
         gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
@@ -416,8 +408,8 @@ public enum CharacterClass implements Attribute {
         gen.cond(levels(4, 8, 10, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
     }),
     SORCERER(6, SORCEROUS_ORIGIN, CONSTITUTION, CHARISMA,
-        Arrays.asList(CHARISMA, CONSTITUTION), gen -> {
-        gen.level(1).addAttributes(new SpellCasting("Sorcerer", CHARISMA, "All"));
+        Arrays.asList(CHARISMA, CONSTITUTION), (cls, gen) -> {
+        gen.level(1).addSpellCasting("Sorcer", CHARISMA, cls, "All");
         gen.level(1)
             .addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
         gen.level(1).addChoice(new AttributeChoice("Skill", ARCANA, DECEPTION, INSIGHT,
@@ -482,7 +474,7 @@ public enum CharacterClass implements Attribute {
         DOMINATE_MONSTER, EARTHQUAKE, INCENDIARY_CLOUD, POWER_WORD_STUN, SUNBURST,
         GATE, METEOR_SWARM, POWER_WORD_KILL, TIME_STOP, WISH),
     WARLOCK(8, OTHERWORLDLY_PATRON, WISDOM, CHARISMA,
-        Arrays.asList(CHARISMA, CONSTITUTION), gen -> {
+        Arrays.asList(CHARISMA, CONSTITUTION), (cls, gen) -> {
 //        gen.level(1).addAttributes(new SpellCasting(CHARISMA));
 //        gen.level(1).addChoice(spellChoice(2, "Cantrip", getSpells(l -> l == 0)));
 //        gen.level(1).addChoice(spellChoice(2, "Spell", getSpells(upTo(1))));
@@ -520,8 +512,8 @@ public enum CharacterClass implements Attribute {
         DEMIPLANE, DOMINATE_MONSTER, FEEBLEMIND, GLIBNESS, POWER_WORD_STUN,
         ASTRAL_PROJECTION, FORESIGHT, IMPRISONMENT, POWER_WORD_KILL, TRUE_POLYMORPH),
     WIZARD(6, ARCANE_TRADITION, INTELLIGENCE, WISDOM,
-        Arrays.asList(INTELLIGENCE, DEXTERITY, CONSTITUTION), gen -> {
-        gen.level(1).addAttributes(new SpellCasting("Wizard", INTELLIGENCE, "All"));
+        Arrays.asList(INTELLIGENCE, DEXTERITY, CONSTITUTION), (cls, gen) -> {
+        gen.level(1).addSpellCasting("Wizard", INTELLIGENCE, cls, "All");
         gen.level(1).addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
         gen.level(1).addChoice(new AttributeChoice("Skill",
             ARCANA, HISTORY, INSIGHT, INVESTIGATION, MEDICINE, RELIGION).withCount(2));
@@ -641,14 +633,14 @@ public enum CharacterClass implements Attribute {
 
     private CharacterClass(int hitDie, AttributeType classAttribute,
         AttributeType savingThrow1, AttributeType savingThrow2,
-        List<AttributeType> primaryAttributes, Consumer<ChoiceGenerator> generator,
+        List<AttributeType> primaryAttributes, BiConsumer<CharacterClass, ChoiceGenerator> generator,
         Spell... spells) {
         this.hitDie = hitDie;
         this.classAttribute = classAttribute;
         savingThrows.add(savingThrow1);
         savingThrows.add(savingThrow2);
         this.primaryAttributes = primaryAttributes;
-        generator.accept(this.generator);
+        generator.accept(this, this.generator);
         Arrays.stream(spells).forEach(this.allowedSpells::add);
     }
 
