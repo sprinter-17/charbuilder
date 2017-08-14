@@ -42,6 +42,10 @@ public interface Equipment extends Option {
 
     Value getValue();
 
+    public default Stream<String> getDescription(Character character) {
+        return Stream.of("Cost " + getValue().toString() + " Weight " + getWeight().toString());
+    }
+
     @Override
     public default Element save(Document doc) {
         if (this instanceof Enum) {

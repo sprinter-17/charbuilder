@@ -78,6 +78,12 @@ public enum Weapon implements Equipment {
     LONGBOW(MARTIAL_RANGED, cp(5000), lb(2), attack("1d8", Weapon::ranged, "150/600")),
     NET(MARTIAL_RANGED, cp(100), lb(3), attack("special", Weapon::ranged, "5/15"));
 
+    private final EquipmentCategory category;
+    private final Value cost;
+    private final Weight weight;
+    private final Attribute proficiency;
+    private final BiFunction<Weapon, Character, Attack>[] attacks;
+
     private static int melee(Character character) {
         return character.getModifier(STRENGTH);
     }
@@ -106,7 +112,9 @@ public enum Weapon implements Equipment {
             if (ch.hasAttribute(w.getProficiency()))
                 hit += ch.getProficiencyBonus();
             String name = w.toString();
-            return new Attack(name + " " + description, hit, damageText(damage, mod));
+            Attack attack = new Attack(name, hit, damageText(damage, mod));
+            attack.setDescription(description);
+            return attack;
         };
     }
 
@@ -115,12 +123,6 @@ public enum Weapon implements Equipment {
             damage += String.format("%+d", modifier);
         return damage;
     }
-
-    private final EquipmentCategory category;
-    private final Value cost;
-    private final Weight weight;
-    private final Attribute proficiency;
-    private final BiFunction<Weapon, Character, Attack>[] attacks;
 
     private Weapon(EquipmentCategory category, Value cost, Weight weight,
         BiFunction<Weapon, Character, Attack>... attacks) {
@@ -159,6 +161,18 @@ public enum Weapon implements Equipment {
         return proficiency;
     }
 
+    @Override
+    public Stream<String> getDescription(Character character) {
+        return Stream.concat(Equipment.super.getDescription(character),
+            getAttacks(character).map(at -> "Attack +" + at.getBonus() + " " + at.getDamage()
+            + at.getDescription().map(d -> " (" + d + ")").orElse(null)));
+    }
+
+    @Override
+    public String toString() {
+        return StringUtils.capitaliseEnumName(name());
+    }
+
     public static Weapon load(Node node) {
         return Weapon.valueOf(node.getTextContent());
     }
@@ -168,11 +182,6 @@ public enum Weapon implements Equipment {
             return Proficiency.load(node);
         else
             return WeaponProficiency.load(node);
-    }
-
-    @Override
-    public String toString() {
-        return StringUtils.capitaliseEnumName(name());
     }
 
 }

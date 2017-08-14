@@ -51,6 +51,11 @@ public class EquipmentChoice extends OptionChoice {
         }
 
         @Override
+        public Stream<String> getDescription(Character character) {
+            return getComponents().flatMap(eq -> eq.getDescription(character));
+        }
+
+        @Override
         public Element save(Document doc) {
             throw new UnsupportedOperationException("Multi equipment for selection only");
         }

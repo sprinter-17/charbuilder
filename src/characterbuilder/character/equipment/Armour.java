@@ -15,6 +15,7 @@ import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.w3c.dom.Node;
 
 public enum Armour implements Equipment {
@@ -108,6 +109,12 @@ public enum Armour implements Equipment {
             .filter(arm -> !arm.equals(SHIELD))
             .filter(character::hasEquipment)
             .max(Comparator.comparing(arm -> arm.armourClass));
+    }
+
+    @Override
+    public Stream<String> getDescription(Character character) {
+        return Stream.concat(Equipment.super.getDescription(character),
+            Stream.of(getCategory().toString(), "AC +" + armourClass));
     }
 
     public static Armour load(Node node) {

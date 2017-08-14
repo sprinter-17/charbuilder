@@ -263,7 +263,8 @@ public enum Ability implements Attribute {
         "Spend 1 Ki point on attack; extend unarmoured attack range by 10'. "
         + "Spend 1 further Ki point to deal 1d10 extra fire damage."),
     FIST_OF_FOUR_THUNDERS(CLASS_TALENT, "Fist of Four Thunders",
-        "Spend 2 Ki ponts to cast Thunderwave", Spell.THUNDERWAVE),
+        "Spend 2 Ki ponts to cast Thunderwave"),
+//, Spell.THUNDERWAVE),
     FIST_OF_UNBROKEN_AIR(CLASS_TALENT, "Fist of Unbroken Air",
         "Spend at least 2 Ki points as an action. A creature within 30' takes "
         + "3d10 bludgeoning damage + 1d10 for each extra Ki point and "
@@ -492,11 +493,6 @@ public enum Ability implements Attribute {
         public AbilityDelegate(AttributeType type) {
             this.type = type;
         }
-
-        public AbilityDelegate withSpell(Spell spell) {
-            this.spell = Optional.of(spell);
-            return this;
-        }
     }
 
     private static AbilityDelegate classTalent() {
@@ -523,10 +519,6 @@ public enum Ability implements Attribute {
 
     private Ability(AttributeType type, String name, String description) {
         this(ability(type).withName(name).withDescription(description));
-    }
-
-    private Ability(AttributeType type, String name, String description, Spell spell) {
-        this(ability(type).withSpell(spell).withName(name).withDescription(description));
     }
 
     @Override

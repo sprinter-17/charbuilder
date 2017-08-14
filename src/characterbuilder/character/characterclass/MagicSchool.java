@@ -1,38 +1,44 @@
 package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.Ability;
+import static characterbuilder.character.ability.Ability.ARCANE_WARD;
+import static characterbuilder.character.ability.Ability.EMPOWERED_EVOCATION;
+import static characterbuilder.character.ability.Ability.IMPROVED_ABJURATION;
+import static characterbuilder.character.ability.Ability.OVERCHANNEL;
+import static characterbuilder.character.ability.Ability.POTENT_CANTRIP;
+import static characterbuilder.character.ability.Ability.PROJECTED_WARD;
+import static characterbuilder.character.ability.Ability.SCULPT_SPELLS;
+import static characterbuilder.character.ability.Ability.SPELL_RESISTANCE;
 import characterbuilder.character.attribute.Attribute;
-import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.utils.StringUtils;
+import java.util.HashMap;
+import java.util.Map;
 import org.w3c.dom.Node;
 
 public enum MagicSchool implements Attribute {
-    ABJURATION(magicSchool()),
-//        .withLevelAttributes(2, ARCANE_WARD)
-//        .withLevelAttributes(6, PROJECTED_WARD)
-//        .withLevelAttributes(10, IMPROVED_ABJURATION)
-//        .withLevelAttributes(14, SPELL_RESISTANCE)),
-    CONJURATION(magicSchool()),
-    DIVINATION(magicSchool()),
-    ENCHANTMENT(magicSchool()),
-    EVOCATION(magicSchool()),
-//        .withLevelAttributes(2, SCULPT_SPELLS)
-//        .withLevelAttributes(6, POTENT_CANTRIP)
-//        .withLevelAttributes(10, EMPOWERED_EVOCATION)
-//        .withLevelAttributes(14, OVERCHANNEL)),
-    ILLUSION(magicSchool()),
-    NECROMANCY(magicSchool()),
-    TRANSMUTATION(magicSchool());
+    ABJURATION(ARCANE_WARD, PROJECTED_WARD, IMPROVED_ABJURATION, SPELL_RESISTANCE),
+    CONJURATION,
+    DIVINATION,
+    ENCHANTMENT,
+    EVOCATION(SCULPT_SPELLS, POTENT_CANTRIP, EMPOWERED_EVOCATION, OVERCHANNEL),
+    ILLUSION,
+    NECROMANCY,
+    TRANSMUTATION;
 
-    private final AttributeDelegate delegate;
+    // Normal AttributeDelegate method causes initialisation errors due to mutual references
+    // between ability, character class and magic school
+    private final Map<Integer, Ability> abilities = new HashMap<>();
 
-    private static AttributeDelegate magicSchool() {
-        return new AttributeDelegate();
+    private MagicSchool() {
     }
 
-    private MagicSchool(AttributeDelegate delegate) {
-        this.delegate = delegate;
+    private MagicSchool(Ability ability2, Ability ability6, Ability ability10, Ability ability14) {
+        abilities.put(2, ability2);
+        abilities.put(6, ability6);
+        abilities.put(10, ability10);
+        abilities.put(14, ability14);
     }
 
     @Override
@@ -42,7 +48,9 @@ public enum MagicSchool implements Attribute {
 
     @Override
     public void generateLevelChoices(Character character) {
-        delegate.generateChoices(character);
+        int level = character.getLevel();
+        if (abilities.containsKey(level))
+            abilities.get(level).choose(character);
     }
 
     @Override

@@ -454,20 +454,18 @@ public enum CharacterClass implements Attribute {
     private final AttributeType classAttribute;
     private final List<AttributeType> savingThrows = new ArrayList<>();
     private final List<AttributeType> primaryAttributes;
-    private final ChoiceGenerator generator = new ChoiceGenerator();
-    private final List<Spell> allowedSpells = new ArrayList<>();
+    private final BiConsumer<CharacterClass, ChoiceGenerator> generatorMaker;
+    private Optional<ChoiceGenerator> generator = Optional.empty();
 
     private CharacterClass(int hitDie, AttributeType classAttribute,
         AttributeType savingThrow1, AttributeType savingThrow2,
-        List<AttributeType> primaryAttributes, BiConsumer<CharacterClass, ChoiceGenerator> generator,
-        Spell... spells) {
+        List<AttributeType> primaryAttributes, BiConsumer<CharacterClass, ChoiceGenerator> generator) {
         this.hitDie = hitDie;
         this.classAttribute = classAttribute;
         savingThrows.add(savingThrow1);
         savingThrows.add(savingThrow2);
         this.primaryAttributes = primaryAttributes;
-        generator.accept(this, this.generator);
-        Arrays.stream(spells).forEach(this.allowedSpells::add);
+        this.generatorMaker = generator;
     }
 
     public Optional<AttributeType> getClassAttribute() {
@@ -501,7 +499,11 @@ public enum CharacterClass implements Attribute {
 
     @Override
     public void generateLevelChoices(Character character) {
-        generator.generateChoices(character);
+        if (!generator.isPresent()) {
+            generator = Optional.of(new ChoiceGenerator());
+            generatorMaker.accept(this, generator.get());
+        }
+        generator.get().generateChoices(character);
     }
 
     @Override
