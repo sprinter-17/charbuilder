@@ -24,6 +24,10 @@ public class Cantrip implements Attribute {
         return AttributeType.CANTRIP;
     }
 
+    public Spell getSpell() {
+        return spell;
+    }
+
     @Override
     public Element save(Document doc) {
         Element element = getType().save(doc);

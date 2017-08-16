@@ -96,6 +96,7 @@ public class CharacterSaver {
         } catch (IllegalArgumentException ex) {
             throw new SAXException(ex);
         }
+        character.clearDirty();
         return character;
     }
 

@@ -107,10 +107,6 @@ public class Character {
         return dirty;
     }
 
-    public void markDirty() {
-        dirty = true;
-    }
-
     public void clearDirty() {
         dirty = false;
     }

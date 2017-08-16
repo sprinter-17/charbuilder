@@ -7,19 +7,52 @@ import static characterbuilder.character.attribute.AttributeType.AGE;
 import static characterbuilder.character.attribute.AttributeType.PHYSICAL_DESCRIPTION;
 import static characterbuilder.character.attribute.AttributeType.WEIGHT;
 import characterbuilder.character.equipment.EquipmentCategory;
+import characterbuilder.character.spell.Cantrip;
+import characterbuilder.character.spell.Spell;
+import java.util.ArrayList;
 import java.util.Comparator;
-import static java.util.stream.Collectors.joining;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class BackgroundPage extends Page {
 
-    public BackgroundPage(Character character) {
+    public static Stream<PageBuilder.Container> getPages(Character character) {
+        BackgroundPage backgroundPage = new BackgroundPage(character);
+        return backgroundPage.getPages();
+    }
+
+    private BackgroundPage(Character character) {
         super(character);
     }
 
     @Override
-    public PageBuilder.Container getPage() {
-        return builder.page()
-            .with(name(), appearance(), description(), treasure(), abilities());
+    public Stream<PageBuilder.Container> getPages() {
+        List<PageBuilder.Container> pages = new ArrayList<>();
+        pages.add(builder.page().with(name(), appearance(), description(), treasure()));
+        List<Attribute> abilities = new ArrayList<>();
+        character.getAllAttributes()
+            .filter(AttributePlacement.DETAIL::isPlacementFor)
+            .sorted(Comparator.comparing(Attribute::getType))
+            .forEach(abilities::add);
+        List<Spell> cantrips = new ArrayList<>();
+        character.getAllAttributes()
+            .filter(attr -> attr.hasType(AttributeType.CANTRIP))
+            .map(attr -> ((Cantrip) attr).getSpell())
+            .forEach(cantrips::add);
+        TextSectionBuilder sectionBuilder = new TextSectionBuilder(character, "Abilities", 100, 69);
+        sectionBuilder.addAbilities(abilities);
+        if (abilities.isEmpty())
+            sectionBuilder.addSpells(cantrips);
+        pages.get(0).with(sectionBuilder.getSection(0, 31));
+        while (!abilities.isEmpty() || !cantrips.isEmpty()) {
+            sectionBuilder.createNewSection(100, 100);
+            if (!abilities.isEmpty())
+                sectionBuilder.addAbilities(abilities);
+            if (abilities.isEmpty())
+                sectionBuilder.addSpells(cantrips);
+            pages.add(builder.page().with(sectionBuilder.getSection(0, 0)));
+        }
+        return pages.stream();
     }
 
     private PageBuilder.Component appearance() {
@@ -31,13 +64,13 @@ public class BackgroundPage extends Page {
     }
 
     private PageBuilder.Component description() {
-        return builder.borderedSection(0, 9, 50, 22)
+        return builder.borderedSection(0, 8, 50, 23)
             .with(builder.caption("Physical Description", 25, 20, PageBuilder.Align.CENTRE))
             .with(builder.writing(attrHTML(PHYSICAL_DESCRIPTION), 2, 2, 46, 16));
     }
 
     private PageBuilder.Component treasure() {
-        return builder.borderedSection(50, 9, 50, 22)
+        return builder.borderedSection(50, 8, 50, 23)
             .with(builder.caption("Treasure", 25, 20, PageBuilder.Align.CENTRE))
             .with(builder.writing(treasureText(), 2, 2, 46, 16));
     }
@@ -47,26 +80,5 @@ public class BackgroundPage extends Page {
             elements("p", character.getInventory()
                 .filter(eq -> eq.getCategory().equals(EquipmentCategory.TREASURE))
                 .map(eq -> element("p", eq.toString()))));
-    }
-
-    private PageBuilder.Container abilities() {
-        return builder.borderedSection(0, 31, 100, 69)
-            .with(builder.caption("Ability Description", 50, 67, PageBuilder.Align.CENTRE))
-            .with(builder.writing(abilityDescriptions(), 2, 2, 96, 65));
-    }
-
-    private String abilityDescriptions() {
-        return html(
-            element("table",
-                character.getAllAttributes()
-                    .filter(AttributePlacement.DETAIL::isPlacementFor)
-                    .sorted(Comparator.comparing(Attribute::getType))
-                    .map(ab -> abilityRow(ab)).collect(joining())));
-    }
-
-    private String abilityRow(Attribute ability) {
-        return element("tr",
-            element("th style='text-align:left'", nbsp(ability.toString()))
-            + element("td", ability.getDescription(character).collect(joining("<br>"))));
     }
 }

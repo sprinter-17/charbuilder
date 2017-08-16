@@ -1,6 +1,7 @@
 package characterbuilder.sheet;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.IntBinaryOperator;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class PageBuilder {
 
@@ -212,21 +214,26 @@ public class PageBuilder {
             public void paint(Graphics2D g, int zoom) {
                 BufferedImage image = new BufferedImage(horz(wp, zoom), vert(hp, zoom),
                     BufferedImage.TYPE_INT_ARGB);
-                JLabel label = label(text, zoom);
-                label.setSize(new Dimension(horz(wp, zoom), vert(hp, zoom)));
-                label.validate();
-                label.print(image.getGraphics());
+                label(text, wp, zoom).print(image.getGraphics());
                 g.drawImage(image, x(zoom) + horz(xp, zoom), y(zoom) + vert(yp, zoom), null);
             }
         };
     }
 
-    private JLabel label(String text, int zoom) {
+    public boolean fits(String text, int wp, int hp) {
+        return label(text, wp, 1).getHeight() < hp * 7.0;
+    }
+
+    private JLabel label(String text, int wp, int zoom) {
         JLabel label = new JLabel();
         label.setVerticalAlignment(JLabel.TOP);
         label.setFont(new Font("optima", Font.PLAIN, 10 * zoom));
         label.setForeground(Color.BLACK);
         label.setText(text);
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setSize(new Dimension(horz(wp, zoom), 1000));
+        panel.add(label, BorderLayout.NORTH);
+        panel.doLayout();
         return label;
     }
 

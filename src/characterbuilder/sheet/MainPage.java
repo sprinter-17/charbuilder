@@ -20,20 +20,27 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.joining;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class MainPage extends Page {
 
-    public MainPage(Character character) {
+    public static Stream<PageBuilder.Container> getPages(Character character) {
+        MainPage mainPage = new MainPage(character);
+        return mainPage.getPages();
+    }
+
+    private MainPage(Character character) {
         super(character);
     }
 
     @Override
-    public PageBuilder.Container getPage() {
-        return builder.page()
+    public Stream<PageBuilder.Container> getPages() {
+        PageBuilder.Container page = builder.page()
             .with(name(), classAndRace(), abilityScores(), inspiration(), proficiencyBonus(),
                 savingsThrows(), skills(), armourClass(), initiative(), speed(),
                 hitPoints(), hitDice(), deathSaves(), attacks(), personality(),
                 proficiencies(), equipment());
+        return Stream.of(page);
     }
 
     private PageBuilder.Component classAndRace() {
@@ -214,7 +221,7 @@ public class MainPage extends Page {
         } else if (abilities.size() == Proficiency.allOfType(type).count()) {
             text.append("<em>All</em>");
         } else {
-            text.append(abilities.stream().map(this::nbsp).collect(Collectors.joining(", ")));
+            text.append(abilities.stream().map(Page::nbsp).collect(Collectors.joining(", ")));
         }
         text.append("</p>");
     }
@@ -243,7 +250,7 @@ public class MainPage extends Page {
     private String equipmentCategoryDescription(Map.Entry<EquipmentCategory, List<Equipment>> entry) {
         return "<p style=\"text-indent: -10px; padding-left: 10px\">"
             + "<b>" + entry.getKey().toString() + "</b> : "
-            + entry.getValue().stream().map(this::nbsp).collect(Collectors.joining(", "))
+            + entry.getValue().stream().map(Page::nbsp).collect(Collectors.joining(", "))
             + "</p>";
     }
 

@@ -2,8 +2,6 @@ package characterbuilder.sheet;
 
 import characterbuilder.character.Character;
 import static characterbuilder.character.attribute.AttributeType.*;
-import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellCasting;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -13,12 +11,9 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static java.util.stream.Collectors.toList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -35,7 +30,7 @@ public class CharacterSheet extends JFrame {
     private final JButton printButton = new JButton("Print");
     private final JButton closeButton = new JButton("Close");
     private final ImagePanel imagePanel = new ImagePanel();
-    private final List<Page> pages = new ArrayList<>();
+    private final List<PageBuilder.Container> pages = new ArrayList<>();
     private int page = 0;
 
     private int zoom = 1;
@@ -49,7 +44,7 @@ public class CharacterSheet extends JFrame {
 
         @Override
         public void paint(Graphics g) {
-            pages.get(page).getPage().paint((Graphics2D) g, zoom);
+            pages.get(page).paint((Graphics2D) g, zoom);
         }
     }
 
@@ -108,25 +103,9 @@ public class CharacterSheet extends JFrame {
     }
 
     private void buildPages(Character character) {
-        pages.add(new MainPage(character));
-        pages.add(new BackgroundPage(character));
-        if (character.hasAttribute(SPELLCASTING)) {
-            SpellCasting casting = character.getAttribute(SPELLCASTING);
-            List<Spell> spells = Arrays.stream(Spell.values())
-                .filter(casting::hasLearntSpell)
-                .sorted(Comparator.comparingInt(Spell::getLevel).thenComparing(Spell::name))
-                .collect(toList());
-            boolean firstSpellPage = true;
-            int start = 0;
-            int size = 14;
-            do {
-                pages.add(new SpellPage(character, firstSpellPage,
-                    spells.stream().skip(start).limit(size)));
-                start += size;
-                size = 18;
-                firstSpellPage = false;
-            } while (start < spells.size());
-        }
+        MainPage.getPages(character).forEach(pages::add);
+        BackgroundPage.getPages(character).forEach(pages::add);
+        SpellPage.getPages(character).forEach(pages::add);
     }
 
     private void print() {
@@ -135,7 +114,7 @@ public class CharacterSheet extends JFrame {
             print.setPrintable((Graphics g, PageFormat pageFormat, int pageIndex) -> {
                 if (pageIndex >= pages.size())
                     return Printable.NO_SUCH_PAGE;
-                pages.get(pageIndex).getPage().paint((Graphics2D) g, 1);
+                pages.get(pageIndex).paint((Graphics2D) g, 1);
                 return Printable.PAGE_EXISTS;
             });
             if (print.printDialog())

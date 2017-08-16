@@ -17,7 +17,7 @@ public abstract class Page {
         this.character = character;
     }
 
-    public abstract PageBuilder.Container getPage();
+    public abstract Stream<PageBuilder.Container> getPages();
 
     protected PageBuilder.Component name() {
         return builder.borderedSection(0, 0, 30, 8)
@@ -25,7 +25,7 @@ public abstract class Page {
             .with(builder.value(attr(NAME), 15, 3, PageBuilder.Align.CENTRE));
     }
 
-    protected String html(String value) {
+    protected static String html(String value) {
         return "<html>" + value + "</html>";
     }
 
@@ -53,7 +53,7 @@ public abstract class Page {
         return values.map(v -> element(tag, v)).collect(joining());
     }
 
-    protected String element(String tag, String value) {
+    protected static String element(String tag, String value) {
         return "<" + tag + ">" + value + "</" + tag + ">";
     }
 
@@ -68,7 +68,7 @@ public abstract class Page {
             .collect(joining("<br>", "<html>", "</html>"));
     }
 
-    protected String nbsp(Object object) {
+    protected static String nbsp(Object object) {
         return object.toString().replace(" ", "&nbsp;");
     }
 }

@@ -17,6 +17,7 @@ import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Token;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import org.w3c.dom.Node;
 
 public enum Background implements Attribute {
@@ -139,6 +140,11 @@ public enum Background implements Attribute {
     @Override
     public AttributeType getType() {
         return AttributeType.BACKGROUND;
+    }
+
+    @Override
+    public Stream<String> getDescription(Character character) {
+        return generator.getDescription(character);
     }
 
     @Override
