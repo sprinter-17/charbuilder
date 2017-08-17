@@ -26,7 +26,7 @@ public class EquipmentSet implements Equipment {
     public EquipmentSet(Equipment equipment, int bonus, int count) {
         if (count <= 0)
             throw new IllegalArgumentException("Equipment must have count >= 1");
-        this.equipment = equipment;
+        this.equipment = equipment.getBaseEquipment();
         this.bonus = bonus;
         this.count = count;
     }
@@ -118,10 +118,15 @@ public class EquipmentSet implements Equipment {
 
     @Override
     public String toString() {
-        if (count == 1)
-            return equipment.toString();
-        else
-            return count + " " + equipment.toString() + "s";
+        StringBuilder builder = new StringBuilder();
+        if (count > 1)
+            builder.append(count).append(" ");
+        if (bonus != 0)
+            builder.append(String.format("%+d ", bonus));
+        builder.append(equipment.toString());
+        if (count > 1)
+            builder.append("s");
+        return builder.toString();
     }
 
     @Override

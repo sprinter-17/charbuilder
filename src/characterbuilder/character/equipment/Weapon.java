@@ -108,6 +108,10 @@ public enum Weapon implements Equipment {
         Function<Character, Integer> bonus, String description) {
         return (w, ch) -> {
             int mod = bonus.apply(ch);
+            mod += ch.getInventory()
+                .filter(eq -> eq.getBaseEquipment().equals(w))
+                .mapToInt(Equipment::getBonus)
+                .max().orElse(0);
             int hit = mod;
             if (ch.hasAttribute(w.getProficiency()))
                 hit += ch.getProficiencyBonus();

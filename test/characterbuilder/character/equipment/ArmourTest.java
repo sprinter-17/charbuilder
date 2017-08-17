@@ -108,6 +108,18 @@ public class ArmourTest {
     }
 
     @Test
+    public void testShieldBonus() {
+        character.addEquipment(new EquipmentSet(Armour.SHIELD, 2, 1));
+        assertThat(Armour.getArmourClass(character), is(14));
+    }
+
+    @Test
+    public void testArmourBonus() {
+        character.addEquipment(new EquipmentSet(Armour.LEATHER_ARMOUR, 3, 1));
+        assertThat(Armour.getArmourClass(character), is(14));
+    }
+
+    @Test
     public void testSaveAndLoad() {
         assertThat(EquipmentCategory.load(Armour.SHIELD.save(TestDoc.doc())), is(Armour.SHIELD));
     }

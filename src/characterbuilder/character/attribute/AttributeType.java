@@ -10,6 +10,7 @@ import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.characterclass.DivineDomain;
 import characterbuilder.character.characterclass.DraconicAncestory;
 import characterbuilder.character.characterclass.DruidCircle;
+import characterbuilder.character.characterclass.EldritchInvocation;
 import characterbuilder.character.characterclass.ElementalAdept;
 import characterbuilder.character.characterclass.FavouredEnemy;
 import characterbuilder.character.characterclass.FavouredTerrain;
@@ -73,6 +74,7 @@ public enum AttributeType {
     RANGER_ARCHETYPE(true, RangerArchetype::load),
     SORCEROUS_ORIGIN(true, SorcerousOrigin::load),
     OTHERWORLDLY_PATRON(true, OtherwordlyPatron::load),
+    ELDRITCH_INVOCATION(false, EldritchInvocation::load),
     BACKGROUND_FEATURE(false, Ability::load),
     ENTERTAINER_ROUTINE(false, Proficiency::load),
     GUILD_BUSINESS(false, Proficiency::load),

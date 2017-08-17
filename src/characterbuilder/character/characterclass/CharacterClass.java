@@ -398,6 +398,11 @@ public enum CharacterClass implements Attribute {
     WARLOCK(8, OTHERWORLDLY_PATRON, WISDOM, CHARISMA,
         Arrays.asList(CHARISMA, CONSTITUTION), (cls, gen) -> {
         final String casting = cls.toString();
+        gen.level(1)
+            .addChoice(new AttributeChoice("Otherworldy Patron", OtherwordlyPatron.values()));
+        gen.level(2)
+            .addChoice(new AttributeChoice("Eldritch Invocations", EldritchInvocation.values()));
+
         gen.level(1).addChoice(cantripChoice(2, CHARISMA));
         gen.level(4, 10).addChoice(cantripChoice(1, CHARISMA));
         gen.level(1).addSpellCasting(casting, CHARISMA, cls, "All")

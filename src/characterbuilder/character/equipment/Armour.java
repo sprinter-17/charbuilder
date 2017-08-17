@@ -73,9 +73,9 @@ public enum Armour implements Equipment {
     public static int getArmourClass(Character character) {
         int ac = 10;
         Optional<Armour> bestArmour = bestArmour(character);
-        ac += bestArmour.map(arm -> arm.armourClass).orElse(0);
+        ac += bestArmour.map(arm -> arm.armourClass + getBonus(character, arm)).orElse(0);
         if (character.hasEquipment(SHIELD))
-            ac += 2;
+            ac += 2 + getBonus(character, SHIELD);
         else if (!bestArmour.isPresent() && character.hasAttribute(Ability.UNARMORED_DEFENCE_MONK))
             ac += character.getModifier(AttributeType.WISDOM);
 
@@ -88,6 +88,14 @@ public enum Armour implements Equipment {
         if (!bestArmour.isPresent() && character.hasAttribute(Ability.UNARMORED_DEFENCE_BARBARIAN))
             ac += character.getModifier(AttributeType.CONSTITUTION);
         return ac;
+    }
+
+    private static int getBonus(Character character, Armour armour) {
+        return character.getInventory()
+            .filter(eq -> eq.getBaseEquipment().equals(armour))
+            .mapToInt(Equipment::getBonus)
+            .max()
+            .orElse(0);
     }
 
     private int getDexBonus(Character character) {

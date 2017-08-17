@@ -19,7 +19,7 @@ public class AbilityPanel extends CharacterSubPanel {
 
     public AbilityPanel(CharacterUpdater updater) {
         super("Abilities", new BorderLayout(), updater);
-        setMinimumSize(new Dimension(350, 350));
+        setMinimumSize(new Dimension(150, 350));
         abilityTree.setRootVisible(false);
         TreeCellRenderer renderer = abilityTree.getCellRenderer();
         abilityTree.setCellRenderer((tree, value, selected, expanded, leaf, row, focus) -> {

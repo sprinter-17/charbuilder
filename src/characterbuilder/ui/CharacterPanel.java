@@ -70,6 +70,7 @@ public class CharacterPanel extends JPanel {
         c.gridwidth = width;
         c.gridheight = height;
         c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1.0;
         parent.add(child, c);
     }
 

@@ -2,9 +2,9 @@ package characterbuilder.ui;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
-import characterbuilder.character.saveload.CharacterSaver;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.InitialChoiceGenerator;
+import characterbuilder.character.saveload.CharacterSaver;
 import characterbuilder.sheet.CharacterSheet;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -23,6 +23,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -30,24 +31,22 @@ public class MainWindow {
 
     private final CharacterSaver saver = new CharacterSaver();
     private final JFrame frame = new JFrame("Character Builder");
-    private final LoadDialog loadDialog;
+    private final LoadDialog loadDialog = new LoadDialog(frame, this::setCharacter);
     private final JToolBar tools = new JToolBar();
-    private final CharacterPanel panel;
     private Optional<Character> character = Optional.empty();
     private final ChoicePanel choices = new ChoicePanel(this::updateFromChoices);
+    private final CharacterPanel panel = new CharacterPanel();
 
     private final List<Runnable> toolEnablers = new ArrayList<>();
 
     public MainWindow() throws ParserConfigurationException {
-        this.panel = new CharacterPanel();
-        this.loadDialog = new LoadDialog(frame, this::setCharacter);
         this.panel.addChangeListener(() -> toolEnablers.forEach(Runnable::run));
         frame.setPreferredSize(new Dimension(1200, 800));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         addTools();
-        frame.add(choices, BorderLayout.WEST);
-        frame.add(panel, BorderLayout.CENTER);
+        frame.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, choices, panel),
+            BorderLayout.CENTER);
         frame.pack();
     }
 

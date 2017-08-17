@@ -29,6 +29,11 @@ public class EquipmentSetTest {
     }
 
     @Test
+    public void testToString() {
+        assertThat(set.toString(), is("7 +3 Barrels"));
+    }
+
+    @Test
     public void testGetCategory() {
         assertThat(set.getCategory(), is(EquipmentCategory.CONTAINER));
     }

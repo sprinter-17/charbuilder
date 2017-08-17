@@ -7,6 +7,7 @@ import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.equipment.Weapon.BLOWGUN;
 import static characterbuilder.character.equipment.Weapon.CLUB;
 import static characterbuilder.character.equipment.Weapon.LONGBOW;
+import static characterbuilder.character.equipment.Weapon.MACE;
 import static characterbuilder.character.equipment.Weapon.SPEAR;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.utils.TestCharacter;
@@ -46,6 +47,12 @@ public class WeaponTest {
         assertThat(CLUB.getAttacks(character).findAny().get().getBonus(), is(0));
         character.setScore(AttributeType.STRENGTH, 14);
         assertThat(CLUB.getAttacks(character).findAny().get().getBonus(), is(2));
+    }
+
+    @Test
+    public void testBonus() {
+        character.addEquipment(new EquipmentSet(MACE, 2, 1));
+        assertThat(MACE.getAttacks(character).findAny().get().getDamage(), is("1d6+2"));
     }
 
     @Test

@@ -2,8 +2,8 @@ package characterbuilder.ui;
 
 import characterbuilder.character.Character;
 import static characterbuilder.character.attribute.AttributeType.*;
-import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.StringAttribute;
+import characterbuilder.character.characterclass.CharacterClass;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
@@ -34,6 +34,10 @@ public class DetailsPanel extends CharacterSubPanel {
         addInColumns("Alignment", alignmentField);
         addInColumn(0, 1, classAttributeName);
         addInColumn(1, 1, classAttributeValue);
+        addNameFieldAttributes();
+    }
+
+    private void addNameFieldAttributes() {
         nameField.getDocument().addDocumentListener(
             updateTextField((ch, name) -> {
                 if (ch.hasAttribute(NAME)) {
