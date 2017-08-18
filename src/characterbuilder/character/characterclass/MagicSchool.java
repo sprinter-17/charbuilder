@@ -6,6 +6,8 @@ import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.utils.StringUtils;
+import java.util.HashMap;
+import java.util.Map;
 import org.w3c.dom.Node;
 
 public enum MagicSchool implements Attribute {
@@ -20,16 +22,13 @@ public enum MagicSchool implements Attribute {
 
     // Normal AttributeDelegate method causes initialisation errors due to mutual references
     // between ability, character class and magic school
-    private final Ability ability2;
-    private final Ability ability6;
-    private final Ability ability10;
-    private final Ability ability14;
+    private final Map<Integer, Ability> abilities = new HashMap<>();
 
     private MagicSchool(Ability ability2, Ability ability6, Ability ability10, Ability ability14) {
-        this.ability2 = ability2;
-        this.ability6 = ability6;
-        this.ability10 = ability10;
-        this.ability14 = ability14;
+        abilities.put(2, ability2);
+        abilities.put(6, ability6);
+        abilities.put(10, ability10);
+        abilities.put(14, ability14);
     }
 
     @Override
@@ -39,19 +38,9 @@ public enum MagicSchool implements Attribute {
 
     @Override
     public void generateLevelChoices(Character character) {
-        switch (character.getLevel()) {
-            case 2:
-                ability2.choose(character);
-                break;
-            case 6:
-                ability6.choose(character);
-                break;
-            case 10:
-                ability10.choose(character);
-                break;
-            case 14:
-                ability14.choose(character);
-                break;
+        int level = character.getLevel();
+        if (abilities.containsKey(level)) {
+            abilities.get(level).choose(character);
         }
     }
 
