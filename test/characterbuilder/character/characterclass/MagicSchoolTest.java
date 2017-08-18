@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass;
 
+import characterbuilder.character.ability.Ability;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -16,5 +17,7 @@ public class MagicSchoolTest {
     public void testGenerateAttributes() {
         TestCharacter character = new TestCharacter();
         character.setLevel(2);
+        MagicSchool.ABJURATION.generateLevelChoices(character);
+        assertTrue(character.hasAttribute(Ability.ARCANE_WARD));
     }
 }

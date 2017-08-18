@@ -66,6 +66,8 @@ public class CharacterClassTest {
 
     @Test
     public void testMultipleCharacterGeneration() {
+        // bizarrely the following lines avoids an initialisation error
+        MagicSchool[] schools = MagicSchool.values();
         InitialChoiceGenerator init = new InitialChoiceGenerator();
         for (int i = 1; i < 500; i++) {
             Character character = new Character();

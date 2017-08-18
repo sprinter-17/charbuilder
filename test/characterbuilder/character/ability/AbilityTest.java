@@ -1,17 +1,20 @@
 package characterbuilder.character.ability;
 
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.characterclass.DraconicAncestory;
-import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.saveload.TestDoc;
+import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.utils.TestCharacter;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +27,6 @@ public class AbilityTest {
     public void setup() {
         character = new TestCharacter();
         character.setLevel(1);
-        character.addChoiceList(new TestChoiceSelector());
     }
 
     @Test
@@ -49,6 +51,12 @@ public class AbilityTest {
     @Test
     public void testMultipleDescriptions() {
         assertThat(Ability.SECOND_WIND.getDescription(character).count(), is(2L));
+    }
+
+    @Test
+    public void testSpellAbility() {
+        Ability.PACT_OF_THE_CHAIN.generateInitialChoices(character);
+        assertTrue(character.hasAttribute(new SpellAbility(Spell.FIND_FAMILIAR, CHARISMA)));
     }
 
     @Test

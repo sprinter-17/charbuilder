@@ -6,6 +6,7 @@ import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.equipment.EquipmentType;
+import characterbuilder.character.spell.Spell;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -409,8 +410,8 @@ public enum Ability implements Attribute {
     // Warlock abilities
     PACT_OF_THE_CHAIN(classTalent()
         .withDescription("Familiar can be imp, pseudodragon, quasit or sprite.")
-        .withDescription("Forgo an attack to allow familiar to make attack as reaction.")),
-//        .withSpellAbility(Spell.FIND_FAMILIAR, CHARISMA)),
+        .withDescription("Forgo an attack to allow familiar to make attack as reaction.")
+        .withSpellAbility(Spell.FIND_FAMILIAR, CHARISMA)),
     PACT_OF_THE_BLADE(classTalent()
         .withDescription("As an action, create a pact weapon in any form.")
         .withDescription("Gain proficiency with pact weapon.")),
@@ -572,6 +573,11 @@ public enum Ability implements Attribute {
     @Override
     public Stream<String> getDescription(Character character) {
         return delegate.getDescription(character);
+    }
+
+    @Override
+    public void generateInitialChoices(Character character) {
+        delegate.generateChoices(character);
     }
 
     public static Ability load(AttributeType type, Node node) {
