@@ -424,6 +424,39 @@ public enum Ability implements Attribute {
     ELDRITCH_MASTER(classTalent()
         .withDescription("Spend 1 minute to regain all spell slots once between each long rest.")),
 
+    FEY_PRESENCE(classTalent()
+        .withDescription("As an action, charm or frighten creatures within a 10-foot cube "
+            + "around Warlock for 1 turn. Wis. save.")),
+    MISTY_ESCAPE(classTalent()
+        .withDescription("As a reaction to taking damage, turn invisible and teleport up to 60 feet.")),
+    BEGUILING_DEFENSES(classTalent()
+        .withDescription("Immune to charm. ")
+        .withDescription("As a reaction to a charm attempt, Wis. save or target charmed for 1 minute.")),
+    DARK_DELERIUM(classTalent()
+        .withDescription("As a reaction, charm or frighten one creature within 60 feet for 1 minute. "
+            + "Wis. save.")),
+    DARK_ONES_BLESSING(classTalent()
+        .withDescription("On reducing enemy to 0 HP, gain [$chr_mod + $level] temporary HP.")),
+    DARK_ONES_OWN_LUCK(classTalent()
+        .withDescription("Add 1d10 to 1 ability check or save.")
+        .withDescription("Use once between each long rest.")),
+    FIENDISH_RESILIENCE(classTalent()
+        .withDescription("Resistance to a chosen damage type.")),
+    HURL_THROUGH_HELL(classTalent()
+        .withDescription("On hitting an enemy, send away for 1 turn and cause 10d10 phychic damage.")),
+    AWAKENED_MIND(classTalent()
+        .withDescription("Communicate telepathically with any creature within 30 feet.")),
+    ENTROPIC_WARD(classTalent()
+        .withDescription("As a reaction, impose disadvantage on an attack roll.")
+        .withDescription("If the attack misses, next attack against target has advantage.")
+        .withDescription("Use once between each rest.")),
+    THOUGHT_SHIELD(classTalent()
+        .withDescription("Immune to telepathy.")
+        .withDescription("Resistance to psychic damage.")
+        .withDescription("Creature dealing psychic attack takes equal damage.")),
+    CREATE_THRALL(classTalent()
+        .withDescription("As an action, charm an incapacitated humanoid with touch.")),
+
     /*
      * Divine domain abilities
     **/
@@ -481,13 +514,26 @@ public enum Ability implements Attribute {
         .withDescription("Deal maximum damage on spell of level 5 or less.")
         .withDescription("After first use take 2d12 + 1d12 / use necrotic damage per spell level.")),
 
-    MINOR_CONJURATION(classTalent()),
-    BENIGN_TRANSPOSITION(classTalent()),
-    FOCUSED_CONJURATION(classTalent()),
-    DURABLE_SUMMONS(classTalent()),
-    PORTENT(classTalent()),
-    EXPERT_DIVINATION(classTalent()),
-    THE_THIRD_EYE(classTalent()),
+    MINOR_CONJURATION(classTalent()
+        .withDescription("As an action, conjure an inanimate object within 10 feet.")),
+    BENIGN_TRANSPOSITION(classTalent()
+        .withDescription("As an action, teleport up to 30 feet or swap places with ally.")
+        .withDescription("Use once between each long rest or each conjuration spell.")),
+    FOCUSED_CONJURATION(classTalent()
+        .withDescription("Concentration for a conjuration spell cannot be broken by damage.")),
+    DURABLE_SUMMONS(classTalent()
+        .withDescription("Conjured or created creatures have 30 temporary HP.")),
+
+    PORTENT(classTalent()
+        .withDescription("Roll [max($level 1:2,14:3)]d20 after each long rest. "
+            + "Cause any rolls to use one of these values.")),
+    EXPERT_DIVINATION(classTalent()
+        .withDescription("On casting a divination spell beween 2nd and 5th level, "
+            + "regain a lower level spell slot.")),
+    THE_THIRD_EYE(classTalent()
+        .withDescription("As an action, gain <em>Darkvision</em>, <em>Ethereal Sight</em>, "
+            + "<em>Greater Comprehension</em> or <em>See Invisibility</em> until next rest.")
+        .withDescription("Use once between each long rest.")),
     GREATER_PORTENT(classTalent()),
     HYPNOTIC_GAZE(classTalent()),
     INSTINCTIVE_CHARM(classTalent()),

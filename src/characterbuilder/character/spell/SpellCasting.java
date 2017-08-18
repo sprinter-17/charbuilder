@@ -50,7 +50,7 @@ public class SpellCasting implements Attribute {
 
         @Override
         public void select(Character character, ChoiceSelector selector) {
-            selector.chooseOption(getListedSpells()
+            selector.chooseOption(getAvailableSpells()
                 .filter(sp -> !sp.isCantrip())
                 .filter(sp -> sp.getLevel() <= getMaxSlot())
                 .filter(sp -> !hasLearntSpell(sp)),
@@ -159,7 +159,7 @@ public class SpellCasting implements Attribute {
 
     private Stream<Spell> getLearnAllSpells() {
         if (learnAll)
-            return getListedSpells()
+            return getAvailableSpells()
                 .filter(sp -> sp.getLevel() <= getMaxSlot() && !sp.isCantrip());
         else
             return Stream.empty();
@@ -169,7 +169,7 @@ public class SpellCasting implements Attribute {
         expandedSpells.add(spell);
     }
 
-    private Stream<Spell> getListedSpells() {
+    public Stream<Spell> getAvailableSpells() {
         return Stream.concat(spellClass.getSpells(), expandedSpells.stream()).distinct();
     }
 

@@ -22,6 +22,7 @@ import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Inventory;
 import characterbuilder.character.equipment.Weapon;
+import characterbuilder.character.spell.SpellCasting;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -109,6 +110,12 @@ public class Character {
 
     public void clearDirty() {
         dirty = false;
+    }
+
+    public SpellCasting getSpellCasting(String name) {
+        return getAttributes(AttributeType.SPELLCASTING, SpellCasting.class)
+            .filter(sc -> sc.hasName(name))
+            .findAny().orElseThrow(() -> new IllegalArgumentException("No spellcasting " + name));
     }
 
     public void addAttributes(Attribute... attributes) {
