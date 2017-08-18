@@ -7,8 +7,8 @@ import static characterbuilder.character.attribute.AttributeType.AGE;
 import static characterbuilder.character.attribute.AttributeType.PHYSICAL_DESCRIPTION;
 import static characterbuilder.character.attribute.AttributeType.WEIGHT;
 import characterbuilder.character.equipment.EquipmentCategory;
-import characterbuilder.character.spell.Cantrip;
 import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellAbility;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -34,22 +34,22 @@ public class BackgroundPage extends Page {
             .filter(AttributePlacement.DETAIL::isPlacementFor)
             .sorted(Comparator.comparing(Attribute::getType))
             .forEach(abilities::add);
-        List<Spell> cantrips = new ArrayList<>();
+        List<Spell> spellAbilities = new ArrayList<>();
         character.getAllAttributes()
-            .filter(attr -> attr.hasType(AttributeType.CANTRIP))
-            .map(attr -> ((Cantrip) attr).getSpell())
-            .forEach(cantrips::add);
+            .filter(attr -> attr.hasType(AttributeType.SPELL_ABILITY))
+            .map(attr -> ((SpellAbility) attr).getSpell())
+            .forEach(spellAbilities::add);
         TextSectionBuilder sectionBuilder = new TextSectionBuilder(character, "Abilities", 100, 69);
         sectionBuilder.addAbilities(abilities);
         if (abilities.isEmpty())
-            sectionBuilder.addSpells(cantrips);
+            sectionBuilder.addSpells(spellAbilities);
         pages.get(0).with(sectionBuilder.getSection(0, 31));
-        while (!abilities.isEmpty() || !cantrips.isEmpty()) {
+        while (!abilities.isEmpty() || !spellAbilities.isEmpty()) {
             sectionBuilder.createNewSection(100, 100);
             if (!abilities.isEmpty())
                 sectionBuilder.addAbilities(abilities);
             if (abilities.isEmpty())
-                sectionBuilder.addSpells(cantrips);
+                sectionBuilder.addSpells(spellAbilities);
             pages.add(builder.page().with(sectionBuilder.getSection(0, 0)));
         }
         return pages.stream();

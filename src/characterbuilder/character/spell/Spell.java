@@ -4,11 +4,13 @@ import characterbuilder.character.Character;
 import characterbuilder.character.characterclass.MagicSchool;
 import characterbuilder.character.choice.Option;
 import characterbuilder.utils.StringUtils;
+import java.util.Arrays;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+//TODO rituals
 public enum Spell implements Option {
     ARCANE_EYE(MagicSchool.DIVINATION, 4, "1 action", "30 feet",
         "V, S, M ", "up to 1 hour", "You create an invisible, magical eye within range that "
@@ -2687,8 +2689,8 @@ public enum Spell implements Option {
     private final String components;
     private final String effect;
 
-    private Spell(int level) {
-        this(MagicSchool.ABJURATION, level, "TBD", "TBD", "TBD", "TBD", "TBD");
+    public static Stream<Spell> getSpellsAtLevel(int level) {
+        return Arrays.stream(values()).filter(sp -> sp.isLevel(level));
     }
 
     private Spell(MagicSchool school, int level, String castingTime,

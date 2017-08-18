@@ -9,16 +9,16 @@ import org.junit.Test;
 
 public class CantripTest {
 
-    private Cantrip cantrip;
+    private SpellAbility cantrip;
 
     @Before
     public void setup() {
-        cantrip = new Cantrip(Spell.HEAL, AttributeType.WISDOM);
+        cantrip = new SpellAbility(Spell.HEAL, AttributeType.WISDOM);
     }
 
     @Test
     public void testGetType() {
-        assertThat(cantrip.getType(), is(AttributeType.CANTRIP));
+        assertThat(cantrip.getType(), is(AttributeType.SPELL_ABILITY));
     }
 
     @Test

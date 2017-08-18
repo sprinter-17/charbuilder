@@ -24,6 +24,10 @@ public abstract class OptionChoice implements Choice {
         return this;
     }
 
+    public void addCount(int count) {
+        this.currentCount += count;
+    }
+
     public boolean useAndCheck() {
         return --currentCount <= 0;
     }
@@ -41,7 +45,7 @@ public abstract class OptionChoice implements Choice {
 
     @Override
     public String toString() {
-        if (initialCount > 1)
+        if (initialCount > 1 || currentCount > 1)
             return getName() + " (x" + currentCount + ")";
         else
             return getName();

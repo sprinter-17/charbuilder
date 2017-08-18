@@ -62,6 +62,7 @@ public enum EquipmentType implements Equipment {
     SIGNET_RING(WRITING, gp(5), Weight.ZERO),
     SOAP(ADVENTURING_GEAR, cp(2), Weight.ZERO),
     SPELLBOOK(ADVENTURING_GEAR, gp(50), lb(3)),
+    BOOK_OF_SHADOWS(ADVENTURING_GEAR, gp(50), lb(3)),
     STRING(ADVENTURING_GEAR, cp(1), Weight.ZERO),
     SPIKE(ADVENTURING_GEAR, gp(1), lb(5), 10, "Iron Spike"),
     SPYGLASS(ADVENTURING_GEAR, gp(1000), lb(1)),

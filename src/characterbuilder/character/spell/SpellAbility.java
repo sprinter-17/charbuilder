@@ -9,19 +9,19 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class Cantrip implements Attribute {
+public class SpellAbility implements Attribute {
 
     private final Spell spell;
     private final AttributeType abilityScore;
 
-    public Cantrip(Spell spell, AttributeType abilityScore) {
+    public SpellAbility(Spell spell, AttributeType abilityScore) {
         this.spell = spell;
         this.abilityScore = abilityScore;
     }
 
     @Override
     public AttributeType getType() {
-        return AttributeType.CANTRIP;
+        return AttributeType.SPELL_ABILITY;
     }
 
     public Spell getSpell() {
@@ -41,11 +41,11 @@ public class Cantrip implements Attribute {
         return spell.getDescription(character);
     }
 
-    public static Cantrip load(Node node) {
+    public static SpellAbility load(Node node) {
         Spell spell = Spell.valueOf(text(node));
         AttributeType abilityScore = AttributeType.valueOf(((Element) node)
             .getAttribute("ability_score"));
-        return new Cantrip(spell, abilityScore);
+        return new SpellAbility(spell, abilityScore);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class Cantrip implements Attribute {
     public boolean equals(Object obj) {
         if (obj == null || getClass() != obj.getClass())
             return false;
-        final Cantrip other = (Cantrip) obj;
+        final SpellAbility other = (SpellAbility) obj;
         return other.spell == spell && other.abilityScore == abilityScore;
     }
 

@@ -25,10 +25,11 @@ public class AbilityTreeRoot extends DefaultMutableTreeNode {
             case SPELLCASTING:
                 addSpellCastings(character);
                 break;
-            case CANTRIP:
+            case SPELL_ABILITY:
             case RACIAL_TALENT:
             case CLASS_TALENT:
             case DIVINE_DOMAIN_ABILITY:
+            case ELDRITCH_INVOCATION:
             case SKILL:
             case WEAPON_PROFICIENCY:
             case ARMOUR_PROFICIENCY:

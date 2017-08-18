@@ -5,10 +5,9 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
-import characterbuilder.character.spell.Spell;
+import characterbuilder.character.equipment.EquipmentType;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.stream.Stream;
 import org.w3c.dom.Node;
 
@@ -407,6 +406,22 @@ public enum Ability implements Attribute {
     SHARE_SPELLS(CLASS_TALENT,
         "Any spells targeting self can also effect Ranger's companion within 30 feet."),
 
+    // Warlock abilities
+    PACT_OF_THE_CHAIN(classTalent()
+        .withDescription("Familiar can be imp, pseudodragon, quasit or sprite.")
+        .withDescription("Forgo an attack to allow familiar to make attack as reaction.")),
+//        .withSpellAbility(Spell.FIND_FAMILIAR, CHARISMA)),
+    PACT_OF_THE_BLADE(classTalent()
+        .withDescription("As an action, create a pact weapon in any form.")
+        .withDescription("Gain proficiency with pact weapon.")),
+    PACT_OF_THE_TOME(classTalent()
+        .withDescription("Cast cantrips from Book of Shadows.")
+        .withEquipment(EquipmentType.BOOK_OF_SHADOWS)),
+//        .withChoice(ChoiceGenerator.cantripChoice(3, "Book of Shadow Cantrips", CHARISMA,
+//            Spell.getSpellsAtLevel(0)))),
+    ELDRITCH_MASTER(classTalent()
+        .withDescription("Spend 1 minute to regain all spell slots once between each long rest.")),
+
     /*
      * Divine domain abilities
     **/
@@ -464,6 +479,30 @@ public enum Ability implements Attribute {
         .withDescription("Deal maximum damage on spell of level 5 or less.")
         .withDescription("After first use take 2d12 + 1d12 / use necrotic damage per spell level.")),
 
+    MINOR_CONJURATION(classTalent()),
+    BENIGN_TRANSPOSITION(classTalent()),
+    FOCUSED_CONJURATION(classTalent()),
+    DURABLE_SUMMONS(classTalent()),
+    PORTENT(classTalent()),
+    EXPERT_DIVINATION(classTalent()),
+    THE_THIRD_EYE(classTalent()),
+    GREATER_PORTENT(classTalent()),
+    HYPNOTIC_GAZE(classTalent()),
+    INSTINCTIVE_CHARM(classTalent()),
+    SPLIT_ENCHANTMENT(classTalent()),
+    ALERT_MEMORIES(classTalent()),
+    IMPROVED_MINOR_ILLUSION(classTalent()),
+    MALLEABLE_ILLUSIONS(classTalent()),
+    ILLUSORY_SELF(classTalent()),
+    ILLUSORY_REALITY(classTalent()),
+    GRIM_HARVEST(classTalent()),
+    UNDEAD_THRALLS(classTalent()),
+    INURED_TO_UNDEATH(classTalent()),
+    COMMAND_UNDEAD(classTalent()),
+    MINOR_ALCHEMY(classTalent()),
+    TRANSMUTERS_STONE(classTalent()),
+    SHAPECHANGER(classTalent()),
+    MASTER_TRANSMUTER(classTalent()),
     /*
      * Background abilities
     **/
@@ -488,7 +527,6 @@ public enum Ability implements Attribute {
     private static class AbilityDelegate extends AttributeDelegate {
 
         private final AttributeType type;
-        private Optional<Spell> spell = Optional.empty();
 
         public AbilityDelegate(AttributeType type) {
             this.type = type;

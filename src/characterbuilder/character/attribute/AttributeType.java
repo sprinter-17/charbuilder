@@ -18,6 +18,7 @@ import characterbuilder.character.characterclass.MagicSchool;
 import characterbuilder.character.characterclass.Maneuver;
 import characterbuilder.character.characterclass.MartialArchetype;
 import characterbuilder.character.characterclass.MonasticTradition;
+import characterbuilder.character.characterclass.MysticArcanum;
 import characterbuilder.character.characterclass.OtherwordlyPatron;
 import characterbuilder.character.characterclass.PrimalPath;
 import characterbuilder.character.characterclass.RangerArchetype;
@@ -27,8 +28,8 @@ import characterbuilder.character.characterclass.SacredOath;
 import characterbuilder.character.characterclass.SorcerousOrigin;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
-import characterbuilder.character.spell.Cantrip;
 import characterbuilder.character.spell.SignatureSpell;
+import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
@@ -75,10 +76,11 @@ public enum AttributeType {
     SORCEROUS_ORIGIN(true, SorcerousOrigin::load),
     OTHERWORLDLY_PATRON(true, OtherwordlyPatron::load),
     ELDRITCH_INVOCATION(false, EldritchInvocation::load),
+    MYSTIC_ARCANUM(false, MysticArcanum::load),
     BACKGROUND_FEATURE(false, Ability::load),
     ENTERTAINER_ROUTINE(false, Proficiency::load),
     GUILD_BUSINESS(false, Proficiency::load),
-    CANTRIP(false, Cantrip::load),
+    SPELL_ABILITY(false, SpellAbility::load),
     SPELLCASTING(false, SpellCasting::load),
     SPELL_MASTERY(false, Ability::load),
     SIGNATURE_SPELL(true, SignatureSpell::load),

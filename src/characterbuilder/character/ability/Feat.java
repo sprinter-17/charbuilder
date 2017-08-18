@@ -56,7 +56,7 @@ public enum Feat implements Attribute {
             Stream.of(DamageType.ACID, DamageType.COLD, DamageType.LIGHTNING, DamageType.THUNDER)
                 .map(ElementalAdept::new)))),
     GRAPPLER(feat()
-        .withPrerequisite(DEXTERITY, 13)
+        .withPrerequisiteAbilityScore(DEXTERITY, 13)
         .withDescription("Advantage on attacks against grappled creatures. ")
         .withDescription("As an action attempt to pin a grappled creature. ")),
     GREAT_WEAPON_MASTER(feat()
@@ -76,7 +76,7 @@ public enum Feat implements Attribute {
         .withDescription("-3 damage from bludgeoning, piercing and slashing while wearing "
             + "heavy armour.")),
     INSPIRING_LEADER(feat()
-        .withPrerequisite(CHARISMA, 13)
+        .withPrerequisiteAbilityScore(CHARISMA, 13)
         .withDescription("Spend 10 minutes; 6 allies within 30 feet gain [$level + $chr_mod] HP.")),
     KEEN_MIND(feat()
         .withIncrease(INTELLIGENCE)
@@ -142,7 +142,7 @@ public enum Feat implements Attribute {
         .withDescription("Attemp to hide when lightly obscured. "
             + "Missing ranged attack does not reveal position. "
             + "Dim light does not disadvantage perception checks.")
-        .withPrerequisite(DEXTERITY, 13)),
+        .withPrerequisiteAbilityScore(DEXTERITY, 13)),
     SPELL_SNIPER(feat()
         .withDescription("Double range of spell attacks. "
             + "Ranged spell attacks ignore half and three-quarter cover. ")

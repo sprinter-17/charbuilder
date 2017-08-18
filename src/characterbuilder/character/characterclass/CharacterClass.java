@@ -11,6 +11,7 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.IntAttribute;
+import static characterbuilder.character.characterclass.MysticArcanum.chooseArcanum;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -400,8 +401,20 @@ public enum CharacterClass implements Attribute {
         final String casting = cls.toString();
         gen.level(1)
             .addChoice(new AttributeChoice("Otherworldy Patron", OtherwordlyPatron.values()));
-        gen.level(2)
-            .addChoice(new AttributeChoice("Eldritch Invocations", EldritchInvocation.values()));
+        gen.level(2).addChoice(EldritchInvocation.getChoice(2));
+        gen.cond(ch -> ch.getLevel() > 2).addChoice(EldritchInvocation.getReplacement());
+        gen.level(5, 7, 9, 12, 15, 18).addChoice(EldritchInvocation.getChoice(1));
+
+        gen.level(3).addChoice(new AttributeChoice("Pact Boon",
+            Ability.PACT_OF_THE_CHAIN, Ability.PACT_OF_THE_BLADE, Ability.PACT_OF_THE_TOME));
+        gen.level(4, 8, 12, 16, 19).addChoice(new AbilityScoreOrFeatIncrease());
+
+        gen.level(11).addChoice(chooseArcanum(cls, 6));
+        gen.level(13).addChoice(chooseArcanum(cls, 7));
+        gen.level(15).addChoice(chooseArcanum(cls, 8));
+        gen.level(17).addChoice(chooseArcanum(cls, 9));
+
+        gen.level(20).addAttributes(ELDRITCH_MASTER);
 
         gen.level(1).addChoice(cantripChoice(2, CHARISMA));
         gen.level(4, 10).addChoice(cantripChoice(1, CHARISMA));
@@ -504,20 +517,25 @@ public enum CharacterClass implements Attribute {
 
     @Override
     public void generateLevelChoices(Character character) {
-        if (!generator.isPresent()) {
-            generator = Optional.of(new ChoiceGenerator());
-            generatorMaker.accept(this, generator.get());
-        }
-        generator.get().generateChoices(character);
+        getGenerator().generateChoices(character);
     }
 
     @Override
     public Stream<String> getDescription(Character character) {
-        return Stream.empty();
+        return getGenerator().getDescription(character);
+    }
+
+    public ChoiceGenerator getGenerator() {
+        if (!generator.isPresent()) {
+            generator = Optional.of(new ChoiceGenerator());
+            generatorMaker.accept(this, generator.get());
+        }
+        return generator.get();
     }
 
     public Stream<Spell> getSpells() {
-        return SpellClassMap.spellsForClass(this);
+        final SpellClassMap map = new SpellClassMap();
+        return map.spellsForClass(this);
     }
 
     @Override

@@ -2,8 +2,12 @@ package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
+import characterbuilder.character.choice.Choice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.choice.OptionChoice;
+import characterbuilder.character.equipment.Equipment;
+import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,12 +21,17 @@ import java.util.stream.Stream;
 public class AttributeDelegate {
 
     private Optional<String> name = Optional.empty();
+    private boolean adding = true;
     private final List<String> description = new ArrayList<>();
     private final List<Predicate<Character>> prerequisites = new ArrayList<>();
     private final ChoiceGenerator generator = new ChoiceGenerator();
 
     public Optional<String> getName() {
         return name;
+    }
+
+    public boolean shouldAdd() {
+        return adding;
     }
 
     public Stream<String> getDescription(Character character) {
@@ -45,10 +54,6 @@ public class AttributeDelegate {
         return this;
     }
 
-    public AttributeDelegate withPrerequisite(AttributeType score, int value) {
-        return withPrerequisite(ch -> ch.getIntAttribute(score) >= value);
-    }
-
     public AttributeDelegate withPrerequisite(AttributeType attribute) {
         return withPrerequisite(ch -> ch.hasAttribute(attribute));
     }
@@ -57,7 +62,21 @@ public class AttributeDelegate {
         return withPrerequisite(ch -> ch.hasAttribute(attribute));
     }
 
-    public AttributeDelegate withChoice(OptionChoice choice) {
+    public AttributeDelegate withPrerequisiteAbilityScore(AttributeType score, int value) {
+        return withPrerequisite(ch -> ch.getIntAttribute(score) >= value);
+    }
+
+    public AttributeDelegate withPrerequisiteCantrip(Spell cantrip) {
+        return withPrerequisite(ch -> ch
+            .getAttributes(AttributeType.SPELL_ABILITY, SpellAbility.class)
+            .anyMatch(c -> c.getSpell() == cantrip));
+    }
+
+    public AttributeDelegate withPrerequisiteLevel(int level) {
+        return withPrerequisite(ch -> ch.getLevel() >= level);
+    }
+
+    public AttributeDelegate withChoice(Choice choice) {
         this.generator.addChoice(choice);
         return this;
     }
@@ -72,6 +91,11 @@ public class AttributeDelegate {
         return this;
     }
 
+    public AttributeDelegate withEquipment(Equipment equipment) {
+        generator.addEquipment(equipment);
+        return this;
+    }
+
     public AttributeDelegate withLevelAttributes(int level, Attribute... attributes) {
         generator.level(level).addAttributes(attributes);
         return this;
@@ -80,6 +104,16 @@ public class AttributeDelegate {
     public AttributeDelegate withAttribute(Attribute attribute) {
         return withPrerequisite(ch -> !ch.hasAttribute(attribute))
             .withAction(attribute.toString(), ch -> ch.addAttribute(attribute));
+    }
+
+    public AttributeDelegate withSpell(String casting, Spell spell) {
+        generator.addLearntSpells(casting, spell);
+        return this;
+    }
+
+    public AttributeDelegate withSpellAbility(Spell spell, AttributeType abilityScore) {
+        generator.addSpellAbility(spell, abilityScore);
+        return this;
     }
 
     public AttributeDelegate withIncrease(AttributeType score) {
@@ -91,6 +125,11 @@ public class AttributeDelegate {
         String increaseName = "Increase "
             + Arrays.stream(scores).map(AttributeType::toString).collect(joining(" or "));
         generator.addChoice(new AbilityScoreOrFeatIncrease(increaseName, scores));
+        return this;
+    }
+
+    public AttributeDelegate withoutAdding() {
+        this.adding = false;
         return this;
     }
 

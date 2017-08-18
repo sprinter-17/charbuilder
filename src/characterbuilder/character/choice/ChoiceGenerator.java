@@ -10,8 +10,8 @@ import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Token;
 import characterbuilder.character.equipment.Weapon;
-import characterbuilder.character.spell.Cantrip;
 import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.spell.SpellClassMap;
 import java.util.ArrayList;
@@ -163,8 +163,8 @@ public class ChoiceGenerator {
         return this;
     }
 
-    public ChoiceGenerator addCantrip(Spell cantrip, AttributeType abilityScore) {
-        return addAction("Add Cantrip", ch -> ch.addAttribute(new Cantrip(cantrip, abilityScore)));
+    public ChoiceGenerator addSpellAbility(Spell spell, AttributeType abilityScore) {
+        return addAction("Add Spell Ability", ch -> new SpellAbility(spell, abilityScore).choose(ch));
     }
 
     public ChoiceGenerator addLearntSpells(String casting, Spell... spells) {
@@ -175,13 +175,14 @@ public class ChoiceGenerator {
 
     public static Choice spellChoice(String casting, int count, int level) {
         assert level > 0;
+        final SpellClassMap map = new SpellClassMap();
         return new OptionChoice("Spell Level " + level, count) {
             @Override
             public void select(Character character, ChoiceSelector selector) {
                 SpellCasting spellCasting = getCasting(character, casting);
                 CharacterClass characterClass = character
                     .getAttribute(AttributeType.CHARACTER_CLASS);
-                selector.chooseOption(SpellClassMap.spellsForClass(characterClass)
+                selector.chooseOption(map.spellsForClass(characterClass)
                     .filter(sp -> !sp.isCantrip())
                     .filter(sp -> sp.getLevel() <= level)
                     .filter(sp -> !spellCasting.hasLearntSpell(sp)),
@@ -206,9 +207,9 @@ public class ChoiceGenerator {
 
     public static Choice cantripChoice(int count, String name,
         AttributeType abilityScore, Stream<Spell> cantrips) {
-        List<Cantrip> cantripList = cantrips
+        List<SpellAbility> cantripList = cantrips
             .filter(Spell::isCantrip)
-            .map(c -> new Cantrip(c, abilityScore))
+            .map(c -> new SpellAbility(c, abilityScore))
             .collect(toList());
         return new OptionChoice(name, count) {
             @Override
@@ -232,8 +233,9 @@ public class ChoiceGenerator {
                     .getAttribute(AttributeType.CHARACTER_CLASS, CharacterClass.class)
                     .getSpells()
                     .filter(Spell::isCantrip)
-                    .map(sp -> new Cantrip(sp, abilityScore))
-                    .filter(sp -> !character.hasAttribute(sp)), character::addAttribute);
+                    .map(sp -> new SpellAbility(sp, abilityScore))
+                    .filter(sp -> !character.hasAttribute(sp)),
+                    character::addAttribute);
             }
 
             @Override

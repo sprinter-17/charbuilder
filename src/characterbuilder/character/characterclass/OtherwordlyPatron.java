@@ -2,6 +2,7 @@ package characterbuilder.character.characterclass;
 
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.utils.StringUtils;
 import org.w3c.dom.Node;
 
 public enum OtherwordlyPatron implements Attribute {
@@ -18,4 +19,8 @@ public enum OtherwordlyPatron implements Attribute {
         return valueOf(node.getTextContent());
     }
 
+    @Override
+    public String toString() {
+        return StringUtils.capitaliseEnumName(name());
+    }
 }

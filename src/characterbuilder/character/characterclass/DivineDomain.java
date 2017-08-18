@@ -1,9 +1,9 @@
 package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
+import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
-import static characterbuilder.character.ability.Ability.*;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
@@ -11,6 +11,7 @@ import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.utils.StringUtils;
+import java.util.Optional;
 import java.util.function.Consumer;
 import org.w3c.dom.Node;
 
@@ -56,14 +57,11 @@ public enum DivineDomain implements Attribute {
 
     });
 
-    static {
-
-    }
-
-    private final ChoiceGenerator generator = new ChoiceGenerator();
+    private final Consumer<ChoiceGenerator> generatorMaker;
+    private Optional<ChoiceGenerator> generator = Optional.empty();
 
     private DivineDomain(Consumer<ChoiceGenerator> gen) {
-        gen.accept(generator);
+        this.generatorMaker = gen;
     }
 
     @Override
@@ -73,7 +71,15 @@ public enum DivineDomain implements Attribute {
 
     @Override
     public void generateLevelChoices(Character character) {
-        generator.generateChoices(character);
+        getGenerator().generateChoices(character);
+    }
+
+    private ChoiceGenerator getGenerator() {
+        if (!generator.isPresent()) {
+            generator = Optional.of(new ChoiceGenerator());
+            generatorMaker.accept(generator.get());
+        }
+        return generator.get();
     }
 
     @Override
