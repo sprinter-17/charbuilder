@@ -159,7 +159,7 @@ public class ChoiceGenerator {
     }
 
     public ChoiceGenerator addKnownSpells(String casting, int count) {
-        addAction("Add Known Spells", ch -> getCasting(ch, casting).addKnownSpells(ch, count));
+        addAction("Add Known Spells", ch -> getCasting(ch, casting).addKnownSpells(count));
         return this;
     }
 

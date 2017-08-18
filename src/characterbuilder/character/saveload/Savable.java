@@ -30,6 +30,10 @@ public interface Savable {
         return builder.build();
     }
 
+    static Stream<Element> children(Node node, String tag) {
+        return children(node).filter(el -> el.getTagName().equals(tag));
+    }
+
     static Element child(Node node, String tag) {
         return children(node)
             .filter(el -> el.getTagName().equals(tag))

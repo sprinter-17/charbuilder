@@ -1,5 +1,6 @@
 package characterbuilder.character.spell;
 
+import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
@@ -13,6 +14,7 @@ public class CantripTest {
 
     @Before
     public void setup() {
+        Ability.values(); // initialisation error
         cantrip = new SpellAbility(Spell.HEAL, AttributeType.WISDOM);
     }
 

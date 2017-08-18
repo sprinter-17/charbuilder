@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass;
 
+import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.character.spell.Spell;
@@ -16,6 +17,7 @@ public class MysticArcanumTest {
 
     @Before
     public void setup() {
+        Ability.values(); // initialisation error
         character = new TestCharacter();
         character.addChoice(MysticArcanum.chooseArcanum(CharacterClass.WIZARD, 1));
     }

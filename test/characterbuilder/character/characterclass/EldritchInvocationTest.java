@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass;
 
+import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.characterclass.EldritchInvocation.*;
@@ -15,6 +16,7 @@ public class EldritchInvocationTest {
 
     @Before
     public void setup() {
+        Ability.values(); // initialisation error
         character = new TestCharacter().withScores(10);
     }
 

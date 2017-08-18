@@ -1,6 +1,7 @@
 package characterbuilder.character.spell;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.characterclass.CharacterClass;
@@ -10,9 +11,15 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import org.junit.Before;
 import org.junit.Test;
 
 public class SpellTest {
+
+    @Before
+    public void setup() {
+        Ability.values(); // initialisation error
+    }
 
     @Test
     public void testEffect() {

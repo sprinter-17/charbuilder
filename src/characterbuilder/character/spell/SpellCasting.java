@@ -50,7 +50,7 @@ public class SpellCasting implements Attribute {
 
         @Override
         public void select(Character character, ChoiceSelector selector) {
-            selector.chooseOption(spellClass.getSpells()
+            selector.chooseOption(getListedSpells()
                 .filter(sp -> !sp.isCantrip())
                 .filter(sp -> sp.getLevel() <= getMaxSlot())
                 .filter(sp -> !hasLearntSpell(sp)),
@@ -74,6 +74,7 @@ public class SpellCasting implements Attribute {
     private final String preparedSpellText;
     private final CharacterClass spellClass;
     private final List<Spell> learntSpells = new ArrayList<>();
+    private final List<Spell> expandedSpells = new ArrayList<>();
     private final ChooseSpell choice;
     private boolean learnAll = false;
     private int knownSpells = 0;
@@ -130,7 +131,7 @@ public class SpellCasting implements Attribute {
         character.pushChoice(new ReplaceSpell());
     }
 
-    public void addKnownSpells(Character character, int count) {
+    public void addKnownSpells(int count) {
         knownSpells += count;
         choice.useAndCheck();
     }
@@ -158,10 +159,18 @@ public class SpellCasting implements Attribute {
 
     private Stream<Spell> getLearnAllSpells() {
         if (learnAll)
-            return spellClass.getSpells()
+            return getListedSpells()
                 .filter(sp -> sp.getLevel() <= getMaxSlot() && !sp.isCantrip());
         else
             return Stream.empty();
+    }
+
+    public void addExpandedSpell(Spell spell) {
+        expandedSpells.add(spell);
+    }
+
+    private Stream<Spell> getListedSpells() {
+        return Stream.concat(spellClass.getSpells(), expandedSpells.stream()).distinct();
     }
 
     @Override
@@ -217,6 +226,8 @@ public class SpellCasting implements Attribute {
         }
         learntSpells.forEach(spell -> element.appendChild(doc.createElement("learnt_spell"))
             .setTextContent(spell.name()));
+        expandedSpells.forEach(spell -> element.appendChild(doc.createElement("expanded_spell"))
+            .setTextContent(spell.name()));
         return element;
     }
 
@@ -232,12 +243,14 @@ public class SpellCasting implements Attribute {
             casting.learnAllSpells();
         if (Boolean.valueOf(element.getAttribute("learn_all")))
             casting.learnAllSpells();
-        Savable.children(element)
-            .filter(el -> el.getTagName().equals("spell_slot"))
+        Savable.children(element, "spell_slot")
             .forEach(el -> loadSpellSlot(casting, el));
-        Savable.children(element)
-            .filter(el -> el.getTagName().equals("learnt_spell"))
-            .forEach(el -> casting.addLearntSpell(Spell.valueOf(el.getTextContent())));
+        Savable.children(element, "learnt_spell")
+            .map(Element::getTextContent).map(Spell::valueOf)
+            .forEach(casting::addLearntSpell);
+        Savable.children(element, "expanded_spell")
+            .map(Element::getTextContent).map(Spell::valueOf)
+            .forEach(casting::addExpandedSpell);
         return casting;
     }
 
@@ -263,7 +276,8 @@ public class SpellCasting implements Attribute {
             && Arrays.equals(other.spellSlots, spellSlots)
             && other.spellClass.equals(spellClass)
             && other.learnAll == learnAll
-            && other.learntSpells.equals(learntSpells);
+            && other.learntSpells.equals(learntSpells)
+            && other.expandedSpells.equals(expandedSpells);
     }
 
 }

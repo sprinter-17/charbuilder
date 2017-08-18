@@ -1,5 +1,6 @@
 package characterbuilder.character.spell;
 
+import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.attribute.IntAttribute;
@@ -19,6 +20,7 @@ public class SpellCastingTest {
 
     @Before
     public void setup() {
+        Ability.values(); // avoids initialisation errors
         casting = new SpellCasting("Spellcasting", CHARISMA, CLERIC, "[$level * 2]");
         character = new TestCharacter();
         character.setLevel(4);
@@ -108,7 +110,7 @@ public class SpellCastingTest {
         casting.choose(character);
         casting.addSlots(1, 3);
         assertFalse(character.hasChoice("Spellcasting Spell"));
-        casting.addKnownSpells(character, 4);
+        casting.addKnownSpells(4);
         assertTrue(character.hasChoice("Spellcasting Spell (x4)"));
     }
 
@@ -138,10 +140,10 @@ public class SpellCastingTest {
     }
 
     @Test
-    public void testHasNewChoice() {
+    public void testHasNewChoiceAfterRemoval() {
         casting.choose(character);
         casting.addSlots(1, 1);
-        casting.addKnownSpells(character, 4);
+        casting.addKnownSpells(4);
         casting.addLearntSpell(Spell.ALARM);
         assertTrue(character.hasChoice("Spellcasting Spell (x3)"));
         casting.replaceSpell(character);
@@ -150,11 +152,32 @@ public class SpellCastingTest {
     }
 
     @Test
+    public void testExpandSpellsInAllSpells() {
+        casting.learnAllSpells();
+        casting.addSlots(2, 1);
+        assertFalse(casting.hasLearntSpell(Spell.DARKVISION));
+        casting.addExpandedSpell(Spell.DARKVISION);
+        assertTrue(casting.hasLearntSpell(Spell.DARKVISION));
+    }
+
+    @Test
+    public void testExpandedSpellsInChoice() {
+        casting.addExpandedSpell(Spell.DARKVISION);
+        casting.addSlots(2, 1);
+        casting.addKnownSpells(1);
+        casting.generateLevelChoices(character);
+        assertFalse(casting.hasLearntSpell(Spell.DARKVISION));
+        character.selectChoice("Spellcasting Spell", "Darkvision");
+        assertTrue(casting.hasLearntSpell(Spell.DARKVISION));
+    }
+
+    @Test
     public void testSaveAndLoad() {
         casting.addSlots(1, 5);
         casting.addSlots(3, 2);
         casting.addLearntSpell(Spell.HEAL);
         casting.addLearntSpell(Spell.ANIMAL_MESSENGER);
+        casting.addExpandedSpell(Spell.DARKVISION);
         casting.learnAllSpells();
         assertThat(AttributeType.load(casting.save(TestDoc.doc())), is(casting));
     }
