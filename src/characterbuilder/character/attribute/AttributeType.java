@@ -12,6 +12,7 @@ import characterbuilder.character.characterclass.DraconicAncestory;
 import characterbuilder.character.characterclass.DruidCircle;
 import characterbuilder.character.characterclass.EldritchInvocation;
 import characterbuilder.character.characterclass.ElementalAdept;
+import characterbuilder.character.characterclass.ElementalDiscipline;
 import characterbuilder.character.characterclass.FavouredEnemy;
 import characterbuilder.character.characterclass.FavouredTerrain;
 import characterbuilder.character.characterclass.MagicSchool;
@@ -70,6 +71,7 @@ public enum AttributeType {
     FIGHTING_STYLE(false, Ability::load),
     ROGUISH_ARCHETYPE(true, RoguishArchetype::load),
     MONASTIC_TRADITION(true, MonasticTradition::load),
+    ELEMENTAL_DISCIPLINE(false, ElementalDiscipline::load),
     DRUID_CIRCLE(true, DruidCircle::load),
     SACRED_OATH(true, SacredOath::load),
     RANGER_ARCHETYPE(true, RangerArchetype::load),

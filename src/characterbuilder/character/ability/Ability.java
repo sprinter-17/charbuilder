@@ -57,8 +57,6 @@ public enum Ability implements Attribute {
     ACTION_SURGE(classTalent()
         .withDescription("Take an additional action [max($level 2:one time, 17:two times)] "
             + "between each rest.")),
-//        CLASS_TALENT, "Action Surge",
-//        ""),
     IMPROVED_CRITICAL(CLASS_TALENT, "Score a critical on a roll of 19 or 20."),
     SUPERIOR_CRITICAL(CLASS_TALENT, "Improved Critical",
         "Score a critical on a roll of 18, 19 or 20."),
@@ -260,48 +258,6 @@ public enum Ability implements Attribute {
         "As a reaction, when a creature within 5' that is hit, make a melee attack."),
     DISCIPLE_OF_THE_ELEMENTS(CLASS_TALENT, "Disciple of the Elements",
         "Spend up to [max($level 3:2,5:3,9:4,13:5,17:7)] Ki points to cast an elemental spell."),
-    ELEMENTAL_ATTUNEMENT(CLASS_TALENT, "Elemental Attunement",
-        "Use action to cause one effect: harmless sensory effect, "
-        + "light or extinguish a small flame, chill or warm an object, "
-        + "shape an element for 1 minute."),
-    FANGS_OF_THE_FIRE_SNAKE(CLASS_TALENT, "Fangs of the Fire Snake",
-        "Spend 1 Ki point on attack; extend unarmoured attack range by 10'. "
-        + "Spend 1 further Ki point to deal 1d10 extra fire damage."),
-    FIST_OF_FOUR_THUNDERS(CLASS_TALENT, "Fist of Four Thunders",
-        "Spend 2 Ki ponts to cast Thunderwave"),
-//, Spell.THUNDERWAVE),
-    FIST_OF_UNBROKEN_AIR(CLASS_TALENT, "Fist of Unbroken Air",
-        "Spend at least 2 Ki points as an action. A creature within 30' takes "
-        + "3d10 bludgeoning damage + 1d10 for each extra Ki point and "
-        + "is pushed 20 and knocked prone. Str. save for half damage only."),
-    SHAPE_OF_THE_FLOWING_RIVER(CLASS_TALENT, "Shape of the Flowing River",
-        "Spend 1 Ki point as an action. Shape water and ice within 120'."),
-    WATER_WHIP(CLASS_TALENT, "Water Whip",
-        "Spend at least 2 Ki points as an action. A creature within 30' takes "
-        + "3d10 bludgeoning damage + 1d10 for each extra Ki point and is either knocked prone "
-        + " or pulled 25' closer. Dex. save for half damage only."),
-//    RUSH_OF_THE_GALE_SPIRITS(CLASS_TALENT, "Rush of the Gale Spirits",
-//        "Spend 2 Ki points to cast Gust of Wind", Spell.GUST_OF_WIND),
-//    SWEEPING_CINDER_STRIKE(CLASS_TALENT, "Sweeping Cinder Strike",
-//        "Spend 2 Ki points to cast Burning Hands", Spell.BURNING_HANDS),
-//    GONG_OF_THE_SUMMIT(CLASS_TALENT, "Gong of the Summit",
-//        "Spend 3 Ki points to cast Shatter", Spell.SHATTER),
-//    CLENCH_OF_THE_NORTH_WIND(CLASS_TALENT, "Clench of the North Wind",
-//        "Spend 3 Ki points to cast Hold Person", Spell.HOLD_PERSON),
-//    FLAMES_OF_THE_PHOENIX(CLASS_TALENT, "Flames of the Phoenix",
-//        "Spend 4 Ki points to cast Fireball", Spell.SHATTER),
-//    MIST_STANCE(CLASS_TALENT, "Mist Stance",
-//        "Spend 4 Ki points to cast Gaseous Form on self", Spell.GASEOUS_FORM),
-//    RIDE_THE_WIND(CLASS_TALENT, "Ride the Wind",
-//        "Spend 4 Ki points to cast Fly", Spell.FLY),
-//    BREATH_OF_WINTER(CLASS_TALENT, "Breath of Winter",
-//        "Spend 6 Ki points to cast Cone of Cold", Spell.CONE_OF_COLD),
-//    ENTERNAL_MOUNTAIN_DEFENCE(CLASS_TALENT, "Enternal Mountain Defence",
-//        "Spend 5 Ki points to cast Stoneskin targeting self", Spell.STONESKIN),
-//    RIVER_OF_HUNGRY_FLAME(CLASS_TALENT, "River of Hungry Flame",
-//        "Spend 5 Ki points to cast Wall of Fire", Spell.WALL_OF_FIRE),
-//    WAVE_OF_ROLLING_EARTH(CLASS_TALENT, "Wave of Rolling Earth",
-//        "Spend 6 Ki points to cast Wall of Stone", Spell.WALL_OF_STONE),
     WILD_SHAPE(CLASS_TALENT,
         "As an action, assume the shape of a beast of up to CR[max($level 2:1/4,4:1/2,8:1)]."),
     FONT_OF_MAGIC(CLASS_TALENT,

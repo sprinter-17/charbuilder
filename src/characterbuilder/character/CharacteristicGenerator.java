@@ -204,7 +204,7 @@ public class CharacteristicGenerator {
         add("I'm only in it for the money and fame.", Alignment::isEvil);
         add("I like seeing the smiles of people's faces when I perform. That's all that matters",
             Alignment::isNeutral);
-        add("Art should reflect the sould; it should come from within and reveal who we really are");
+        add("Art should reflect the soul; it should come from within and reveal who we really are");
 
         type = BOND;
         add("My instrument is my most treasured possession, and it reminds me of someone I love.");

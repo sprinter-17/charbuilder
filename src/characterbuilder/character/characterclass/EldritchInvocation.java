@@ -14,7 +14,6 @@ import characterbuilder.character.spell.Spell;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.w3c.dom.Element;
 
@@ -181,9 +180,7 @@ public enum EldritchInvocation implements Attribute {
                 selector.chooseOption(NoOption.NONE.concat(getInvocations(character)), ei -> {
                     if (ei != NoOption.NONE) {
                         character.removeAttribute((Attribute) ei);
-                        Optional<OptionChoice> choice = IntStream
-                            .range(0, character.getChoiceCount())
-                            .mapToObj(character::getChoice)
+                        Optional<OptionChoice> choice = character.getAllChoices()
                             .filter(opt -> opt.getName().equals("Eldritch Invocation"))
                             .findAny();
                         if (choice.isPresent()) {
