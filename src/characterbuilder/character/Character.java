@@ -58,13 +58,17 @@ public class Character {
 
     public OptionChoice getChoice(int index) {
         assert choices != null;
-        return getChoices().skip(index).findFirst()
+        return getAllChoices().skip(index).findFirst()
             .orElseThrow(() -> new IndexOutOfBoundsException("Choice index out of bounds"));
+    }
+
+    public Stream<OptionChoice> getAllChoices() {
+        return choices.stream().filter(oc -> oc.isAllowed(this));
     }
 
     public int getChoiceCount() {
         assert choices != null;
-        return (int) getChoices().count();
+        return (int) getAllChoices().count();
     }
 
     public void selectChoice(OptionChoice choice) {
@@ -78,11 +82,7 @@ public class Character {
 
     public boolean hasChoice(String name) {
         assert choices != null;
-        return getChoices().map(Object::toString).anyMatch(name::equals);
-    }
-
-    private Stream<OptionChoice> getChoices() {
-        return choices.stream().filter(oc -> oc.isAllowed(this));
+        return getAllChoices().map(Object::toString).anyMatch(name::equals);
     }
 
     public void generateAbilityScores(CharacterRandom random) {

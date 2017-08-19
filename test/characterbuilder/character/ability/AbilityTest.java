@@ -2,13 +2,17 @@ package characterbuilder.character.ability;
 
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
+import static characterbuilder.character.attribute.AttributeType.INTELLIGENCE;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
+import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import characterbuilder.character.characterclass.DraconicAncestory;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellAbility;
+import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.TestCharacter;
+import static characterbuilder.utils.TestMatchers.hasChoice;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
@@ -55,8 +59,18 @@ public class AbilityTest {
 
     @Test
     public void testSpellAbility() {
-        Ability.PACT_OF_THE_CHAIN.generateInitialChoices(character);
+        Ability.PACT_OF_THE_CHAIN.choose(character);
         assertTrue(character.hasAttribute(new SpellAbility(Spell.FIND_FAMILIAR, CHARISMA)));
+    }
+
+    @Test
+    public void testImprovedMinorIllusion() {
+        character.withScores(10);
+        Ability.IMPROVED_MINOR_ILLUSION.choose(character);
+        assertTrue(character.hasAttribute(new SpellAbility(Spell.MINOR_ILLUSION, INTELLIGENCE)));
+        character.removeAttribute(Ability.IMPROVED_MINOR_ILLUSION);
+        Ability.IMPROVED_MINOR_ILLUSION.choose(character);
+        assertThat(character, hasChoice("Cantrip"));
     }
 
     @Test
@@ -69,6 +83,7 @@ public class AbilityTest {
         character.addAttribute(Race.HALF_ELF);
         character.addAttribute(DraconicAncestory.BLUE);
         character.addAttribute(new IntAttribute(AttributeType.HIT_POINTS, 10));
+        character.addAttribute(new SpellCasting("Casting", INTELLIGENCE, WIZARD, "All"));
         character.withScores(14);
         for (Ability ability : Ability.values()) {
             try {

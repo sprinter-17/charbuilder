@@ -9,6 +9,8 @@ import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import characterbuilder.character.equipment.EquipmentType;
 import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.spell.Spell.getSpellsAtLevel;
+import characterbuilder.character.spell.SpellAbility;
+import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -535,22 +537,80 @@ public enum Ability implements Attribute {
             + "<em>Greater Comprehension</em> or <em>See Invisibility</em> until next rest.")
         .withDescription("Use once between each long rest.")),
     GREATER_PORTENT(classTalent()),
-    HYPNOTIC_GAZE(classTalent()),
-    INSTINCTIVE_CHARM(classTalent()),
-    SPLIT_ENCHANTMENT(classTalent()),
-    ALERT_MEMORIES(classTalent()),
-    IMPROVED_MINOR_ILLUSION(classTalent()),
-    MALLEABLE_ILLUSIONS(classTalent()),
-    ILLUSORY_SELF(classTalent()),
-    ILLUSORY_REALITY(classTalent()),
-    GRIM_HARVEST(classTalent()),
-    UNDEAD_THRALLS(classTalent()),
-    INURED_TO_UNDEATH(classTalent()),
-    COMMAND_UNDEAD(classTalent()),
-    MINOR_ALCHEMY(classTalent()),
-    TRANSMUTERS_STONE(classTalent()),
-    SHAPECHANGER(classTalent()),
-    MASTER_TRANSMUTER(classTalent()),
+    HYPNOTIC_GAZE(classTalent()
+        .withDescription("As an action, attempt to charm 1 creature within 5 feet.")
+        .withDescription("Wis. save DC[$spell_dc] or charmed for 1 turn, speed 0, incapacitated.")),
+    INSTINCTIVE_CHARM(classTalent()
+        .withDescription("As a reaction on being attacked, divert attack to closest creature. "
+            + "Wis. save DC[$spell_dc].")),
+    SPLIT_ENCHANTMENT(classTalent()
+        .withDescription("Enchantment spells that target 1 creature can target a 2nd creature.")),
+    ALERT_MEMORIES(classTalent()
+        .withDescription("Charmed creatures are unaware of echantment.")
+        .withDescription("As an action, force charmed creature to lose up to [1+$chr_mod] hours "
+            + "of duration of enchantment. Int. save DC[$spell_dc]")),
+    IMPROVED_MINOR_ILLUSION(classTalent()
+        .withDescription("On casting <em>Minor Illusion</em>, both sound and image created.")
+        .withAction("Cantrip", ch -> {
+            Attribute minorIllusion = new SpellAbility(Spell.MINOR_ILLUSION, INTELLIGENCE);
+            if (ch.hasAttribute(minorIllusion))
+                ch.pushChoice(cantripChoice(1, INTELLIGENCE));
+            else
+                ch.addAttribute(minorIllusion);
+        })),
+    MALLEABLE_ILLUSIONS(classTalent()
+        .withDescription("As an action, change the nature of illusion with duration "
+            + "of at least 1 minute.")),
+    ILLUSORY_SELF(classTalent()
+        .withDescription("As a reaction on being attacked, interpose illusory duplicate that causes "
+            + "attack to miss.")
+        .withDescription("Use once between each rest.")),
+    ILLUSORY_REALITY(classTalent()
+        .withDescription("As a bonus action, make an illusion real for 1 minute.")),
+    GRIM_HARVEST(classTalent()
+        .withDescription("On killing a creature with a spell, regain 2x spell level HP, "
+            + "or 3x for Necromancy spells.")
+        .withDescription("No effect on killing undead or constructs.")),
+    UNDEAD_THRALLS(classTalent()
+        .withDescription("When casting <em>Animate Dead</em>, target an additional corpse or bones.")
+        .withDescription("Undead created with Necromancy have +[$level] HP and +[$prof] weapon damage.")
+        .withAction("Gain Animate Dead", ch -> {
+            SpellCasting wizardCasting = ch.getSpellCasting("Wizard");
+            if (!wizardCasting.hasLearntSpell(Spell.ANIMATE_DEAD))
+                wizardCasting.addLearntSpell(Spell.ANIMATE_DEAD);
+        })),
+    INURED_TO_UNDEATH(classTalent()
+        .withDescription("Resistance to necrotic damage and maximum HP cannot be reduced.")),
+    COMMAND_UNDEAD(classTalent()
+        .withDescription("As an action, control 1 undead within 60 feet. Chr. save DC[$spell_dc].")
+        .withDescription("Undead with Int. of 8 have advantage on save. Int. of 12 can repeat save "
+            + "each hour.")),
+    MINOR_ALCHEMY(classTalent()
+        .withDescription("Change the substance of 1 physical object for 1 hour. "
+            + "Requires 10 minutes per cubic foot of material.")),
+    TRANSMUTERS_STONE(classTalent()
+        .withName("Transmuter's Stone")
+        .withDescription("Spend 8 hours to create a transmuter's stone. ")
+        .withDescription("Possessor gains one of the following benefits: darkvision to 60 feet, "
+            + "speed +10 feet, proficiency in Con. saves, resistance to acid, cold, fire, "
+            + "lightning or thunder.")
+        .withDescription("Benefit can be changed each time Transmutation spell is cast.")),
+    SHAPECHANGER(classTalent()
+        .withDescription("Cast <em>Polymorph</em> to transform into a beast with CR 1 or lower "
+            + "without spending a spell slot.")
+        .withDescription("Use once between rests.")
+        .withAction("Gain Polymorph", ch -> {
+            SpellCasting wizardCasting = ch.getSpellCasting("Wizard");
+            if (!wizardCasting.hasLearntSpell(Spell.POLYMORPH))
+                wizardCasting.addLearntSpell(Spell.POLYMORPH);
+        })),
+    MASTER_TRANSMUTER(classTalent()
+        .withDescription("As an action, consume transmuter's stone to "
+            + "transform one object to another, "
+            + "remove curses, diseases and poisons and restore all hit points for a creature, "
+            + "cast <em>Raise Dead</em> without expending a spell slot, or "
+            + "reduce apparent age by 3d10 years (minimum 13).")
+        .withDescription("Use once between long rests.")),
     /*
      * Background abilities
     **/

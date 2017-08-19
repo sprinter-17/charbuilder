@@ -312,16 +312,46 @@ public class CharacteristicGenerator {
 
         background = Background.HERMIT;
         type = TRAIT;
-        add("");
+        add("I've been isolated for so long that I rarely speak preferring gestures and the "
+            + "occassional grunt.");
+        add("I am utterly serene, even in the face of disaster.");
+        add("The leader of my community had something wise to say on every topic and I am eager to "
+            + "share that wisdom.");
+        add("I feel tremendous empathy for all who suffer.");
+        add("I'm oblivious to etiquette and social expectations.");
+        add("I connect everything that happens to me to a great cosmic plan.");
+        add("I often get lost in my own thoughts and contemplation, becoming oblivious to my "
+            + "surroundings.");
+        add("I am working on a grand philosophical theory and love sharing my ideas.");
 
         type = IDEAL;
-        add("");
+        add("My gifts are mean to be shared with all, not used for my own benefit.",
+            Alignment::isGood);
+        add("Emotions must not cloud our sense of what is right and true or our logical thinking.",
+            Alignment::isLawful);
+        add("Inquiry and curiosity are the pillars of progress.", Alignment::isChaotic);
+        add("Solitude and contemplation are paths towards mystical or magical power. ",
+            Alignment::isEvil);
+        add("Meddling in the affairs of others only causes trouble.", Alignment::isNeutral);
+        add("If you know yourself, there's nothing left to know.");
 
         type = BOND;
-        add("");
+        add("Nothing is more important than the other members of my hermitage, order or association.");
+        add("I entered seclusion to hide from the ones who might still be hunting me. I must someday "
+            + "confront them.");
+        add("I'm still seeking the enlightenment I pursued in my seclusion, and it still eludes me.");
+        add("I entered seclusion because I loved someone I could not have.");
+        add("Should my discovery come to light it could bring ruin to the world.");
+        add("My isolation gave me great insight into a great evil that only I can destroy.");
 
         type = FLAW;
-        add("");
+        add("Now that I've returned to the world, I enjoy its delights a little too much.");
+        add("I harbour dark, bloodthirsty thoughts that my isolation and meditation failed "
+            + "to quell.");
+        add("I am dogmatic in my thoughts and philosophy.");
+        add("I let my need to win arguments overshadow friendships and harmony.");
+        add("I'd risk too much to uncover a lost bit of knowledge.");
+        add("I like keeping secrets and won't share them with anyone.");
 
         background = Background.NOBLE;
         type = TRAIT;
@@ -453,16 +483,45 @@ public class CharacteristicGenerator {
 
         background = Background.SAILOR;
         type = TRAIT;
-        add("");
+        add("My friends know they can rely on me no matter what.");
+        add("I work hard so that I can play hard when the work is done.");
+        add("I enjoy sailing into new ports and making new friends over a flagon of ale.");
+        add("I stretch the truth for the sake of a good story.");
+        add("To me a tavern brawl is a nice way to get to know a new city.");
+        add("I never pass up a friendly wager.");
+        add("My language is as foul as an otyugh nest.");
+        add("I like a job well done, especially if I can convince someone else to do it.");
 
         type = IDEAL;
-        add("");
+        add("The think that keeps a ship together is mutual respect between captain and crew. ",
+            Alignment::isGood);
+        add("We all do the work so we all share the rewards.",
+            Alignment::isLawful);
+        add("The sea is freedom - the freedom to go anywhere and do anything.",
+            Alignment::isChaotic);
+        add("I'm a predator and the other ships on the sea are my prey.",
+            Alignment::isEvil);
+        add("I'm committed to my crewmates, not to ideals.",
+            Alignment::isNeutral);
+        add("Someday I'll own my own ship and chart my own destiny.");
 
         type = BOND;
-        add("");
+        add("I'm loyal to my captain first; everything else is second.");
+        add("The ship is most important - crewmates and captains come and go.");
+        add("I'll always remember my first ship.");
+        add("In a harbour town I have a paramour who eyes nearly stole me from the sea.");
+        add("I was cheated out of my fair share of the profits and I want to get my due.");
+        add("Ruthless pirates murdered my captain and crewmates, plundered our ship and "
+            + "left me to die. Vengeance will be mine.");
 
         type = FLAW;
-        add("");
+        add("I follow orders even if I think they're wrong.");
+        add("I'll say anything to avoid having to do extra work.");
+        add("Once someone questions my courage, I never back down no matter how dangerous "
+            + "the situation.");
+        add("Once I start drinking it's hard for me to stop.");
+        add("I can't help but pocket loose coins and other trinkets I come across.");
+        add("My pride will probably lead to my destruction.");
 
         background = Background.SOLDIER;
         type = TRAIT;

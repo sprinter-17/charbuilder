@@ -139,6 +139,8 @@ public class SpellCasting implements Attribute {
     public void addLearntSpell(Spell spell) {
         if (spell.isCantrip())
             throw new IllegalArgumentException("Cantrips cannot be learnt as spellcasting");
+        if (learntSpells.contains(spell))
+            throw new IllegalArgumentException("Have already learnt spell " + spell);
         learntSpells.add(spell);
         choice.useAndCheck();
     }

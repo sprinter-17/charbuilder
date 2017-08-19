@@ -225,7 +225,7 @@ public class ChoiceGenerator {
         };
     }
 
-    public static Choice cantripChoice(int count, AttributeType abilityScore) {
+    public static OptionChoice cantripChoice(int count, AttributeType abilityScore) {
         return new OptionChoice("Cantrip", count) {
             @Override
             public void select(Character character, ChoiceSelector selector) {

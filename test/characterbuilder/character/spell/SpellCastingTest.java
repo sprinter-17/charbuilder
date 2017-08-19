@@ -89,6 +89,12 @@ public class SpellCastingTest {
         assertTrue(casting.getLearntSpells().anyMatch(Spell.AID::equals));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testCannotLearnSpellTwice() {
+        casting.addLearntSpell(Spell.AID);
+        casting.addLearntSpell(Spell.AID);
+    }
+
     @Test
     public void testHasLearntSpell() {
         assertFalse(casting.hasLearntSpell(Spell.FIREBALL));
