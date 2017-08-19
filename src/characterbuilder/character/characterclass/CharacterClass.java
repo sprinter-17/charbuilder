@@ -7,6 +7,7 @@ import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.*;
 import characterbuilder.character.ability.Skill;
 import static characterbuilder.character.ability.Skill.*;
+import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
@@ -17,8 +18,10 @@ import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import static characterbuilder.character.choice.ChoiceGenerator.levels;
+import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.choice.ExpertiseChoice;
+import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.equipment.Armour;
 import static characterbuilder.character.equipment.Armour.*;
 import characterbuilder.character.equipment.EquipmentCategory;
@@ -29,9 +32,12 @@ import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.EquipmentType;
 import static characterbuilder.character.equipment.EquipmentType.*;
 import characterbuilder.character.equipment.MusicalInstrument;
+import characterbuilder.character.equipment.Weapon;
 import static characterbuilder.character.equipment.Weapon.*;
 import characterbuilder.character.spell.SignatureSpell;
 import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellAbility;
+import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.spell.SpellClassMap;
 import characterbuilder.utils.StringUtils;
 import java.util.ArrayList;
@@ -60,6 +66,7 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addAttributes(RAGE, UNARMORED_DEFENCE_BARBARIAN);
         gen.level(2).addAttributes(RECKLESS_ATTACK, DANGER_SENSE);
         gen.level(3).addChoice(new AttributeChoice("Primal Path", PrimalPath.values()));
+        gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
         gen.level(5).addAttributes(EXTRA_ATTACK, FAST_MOVEMENT);
         gen.level(7).addAttributes(FERAL_INSTINCTS);
         gen.level(9).addAttributes(BRUTAL_CRITICAL);
@@ -67,10 +74,11 @@ public enum CharacterClass implements Attribute {
         gen.level(15).addAttributes(PERSISTENT_RAGE);
         gen.level(18).addAttributes(INDOMITABLE_MIGHT);
         gen.level(20).addAction("Increase Str. and Con.", ch -> {
-            ch.getAttribute(STRENGTH, IntAttribute.class).addValue(4);
-            ch.getAttribute(CONSTITUTION, IntAttribute.class).addValue(4);
+            ch.getAttribute(STRENGTH, AbilityScore.class).setMax(24);
+            ch.getAttribute(STRENGTH, AbilityScore.class).addValue(4);
+            ch.getAttribute(CONSTITUTION, AbilityScore.class).setMax(24);
+            ch.getAttribute(CONSTITUTION, AbilityScore.class).addValue(4);
         });
-        gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
     }),
     BARD(8, BARDIC_COLLEGE, DEXTERITY, CHARISMA,
         Arrays.asList(CHARISMA, DEXTERITY), (cls, gen) -> {
@@ -110,14 +118,27 @@ public enum CharacterClass implements Attribute {
         gen.level(13, 12).addSpellSlots("Bard", 7, 1);
         gen.level(15).addSpellSlots("Bard", 8, 1);
         gen.level(17).addSpellSlots("Bard", 9, 1);
+
         gen.cond(ch -> ch.getLevel() > 1).replaceSpell("Bard");
         gen.level(1).addKnownSpells("Bard", 4);
         gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17).addKnownSpells("Bard", 1);
-        gen.level(9, 14, 18).addKnownSpells("Bard", 2);
-//        gen.level(10, 14, 18).addChoice(2, new AttributeChoice("Magical Secrets",
-//            Arrays.stream(Spell.values())
-//                .filter(sp -> sp.getLevel() <= spellCount[character.getLevel()].length)
-//                .map(sp -> (Attribute) sp)));
+        gen.level(10, 14, 18)
+            .addChoice(2, new OptionChoice("Magical Secrets") {
+                @Override
+                public void select(Character character, ChoiceSelector selector) {
+                    SpellCasting casting = character.getSpellCasting("Bard");
+                    selector.chooseOption(Arrays.stream(Spell.values())
+                        .filter(spell -> !casting.hasLearntSpell(spell))
+                        .filter(spell -> spell.getLevel() <= casting.getMaxSlot()), spell -> {
+                        if (spell.isCantrip()) {
+                            character.addAttribute(new SpellAbility(spell, CHARISMA));
+                        } else {
+                            casting.addKnownSpells(1);
+                            casting.addLearntSpell(spell);
+                        }
+                    });
+                }
+            });
     }) {
 
     },
@@ -399,6 +420,19 @@ public enum CharacterClass implements Attribute {
     WARLOCK(8, OTHERWORLDLY_PATRON, WISDOM, CHARISMA,
         Arrays.asList(CHARISMA, CONSTITUTION), (cls, gen) -> {
         final String casting = cls.toString();
+        gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.ALL_SIMPLE_WEAPONS);
+        gen.level(1).addChoice(2, new AttributeChoice("Skill", Skill.ARCANA, Skill.DECEPTION,
+            Skill.HISTORY, Skill.INTIMIDATION, Skill.INVESTIGATION, Skill.NATURE, Skill.RELIGION));
+        gen.level(1).addChoice(new EquipmentChoice("Primary Weapon")
+            .with(Weapon.LIGHT_CROSSBOW, new EquipmentSet(ARROW, 20))
+            .with(SIMPLE_MELEE).with(SIMPLE_RANGED));
+        gen.level(1).addChoice(new EquipmentChoice("Secondary Weapon")
+            .with(SIMPLE_MELEE).with(SIMPLE_RANGED));
+        gen.level(1).addChoice(new EquipmentChoice("Magical Equipment")
+            .with(COMPONENT_POUCH).with(ARCANE_FOCUS));
+        gen.level(1).addChoice(new EquipmentChoice("Adventurer's Pack",
+            EquipmentPack.SCHOLAR_PACK, EquipmentPack.DUNGEONEER_PACK));
+        gen.level(1).addEquipment(LEATHER_ARMOUR, new EquipmentSet(DAGGER, 2));
         gen.level(1)
             .addChoice(new AttributeChoice("Otherworldy Patron", OtherwordlyPatron.values()));
         gen.level(2).addChoice(EldritchInvocation.getChoice(2));

@@ -2,15 +2,18 @@ package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
+import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.DIVINE_DOMAIN;
+import static characterbuilder.character.characterclass.CharacterClass.BARBARIAN;
 import static characterbuilder.character.characterclass.CharacterClass.CLERIC;
 import static characterbuilder.character.characterclass.CharacterClass.FIGHTER;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.InitialChoiceGenerator;
 import characterbuilder.character.choice.Option;
 import characterbuilder.character.choice.OptionChoice;
+import characterbuilder.utils.TestCharacter;
 import java.util.List;
 import java.util.function.Consumer;
 import static java.util.stream.Collectors.toList;
@@ -23,6 +26,14 @@ import org.junit.Test;
 public class CharacterClassTest {
 
     private int choiceCount = 0;
+    private TestCharacter character;
+
+    @Before
+    public void setup() {
+        MagicSchool.values(); // avoid initialisation error
+        Ability.values(); // avoid initialisation error
+        character = new TestCharacter().withScores(10);
+    }
 
     private class IterativeSelector implements ChoiceSelector {
 
@@ -54,10 +65,6 @@ public class CharacterClassTest {
         }
     };
 
-    @Before
-    public void setup() {
-    }
-
     @Test
     public void testClassAttribute() {
         assertThat(CLERIC.getClassAttribute().get(), is(DIVINE_DOMAIN));
@@ -65,12 +72,20 @@ public class CharacterClassTest {
     }
 
     @Test
+    public void testBarbarianPrimalChampion() {
+        character.setScore(AttributeType.STRENGTH, 18);
+        BARBARIAN.choose(character);
+        character.setLevel(20);
+        BARBARIAN.generateLevelChoices(character);
+        AbilityScore strength = character.getAttribute(AttributeType.STRENGTH);
+        assertThat(strength.getValue(), is(22));
+    }
+
+    @Test
     public void testMultipleCharacterGeneration() {
-        // bizarrely the following lines avoids an initialisation error
-        MagicSchool[] schools = MagicSchool.values();
         InitialChoiceGenerator init = new InitialChoiceGenerator();
         for (int i = 1; i < 500; i++) {
-            Character character = new Character();
+            character = new TestCharacter();
             character.addChoiceList(new IterativeSelector(i));
             init.generateChoices(character);
             exhaustChoices(character);

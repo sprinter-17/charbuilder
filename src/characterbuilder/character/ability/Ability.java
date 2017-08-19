@@ -121,11 +121,11 @@ public enum Ability implements Attribute {
     THIEFS_REFLEXES(CLASS_TALENT, "Thief's Reflexes",
         "Take two turns during first round of combat. Second turn is at initiative - 10."),
     UNARMORED_DEFENCE_BARBARIAN(CLASS_TALENT, "Unarmoured Defence",
-        "Unarmoured AC[10+$dex_mod+$con_mod]"),
+        "Unarmoured AC[10+$dex_mod+$con_mod]."),
     UNARMORED_DEFENCE_MONK(CLASS_TALENT, "Unarmoured Defence",
         "Unarmoured AC[10+$dex_mod+$wis_mod]"),
     RECKLESS_ATTACK(CLASS_TALENT, "Reckless Attack",
-        "Choose to lower defence: advantage melee attacks for, all attacks against"),
+        "Choose to attack recklessly gaining and giving advantage on melee attacks."),
     DANGER_SENSE(CLASS_TALENT, "Danger Sense",
         "Advantage on Dex. saving throws against visible effects"),
     FAST_MOVEMENT(CLASS_TALENT, "Fast Movement",
@@ -134,11 +134,12 @@ public enum Ability implements Attribute {
         "Advantage on initiative, enter rage and act normally on surprise."),
     BRUTAL_CRITICAL(CLASS_TALENT, "Brutal Critical",
         "Roll [max($level 9:1,13:2,17:3)] extra [plural(die,dice)] damage on critical."),
-    RAGE(CLASS_TALENT, "Rage",
-        "Bonus action enter rage for 1 minute. "
-        + "Advantage Str. checks, +[max($level 1:2,9:3,16:4)] dam on melee attacks, "
-        + "resistance to damage. "
-        + "Use [max($level 1:2,6:4,12:5,17:6)] times between long rests; "),
+    RAGE(classTalent()
+        .withDescription("As bonus action, enter rage for 1 minute. ")
+        .withDescription("Advantage on Str. checks and saves.")
+        .withDescription("+[max($level 1:2,9:3,16:4)] dam on melee attacks. ")
+        .withDescription("Resistance to bludgeoning, piercing and slashing damage. "
+            + "Use [max($level 1:2,6:4,12:5,17:6)] times between long rests. ")),
     RELENTLESS_RAGE(CLASS_TALENT, "Relentless Rage",
         "When dropping to 0HP during rage, make Con. save vs DC10 (+5 per use) "
         + "to drop to 1HP instead."),
