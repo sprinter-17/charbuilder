@@ -15,7 +15,7 @@ public class EquipmentSetTest {
 
     @Before
     public void setup() {
-        set = new EquipmentSet(EquipmentType.BARREL, bonus, count);
+        set = new EquipmentSet(AdventureGear.BARREL, bonus, count);
     }
 
     @Test
@@ -40,46 +40,46 @@ public class EquipmentSetTest {
 
     @Test
     public void testGetBaseEquipment() {
-        assertThat(set.getBaseEquipment(), is(EquipmentType.BARREL));
+        assertThat(set.getBaseEquipment(), is(AdventureGear.BARREL));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddMismatchedEquipment() {
-        set.add(new EquipmentSet(EquipmentType.AMULET, 2, 17));
+        set.add(new EquipmentSet(AdventureGear.AMULET, 2, 17));
     }
 
     @Test
     public void testAdd() {
-        set = set.add(new EquipmentSet(EquipmentType.BARREL, bonus, 4));
+        set = set.add(new EquipmentSet(AdventureGear.BARREL, bonus, 4));
         assertThat(set.getCount(), is(count + 4));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSubtractMismatchedEquipment() {
-        set.substract(new EquipmentSet(EquipmentType.BELL, 4, 6));
+        set.substract(new EquipmentSet(AdventureGear.BELL, 4, 6));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSubtractTooManyElements() {
-        set.substract(new EquipmentSet(EquipmentType.BARREL, bonus, count + 1)).get();
+        set.substract(new EquipmentSet(AdventureGear.BARREL, bonus, count + 1)).get();
     }
 
     @Test
     public void testSubstract() {
-        set = set.substract(new EquipmentSet(EquipmentType.BARREL, bonus, 3)).get();
+        set = set.substract(new EquipmentSet(AdventureGear.BARREL, bonus, 3)).get();
         assertThat(set.getCount(), is(count - 3));
         assertFalse(set.substract(
-            new EquipmentSet(EquipmentType.BARREL, bonus, count - 3)).isPresent());
+            new EquipmentSet(AdventureGear.BARREL, bonus, count - 3)).isPresent());
     }
 
     @Test
     public void testGetValue() {
-        assertThat(set.getValue(), is(EquipmentType.BARREL.getValue().times(7)));
+        assertThat(set.getValue(), is(AdventureGear.BARREL.getValue().times(7)));
     }
 
     @Test
     public void testGetWeight() {
-        assertThat(set.getWeight(), is(EquipmentType.BARREL.getWeight().times(7)));
+        assertThat(set.getWeight(), is(AdventureGear.BARREL.getWeight().times(7)));
     }
 
     @Test

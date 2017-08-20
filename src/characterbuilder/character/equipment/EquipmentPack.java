@@ -3,7 +3,7 @@ package characterbuilder.character.equipment;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
-import static characterbuilder.character.equipment.EquipmentType.*;
+import static characterbuilder.character.equipment.AdventureGear.*;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +33,7 @@ public enum EquipmentPack implements Equipment {
         BACKPACK, BOOK, INK_BOTTLE, INK_PEN, set(10, PARCHMENT_SHEET), SAND_BAG,
         KNIFE_SMALL);
 
-    private static Equipment set(int count, EquipmentType equipment) {
+    private static Equipment set(int count, AdventureGear equipment) {
         return new EquipmentSet(equipment, count);
     }
 

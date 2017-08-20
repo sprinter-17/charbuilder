@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -334,5 +335,12 @@ public class Character {
         if (hasAttribute(Feat.MOBILE))
             speed += 10;
         return speed;
+    }
+
+    public String getErrors() {
+        return Stream.of(NAME, TRAIT, IDEAL, BOND, FLAW)
+            .filter(at -> !hasAttribute(at) || getStringAttribute(at).isEmpty())
+            .map(AttributeType::toString)
+            .collect(joining(", "));
     }
 }

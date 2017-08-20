@@ -2,7 +2,7 @@ package characterbuilder.character.equipment;
 
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
-import static characterbuilder.character.equipment.EquipmentType.SILVER_PIECE;
+import static characterbuilder.character.equipment.AdventureGear.SILVER_PIECE;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -91,10 +91,10 @@ public class Inventory {
                 .findAny().get();
             removeItem(treasure.getBaseEquipment());
             if (treasure.getBaseEquipment().getValue().isGreaterThan(value)) {
-                if (treasure.getBaseEquipment().equals(EquipmentType.GOLD_PIECE)) {
+                if (treasure.getBaseEquipment().equals(AdventureGear.GOLD_PIECE)) {
                     addItem(new EquipmentSet(SILVER_PIECE, 10));
-                } else if (treasure.getBaseEquipment().equals(EquipmentType.SILVER_PIECE)) {
-                    addItem(new EquipmentSet(EquipmentType.COPPER_PIECE, 10));
+                } else if (treasure.getBaseEquipment().equals(AdventureGear.SILVER_PIECE)) {
+                    addItem(new EquipmentSet(AdventureGear.COPPER_PIECE, 10));
                 } else {
                     throw new IllegalStateException("Incorrect change calculation");
                 }

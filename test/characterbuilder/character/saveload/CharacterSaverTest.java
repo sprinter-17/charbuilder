@@ -17,7 +17,7 @@ import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import characterbuilder.character.characterclass.DivineDomain;
 import characterbuilder.character.equipment.EquipmentSet;
-import static characterbuilder.character.equipment.EquipmentType.BASKET;
+import static characterbuilder.character.equipment.AdventureGear.BASKET;
 import characterbuilder.character.equipment.Token;
 import static characterbuilder.character.equipment.Weapon.WHIP;
 import characterbuilder.character.spell.Spell;

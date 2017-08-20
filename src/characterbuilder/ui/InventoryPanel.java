@@ -7,7 +7,7 @@ import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
 import characterbuilder.character.equipment.EquipmentSet;
-import characterbuilder.character.equipment.EquipmentType;
+import characterbuilder.character.equipment.AdventureGear;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
 import java.awt.BorderLayout;
@@ -182,7 +182,7 @@ public class InventoryPanel extends CharacterSubPanel {
             }
         });
         List<EquipmentSet> sets = new ArrayList<>();
-        Arrays.stream(EquipmentType.values())
+        Arrays.stream(AdventureGear.values())
             .map(et -> new EquipmentSet(et, et.getPreferredCount()))
             .forEach(sets::add);
         Stream.of(Weapon.values(), MusicalInstrument.values(), Armour.values())

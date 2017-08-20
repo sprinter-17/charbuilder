@@ -29,8 +29,8 @@ import static characterbuilder.character.equipment.EquipmentCategory.*;
 import characterbuilder.character.equipment.EquipmentPack;
 import static characterbuilder.character.equipment.EquipmentPack.*;
 import characterbuilder.character.equipment.EquipmentSet;
-import characterbuilder.character.equipment.EquipmentType;
-import static characterbuilder.character.equipment.EquipmentType.*;
+import characterbuilder.character.equipment.AdventureGear;
+import static characterbuilder.character.equipment.AdventureGear.*;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
 import static characterbuilder.character.equipment.Weapon.*;
@@ -364,7 +364,7 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addChoice(new ExpertiseChoice().withCount(2));
         gen.level(1).addEquipment(LEATHER_ARMOUR)
             .addEquipment(DAGGER, 2)
-            .addEquipment(EquipmentType.THIEVES_TOOLS);
+            .addEquipment(AdventureGear.THIEVES_TOOLS);
         gen.level(1).addChoice(new EquipmentChoice("Primary Weapon", RAPIER, SHORTSWORD));
         gen.level(1).addChoice(new EquipmentChoice("Secondard Weapon")
             .with(SHORTBOW, QUIVER, new EquipmentSet(ARROW, 20))

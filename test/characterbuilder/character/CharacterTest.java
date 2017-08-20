@@ -9,13 +9,15 @@ import static characterbuilder.character.attribute.AttributeType.CONSTITUTION;
 import static characterbuilder.character.attribute.AttributeType.EXPERIENCE_POINTS;
 import static characterbuilder.character.attribute.AttributeType.HIT_POINTS;
 import static characterbuilder.character.attribute.AttributeType.LEVEL;
+import static characterbuilder.character.attribute.AttributeType.NAME;
 import static characterbuilder.character.attribute.AttributeType.RACE;
-import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
+import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.LB;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.choice.TestOptionChoice;
 import characterbuilder.character.equipment.Armour;
@@ -23,7 +25,9 @@ import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.utils.TestCharacter;
 import java.util.Optional;
 import java.util.stream.Stream;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -279,6 +283,16 @@ public class CharacterTest {
         assertThat(character.getChoiceCount(), is(0));
         choice.setAllowed(true);
         assertThat(character.getChoiceCount(), is(1));
+    }
+
+    @Test
+    public void testErrors() {
+        assertThat(character.getErrors(), containsString("Name"));
+        character.addAttribute(new StringAttribute(NAME, "Fred"));
+        assertThat(character.getErrors(), not(containsString("Name")));
+        assertThat(character.getErrors(), containsString("Trait"));
+        character.addAttribute(new StringAttribute(AttributeType.TRAIT, "Funny"));
+        assertThat(character.getErrors(), not(containsString("Trait")));
     }
 
     private void setLevel(CharacterClass charClass, int level) {

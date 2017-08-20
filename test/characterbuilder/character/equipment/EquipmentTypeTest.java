@@ -1,8 +1,8 @@
 package characterbuilder.character.equipment;
 
 import characterbuilder.character.Character;
-import static characterbuilder.character.equipment.EquipmentType.BLOWGUN_NEEDLE;
-import static characterbuilder.character.equipment.EquipmentType.CROWBAR;
+import static characterbuilder.character.equipment.AdventureGear.BLOWGUN_NEEDLE;
+import static characterbuilder.character.equipment.AdventureGear.CROWBAR;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -14,7 +14,7 @@ public class EquipmentTypeTest {
 
     @Test
     public void testSaveAndLoad() {
-        assertThat(EquipmentType.load(CROWBAR.save(TestDoc.doc())), is(CROWBAR));
+        assertThat(AdventureGear.load(CROWBAR.save(TestDoc.doc())), is(CROWBAR));
     }
 
     @Test

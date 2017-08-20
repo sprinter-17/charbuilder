@@ -55,7 +55,7 @@ public class TextSectionBuilder {
     }
 
     private String abilityDescriptions(List<Attribute> abilities) {
-        return element("table",
+        return element("table style=\"width:385px; padding-left:10px; border-spacing:0px\"",
             abilities.stream()
                 .filter(AttributePlacement.DETAIL::isPlacementFor)
                 .sorted(Comparator.comparing(Attribute::getType))

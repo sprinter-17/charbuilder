@@ -1,7 +1,7 @@
 package characterbuilder.character.equipment;
 
 import characterbuilder.character.attribute.Value;
-import static characterbuilder.character.equipment.EquipmentType.*;
+import static characterbuilder.character.equipment.AdventureGear.*;
 import static characterbuilder.character.equipment.Weapon.BATTLEAXE;
 import static characterbuilder.character.equipment.Weapon.CLUB;
 import static characterbuilder.character.equipment.Weapon.GREATSWORD;

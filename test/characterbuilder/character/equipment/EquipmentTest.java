@@ -9,6 +9,6 @@ public class EquipmentTest {
 
     @Test
     public void testWeight() {
-        assertThat(EquipmentType.ARROW.getWeight(30), is(Weight.OZ.times(24)));
+        assertThat(AdventureGear.ARROW.getWeight(30), is(Weight.OZ.times(24)));
     }
 }

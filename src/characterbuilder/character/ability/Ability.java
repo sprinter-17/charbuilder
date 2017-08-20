@@ -6,7 +6,7 @@ import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
-import characterbuilder.character.equipment.EquipmentType;
+import characterbuilder.character.equipment.AdventureGear;
 import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.spell.Spell.getSpellsAtLevel;
 import characterbuilder.character.spell.SpellAbility;
@@ -378,7 +378,7 @@ public enum Ability implements Attribute {
         .withDescription("Gain proficiency with pact weapon.")),
     PACT_OF_THE_TOME(classTalent()
         .withDescription("Cast cantrips from Book of Shadows.")
-        .withEquipment(EquipmentType.BOOK_OF_SHADOWS)
+        .withEquipment(AdventureGear.BOOK_OF_SHADOWS)
         .withChoice(cantripChoice(3, "Book of Shadow Cantrips", CHARISMA, getSpellsAtLevel(0)))),
     ELDRITCH_MASTER(classTalent()
         .withDescription("Spend 1 minute to regain all spell slots once between each long rest.")),

@@ -3,11 +3,11 @@ package characterbuilder.ui;
 import characterbuilder.character.Character;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -23,8 +23,11 @@ public class CharacterPanel extends JPanel {
     private final InventoryPanel inventoryPanel;
     private final PersonalityPanel personalityPanel;
     private final List<Runnable> changeListeners = new ArrayList<>();
-    private final JLabel errors = new JLabel("Errors");
+    private final JLabel errorLabel = new JLabel("Missing Attributes");
+    private final JLabel errors = new JLabel();
     private final GridBagConstraints c = new GridBagConstraints();
+
+    private Optional<Runnable> errorUpdater = Optional.empty();
 
     public CharacterPanel() throws ParserConfigurationException {
         super(new BorderLayout());
@@ -75,10 +78,13 @@ public class CharacterPanel extends JPanel {
     }
 
     private void setUpErrorLabel() {
-        errors.setForeground(Color.RED);
-        errors.setPreferredSize(new Dimension(100, 50));
-        errors.setBorder(BorderFactory.createEtchedBorder());
-        add(errors, BorderLayout.SOUTH);
+        JPanel panel = new JPanel(new BorderLayout());
+        errorLabel.setBorder(BorderFactory.createEmptyBorder(2, 15, 2, 15));
+        panel.add(errorLabel, BorderLayout.WEST);
+        panel.add(errors, BorderLayout.CENTER);
+        errors.setBorder(BorderFactory.createEmptyBorder(2, 15, 2, 15));
+        panel.setBorder(BorderFactory.createEtchedBorder());
+        add(panel, BorderLayout.SOUTH);
     }
 
     public void addChangeListener(Runnable listener) {
@@ -89,10 +95,22 @@ public class CharacterPanel extends JPanel {
         Stream.of(appearancePanel, abilityScorePanel,
             levelPanel, abilityPanel, inventoryPanel, personalityPanel)
             .forEach(panel -> panel.updateCharacter(character));
+        errorUpdater = Optional.of(() -> updateErrors(character));
         triggerChange();
+    }
+
+    private void updateErrors(Character character) {
+        if (character.getErrors().isEmpty()) {
+            errors.setText("None");
+            errors.setForeground(Color.BLACK);
+        } else {
+            errors.setText(character.getErrors());
+            errors.setForeground(Color.RED);
+        }
     }
 
     private void triggerChange() {
         changeListeners.forEach(Runnable::run);
+        errorUpdater.ifPresent(Runnable::run);
     }
 }

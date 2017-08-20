@@ -7,7 +7,7 @@ import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
 import characterbuilder.character.equipment.EquipmentSet;
-import characterbuilder.character.equipment.EquipmentType;
+import characterbuilder.character.equipment.AdventureGear;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
 import java.util.ArrayList;
@@ -82,7 +82,7 @@ public class EquipmentChoice extends OptionChoice {
     }
 
     public EquipmentChoice with(EquipmentCategory category) {
-        Stream.of(EquipmentType.values(), Weapon.values(), Armour.values(),
+        Stream.of(AdventureGear.values(), Weapon.values(), Armour.values(),
             MusicalInstrument.values())
             .flatMap(Arrays::stream)
             .filter(eq -> eq.getCategory().equals(category))

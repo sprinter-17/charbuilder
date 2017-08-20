@@ -107,7 +107,7 @@ public class EquipmentSet implements Equipment {
         final Pattern PATTERN = Pattern.compile("(\\d+)x(\\w+)\\+(\\d+)");
         Matcher matcher = PATTERN.matcher(code);
         if (matcher.matches()) {
-            EquipmentType type = EquipmentType.valueOf(matcher.group(2));
+            AdventureGear type = AdventureGear.valueOf(matcher.group(2));
             int count = Integer.valueOf(matcher.group(1));
             int bonus = Integer.valueOf(matcher.group(3));
             return new EquipmentSet(type, bonus, count);
