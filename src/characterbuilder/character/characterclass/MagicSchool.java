@@ -20,6 +20,16 @@ public enum MagicSchool implements Attribute {
     NECROMANCY(GRIM_HARVEST, UNDEAD_THRALLS, INURED_TO_UNDEATH, COMMAND_UNDEAD),
     TRANSMUTATION(MINOR_ALCHEMY, TRANSMUTERS_STONE, SHAPECHANGER, MASTER_TRANSMUTER);
 
+    private enum ArcaneTradition implements Attribute {
+        ARCANE_WARD;
+
+        @Override
+        public AttributeType getType() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+    }
+
     // Normal AttributeDelegate method causes initialisation errors due to mutual references
     // between ability, character class and magic school
     private final Map<Integer, Ability> abilities = new HashMap<>();

@@ -65,7 +65,7 @@ public abstract class Page {
         return character.getAllAttributes()
             .filter(type::isTypeOfAttribute)
             .map(Attribute::toString)
-            .collect(joining("<br>", "<html>", "</html>"));
+            .collect(joining("<br>", "<html><p>", "</p></html>"));
     }
 
     protected static String nbsp(Object object) {

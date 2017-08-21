@@ -48,7 +48,7 @@ public enum Ability implements Attribute {
     DUELING(FIGHTING_STYLE, "+2 damage with melee weapon when other hand is empty."),
     GREAT_WEAPON(FIGHTING_STYLE, "Reroll 1s and 2s for damage when using a two handed weapon."),
     PROTECTION(FIGHTING_STYLE,
-        "Disadvantage attacks against other targets with 5' when using a shield."),
+        "Disadvantage attacks against other targets within 5 feet when using a shield."),
     TWO_WEAPON(FIGHTING_STYLE, "Add ability modifier to damage of second weapon attack."),
     //
     SECOND_WIND(classTalent()

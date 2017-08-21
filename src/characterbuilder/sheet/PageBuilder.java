@@ -9,7 +9,6 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -212,16 +211,15 @@ public class PageBuilder {
         return new Component() {
             @Override
             public void paint(Graphics2D g, int zoom) {
-                BufferedImage image = new BufferedImage(horz(wp, zoom), vert(hp, zoom),
-                    BufferedImage.TYPE_INT_ARGB);
-                label(text, wp, zoom).print(image.getGraphics());
-                g.drawImage(image, x(zoom) + horz(xp, zoom), y(zoom) + vert(yp, zoom), null);
+                g.translate(x(zoom) + horz(xp, zoom), y(zoom) + vert(yp, zoom));
+                label(text, wp, zoom).print(g);
+                g.translate(-x(zoom) - horz(xp, zoom), -y(zoom) - vert(yp, zoom));
             }
         };
     }
 
     public boolean fits(String text, int wp, int hp) {
-        return label(text, wp, 1).getHeight() < hp * 7.0;
+        return label(text, wp, 1).getHeight() < hp * 7.5;
     }
 
     private JLabel label(String text, int wp, int zoom) {
