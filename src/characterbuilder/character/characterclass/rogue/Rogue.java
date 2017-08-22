@@ -1,14 +1,6 @@
 package characterbuilder.character.characterclass.rogue;
 
-import static characterbuilder.character.ability.Ability.BLINDSENSE;
-import static characterbuilder.character.ability.Ability.CUNNING_ACTION;
-import static characterbuilder.character.ability.Ability.ELUSIVE;
-import static characterbuilder.character.ability.Ability.EVASION;
-import static characterbuilder.character.ability.Ability.RELIABLE_TALENT;
-import static characterbuilder.character.ability.Ability.SLIPPERY_MIND;
-import static characterbuilder.character.ability.Ability.SNEAK_ATTACK;
-import static characterbuilder.character.ability.Ability.STROKE_OF_LUCK;
-import static characterbuilder.character.ability.Ability.UNCANNY_DODGE;
+import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_SIMPLE_WEAPONS;
 import static characterbuilder.character.ability.Proficiency.THIEVES_CANT;
@@ -25,6 +17,7 @@ import static characterbuilder.character.ability.Skill.SLEIGHT_OF_HAND;
 import static characterbuilder.character.ability.Skill.STEALTH;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
+import static characterbuilder.character.characterclass.rogue.RogueAbility.*;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -94,9 +87,9 @@ public class Rogue extends AbstractCharacterClass {
         gen.level(2).addAttributes(CUNNING_ACTION);
         gen.level(3).addChoice(new AttributeChoice("Roguish Archetype",
             RoguishArchetype.values()));
-        gen.level(5).addAttributes(UNCANNY_DODGE);
+        gen.level(5).addAttributes(Ability.UNCANNY_DODGE);
         gen.level(6).addChoice(new ExpertiseChoice().withCount(2));
-        gen.level(7).addAttributes(EVASION);
+        gen.level(7).addAttributes(Ability.EVASION);
         gen.level(11).addAttributes(RELIABLE_TALENT);
         gen.level(14).addAttributes(BLINDSENSE);
         gen.level(15).addAttributes(SLIPPERY_MIND);

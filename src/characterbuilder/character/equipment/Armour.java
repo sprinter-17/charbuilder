@@ -10,6 +10,7 @@ import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.lb;
 import characterbuilder.character.characterclass.barbarian.Barbarian;
 import characterbuilder.character.characterclass.monk.Monk;
+import characterbuilder.character.characterclass.monk.MonkAbility;
 import static characterbuilder.character.equipment.EquipmentCategory.HEAVY_ARMOUR;
 import static characterbuilder.character.equipment.EquipmentCategory.LIGHT_ARMOUR;
 import static characterbuilder.character.equipment.EquipmentCategory.MEDIUM_ARMOUR;
@@ -78,7 +79,7 @@ public enum Armour implements Equipment {
         ac += bestArmour.map(arm -> arm.armourClass + getBonus(character, arm)).orElse(0);
         if (character.hasEquipment(SHIELD))
             ac += 2 + getBonus(character, SHIELD);
-        else if (!bestArmour.isPresent() && character.hasAttribute(Monk.Ability.UNARMORED_DEFENCE))
+        else if (!bestArmour.isPresent() && character.hasAttribute(MonkAbility.UNARMORED_DEFENCE))
             ac += character.getModifier(AttributeType.WISDOM);
 
         ac += bestArmour.map(armour -> armour.getDexBonus(character))

@@ -5,6 +5,7 @@ import characterbuilder.character.ability.ElementalAdept;
 import characterbuilder.character.ability.Expertise;
 import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.Proficiency;
+import characterbuilder.character.ability.RacialTalent;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.characterclass.barbarian.Barbarian;
@@ -18,13 +19,14 @@ import characterbuilder.character.characterclass.fighter.Maneuver;
 import characterbuilder.character.characterclass.fighter.MartialArchetype;
 import characterbuilder.character.characterclass.monk.ElementalDiscipline;
 import characterbuilder.character.characterclass.monk.MonasticTradition;
-import characterbuilder.character.characterclass.monk.Monk;
+import characterbuilder.character.characterclass.monk.MonkAbility;
 import characterbuilder.character.characterclass.paladin.SacredOath;
 import characterbuilder.character.characterclass.ranger.FavouredEnemy;
 import characterbuilder.character.characterclass.ranger.FavouredTerrain;
 import characterbuilder.character.characterclass.ranger.RangerAbility;
 import characterbuilder.character.characterclass.ranger.RangerArchetype;
 import characterbuilder.character.characterclass.ranger.RangerCompanion;
+import characterbuilder.character.characterclass.rogue.RogueAbility;
 import characterbuilder.character.characterclass.rogue.RoguishArchetype;
 import characterbuilder.character.characterclass.sorcerer.SorcerousOrigin;
 import characterbuilder.character.characterclass.warlock.EldritchInvocation;
@@ -68,7 +70,7 @@ public enum AttributeType {
     IDEAL(false, StringAttribute::load),
     BOND(false, StringAttribute::load),
     FLAW(false, StringAttribute::load),
-    RACIAL_TALENT(false, Ability::load),
+    RACIAL_TALENT(false, RacialTalent::load),
     DRACONIC_ANCESTORY(true, DraconicAncestory::load),
     CLASS_TALENT(false, Ability::load),
     MANEUVER(false, Maneuver::load),
@@ -77,8 +79,9 @@ public enum AttributeType {
     BARBARIAN_ABILITY(false, Barbarian::loadAbility),
     BARD_ABILITY(false, Bard::loadAbility),
     DRUID_ABILITY(false, Druid::loadAbility),
-    MONK_ABILITY(false, Monk::loadAbility),
+    MONK_ABILITY(false, MonkAbility::load),
     RANGER_ABILITY(false, RangerAbility::load),
+    ROGUE_ABILITY(false, RogueAbility::load),
     ROGUISH_ARCHETYPE(true, RoguishArchetype::load),
     MONASTIC_TRADITION(true, MonasticTradition::load),
     ELEMENTAL_DISCIPLINE(false, ElementalDiscipline::load),

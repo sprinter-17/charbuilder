@@ -3,7 +3,7 @@ package characterbuilder.character.characterclass.rogue;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import static characterbuilder.character.ability.Ability.*;
+import static characterbuilder.character.characterclass.rogue.RogueAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;

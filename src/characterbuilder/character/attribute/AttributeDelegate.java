@@ -26,6 +26,10 @@ public class AttributeDelegate {
     private final List<Predicate<Character>> prerequisites = new ArrayList<>();
     private final ChoiceGenerator generator = new ChoiceGenerator();
 
+    public static AttributeDelegate delegate() {
+        return new AttributeDelegate();
+    }
+
     public Optional<String> getName() {
         return name;
     }

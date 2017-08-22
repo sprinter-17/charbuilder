@@ -2,8 +2,8 @@ package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
-import static characterbuilder.character.ability.Ability.*;
 import static characterbuilder.character.ability.Proficiency.*;
+import static characterbuilder.character.ability.RacialTalent.*;
 import characterbuilder.character.ability.Skill;
 import static characterbuilder.character.ability.Skill.*;
 import static characterbuilder.character.attribute.AttributeType.*;

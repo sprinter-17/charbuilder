@@ -21,7 +21,7 @@ public class AbilityTest {
 
     @Test
     public void testName() {
-        assertThat(Ability.DARKVISION.toString(), is("Darkvision"));
+        assertThat(RacialTalent.DARKVISION.toString(), is("Darkvision"));
     }
 
     @Test
@@ -31,7 +31,8 @@ public class AbilityTest {
 
     @Test
     public void testSaveLoad() {
-        assertThat(AttributeType.load(Ability.DARKVISION.save(TestDoc.doc())), is(Ability.DARKVISION));
+        assertThat(AttributeType.load(RacialTalent.DARKVISION.save(TestDoc.doc())),
+            is(RacialTalent.DARKVISION));
     }
 
     @Test

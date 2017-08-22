@@ -11,31 +11,11 @@ import java.util.stream.Stream;
 import org.w3c.dom.Node;
 
 public enum Ability implements Attribute {
-    DARKVISION(RACIAL_TALENT, "Darkness within 60' appears as dim colourless light."),
-    SUPERIOR_DARKVISION(RACIAL_TALENT, "Darkvision",
-        "Darkness within 120' appears as dim colourless light."),
-    POISON_RESISTANCE(RACIAL_TALENT, "Poison Resilience",
-        "Advantage on savings throws against poison and resistance against poison damage."),
-    STONECUNNING(RACIAL_TALENT, "Double proficiency on history checks related to stonework."),
-    MASK_OF_THE_WILD(RACIAL_TALENT, "Can attempt to hide when obscured by natural phenomenon."),
-    LUCKY(RACIAL_TALENT, "Reroll 1s on d20 for attacks, ability checks and savings throws."),
-    BRAVE(RACIAL_TALENT, "Advantage on savings throws against being frightened."),
-    NIMBLE(RACIAL_TALENT, "Halfling Nimbleness", "Move through the space of larger creatures."),
-    STEALTHY(RACIAL_TALENT, "Naturally Stealthy",
-        "Can attempt to hide when obscured by larger creature."),
-    BREATH_WEAPON(RACIAL_TALENT, "Breath: [$breath] vs DC [8+$con_mod+$prof] or "
-        + "[max($level 1:2d6,6:3d6,11:4d6,16:5d6)] damage"),
-    SUNLIGHT_SENSITIVITY(RACIAL_TALENT,
-        "Disadvantage on attack and perception when target is in direct sunlight"),
-    GNOME_CUNNING(RACIAL_TALENT, "Advantage on Int., Wis. and Chr. saves vs. magic."),
-    ARTIFICERS_LORE(RACIAL_TALENT, "Artificer's Lore",
-        "+[2*$prof] on history check related to devices."),
-    TINKER(RACIAL_TALENT, "Construct tiny clockwork devices (1 hour, 10GP)."),
-    SPEAK_WITH_SMALL_BEASTS(RACIAL_TALENT, "Communicate simple ideas to small animals."),
-    FEY_ANCESTORY(RACIAL_TALENT, "Avantage on save vs. charm; magic cannot cause sleep."),
-    RELENTLESS_ENDURANCE(RACIAL_TALENT, "Drop to 1HP rather than 0HP once between long rests."),
-    SAVAGE_ATTACKS(RACIAL_TALENT, "+1 damage die roll on critical hits."),
-    HELLISH_RESISTANCE(RACIAL_TALENT, "Resistance to fire damage."),
+    UNCANNY_DODGE(classTalent()
+        .withDescription("Use reaction to halve attack damage from visible attacker.")),
+    EVASION(classTalent()
+        .withDescription("Save vs Dex for no damage, fail for half.")),
+
     //
     SECOND_WIND(classTalent()
         .withDescription("Use a bonus action to regain 1d10+[$level] hit points.")
@@ -80,30 +60,6 @@ public enum Ability implements Attribute {
     SPELL_MASTERY(classTalent()
         .withDescription("Choose one first and one second level spell from spellbook.")
         .withDescription("Cast at lowest level without spending a spell slot.")),
-    SNEAK_ATTACK(CLASS_TALENT,
-        "Extra [$level /^ 2]d6 damage on one attack with advantage each turn."),
-    CUNNING_ACTION(CLASS_TALENT,
-        "Bonus dash, disengage or hide action each turn"),
-    UNCANNY_DODGE(CLASS_TALENT,
-        "Use reaction to halve attack damage from visible attacker."),
-    EVASION(CLASS_TALENT, "Save vs Dex for no damage, fail for half."),
-    RELIABLE_TALENT(CLASS_TALENT, "Treat 9 or lower as 10 on proficient ability checks."),
-    BLINDSENSE(CLASS_TALENT, "Aware of invisible creatures within 10'"),
-    SLIPPERY_MIND(CLASS_TALENT, "Add proficiency to save vs Wis."),
-    ELUSIVE(CLASS_TALENT, "No attack roll has advantage if not incapacitated."),
-    STROKE_OF_LUCK(CLASS_TALENT, "Stroke of Luck",
-        "Turn a missed attack into a hit or failed ability check "
-        + "into success one between each rest."),
-    FAST_HANDS(CLASS_TALENT, "Fast Hands",
-        "Use Cunning Action to perform sleight of hand, disarm trap, open lock or use item."),
-    SECOND_STORY_WORK(CLASS_TALENT, "Second-Story Work",
-        "Climb at normal speed. Add [$dex_mod]' to running long jump length."),
-    SUPREME_SNEAK(CLASS_TALENT, "Supreme Sneak",
-        "Advantage on all stealth checks if moving no more than [$speed/2]' on the same turn."),
-    USE_MAGIC_DEVICES(CLASS_TALENT, "Use Magic Devices",
-        "Ignore all class, race and level requirements on the use of magic items."),
-    THIEFS_REFLEXES(CLASS_TALENT, "Thief's Reflexes",
-        "Take two turns during first round of combat. Second turn is at initiative - 10."),
     INTIMIDATING_PRESENCE(CLASS_TALENT, "Intimidating Presence",
         "As action, one creature within 30' Wis. save vs DC[8+$prof+$chr_mod] or be frightened."),
     RETALIATION(CLASS_TALENT, "Retaliation",

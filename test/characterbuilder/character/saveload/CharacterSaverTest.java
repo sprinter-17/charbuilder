@@ -1,8 +1,8 @@
 package characterbuilder.character.saveload;
 
 import characterbuilder.character.Character;
-import static characterbuilder.character.ability.Ability.DARKVISION;
 import static characterbuilder.character.ability.Proficiency.COMMON;
+import static characterbuilder.character.ability.RacialTalent.DARKVISION;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Alignment;
 import static characterbuilder.character.attribute.AttributeType.*;
@@ -16,8 +16,8 @@ import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import characterbuilder.character.characterclass.cleric.DivineDomain;
-import characterbuilder.character.equipment.EquipmentSet;
 import static characterbuilder.character.equipment.AdventureGear.BASKET;
+import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Token;
 import static characterbuilder.character.equipment.Weapon.WHIP;
 import characterbuilder.character.spell.Spell;

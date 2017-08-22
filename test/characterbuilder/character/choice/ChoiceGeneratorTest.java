@@ -1,8 +1,8 @@
 package characterbuilder.character.choice;
 
-import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.ability.FightingStyle;
 import static characterbuilder.character.ability.Proficiency.*;
+import static characterbuilder.character.ability.RacialTalent.BRAVE;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;

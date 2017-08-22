@@ -1,9 +1,7 @@
 package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Ability;
-import characterbuilder.character.attribute.Attribute;
-import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.ability.RacialTalent;
 import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
 import org.w3c.dom.Node;
@@ -37,7 +35,7 @@ public enum DraconicAncestory implements Attribute {
 
     @Override
     public void generateInitialChoices(Character character) {
-        character.addAttribute(Ability.BREATH_WEAPON);
+        character.addAttribute(RacialTalent.BREATH_WEAPON);
     }
 
     @Override
