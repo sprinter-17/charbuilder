@@ -87,6 +87,7 @@ public enum AttributeType {
     SPELL_MASTERY(false, Ability::load),
     SIGNATURE_SPELL(true, SignatureSpell::load),
     ARCANE_TRADITION(true, MagicSchool::load),
+    ARCANE_TRADITION_ABILITY(false, MagicSchool::loadAbility),
     PRIMAL_PATH(true, PrimalPath::load),
     BARDIC_COLLEGE(true, BardicCollege::load),
     DIVINE_DOMAIN(true, DivineDomain::load),

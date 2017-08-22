@@ -1,6 +1,7 @@
 package characterbuilder.utils;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.Choice;
 import characterbuilder.character.spell.Spell;
@@ -55,6 +56,22 @@ public class TestMatchers {
                 desc.appendText("has spell ability ").appendValue(spell.toString());
             }
 
+        };
+    }
+
+    public static Matcher<Character> hasAttribute(String attributeName) {
+        return new TypeSafeDiagnosingMatcher<Character>() {
+            @Override
+            protected boolean matchesSafely(Character ch, Description desc) {
+                desc.appendText("has attributes ")
+                    .appendValue(ch.getAllAttributes().map(Attribute::toString).collect(toList()));
+                return ch.getAllAttributes().anyMatch(attr -> attr.toString().equals(attributeName));
+            }
+
+            @Override
+            public void describeTo(Description desc) {
+                desc.appendText("has attribute ").appendValue(attributeName);
+            }
         };
     }
 }

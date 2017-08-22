@@ -14,8 +14,15 @@ import characterbuilder.character.choice.InitialChoiceGenerator;
 import characterbuilder.character.choice.Option;
 import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.utils.TestCharacter;
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.logging.FileHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import java.util.stream.Stream;
 import static org.hamcrest.CoreMatchers.is;
@@ -24,6 +31,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CharacterClassTest {
+
+    private static final Logger LOG = Logger.getLogger(CharacterClassTest.class.getName());
 
     private int choiceCount = 0;
     private TestCharacter character;
@@ -49,6 +58,11 @@ public class CharacterClassTest {
             if (optionList.isEmpty())
                 throw new IllegalStateException("Empty option list");
             T option = optionList.get(count(optionList.size()));
+            if (optionList.size() > 3)
+                LOG.fine("        Chosen " + option.toString() + " from "
+                    + optionList.subList(0, 3) + "...");
+            else
+                LOG.fine("        Chosen " + option.toString() + " from " + optionList);
             followUp.accept(option);
         }
 
@@ -83,28 +97,53 @@ public class CharacterClassTest {
 
     @Test
     public void testMultipleCharacterGeneration() {
+        setLogging(Level.OFF);
         InitialChoiceGenerator init = new InitialChoiceGenerator();
-        for (int i = 1; i < 500; i++) {
+        for (int i = 1; i <= 500; i++) {
+            LOG.info("Character #" + i);
             character = new TestCharacter();
             character.addChoiceList(new IterativeSelector(i));
             init.generateChoices(character);
-            exhaustChoices(character);
+            exhaustChoices(i, character);
             while (character.getLevel() < 20) {
                 character.increaseLevel(new CharacterRandom());
-                exhaustChoices(character);
+                exhaustChoices(i, character);
             }
         }
     }
 
-    private void exhaustChoices(Character character) {
+    private void setLogging(Level level) {
+        try {
+            FileHandler fh = new FileHandler("trace.log");
+            fh.setFormatter(new Formatter() {
+                @Override
+                public String format(LogRecord record) {
+                    return record.getMessage() + "\n";
+                }
+            });
+            LOG.setUseParentHandlers(false);
+            LOG.addHandler(fh);
+            LOG.setLevel(level);
+        } catch (SecurityException | IOException ex) {
+            throw new IllegalArgumentException(ex.getMessage());
+        }
+    }
+
+    private void exhaustChoices(int count, Character character) {
+        LOG.info("  Level " + character.getLevel());
         while (character.getChoiceCount() > 0) {
             OptionChoice choice = character.getChoice(choiceCount++ % character.getChoiceCount());
+            LOG.fine("    Choosing " + choice.toString());
             try {
                 character.selectChoice(choice);
+                LOG.fine("      Choices: " + character.getAllChoices()
+                    .limit(3).map(Object::toString).collect(joining(","))
+                    + (character.getChoiceCount() > 3 ? "..." : ""));
             } catch (IllegalStateException ex) {
-                String message = character.getAttribute(AttributeType.CHARACTER_CLASS).toString()
-                    + " Choosing " + choice.toString()
-                    + ": " + ex.getMessage();
+                String message = count + ":"
+                    + character.getAttribute(AttributeType.CHARACTER_CLASS).toString()
+                    + "/" + character.getLevel()
+                    + " Choosing " + choice.toString() + ": " + ex.getMessage();
                 throw new AssertionError(message);
             }
         }

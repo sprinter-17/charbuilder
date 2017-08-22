@@ -121,7 +121,7 @@ public class ChoiceGenerator {
 
     public ChoiceGenerator addAttributes(Attribute... attributes) {
         Arrays.stream(attributes)
-            .forEach(attr -> addAction(attr.toString(), ch -> ch.addAttribute(attr)));
+            .forEach(attr -> addAction(attr.toString(), ch -> attr.choose(ch)));
         return this;
     }
 

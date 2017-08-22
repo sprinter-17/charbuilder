@@ -29,6 +29,7 @@ public class AbilityTreeRoot extends DefaultMutableTreeNode {
             case RACIAL_TALENT:
             case CLASS_TALENT:
             case DIVINE_DOMAIN_ABILITY:
+            case ARCANE_TRADITION_ABILITY:
             case ELDRITCH_INVOCATION:
             case SKILL:
             case WEAPON_PROFICIENCY:

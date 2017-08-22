@@ -12,7 +12,6 @@ import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.TestCharacter;
-import static characterbuilder.utils.TestMatchers.hasChoice;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
@@ -61,16 +60,6 @@ public class AbilityTest {
     public void testSpellAbility() {
         Ability.PACT_OF_THE_CHAIN.choose(character);
         assertTrue(character.hasAttribute(new SpellAbility(Spell.FIND_FAMILIAR, CHARISMA)));
-    }
-
-    @Test
-    public void testImprovedMinorIllusion() {
-        character.withScores(10);
-        Ability.IMPROVED_MINOR_ILLUSION.choose(character);
-        assertTrue(character.hasAttribute(new SpellAbility(Spell.MINOR_ILLUSION, INTELLIGENCE)));
-        character.removeAttribute(Ability.IMPROVED_MINOR_ILLUSION);
-        Ability.IMPROVED_MINOR_ILLUSION.choose(character);
-        assertThat(character, hasChoice("Cantrip"));
     }
 
     @Test
