@@ -1,19 +1,5 @@
 package characterbuilder.character.characterclass;
 
-import characterbuilder.character.characterclass.barbarian.PrimalPath;
-import characterbuilder.character.characterclass.ranger.RangerArchetype;
-import characterbuilder.character.characterclass.fighter.MartialArchetype;
-import characterbuilder.character.characterclass.paladin.SacredOath;
-import characterbuilder.character.characterclass.rogue.RoguishArchetype;
-import characterbuilder.character.characterclass.warlock.OtherwordlyPatron;
-import characterbuilder.character.characterclass.monk.MonasticTradition;
-import characterbuilder.character.characterclass.wizard.MagicSchool;
-import characterbuilder.character.characterclass.ranger.FavouredTerrain;
-import characterbuilder.character.characterclass.ranger.FavouredEnemy;
-import characterbuilder.character.characterclass.warlock.EldritchInvocation;
-import characterbuilder.character.characterclass.cleric.DivineDomain;
-import characterbuilder.character.characterclass.bard.BardicCollege;
-import characterbuilder.character.characterclass.druid.DruidCircle;
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Ability;
 import static characterbuilder.character.ability.Ability.*;
@@ -26,7 +12,21 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.characterclass.barbarian.PrimalPath;
+import characterbuilder.character.characterclass.bard.BardicCollege;
+import characterbuilder.character.characterclass.cleric.DivineDomain;
+import characterbuilder.character.characterclass.druid.DruidCircle;
+import characterbuilder.character.characterclass.fighter.MartialArchetype;
+import characterbuilder.character.characterclass.monk.MonasticTradition;
+import characterbuilder.character.characterclass.paladin.SacredOath;
+import characterbuilder.character.characterclass.ranger.FavouredEnemy;
+import characterbuilder.character.characterclass.ranger.FavouredTerrain;
+import characterbuilder.character.characterclass.ranger.RangerArchetype;
+import characterbuilder.character.characterclass.rogue.RoguishArchetype;
+import characterbuilder.character.characterclass.warlock.EldritchInvocation;
 import static characterbuilder.character.characterclass.warlock.MysticArcanum.chooseArcanum;
+import characterbuilder.character.characterclass.warlock.OtherwordlyPatron;
+import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -54,7 +54,6 @@ import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.spell.SpellClassMap;
 import characterbuilder.utils.StringUtils;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -513,26 +512,21 @@ public enum CharacterClass implements Attribute {
         gen.cond(ch -> ch.getLevel() > 1).addKnownSpells(casting, 2);
     });
 
-    private final int hitDie;
-    private final AttributeType classAttribute;
-    private final List<AttributeType> savingThrows = new ArrayList<>();
-    private final List<AttributeType> primaryAttributes;
-    private final BiConsumer<CharacterClass, ChoiceGenerator> generatorMaker;
-    private Optional<ChoiceGenerator> generator = Optional.empty();
+    private final CharacterClassDelegate delegate;
 
     private CharacterClass(int hitDie, AttributeType classAttribute,
         AttributeType savingThrow1, AttributeType savingThrow2,
         List<AttributeType> primaryAttributes, BiConsumer<CharacterClass, ChoiceGenerator> generator) {
-        this.hitDie = hitDie;
-        this.classAttribute = classAttribute;
-        savingThrows.add(savingThrow1);
-        savingThrows.add(savingThrow2);
-        this.primaryAttributes = primaryAttributes;
-        this.generatorMaker = generator;
+        this.delegate = new CharacterClassDelegate(hitDie, classAttribute,
+            savingThrow1, savingThrow2, primaryAttributes, generator);
+    }
+
+    private CharacterClass(CharacterClassDelegate delegate) {
+        this.delegate = delegate;
     }
 
     public Optional<AttributeType> getClassAttribute() {
-        return Optional.ofNullable(classAttribute);
+        return delegate.getClassAttribute();
     }
 
     @Override
@@ -541,15 +535,15 @@ public enum CharacterClass implements Attribute {
     }
 
     public int getHitDie() {
-        return hitDie;
+        return delegate.getHitDie();
     }
 
     public Stream<AttributeType> getPrimaryAttributes() {
-        return primaryAttributes.stream();
+        return delegate.getPrimaryAttributes();
     }
 
     public boolean hasSavingsThrow(AttributeType type) {
-        return savingThrows.contains(type);
+        return delegate.hasSavingsThrow(type);
     }
 
     @Override
@@ -562,20 +556,16 @@ public enum CharacterClass implements Attribute {
 
     @Override
     public void generateLevelChoices(Character character) {
-        getGenerator().generateChoices(character);
+        delegate.generateLevelChoices(character);
     }
 
     @Override
     public Stream<String> getDescription(Character character) {
-        return getGenerator().getDescription(character);
+        return delegate.getDescription(character);
     }
 
     public ChoiceGenerator getGenerator() {
-        if (!generator.isPresent()) {
-            generator = Optional.of(new ChoiceGenerator());
-            generatorMaker.accept(this, generator.get());
-        }
-        return generator.get();
+        return delegate.getGenerator(this);
     }
 
     public Stream<Spell> getSpells() {
