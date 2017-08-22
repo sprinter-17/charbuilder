@@ -1,9 +1,6 @@
 package characterbuilder.character.characterclass.fighter;
 
-import static characterbuilder.character.ability.Ability.ACTION_SURGE;
-import static characterbuilder.character.ability.Ability.EXTRA_ATTACK_FIGHTER;
-import static characterbuilder.character.ability.Ability.INDOMITABLE;
-import static characterbuilder.character.ability.Ability.SECOND_WIND;
+import characterbuilder.character.ability.FightingStyle;
 import static characterbuilder.character.ability.Proficiency.ALL_ARMOUR;
 import static characterbuilder.character.ability.Proficiency.ALL_WEAPONS;
 import static characterbuilder.character.ability.Skill.ACROBATICS;
@@ -15,8 +12,11 @@ import static characterbuilder.character.ability.Skill.INTIMIDATION;
 import static characterbuilder.character.ability.Skill.PERCEPTION;
 import static characterbuilder.character.ability.Skill.SURVIVAL;
 import characterbuilder.character.attribute.AttributeType;
-import static characterbuilder.character.attribute.AttributeType.FIGHTING_STYLE;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.ACTION_SURGE;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.EXTRA_ATTACK;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.INDOMITABLE;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.SECOND_WIND;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -64,7 +64,7 @@ public class Fighter extends AbstractCharacterClass {
         gen.level(1).addChoice(new AttributeChoice("Skill",
             ACROBATICS, ANIMAL_HANDLING, ATHLETICS, HISTORY, INSIGHT,
             INTIMIDATION, PERCEPTION, SURVIVAL).withCount(2))
-            .addChoice(new AttributeChoice(FIGHTING_STYLE));
+            .addChoice(new AttributeChoice("Fighting Style", FightingStyle.values()));
         gen.level(1).addChoice(new EquipmentChoice("Armour")
             .with(CHAIN_MAIL_ARMOUR).with(LEATHER_ARMOUR, LONGBOW, new EquipmentSet(ARROW, 20)));
         gen.level(1).addChoice(new EquipmentChoice("Primary Weapon")
@@ -80,7 +80,7 @@ public class Fighter extends AbstractCharacterClass {
         gen.level(2).addAttributes(ACTION_SURGE);
         gen.level(3).addChoice(
             new AttributeChoice("Martial Archetype", MartialArchetype.values()));
-        gen.level(5).addAttributes(EXTRA_ATTACK_FIGHTER);
+        gen.level(5).addAttributes(EXTRA_ATTACK);
         gen.level(9).addAttributes(INDOMITABLE);
         gen.cond(levels(4, 6, 8, 12, 14, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
     }

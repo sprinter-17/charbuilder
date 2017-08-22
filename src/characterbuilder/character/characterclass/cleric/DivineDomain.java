@@ -7,6 +7,7 @@ import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.attribute.AttributeType.LANGUAGE;
 import static characterbuilder.character.characterclass.cleric.DivineDomain.DivineDomainAbility.CHANNEL_DIVINITY;
 import static characterbuilder.character.characterclass.cleric.DivineDomain.DivineDomainAbility.DESTROY_UNDEAD;
 import static characterbuilder.character.characterclass.cleric.DivineDomain.DivineDomainAbility.DIVINE_INTERVENTION;
@@ -23,7 +24,7 @@ import org.w3c.dom.Element;
 public enum DivineDomain implements Attribute {
     KNOWLEDGE(gen -> {
         gen.level(1).addLearntSpells("Cleric", COMMAND, IDENTIFY);
-        gen.level(1).addChoice(2, new AttributeChoice(AttributeType.LANGUAGE));
+        gen.level(1).addChoice(2, Proficiency.choose(LANGUAGE));
         gen.level(1).addChoice(2, new AttributeChoice("Skill", ARCANA, HISTORY,
             Skill.NATURE, RELIGION));
         gen.level(2).addAttributes(DivineDomainAbility.KNOWLEDGE_OF_THE_AGES);

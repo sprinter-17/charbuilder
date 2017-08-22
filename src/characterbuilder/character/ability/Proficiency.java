@@ -1,8 +1,11 @@
 package characterbuilder.character.ability;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
+import characterbuilder.character.choice.ChoiceSelector;
+import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.Optional;
@@ -102,6 +105,17 @@ public enum Proficiency implements Attribute {
         this.type = type;
         this.name = Optional.empty();
         this.superSet = Optional.of(superSet);
+    }
+
+    public static OptionChoice choose(AttributeType type) {
+        return new OptionChoice(type.toString()) {
+            @Override
+            public void select(Character character, ChoiceSelector selector) {
+                selector.chooseOption(Arrays.stream(values())
+                    .filter(attr -> attr.hasType(type)),
+                    attr -> attr.choose(character));
+            }
+        };
     }
 
     public static Stream<Proficiency> allOfType(AttributeType type) {

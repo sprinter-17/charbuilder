@@ -5,14 +5,13 @@ import characterbuilder.character.ability.Expertise;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Attribute;
-import characterbuilder.character.attribute.AttributeType;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class ExpertiseChoice extends AttributeChoice {
 
     public ExpertiseChoice() {
-        super(AttributeType.EXPERTISE);
+        super("Expertise");
     }
 
     @Override

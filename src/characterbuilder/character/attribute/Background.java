@@ -25,7 +25,7 @@ public enum Background implements Attribute {
             .addEquipment(GOLD_PIECE, 15)
             .addEquipment(INCENSE_BLOCK, 5)
             .addChoice(new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL))
-            .addChoice(new AttributeChoice(LANGUAGE).withCount(2))),
+            .addChoice(2, Proficiency.choose(LANGUAGE))),
     CHARLATAN(gen
         -> gen.addAttributes(DECEPTION, SLEIGHT_OF_HAND)
             .addAttributes(Proficiency.DISGUISE_KIT, Proficiency.FORGERY_KIT)
@@ -41,7 +41,7 @@ public enum Background implements Attribute {
         -> gen.addAttributes(DECEPTION, STEALTH, Proficiency.THIEVES_TOOLS)
             .addEquipment(AdventureGear.GOLD_PIECE, 15)
             .addEquipment(CROWBAR, COMMON_CLOTHES)
-            .addChoice(new AttributeChoice(LANGUAGE))),
+            .addChoice(Proficiency.choose(LANGUAGE))),
     ENTERTAINER(gen
         -> gen.addAttributes(ACROBATICS, PERFORMANCE, BackgroundAbility.BY_POPULAR_DEMAND)
             .addAttributes(Proficiency.DISGUISE_KIT)
@@ -51,25 +51,25 @@ public enum Background implements Attribute {
             .addEquipment(GOLD_PIECE, 15)
             .addTokens("the favour of an admirer.")
             .addEquipment(COSTUME)
-            .addChoice(3, new AttributeChoice(AttributeType.ENTERTAINER_ROUTINE))),
+            .addChoice(3, Proficiency.choose(ENTERTAINER_ROUTINE))),
     FOLK_HERO(gen
         -> gen.addAttributes(ANIMAL_HANDLING, SURVIVAL, LAND_VEHICLES)
             .addEquipment(AdventureGear.GOLD_PIECE, 10)
-            .addChoice(new AttributeChoice(AttributeType.ARTISAN))),
+            .addChoice(Proficiency.choose(ARTISAN))),
     GUILD_ARTISAN(gen -> {
         gen.addAttributes(INSIGHT, PERSUASION);
-        gen.addChoice(new AttributeChoice(ARTISAN));
-        gen.addChoice(new AttributeChoice(LANGUAGE));
+        gen.addChoice(Proficiency.choose(ARTISAN));
+        gen.addChoice(Proficiency.choose(LANGUAGE));
         gen.addChoice(new EquipmentChoice(EquipmentCategory.TOOL));
         gen.addTokens("Letter of introduction from guild");
         gen.addEquipment(TRAVELERS_CLOTHES);
         gen.addEquipment(GOLD_PIECE, 15);
-        gen.addChoice(new AttributeChoice(GUILD_BUSINESS));
+        gen.addChoice(Proficiency.choose(GUILD_BUSINESS));
         gen.addAttributes(BackgroundAbility.GUILD_MEMBERSHIP);
     }),
     HERMIT(gen -> {
         gen.addAttributes(MEDICINE, RELIGION, Proficiency.HERBALISM_KIT);
-        gen.addChoice(new AttributeChoice(LANGUAGE));
+        gen.addChoice(Proficiency.choose(LANGUAGE));
         gen.addEquipment(GOLD_PIECE, 5);
         gen.addEquipment(BLANKET, COMMON_CLOTHES, AdventureGear.HERBALISM_KIT);
         gen.addTokens("Notes of prayers");
@@ -79,13 +79,13 @@ public enum Background implements Attribute {
         -> gen
             .addAttributes(PERSUASION, HISTORY)
             .addEquipment(new EquipmentSet(AdventureGear.GOLD_PIECE, 25))
-            .addChoice(new AttributeChoice(LANGUAGE))
+            .addChoice(Proficiency.choose(LANGUAGE))
             .addChoice(new AttributeChoice("Gaming skill", CARDS, DICE))),
     OUTLANDER(gen -> {
         gen.addAttributes(ATHLETICS, SURVIVAL);
         gen.addChoice(new AttributeChoice("Musical Instrument Proficiency",
             MusicalInstrument.getAllProficiencies()));
-        gen.addChoice(new AttributeChoice(LANGUAGE));
+        gen.addChoice(Proficiency.choose(LANGUAGE));
         gen.addEquipment(AdventureGear.STAFF, AdventureGear.TRAVELERS_CLOTHES);
         gen.addTokens("Hunting trap", "Trophy from animal");
         gen.addEquipment(AdventureGear.GOLD_PIECE, 10);
@@ -94,7 +94,7 @@ public enum Background implements Attribute {
     SAGE(gen -> {
         gen.addAttributes(ARCANA, HISTORY)
             .addEquipment(AdventureGear.GOLD_PIECE, 10)
-            .addChoice(new AttributeChoice(LANGUAGE).withCount(2));
+            .addChoice(2, Proficiency.choose(LANGUAGE));
         gen.addTokens("Bottle of black ink", "Quill", "Letter with unanswered question");
         gen.addEquipment(AdventureGear.COMMON_CLOTHES);
         gen.addAttributes(BackgroundAbility.RESEARCHER);

@@ -2,6 +2,7 @@ package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
+import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.*;
 import static characterbuilder.character.ability.RacialTalent.*;
 import characterbuilder.character.ability.Skill;
@@ -73,7 +74,7 @@ public enum Race implements Attribute {
         gen.addChoice(2, new AbilityScoreOrFeatIncrease().withoutFeats());
         gen.addAttributes(DARKVISION, FEY_ANCESTORY, COMMON, ELVISH);
         gen.addChoice(2, new AttributeChoice("Racial Skill", Skill.values()));
-        gen.addChoice(new AttributeChoice(LANGUAGE));
+        gen.addChoice(Proficiency.choose(LANGUAGE));
 
     }),
     FOREST_GNOME(0, 1, 0, 2, 0, 0, 25, 40, "2'11\"", "2d4", "35lb", "1", gen -> {

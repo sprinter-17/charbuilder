@@ -9,6 +9,7 @@ import static characterbuilder.character.ability.Ability.DIVINE_SMITE;
 import static characterbuilder.character.ability.Ability.EXTRA_ATTACK;
 import static characterbuilder.character.ability.Ability.IMPROVED_DIVINE_SMITE;
 import static characterbuilder.character.ability.Ability.LAY_ON_HANDS;
+import characterbuilder.character.ability.FightingStyle;
 import static characterbuilder.character.ability.Proficiency.ALL_ARMOUR;
 import static characterbuilder.character.ability.Proficiency.ALL_WEAPONS;
 import static characterbuilder.character.ability.Skill.ATHLETICS;
@@ -19,7 +20,6 @@ import static characterbuilder.character.ability.Skill.PERSUASION;
 import static characterbuilder.character.ability.Skill.RELIGION;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
-import static characterbuilder.character.attribute.AttributeType.FIGHTING_STYLE;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
@@ -76,7 +76,7 @@ public class Paladin extends AbstractCharacterClass {
         gen.level(1).addEquipment(CHAIN_MAIL_ARMOUR);
         gen.level(1).addChoice(new EquipmentChoice(HOLY_SYMBOL));
         gen.level(1).addAttributes(DIVINE_SENSE, LAY_ON_HANDS);
-        gen.level(2).addChoice(new AttributeChoice(FIGHTING_STYLE));
+        gen.level(2).addChoice(new AttributeChoice("Fighting Style", FightingStyle.values()));
         gen.level(2)
             .addSpellCasting(casting, CHARISMA, CharacterClass.PALADIN,
                 "[max(1, $chr_mod + $level/2)]")

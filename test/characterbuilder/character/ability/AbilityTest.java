@@ -1,6 +1,7 @@
 package characterbuilder.character.ability;
 
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.characterclass.fighter.FighterAbility;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.utils.TestCharacter;
 import static characterbuilder.utils.TestUtils.testDescriptions;
@@ -26,7 +27,7 @@ public class AbilityTest {
 
     @Test
     public void testMultipleDescriptions() {
-        assertThat(Ability.SECOND_WIND.getDescription(character).count(), is(2L));
+        assertThat(FighterAbility.SECOND_WIND.getDescription(character).count(), is(2L));
     }
 
     @Test

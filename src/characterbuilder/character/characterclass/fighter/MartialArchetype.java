@@ -1,11 +1,23 @@
 package characterbuilder.character.characterclass.fighter;
 
 import characterbuilder.character.Character;
-import static characterbuilder.character.ability.Ability.*;
+import characterbuilder.character.ability.FightingStyle;
+import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.INTELLIGENCE;
+import static characterbuilder.character.attribute.AttributeType.TOOLS;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.ARCANE_CHARGE;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.COMBAT_SUPERIORITY;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.ELDRITCH_STRIKE;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.IMPROVED_CRITICAL;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.KNOW_YOUR_ENEMY;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.RELENTLESS;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.REMARKABLE_ATHLETE;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.SUPERIOR_CRITICAL;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.SURVIVOR;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.WAR_MAGIC;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.spellChoice;
@@ -20,13 +32,13 @@ public enum MartialArchetype implements Attribute {
     CHAMPION(gen -> {
         gen.level(3).addAttributes(IMPROVED_CRITICAL);
         gen.level(7).addAttributes(REMARKABLE_ATHLETE);
-        gen.level(7).addChoice(new AttributeChoice(AttributeType.FIGHTING_STYLE));
+        gen.level(7).addChoice(new AttributeChoice("Fighting Style", FightingStyle.values()));
         gen.level(15).replaceAttribute(SUPERIOR_CRITICAL, IMPROVED_CRITICAL);
         gen.level(18).addAttributes(SURVIVOR);
     }),
     BATTLE_MASTER(gen -> {
         gen.level(3).addAttributes(COMBAT_SUPERIORITY);
-        gen.level(3).addChoice(new AttributeChoice(AttributeType.TOOLS));
+        gen.level(3).addChoice(Proficiency.choose(TOOLS));
         gen.level(3).addChoice(3, new AttributeChoice("Maneuver", Maneuver.values()));
         gen.level(7, 10, 15)
             .addChoice(new ReplaceAttributeChoice("Maneuver", Maneuver.values()))

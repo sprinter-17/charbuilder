@@ -4,6 +4,7 @@ import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.ElementalAdept;
 import characterbuilder.character.ability.Expertise;
 import characterbuilder.character.ability.Feat;
+import characterbuilder.character.ability.FightingStyle;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.RacialTalent;
 import characterbuilder.character.ability.Skill;
@@ -15,6 +16,7 @@ import characterbuilder.character.characterclass.bard.BardicCollege;
 import characterbuilder.character.characterclass.cleric.DivineDomain;
 import characterbuilder.character.characterclass.druid.Druid;
 import characterbuilder.character.characterclass.druid.DruidCircle;
+import characterbuilder.character.characterclass.fighter.FighterAbility;
 import characterbuilder.character.characterclass.fighter.Maneuver;
 import characterbuilder.character.characterclass.fighter.MartialArchetype;
 import characterbuilder.character.characterclass.monk.ElementalDiscipline;
@@ -75,10 +77,11 @@ public enum AttributeType {
     CLASS_TALENT(false, Ability::load),
     MANEUVER(false, Maneuver::load),
     MARTIAL_ARCHETYPE(true, MartialArchetype::load),
-    FIGHTING_STYLE(false, Ability::load),
+    FIGHTING_STYLE(false, FightingStyle::load),
     BARBARIAN_ABILITY(false, Barbarian::loadAbility),
     BARD_ABILITY(false, Bard::loadAbility),
     DRUID_ABILITY(false, Druid::loadAbility),
+    FIGHTER_ABILITY(false, FighterAbility::load),
     MONK_ABILITY(false, MonkAbility::load),
     RANGER_ABILITY(false, RangerAbility::load),
     ROGUE_ABILITY(false, RogueAbility::load),

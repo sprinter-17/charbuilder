@@ -6,6 +6,7 @@ import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.FIGHTING_STYLE;
 import java.util.stream.Stream;
+import org.w3c.dom.Element;
 
 public enum FightingStyle implements Attribute {
     ARCHERY(style().withDescription("+2 attack bonus with ranged weapons.")),
@@ -37,4 +38,7 @@ public enum FightingStyle implements Attribute {
         return delegate.getDescription(character);
     }
 
+    public static FightingStyle load(Element element) {
+        return valueOf(element.getTextContent());
+    }
 }
