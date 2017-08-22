@@ -7,7 +7,7 @@ import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
-import characterbuilder.character.characterclass.CharacterClassDelegate;
+import characterbuilder.character.characterclass.AbstractCharacterClass;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -19,7 +19,7 @@ import characterbuilder.character.equipment.EquipmentSet;
 import static characterbuilder.character.equipment.Weapon.*;
 import java.util.stream.Stream;
 
-public class Barbarian extends CharacterClassDelegate {
+public class Barbarian extends AbstractCharacterClass {
 
     @Override
     public int getHitDie() {

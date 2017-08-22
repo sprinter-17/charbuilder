@@ -7,7 +7,7 @@ import characterbuilder.character.choice.ChoiceGenerator;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public abstract class CharacterClassDelegate {
+public abstract class AbstractCharacterClass {
 
     private Optional<ChoiceGenerator> generator = Optional.empty();
 
