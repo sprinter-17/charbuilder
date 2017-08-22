@@ -1,11 +1,12 @@
 package characterbuilder.character.equipment;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Feat;
+import characterbuilder.character.ability.FightingStyle;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.characterclass.barbarian.Barbarian;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -86,7 +87,7 @@ public class ArmourTest {
     public void testUnarmouredDefence() {
         IntAttribute constitution = new IntAttribute(AttributeType.CONSTITUTION, 10);
         character.addAttribute(constitution);
-        character.addAttribute(Ability.UNARMORED_DEFENCE_BARBARIAN);
+        character.addAttribute(Barbarian.Ability.UNARMORED_DEFENCE);
         assertThat(Armour.getArmourClass(character), is(10));
         constitution.setValue(14);
         assertThat(Armour.getArmourClass(character), is(12));
@@ -103,7 +104,7 @@ public class ArmourTest {
     @Test
     public void testDefenseAbility() {
         character.addEquipment(Armour.SPLINT_ARMOUR);
-        character.addAttribute(Ability.DEFENSE);
+        character.addAttribute(FightingStyle.DEFENSE);
         assertThat(Armour.getArmourClass(character), is(18));
     }
 

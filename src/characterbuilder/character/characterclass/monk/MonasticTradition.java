@@ -7,6 +7,7 @@ import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.WISDOM;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import static characterbuilder.character.characterclass.monk.ElementalDiscipline.*;
+import static characterbuilder.character.characterclass.monk.Monk.Ability.*;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.spell.Spell.*;

@@ -1,31 +1,37 @@
 package characterbuilder.character.attribute;
 
 import characterbuilder.character.ability.Ability;
+import characterbuilder.character.ability.ElementalAdept;
 import characterbuilder.character.ability.Expertise;
 import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
-import characterbuilder.character.characterclass.bard.BardicCollege;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.barbarian.Barbarian;
+import characterbuilder.character.characterclass.barbarian.PrimalPath;
+import characterbuilder.character.characterclass.bard.Bard;
+import characterbuilder.character.characterclass.bard.BardicCollege;
 import characterbuilder.character.characterclass.cleric.DivineDomain;
+import characterbuilder.character.characterclass.druid.Druid;
 import characterbuilder.character.characterclass.druid.DruidCircle;
-import characterbuilder.character.characterclass.warlock.EldritchInvocation;
-import characterbuilder.character.ability.ElementalAdept;
-import characterbuilder.character.characterclass.monk.ElementalDiscipline;
-import characterbuilder.character.characterclass.ranger.FavouredEnemy;
-import characterbuilder.character.characterclass.ranger.FavouredTerrain;
-import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.characterclass.fighter.Maneuver;
 import characterbuilder.character.characterclass.fighter.MartialArchetype;
+import characterbuilder.character.characterclass.monk.ElementalDiscipline;
 import characterbuilder.character.characterclass.monk.MonasticTradition;
-import characterbuilder.character.characterclass.warlock.MysticArcanum;
-import characterbuilder.character.characterclass.warlock.OtherwordlyPatron;
-import characterbuilder.character.characterclass.barbarian.PrimalPath;
+import characterbuilder.character.characterclass.monk.Monk;
+import characterbuilder.character.characterclass.paladin.SacredOath;
+import characterbuilder.character.characterclass.ranger.FavouredEnemy;
+import characterbuilder.character.characterclass.ranger.FavouredTerrain;
+import characterbuilder.character.characterclass.ranger.RangerAbility;
 import characterbuilder.character.characterclass.ranger.RangerArchetype;
 import characterbuilder.character.characterclass.ranger.RangerCompanion;
 import characterbuilder.character.characterclass.rogue.RoguishArchetype;
-import characterbuilder.character.characterclass.paladin.SacredOath;
 import characterbuilder.character.characterclass.sorcerer.SorcerousOrigin;
+import characterbuilder.character.characterclass.warlock.EldritchInvocation;
+import characterbuilder.character.characterclass.warlock.MysticArcanum;
+import characterbuilder.character.characterclass.warlock.OtherwordlyPatron;
+import characterbuilder.character.characterclass.warlock.Warlock;
+import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
 import characterbuilder.character.spell.SignatureSpell;
@@ -68,6 +74,11 @@ public enum AttributeType {
     MANEUVER(false, Maneuver::load),
     MARTIAL_ARCHETYPE(true, MartialArchetype::load),
     FIGHTING_STYLE(false, Ability::load),
+    BARBARIAN_ABILITY(false, Barbarian::loadAbility),
+    BARD_ABILITY(false, Bard::loadAbility),
+    DRUID_ABILITY(false, Druid::loadAbility),
+    MONK_ABILITY(false, Monk::loadAbility),
+    RANGER_ABILITY(false, RangerAbility::load),
     ROGUISH_ARCHETYPE(true, RoguishArchetype::load),
     MONASTIC_TRADITION(true, MonasticTradition::load),
     ELEMENTAL_DISCIPLINE(false, ElementalDiscipline::load),
@@ -76,6 +87,7 @@ public enum AttributeType {
     RANGER_ARCHETYPE(true, RangerArchetype::load),
     SORCEROUS_ORIGIN(true, SorcerousOrigin::load),
     OTHERWORLDLY_PATRON(true, OtherwordlyPatron::load),
+    WARLOCK_ABILITY(false, Warlock::loadAbility),
     ELDRITCH_INVOCATION(false, EldritchInvocation::load),
     MYSTIC_ARCANUM(false, MysticArcanum::load),
     BACKGROUND_FEATURE(false, Ability::load),

@@ -1,6 +1,6 @@
 package characterbuilder.character.characterclass.druid;
 
-import static characterbuilder.character.ability.Ability.WILD_SHAPE;
+import characterbuilder.character.Character;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.DRUIDIC;
 import static characterbuilder.character.ability.Skill.ANIMAL_HANDLING;
@@ -11,10 +11,14 @@ import static characterbuilder.character.ability.Skill.NATURE;
 import static characterbuilder.character.ability.Skill.PERCEPTION;
 import static characterbuilder.character.ability.Skill.RELIGION;
 import static characterbuilder.character.ability.Skill.SURVIVAL;
+import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.attribute.AttributeType.DRUID_ABILITY;
 import static characterbuilder.character.attribute.AttributeType.WISDOM;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import characterbuilder.character.characterclass.CharacterClass;
+import static characterbuilder.character.characterclass.druid.Druid.Ability.*;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -37,8 +41,36 @@ import static characterbuilder.character.equipment.Weapon.SICKLE;
 import static characterbuilder.character.equipment.Weapon.SLING;
 import static characterbuilder.character.equipment.Weapon.SPEAR;
 import java.util.stream.Stream;
+import org.w3c.dom.Element;
 
 public class Druid extends AbstractCharacterClass {
+
+    public enum Ability implements Attribute {
+        WILD_SHAPE(ability()
+            .withDescription("As an action, assume the shape of a beast of up to "
+                + "CR[max($level 2:1/4,4:1/2,8:1)].")),;
+
+        private final AttributeDelegate delegate;
+
+        private Ability(AttributeDelegate delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        public AttributeType getType() {
+            return DRUID_ABILITY;
+        }
+
+        @Override
+        public void generateInitialChoices(Character character) {
+            delegate.generateChoices(character);
+        }
+
+        @Override
+        public Stream<String> getDescription(Character character) {
+            return delegate.getDescription(character);
+        }
+    }
 
     @Override
     public int getHitDie() {
@@ -95,4 +127,7 @@ public class Druid extends AbstractCharacterClass {
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
     }
 
+    public static Ability loadAbility(Element element) {
+        return Ability.valueOf(element.getTextContent());
+    }
 }

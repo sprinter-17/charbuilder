@@ -1,18 +1,16 @@
 package characterbuilder.character.characterclass.bard;
 
-import static characterbuilder.character.ability.Ability.BARDIC_INSPIRATION;
-import static characterbuilder.character.ability.Ability.COUNTERCHARM;
-import static characterbuilder.character.ability.Ability.FONT_OF_INSPIRATION;
-import static characterbuilder.character.ability.Ability.JACK_OF_ALL_TRADES;
-import static characterbuilder.character.ability.Ability.SONG_OF_REST;
-import static characterbuilder.character.ability.Ability.SUPERIOR_INSPIRATION;
+import characterbuilder.character.Character;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_SIMPLE_WEAPONS;
 import characterbuilder.character.ability.Skill;
+import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
-import static characterbuilder.character.characterclass.CharacterClass.BARD;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
+import static characterbuilder.character.characterclass.CharacterClass.BARD;
+import static characterbuilder.character.characterclass.bard.Bard.Ability.*;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -35,8 +33,72 @@ import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import java.util.Arrays;
 import java.util.stream.Stream;
+import org.w3c.dom.Element;
 
 public class Bard extends AbstractCharacterClass {
+
+    public enum Ability implements Attribute {
+        BARDIC_INSPIRATION(ability()
+            .withDescription("As bonus action inspire 1 creature within 60'; "
+                + "add [max($level 1:d6,5:d8,10:d10,15:d12)] to one ability, attack or save; "
+                + "use [$chr_mod] [plural(time,times)] between long rests")),
+        JACK_OF_ALL_TRADES(ability()
+            .withDescription("Add +[$prof/2] to non-proficient ability checks.")),
+        SONG_OF_REST(ability()
+            .withDescription("During short rests friends regain additional "
+                + "1d[max($level 2:6,9:8,13:10,17:12)]HP")),
+        FONT_OF_INSPIRATION(ability()
+            .withDescription("Regain all Bardic Inspirations in short and long rests.")),
+        COUNTERCHARM(ability()
+            .withDescription("As an action, all friends within 30' have advantage "
+                + "on saves vs fear and charm.")),
+        SUPERIOR_INSPIRATION(ability()
+            .withDescription("Regain 1 Bardic Inspiration on initiative roll, if no uses left.")),;
+
+        private final AttributeDelegate delegate;
+
+        private Ability(AttributeDelegate delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        public AttributeType getType() {
+            return AttributeType.BARD_ABILITY;
+        }
+
+        @Override
+        public void generateInitialChoices(characterbuilder.character.Character character) {
+            delegate.generateChoices(character);
+        }
+
+        @Override
+        public Stream<String> getDescription(characterbuilder.character.Character character) {
+            return delegate.getDescription(character);
+        }
+    }
+
+    private class MagicalSecret extends OptionChoice {
+
+        public MagicalSecret() {
+            super("Magical Secret");
+        }
+
+        @Override
+        public void select(Character character, ChoiceSelector selector) {
+            SpellCasting casting = character.getSpellCasting("Bard");
+            selector.chooseOption(Arrays.stream(Spell.values())
+                .filter(spell -> !casting.hasLearntSpell(spell))
+                .filter(spell -> spell.getLevel() <= casting.getMaxSlot()), spell -> {
+                if (spell.isCantrip()) {
+                    character.addAttribute(new SpellAbility(spell, CHARISMA));
+                } else {
+                    casting.addKnownSpells(1);
+                    casting.addLearntSpell(spell);
+                }
+            });
+        }
+
+    }
 
     @Override
     public int getHitDie() {
@@ -95,23 +157,10 @@ public class Bard extends AbstractCharacterClass {
         gen.cond(ch -> ch.getLevel() > 1).replaceSpell("Bard");
         gen.level(1).addKnownSpells("Bard", 4);
         gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17).addKnownSpells("Bard", 1);
-        gen.level(10, 14, 18)
-            .addChoice(2, new OptionChoice("Magical Secrets") {
-                @Override
-                public void select(characterbuilder.character.Character character,
-                    ChoiceSelector selector) {
-                    SpellCasting casting = character.getSpellCasting("Bard");
-                    selector.chooseOption(Arrays.stream(Spell.values())
-                        .filter(spell -> !casting.hasLearntSpell(spell))
-                        .filter(spell -> spell.getLevel() <= casting.getMaxSlot()), spell -> {
-                        if (spell.isCantrip()) {
-                            character.addAttribute(new SpellAbility(spell, CHARISMA));
-                        } else {
-                            casting.addKnownSpells(1);
-                            casting.addLearntSpell(spell);
-                        }
-                    });
-                }
-            });
+        gen.level(10, 14, 18).addChoice(2, new MagicalSecret());
+    }
+
+    public static Ability loadAbility(Element element) {
+        return Ability.valueOf(element.getTextContent());
     }
 }

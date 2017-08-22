@@ -18,6 +18,7 @@ import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.LB;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.barbarian.Barbarian;
 import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.choice.TestOptionChoice;
 import characterbuilder.character.equipment.Armour;
@@ -257,7 +258,7 @@ public class CharacterTest {
     public void testSpeed() {
         character.addAttribute(Race.MOUNTAIN_DWARF);
         assertThat(character.getSpeed(), is(25));
-        character.addAttribute(Ability.FAST_MOVEMENT);
+        character.addAttribute(Barbarian.Ability.FAST_MOVEMENT);
         assertThat(character.getSpeed(), is(35));
         character.addEquipment(Armour.SHIELD);
         assertThat(character.getSpeed(), is(35));

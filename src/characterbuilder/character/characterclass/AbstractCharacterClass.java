@@ -1,6 +1,7 @@
 package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -47,5 +48,9 @@ public abstract class AbstractCharacterClass {
     }
 
     protected abstract void makeGenerator(ChoiceGenerator gen);
+
+    protected static AttributeDelegate ability() {
+        return new AttributeDelegate();
+    }
 
 }

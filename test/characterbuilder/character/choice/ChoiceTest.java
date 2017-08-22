@@ -1,7 +1,7 @@
 package characterbuilder.character.choice;
 
 import characterbuilder.character.Character;
-import static characterbuilder.character.ability.Ability.ARCHERY;
+import characterbuilder.character.ability.FightingStyle;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +17,8 @@ public class ChoiceTest {
 
     @Test
     public void testMakeChoice() {
-        Choice choice = Choice.action("Test", ch -> ch.addAttribute(ARCHERY));
+        Choice choice = Choice.action("Test", ch -> ch.addAttribute(FightingStyle.ARCHERY));
         choice.addTo(character);
-        assertTrue(character.hasAttribute(ARCHERY));
+        assertTrue(character.hasAttribute(FightingStyle.ARCHERY));
     }
 }

@@ -1,7 +1,6 @@
 package characterbuilder.character.characterclass.warlock;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
@@ -39,11 +38,11 @@ public enum EldritchInvocation implements Attribute {
         .withSpellAbility(Spell.COMPULSION, AttributeType.CHARISMA)
         .withDescription("Cast <em>Compulsion</em> once between long rests using a spell slot.")),
     BOOK_OF_ANCIENT_SECRETS(invocation()
-        .withPrerequisite(Ability.PACT_OF_THE_TOME)
+        .withPrerequisite(Warlock.Ability.PACT_OF_THE_TOME)
         .withChoice(ChoiceGenerator.spellChoice("Warlock", 2, "Rituals", Spell.getSpellsAtLevel(1)))
         .withDescription("Inscribe and cast rituals in Book of Shadows.")),
     CHAINS_OF_CARCERI(invocation()
-        .withPrerequisite(Ability.PACT_OF_THE_CHAIN)
+        .withPrerequisite(Warlock.Ability.PACT_OF_THE_CHAIN)
         .withPrerequisiteLevel(15)
         .withSpellAbility(Spell.HOLD_MONSTER, AttributeType.CHARISMA)
         .withDescription("Cast <em>Hold Monster</em> at will, "
@@ -69,7 +68,7 @@ public enum EldritchInvocation implements Attribute {
     GAZE_OF_TWO_MINDS(invocation()
         .withDescription("As an action, touch an ally and perceive through its senses.")),
     LIFEDRINKER(invocation()
-        .withPrerequisite(Ability.PACT_OF_THE_BLADE)
+        .withPrerequisite(Warlock.Ability.PACT_OF_THE_BLADE)
         .withPrerequisiteLevel(12)
         .withDescription("On hitting with pact weapon, [bonus(max(1, $chr_mod))] necrotic damage.")),
     MASK_OF_MANY_FACES(invocation()
@@ -113,7 +112,7 @@ public enum EldritchInvocation implements Attribute {
         .withSpellAbility(Spell.BANE, AttributeType.CHARISMA)
         .withDescription("Cast <em>Bane</em> once between long rests using a spell slot.")),
     THIRSTING_BLADE(invocation()
-        .withPrerequisite(Ability.PACT_OF_THE_BLADE)
+        .withPrerequisite(Warlock.Ability.PACT_OF_THE_BLADE)
         .withPrerequisiteLevel(5)
         .withDescription("Two attacks with pact weapon.")),
     VISIONS_OF_DISTANT_REALMS(invocation()
@@ -121,7 +120,7 @@ public enum EldritchInvocation implements Attribute {
         .withSpellAbility(Spell.ARCANE_EYE, AttributeType.CHARISMA)
         .withDescription("Cast <em>Arcane Eye</em> at will.")),
     VOICE_OF_THE_CHAIN_MASTER(invocation()
-        .withPrerequisite(Ability.PACT_OF_THE_CHAIN)
+        .withPrerequisite(Warlock.Ability.PACT_OF_THE_CHAIN)
         .withDescription("Communicate telepathically with familiar.")
         .withDescription("Speak through familiar.")),
     WHISPERS_OF_THE_GRAVE(invocation()

@@ -1,6 +1,7 @@
 package characterbuilder.character.choice;
 
 import static characterbuilder.character.ability.Ability.*;
+import characterbuilder.character.ability.FightingStyle;
 import static characterbuilder.character.ability.Proficiency.*;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.AttributeType;
@@ -38,10 +39,10 @@ public class ChoiceGeneratorTest {
 
     @Test
     public void testAddConditionalChoice() {
-        generator.cond(ch -> ch.hasAttribute(ARCHERY)).addAttributes(BRAVE);
+        generator.cond(ch -> ch.hasAttribute(FightingStyle.ARCHERY)).addAttributes(BRAVE);
         generator.generateChoices(character);
         assertFalse(character.hasAttribute(BRAVE));
-        character.addAttribute(ARCHERY);
+        character.addAttribute(FightingStyle.ARCHERY);
         generator.generateChoices(character);
         assertTrue(character.hasAttribute(BRAVE));
     }

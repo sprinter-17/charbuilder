@@ -1,9 +1,10 @@
 package characterbuilder.character.characterclass.ranger;
 
 import characterbuilder.character.Character;
+import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import static characterbuilder.character.ability.Ability.*;
+import static characterbuilder.character.characterclass.ranger.RangerAbility.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.utils.StringUtils;

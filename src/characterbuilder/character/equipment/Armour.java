@@ -1,13 +1,15 @@
 package characterbuilder.character.equipment;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Feat;
+import characterbuilder.character.ability.FightingStyle;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Value;
 import static characterbuilder.character.attribute.Value.gp;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.lb;
+import characterbuilder.character.characterclass.barbarian.Barbarian;
+import characterbuilder.character.characterclass.monk.Monk;
 import static characterbuilder.character.equipment.EquipmentCategory.HEAVY_ARMOUR;
 import static characterbuilder.character.equipment.EquipmentCategory.LIGHT_ARMOUR;
 import static characterbuilder.character.equipment.EquipmentCategory.MEDIUM_ARMOUR;
@@ -76,16 +78,16 @@ public enum Armour implements Equipment {
         ac += bestArmour.map(arm -> arm.armourClass + getBonus(character, arm)).orElse(0);
         if (character.hasEquipment(SHIELD))
             ac += 2 + getBonus(character, SHIELD);
-        else if (!bestArmour.isPresent() && character.hasAttribute(Ability.UNARMORED_DEFENCE_MONK))
+        else if (!bestArmour.isPresent() && character.hasAttribute(Monk.Ability.UNARMORED_DEFENCE))
             ac += character.getModifier(AttributeType.WISDOM);
 
         ac += bestArmour.map(armour -> armour.getDexBonus(character))
             .orElse(character.getModifier(AttributeType.DEXTERITY));
 
-        if (bestArmour.isPresent() && character.hasAttribute(Ability.DEFENSE))
+        if (bestArmour.isPresent() && character.hasAttribute(FightingStyle.DEFENSE))
             ac += 1;
 
-        if (!bestArmour.isPresent() && character.hasAttribute(Ability.UNARMORED_DEFENCE_BARBARIAN))
+        if (!bestArmour.isPresent() && character.hasAttribute(Barbarian.Ability.UNARMORED_DEFENCE))
             ac += character.getModifier(AttributeType.CONSTITUTION);
         return ac;
     }

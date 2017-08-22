@@ -6,6 +6,8 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.STRENGTH;
 import static characterbuilder.character.characterclass.CharacterClass.DRUID;
+import static characterbuilder.character.characterclass.barbarian.Barbarian.Ability.FRENZY;
+import static characterbuilder.character.characterclass.barbarian.Barbarian.Ability.MINDLESS_RAGE;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.spell.Spell;

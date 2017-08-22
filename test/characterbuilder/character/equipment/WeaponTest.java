@@ -1,6 +1,6 @@
 package characterbuilder.character.equipment;
 
-import characterbuilder.character.ability.Ability;
+import characterbuilder.character.ability.FightingStyle;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
@@ -61,7 +61,7 @@ public class WeaponTest {
         assertThat(LONGBOW.getAttacks(character).findAny().get().getBonus(), is(0));
         character.setScore(AttributeType.DEXTERITY, 14);
         assertThat(LONGBOW.getAttacks(character).findAny().get().getBonus(), is(2));
-        character.addAttribute(Ability.ARCHERY);
+        character.addAttribute(FightingStyle.ARCHERY);
         assertThat(LONGBOW.getAttacks(character).findAny().get().getBonus(), is(4));
     }
 

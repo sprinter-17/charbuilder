@@ -1,7 +1,7 @@
 package characterbuilder.character.equipment;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Ability;
+import characterbuilder.character.ability.FightingStyle;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.WeaponProficiency;
 import characterbuilder.character.attribute.Attribute;
@@ -90,7 +90,7 @@ public enum Weapon implements Equipment {
 
     private static int ranged(Character character) {
         int bonus = character.getModifier(DEXTERITY);
-        if (character.hasAttribute(Ability.ARCHERY))
+        if (character.hasAttribute(FightingStyle.ARCHERY))
             bonus += 2;
         return bonus;
     }

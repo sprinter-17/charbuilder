@@ -1,30 +1,15 @@
 package characterbuilder.character.characterclass.ranger;
 
-import static characterbuilder.character.ability.Ability.ARCHERY;
-import static characterbuilder.character.ability.Ability.DEFENSE;
-import static characterbuilder.character.ability.Ability.DUELING;
 import static characterbuilder.character.ability.Ability.EXTRA_ATTACK;
-import static characterbuilder.character.ability.Ability.FERAL_SENSES;
-import static characterbuilder.character.ability.Ability.FOE_SLAYER;
-import static characterbuilder.character.ability.Ability.HIDE_IN_PLAIN_SIGHT;
-import static characterbuilder.character.ability.Ability.LANDS_STRIDE;
-import static characterbuilder.character.ability.Ability.PRIMEVAL_AWARENESS;
-import static characterbuilder.character.ability.Ability.TWO_WEAPON;
-import static characterbuilder.character.ability.Ability.VANISH;
+import characterbuilder.character.ability.FightingStyle;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_WEAPONS;
-import static characterbuilder.character.ability.Skill.ANIMAL_HANDLING;
-import static characterbuilder.character.ability.Skill.ATHLETICS;
-import static characterbuilder.character.ability.Skill.INSIGHT;
-import static characterbuilder.character.ability.Skill.INVESTIGATION;
-import static characterbuilder.character.ability.Skill.NATURE;
-import static characterbuilder.character.ability.Skill.PERCEPTION;
-import static characterbuilder.character.ability.Skill.STEALTH;
-import static characterbuilder.character.ability.Skill.SURVIVAL;
+import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.WISDOM;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import characterbuilder.character.characterclass.CharacterClass;
+import static characterbuilder.character.characterclass.ranger.RangerAbility.*;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -79,10 +64,8 @@ public class Ranger extends AbstractCharacterClass {
             new AttributeChoice("Favoured Enemy", FavouredEnemy.values()));
         gen.level(1, 6, 10).addChoice(
             new AttributeChoice("Favoured Terrain", FavouredTerrain.values()));
-        gen.level(2).addChoice(new AttributeChoice("Fighting Style",
-            ARCHERY, DEFENSE, DUELING, TWO_WEAPON));
-        gen.level(3).addChoice(new AttributeChoice("Ranger Archetype",
-            RangerArchetype.values()));
+        gen.level(2).addChoice(new AttributeChoice("Fighting Style", FightingStyle.values()));
+        gen.level(3).addChoice(new AttributeChoice("Ranger Archetype", RangerArchetype.values()));
         gen.level(3).addAttributes(PRIMEVAL_AWARENESS);
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
         gen.level(5).addAttributes(EXTRA_ATTACK);

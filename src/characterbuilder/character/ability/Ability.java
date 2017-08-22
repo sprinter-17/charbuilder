@@ -5,10 +5,6 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
-import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
-import characterbuilder.character.equipment.AdventureGear;
-import characterbuilder.character.spell.Spell;
-import static characterbuilder.character.spell.Spell.getSpellsAtLevel;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -40,14 +36,6 @@ public enum Ability implements Attribute {
     RELENTLESS_ENDURANCE(RACIAL_TALENT, "Drop to 1HP rather than 0HP once between long rests."),
     SAVAGE_ATTACKS(RACIAL_TALENT, "+1 damage die roll on critical hits."),
     HELLISH_RESISTANCE(RACIAL_TALENT, "Resistance to fire damage."),
-    //
-    ARCHERY(FIGHTING_STYLE, "+2 attack bonus with ranged weapons."),
-    DEFENSE(FIGHTING_STYLE, "+1 AC when wearing armour."),
-    DUELING(FIGHTING_STYLE, "+2 damage with melee weapon when other hand is empty."),
-    GREAT_WEAPON(FIGHTING_STYLE, "Reroll 1s and 2s for damage when using a two handed weapon."),
-    PROTECTION(FIGHTING_STYLE,
-        "Disadvantage attacks against other targets within 5 feet when using a shield."),
-    TWO_WEAPON(FIGHTING_STYLE, "Add ability modifier to damage of second weapon attack."),
     //
     SECOND_WIND(classTalent()
         .withDescription("Use a bonus action to regain 1d10+[$level] hit points.")
@@ -116,38 +104,6 @@ public enum Ability implements Attribute {
         "Ignore all class, race and level requirements on the use of magic items."),
     THIEFS_REFLEXES(CLASS_TALENT, "Thief's Reflexes",
         "Take two turns during first round of combat. Second turn is at initiative - 10."),
-    UNARMORED_DEFENCE_BARBARIAN(CLASS_TALENT, "Unarmoured Defence",
-        "Unarmoured AC[10+$dex_mod+$con_mod]."),
-    UNARMORED_DEFENCE_MONK(CLASS_TALENT, "Unarmoured Defence",
-        "Unarmoured AC[10+$dex_mod+$wis_mod]"),
-    RECKLESS_ATTACK(CLASS_TALENT, "Reckless Attack",
-        "Choose to attack recklessly gaining and giving advantage on melee attacks."),
-    DANGER_SENSE(CLASS_TALENT, "Danger Sense",
-        "Advantage on Dex. saving throws against visible effects"),
-    FAST_MOVEMENT(CLASS_TALENT, "Fast Movement",
-        "+10' speed when unarmoured."),
-    FERAL_INSTINCTS(CLASS_TALENT, "Feral Instincts",
-        "Advantage on initiative, enter rage and act normally on surprise."),
-    BRUTAL_CRITICAL(CLASS_TALENT, "Brutal Critical",
-        "Roll [max($level 9:1,13:2,17:3)] extra [plural(die,dice)] damage on critical."),
-    RAGE(classTalent()
-        .withDescription("As bonus action, enter rage for 1 minute. ")
-        .withDescription("Advantage on Str. checks and saves.")
-        .withDescription("+[max($level 1:2,9:3,16:4)] dam on melee attacks. ")
-        .withDescription("Resistance to bludgeoning, piercing and slashing damage. "
-            + "Use [max($level 1:2,6:4,12:5,17:6)] times between long rests. ")),
-    RELENTLESS_RAGE(CLASS_TALENT, "Relentless Rage",
-        "When dropping to 0HP during rage, make Con. save vs DC10 (+5 per use) "
-        + "to drop to 1HP instead."),
-    PERSISTENT_RAGE(CLASS_TALENT, "Persistent Rage",
-        "Rage continues until ended voluntarily or falls unconscious."),
-    INDOMITABLE_MIGHT(CLASS_TALENT, "Indomitable Might",
-        "Str check minimum [$str]."),
-    FRENZY(CLASS_TALENT, "Frenzy",
-        "Can enter frenzy during rage. Melee weapon attack as bonus action each turn. "
-        + "Exhaustion when rage ends."),
-    MINDLESS_RAGE(CLASS_TALENT, "Mindless Rage",
-        "Cannot be charmed or frightened during rage."),
     INTIMIDATING_PRESENCE(CLASS_TALENT, "Intimidating Presence",
         "As action, one creature within 30' Wis. save vs DC[8+$prof+$chr_mod] or be frightened."),
     RETALIATION(CLASS_TALENT, "Retaliation",
@@ -171,20 +127,6 @@ public enum Ability implements Attribute {
         "During rage, fly at [$speed]'"),
     TOTEMIC_ATTUNEMENT_WOLF(CLASS_TALENT, "Totemic Attunement (Wolf)",
         "During rage, as bonus action knock enemy prone when hit with melee attack."),
-    BARDIC_INSPIRATION(CLASS_TALENT, "Bardic Inspiration",
-        "As bonus action inspire 1 creature within 60'; "
-        + "add [max($level 1:d6,5:d8,10:d10,15:d12)] to one ability, attack or save; "
-        + "use [$chr_mod] [plural(time,times)] between long rests"),
-    JACK_OF_ALL_TRADES(CLASS_TALENT, "Jack of All Trades",
-        "Add +[$prof/2] to non-proficient ability checks."),
-    SONG_OF_REST(CLASS_TALENT, "Song of Rest",
-        "During short rests friends regain additional 1d[max($level 2:6,9:8,13:10,17:12)]HP"),
-    FONT_OF_INSPIRATION(CLASS_TALENT, "Font of Inspiration",
-        "Regain all Bardic Inspirations in short and long rests."),
-    COUNTERCHARM(CLASS_TALENT, "Counter-charm",
-        "As an action, all friends within 30' have advantage of saves vs fear and charm."),
-    SUPERIOR_INSPIRATION(CLASS_TALENT, "Superior Inspiration",
-        "Regain 1 Bardic Inspiration on initiative roll, if no uses left."),
     CUTTING_WORDS(CLASS_TALENT, "Cutting Words",
         "As a reaction, use Bardic Inspiration to subtract die roll from attack, ability, damage "
         + "from creature within 60'"),
@@ -194,70 +136,8 @@ public enum Ability implements Attribute {
         "Creature with Bardic Inspiration can add roll to damage or AC as reaction."),
     BATTLE_MAGIC(CLASS_TALENT, "Battle Magic",
         "Can make one weapon attack as bonus action when casting spell."),
-    MARTIAL_ARTS(CLASS_TALENT, "Martial Arts",
-        "Use Dex. instead of Str. for unarmed strikes and monk weapons; "
-        + "can roll [max($level 1:1d4,5:1d6,11:1d8,17:1d10)] for damage; "
-        + "unarmed strike as bonus action"),
-    KI(CLASS_TALENT, "Ki",
-        "[$level] Ki points to use between each rest; Ki Save DC[8+$prof+$wis_mod]."),
-    FLURRY_OF_BLOWS(CLASS_TALENT, "Flurry of Blows",
-        "Spend 1 Ki point to make two unarmed strikes as a bonus action."),
-    PATIENT_DEFENCE(CLASS_TALENT, "Patient Defence",
-        "Spend 1 Ki point to Dodge as a bonus action."),
-    STEP_OF_THE_WIND(CLASS_TALENT, "Step of the Wind",
-        "Spend 1 Ki point to Disengage or Dash as a bonus action, jump distance doubled."),
-    UNARMOURED_MOVEMENT(CLASS_TALENT, "Unarmoured Movement",
-        "Speed increases by [max($level 2:10,6:15,10:20,14:25,18:30)]' when not armoured. "
-        + "[if($level >= 9:Move along vertical surfaces and across liquids)]"),
-    DEFLECT_MISSILES(CLASS_TALENT, "Deflect Missiles",
-        "Use reaction when hit by ranged attack reducing damage by 1d10+[$dex_mod+$level]. "
-        + "If damage is 0, can spend 1 Ki point to make ranged attack to hit +[$prof], "
-        + "martial arts damage range 20'/60'."),
-    SLOW_FALL(CLASS_TALENT, "Slow Fall",
-        "Use reaction to reduce falling damage by [5*$level]."),
-    STUNNING_STRIKE(CLASS_TALENT, "Stunning Strike",
-        "Spend 1 Ki point on melee weapon hit. "
-        + "Target Con. save or stunned until end of next turn."),
-    KI_EMPOWERED_STRIKES(CLASS_TALENT, "Ki-Empowered Strikes",
-        "Unarmed strikes could as magical."),
-    STILLNESS_OF_MIND(CLASS_TALENT, "Stillness of Mind",
-        "Use action to end charm or fear effect."),
-    PURITY_OF_BODY(CLASS_TALENT, "Purity of Body",
-        "Immune to disease and poison."),
-    TONGUE_OF_THE_SUN_AND_MOON(CLASS_TALENT, "Tongue of the Sun and Moon",
-        "Understand all spoken languages."),
-    DIAMOND_SOUL(CLASS_TALENT, "Diamond Soul",
-        "Proficiency in all saves."),
-    TIMELESS_BODY(CLASS_TALENT, "Timeless Body",
-        "Cannot be magically aged. Need no food or water."),
-    EMPTY_BODY(CLASS_TALENT, "Empty Body",
-        "Spend 4 Ki points to become invisible for 1 minute."),
-    PERFECT_SELF(CLASS_TALENT, "Perfect Self",
-        "Regain 4 Ki points on initiative if none remaining."),
-    OPEN_HAND_TECHNIQUE(CLASS_TALENT, "Open Hand Technique",
-        "When hitting a creature with Flurry of Blows, impose one effect: "
-        + "Dex. save or knocked prone; Str save or push 15'; no reactons until end of next turn."),
-    WHOLENESS_OF_BODY(CLASS_TALENT, "Wholeness of Body",
-        "As an action, regain [$level*3]HP once between each long rest."),
-    TRANQUILITY(CLASS_TALENT, "Tranquility",
-        "At the end of a long rest, gain sanctuary. "
-        + "Attacker must make Wis. save DC[8+$wis_mod+$prof] or target another. "
-        + "Attacking ends the effect."),
-    QUIVERING_PALM(CLASS_TALENT, "Quivering Palm",
-        "Spend 3 Ki points to start vibrations that last for [$level] days. "
-        + "At end, Con. save or reduce to 0HP. Succeed on save 10d10 necrotic dam."),
     SHADOW_ARTS(CLASS_TALENT, "Shadow Arts",
         "Spend 2 Ki points to cast Darkness, Darkvision, Pass Without Trace or Silence."),
-    SHADOW_STEP(CLASS_TALENT, "Shadow Step",
-        "When in dim light or darkness, as a bonus action teleport up to 60'."),
-    CLOAK_OF_SHADOWS(CLASS_TALENT, "Cloak of Shadows",
-        "When in dim light or darkness, as an action become invisible."),
-    OPPORTUNIST(CLASS_TALENT, "Opportunist",
-        "As a reaction, when a creature within 5' that is hit, make a melee attack."),
-    DISCIPLE_OF_THE_ELEMENTS(CLASS_TALENT, "Disciple of the Elements",
-        "Spend up to [max($level 3:2,5:3,9:4,13:5,17:7)] Ki points to cast an elemental spell."),
-    WILD_SHAPE(CLASS_TALENT,
-        "As an action, assume the shape of a beast of up to CR[max($level 2:1/4,4:1/2,8:1)]."),
     FONT_OF_MAGIC(CLASS_TALENT,
         "[$level] sorcery points. As a bonus action, convert sorcery points to spell slots. "
         + "2 1st, 3 2nd, 5 3rd, 6 4th 7 5th. Or convert spell slots to sorcery points. "
@@ -325,61 +205,6 @@ public enum Ability implements Attribute {
         "Int. and Wis. checks for proficient skills related to favoured terrain are doubled. "
         + "Fast, reliable, alert, stealthy travel and effective foraging and tracking "
         + "in favoured terrain. "),
-    PRIMEVAL_AWARENESS(CLASS_TALENT,
-        "As an action, expend a spell slot. For 1 minute / spell level sense presence of "
-        + "aberrations, celestials, dragons, elementals, fey, fiends and undead within 1 mile or "
-        + "6 miles within favoured terrain."),
-    LANDS_STRIDE(CLASS_TALENT, "Land's Stride",
-        "Move through difficult terrain at normal speed. Avoid damage from plants. "
-        + "Advantage on saves vs. plants magically impeding movement. "),
-    HIDE_IN_PLAIN_SIGHT(CLASS_TALENT,
-        "Spend 1 minute creating camouflage and hiding against solid surface to gain "
-        + "+10 to Stealth checks. "),
-    VANISH(CLASS_TALENT,
-        "Hide as a bonus action. Cannot be tracked."),
-    FERAL_SENSES(CLASS_TALENT,
-        "Can attack invisible creatures without disadvantage. "
-        + "Aware of invisible creatures within 30 feet"),
-    FOE_SLAYER(CLASS_TALENT,
-        "Once each turn add +[$wis_mod] to attack or damage against favoured enemy."),
-    COLOSSUS_SLAYER(CLASS_TALENT,
-        "Once each turn add 1d8 damage to a creature that is below maximum HP."),
-    GIANT_KILLER(CLASS_TALENT, "As a reaction attack a large creature that hits or misses."),
-    HORDE_BREAKER(CLASS_TALENT,
-        "Once each turn make a second melee attack against a different target within 5 feet."),
-    ESCAPE_THE_HORDE(CLASS_TALENT, "Opportunity attacks by enemies are disadvantaged."),
-    MULTIATTACK_DEFENSE(CLASS_TALENT, "Multiattck Defence",
-        "+4 AC for second and subsequent attacks by an enemy within a single turn."),
-    STEEL_WILL(CLASS_TALENT, "Advantage on save vs. fear."),
-    VOLLEY(CLASS_TALENT,
-        "Make ranged attacks against any number of targets within 10 feet of a chosen point."),
-    WHIRLWIND_ATTACK(CLASS_TALENT,
-        "Make melee attacks against any number of targets within 5 feet."),
-    STAND_AGAINST_THE_TIDE(CLASS_TALENT,
-        "As a reaction force an enemy that misses to repeat the attack on another creature."),
-    RANGERS_COMPANION(CLASS_TALENT, "Ranger's Companion",
-        "As an action, command the beast to Attack, Dash, Disengage, Dodge or Help."),
-    EXCEPTIONAL_TRAINING(CLASS_TALENT,
-        "On any turns when the Ranger's companion does not attack, as a bonus action command the "
-        + "beast can Dash, Disengage, Dodge or Help."),
-    BESTIAL_FURY(CLASS_TALENT, "Ranger's companion can make two attacks."),
-    SHARE_SPELLS(CLASS_TALENT,
-        "Any spells targeting self can also effect Ranger's companion within 30 feet."),
-
-    // Warlock abilities
-    PACT_OF_THE_CHAIN(classTalent()
-        .withDescription("Familiar can be imp, pseudodragon, quasit or sprite.")
-        .withDescription("Forgo an attack to allow familiar to make attack as reaction.")
-        .withSpellAbility(Spell.FIND_FAMILIAR, CHARISMA)),
-    PACT_OF_THE_BLADE(classTalent()
-        .withDescription("As an action, create a pact weapon in any form.")
-        .withDescription("Gain proficiency with pact weapon.")),
-    PACT_OF_THE_TOME(classTalent()
-        .withDescription("Cast cantrips from Book of Shadows.")
-        .withEquipment(AdventureGear.BOOK_OF_SHADOWS)
-        .withChoice(cantripChoice(3, "Book of Shadow Cantrips", CHARISMA, getSpellsAtLevel(0)))),
-    ELDRITCH_MASTER(classTalent()
-        .withDescription("Spend 1 minute to regain all spell slots once between each long rest.")),
 
     FEY_PRESENCE(classTalent()
         .withDescription("As an action, charm or frighten creatures within a 10-foot cube "

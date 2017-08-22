@@ -1,19 +1,23 @@
 package characterbuilder.character.characterclass.warlock;
 
-import characterbuilder.character.ability.Ability;
-import static characterbuilder.character.ability.Ability.ELDRITCH_MASTER;
+import characterbuilder.character.Character;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
+import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.warlock.MysticArcanum.chooseArcanum;
+import static characterbuilder.character.characterclass.warlock.Warlock.Ability.ELDRITCH_MASTER;
+import static characterbuilder.character.characterclass.warlock.Warlock.Ability.PACT_OF_THE_CHAIN;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import characterbuilder.character.choice.EquipmentChoice;
+import characterbuilder.character.equipment.AdventureGear;
 import static characterbuilder.character.equipment.AdventureGear.ARROW;
 import static characterbuilder.character.equipment.AdventureGear.COMPONENT_POUCH;
 import static characterbuilder.character.equipment.Armour.LEATHER_ARMOUR;
@@ -24,9 +28,50 @@ import characterbuilder.character.equipment.EquipmentPack;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Weapon;
 import static characterbuilder.character.equipment.Weapon.DAGGER;
+import characterbuilder.character.spell.Spell;
+import static characterbuilder.character.spell.Spell.getSpellsAtLevel;
 import java.util.stream.Stream;
+import org.w3c.dom.Element;
 
 public class Warlock extends AbstractCharacterClass {
+
+    public enum Ability implements Attribute {
+
+        PACT_OF_THE_CHAIN(ability()
+            .withDescription("Familiar can be imp, pseudodragon, quasit or sprite.")
+            .withDescription("Forgo an attack to allow familiar to make attack as reaction.")
+            .withSpellAbility(Spell.FIND_FAMILIAR, CHARISMA)),
+        PACT_OF_THE_BLADE(ability()
+            .withDescription("As an action, create a pact weapon in any form.")
+            .withDescription("Gain proficiency with pact weapon.")),
+        PACT_OF_THE_TOME(ability()
+            .withDescription("Cast cantrips from Book of Shadows.")
+            .withEquipment(AdventureGear.BOOK_OF_SHADOWS)
+            .withChoice(cantripChoice(3, "Book of Shadow Cantrips", CHARISMA, getSpellsAtLevel(0)))),
+        ELDRITCH_MASTER(ability()
+            .withDescription("Spend 1 minute to regain all spell slots once between each long rest."));
+
+        private final AttributeDelegate delegate;
+
+        private Ability(AttributeDelegate delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        public AttributeType getType() {
+            return AttributeType.WARLOCK_ABILITY;
+        }
+
+        @Override
+        public void generateInitialChoices(Character character) {
+            delegate.generateChoices(character);
+        }
+
+        @Override
+        public Stream<String> getDescription(Character character) {
+            return delegate.getDescription(character);
+        }
+    }
 
     @Override
     public int getHitDie() {
@@ -71,7 +116,7 @@ public class Warlock extends AbstractCharacterClass {
         gen.level(5, 7, 9, 12, 15, 18).addChoice(EldritchInvocation.getChoice(1));
 
         gen.level(3).addChoice(new AttributeChoice("Pact Boon",
-            Ability.PACT_OF_THE_CHAIN, Ability.PACT_OF_THE_BLADE, Ability.PACT_OF_THE_TOME));
+            PACT_OF_THE_CHAIN, Ability.PACT_OF_THE_BLADE, Ability.PACT_OF_THE_TOME));
         gen.level(4, 8, 12, 16, 19).addChoice(new AbilityScoreOrFeatIncrease());
 
         gen.level(11).addChoice(chooseArcanum(CharacterClass.WARLOCK, 6));
@@ -94,5 +139,9 @@ public class Warlock extends AbstractCharacterClass {
         gen.level(17).setSpellSlots(casting, 5, 4);
         gen.cond(ch -> ch.getLevel() > 1).replaceSpell(casting);
         gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17, 19).addKnownSpells(casting, 1);
+    }
+
+    public static Ability loadAbility(Element element) {
+        return Ability.valueOf(element.getTextContent());
     }
 }

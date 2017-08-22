@@ -14,6 +14,7 @@ import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.characterclass.CharacterClass;
+import static characterbuilder.character.characterclass.barbarian.Barbarian.Ability.FAST_MOVEMENT;
 import characterbuilder.character.choice.ChoiceList;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.OptionChoice;
@@ -330,7 +331,7 @@ public class Character {
     public int getSpeed() {
         Race race = getAttribute(RACE);
         int speed = race.getSpeed();
-        if (hasAttribute(Ability.FAST_MOVEMENT) && !Armour.bestArmour(this).isPresent())
+        if (hasAttribute(FAST_MOVEMENT) && !Armour.bestArmour(this).isPresent())
             speed += 10;
         if (hasAttribute(Feat.MOBILE))
             speed += 10;

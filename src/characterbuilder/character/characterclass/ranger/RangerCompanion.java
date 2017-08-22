@@ -1,7 +1,6 @@
 package characterbuilder.character.characterclass.ranger;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.utils.StringUtils;
@@ -41,7 +40,7 @@ public enum RangerCompanion implements Attribute {
 
     @Override
     public void generateInitialChoices(Character character) {
-        character.addAttribute(Ability.RANGERS_COMPANION);
+        character.addAttribute(RangerAbility.RANGERS_COMPANION);
     }
 
     @Override
