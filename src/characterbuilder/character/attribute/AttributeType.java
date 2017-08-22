@@ -91,7 +91,7 @@ public enum AttributeType {
     PRIMAL_PATH(true, PrimalPath::load),
     BARDIC_COLLEGE(true, BardicCollege::load),
     DIVINE_DOMAIN(true, DivineDomain::load),
-    DIVINE_DOMAIN_ABILITY(false, Ability::load),
+    DIVINE_DOMAIN_ABILITY(false, DivineDomain::loadAbility),
     FAVOURED_ENEMY(false, FavouredEnemy::load),
     FAVOURED_TERRAIN(false, FavouredTerrain::load),
     RANGERS_COMPANION(true, RangerCompanion::load),

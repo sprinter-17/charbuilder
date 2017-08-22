@@ -414,39 +414,6 @@ public enum Ability implements Attribute {
     CREATE_THRALL(classTalent()
         .withDescription("As an action, charm an incapacitated humanoid with touch.")),
 
-    /*
-     * Divine domain abilities
-    **/
-    KNOWLEDGE_OF_THE_AGES(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Knowledge of the Ages",
-        "As an action, gain proficiency with one skill or tool for 10 minutes."),
-    READ_THOUGHTS(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Read Thoughts",
-        "As an action, choose 1 creature within 60'. Wis. save or read thoughts "
-        + "and cast suggestion."),
-    POTENT_SPELLCASTING(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Potent Spellcasting",
-        "Add [$wis_mod] to damage from cantrips."),
-    VISIONS_OF_THE_PAST(DIVINE_DOMAIN_ABILITY, "Visions of the Past",
-        "After 1 minute of mediation, object and area reading"),
-    TURN_UNDEAD(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Turn Undead",
-        "Each undead within 30' save vs Wis or turned for 1 minute."),
-    DESTROY_UNDEAD(DIVINE_DOMAIN_ABILITY, "Destroy Undead",
-        "Turned undead with CR of [max($level 5:1/2, 8:1, 11:2, 14:3, 17:4)] or less are destroyed"),
-    DIVINE_INTERVENTION(DIVINE_DOMAIN_ABILITY, "Divine Intervention",
-        "[if($level<20:$level% chance of deity intervening.:Deity intervenes.)] "
-        + "7 days between each successful use. 1 day between each unsuccessful use."),
-    CHANNEL_DIVINITY(DIVINE_DOMAIN_ABILITY, "Channel Divinity",
-        "Use [max($level 2:one, 6:two, 18:three)] channel divinity [plural(power,powers)] "
-        + "between each rest."),
-    PRESERVE_LIFE(DIVINE_DOMAIN_ABILITY, "Channel Divinity: Preserve Life",
-        "Restore [$level*5] total HP to creatures within 30' up to half their maximum."),
-    BLESSED_HEALER(DIVINE_DOMAIN_ABILITY, "Blessed Healer",
-        "Healing spell also restore 2 + spell level HP to cleric."),
-    DIVINE_STRIKE(DIVINE_DOMAIN_ABILITY, "Divine Strike",
-        "Weapon attacks cause an additional [max($level 8:1,14:2)]d8 radiant damage."),
-    SUPREME_HEALING(DIVINE_DOMAIN_ABILITY, "Supreme Healing",
-        "Healing spells restore maximum HP."),
-    DISCIPLE_OF_LIFE(DIVINE_DOMAIN_ABILITY, "Disciple of life",
-        "Healing spells restore an additional 2 + spell level HP."),
-
     MAGIC_SCHOOL_SAVANT(classTalent()
         .withDescription("Halve gold and time to copy [$magic_school] spells into spellbook.")),
 
