@@ -1,7 +1,6 @@
 package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.*;
 import static characterbuilder.character.ability.Skill.*;
@@ -9,10 +8,10 @@ import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.choice.EquipmentChoice;
-import characterbuilder.character.equipment.EquipmentCategory;
-import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.AdventureGear;
 import static characterbuilder.character.equipment.AdventureGear.*;
+import characterbuilder.character.equipment.EquipmentCategory;
+import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Token;
 import characterbuilder.utils.StringUtils;
@@ -37,14 +36,14 @@ public enum Background implements Attribute {
                 new Token("Deck of Marked Cards"),
                 new Token("Signet Ring of Imaginary Duke")))
             .addEquipment(GOLD_PIECE, 15)
-            .addAttributes(Ability.FALSE_IDENTITY)),
+            .addAttributes(BackgroundAbility.FALSE_IDENTITY)),
     CRIMINAL(gen
         -> gen.addAttributes(DECEPTION, STEALTH, Proficiency.THIEVES_TOOLS)
             .addEquipment(AdventureGear.GOLD_PIECE, 15)
             .addEquipment(CROWBAR, COMMON_CLOTHES)
             .addChoice(new AttributeChoice(LANGUAGE))),
     ENTERTAINER(gen
-        -> gen.addAttributes(ACROBATICS, PERFORMANCE, Ability.BY_POPULAR_DEMAND)
+        -> gen.addAttributes(ACROBATICS, PERFORMANCE, BackgroundAbility.BY_POPULAR_DEMAND)
             .addAttributes(Proficiency.DISGUISE_KIT)
             .addChoice(new AttributeChoice("Musical Instrument Proficiency",
                 MusicalInstrument.getAllProficiencies()))
@@ -66,7 +65,7 @@ public enum Background implements Attribute {
         gen.addEquipment(TRAVELERS_CLOTHES);
         gen.addEquipment(GOLD_PIECE, 15);
         gen.addChoice(new AttributeChoice(GUILD_BUSINESS));
-        gen.addAttributes(Ability.GUILD_MEMBERSHIP);
+        gen.addAttributes(BackgroundAbility.GUILD_MEMBERSHIP);
     }),
     HERMIT(gen -> {
         gen.addAttributes(MEDICINE, RELIGION, Proficiency.HERBALISM_KIT);
@@ -74,7 +73,7 @@ public enum Background implements Attribute {
         gen.addEquipment(GOLD_PIECE, 5);
         gen.addEquipment(BLANKET, COMMON_CLOTHES, AdventureGear.HERBALISM_KIT);
         gen.addTokens("Notes of prayers");
-        gen.addAttributes(Ability.DISCOVERY);
+        gen.addAttributes(BackgroundAbility.DISCOVERY);
     }),
     NOBLE(gen
         -> gen
@@ -90,7 +89,7 @@ public enum Background implements Attribute {
         gen.addEquipment(AdventureGear.STAFF, AdventureGear.TRAVELERS_CLOTHES);
         gen.addTokens("Hunting trap", "Trophy from animal");
         gen.addEquipment(AdventureGear.GOLD_PIECE, 10);
-        gen.addAttributes(Ability.WANDERER);
+        gen.addAttributes(BackgroundAbility.WANDERER);
     }),
     SAGE(gen -> {
         gen.addAttributes(ARCANA, HISTORY)
@@ -98,14 +97,14 @@ public enum Background implements Attribute {
             .addChoice(new AttributeChoice(LANGUAGE).withCount(2));
         gen.addTokens("Bottle of black ink", "Quill", "Letter with unanswered question");
         gen.addEquipment(AdventureGear.COMMON_CLOTHES);
-        gen.addAttributes(Ability.RESEARCHER);
+        gen.addAttributes(BackgroundAbility.RESEARCHER);
     }),
     SAILOR(gen -> {
         gen.addAttributes(ATHLETICS, PERCEPTION, Proficiency.NAVIGATORS_TOOLS, WATER_VEHICLES);
         gen.addEquipment(AdventureGear.GOLD_PIECE, 10);
         gen.addEquipment(new Token("Belaying pin"), AdventureGear.ROPE_SILK,
             new Token("Luck charm"), AdventureGear.COMMON_CLOTHES);
-        gen.addAttributes(Ability.SHIPS_PASSAGE);
+        gen.addAttributes(BackgroundAbility.SHIPS_PASSAGE);
     }),
     SOLDIER(gen -> {
         gen.addAttributes(ATHLETICS, INTIMIDATION, LAND_VEHICLES);
@@ -123,8 +122,52 @@ public enum Background implements Attribute {
             new Token("Map of city"), new Token("Pet mouse"), new Token("Momento of parents"));
         gen.addEquipment(COMMON_CLOTHES);
         gen.addEquipment(AdventureGear.GOLD_PIECE, 10);
-        gen.addAttributes(Ability.CITY_SECRETS);
+        gen.addAttributes(BackgroundAbility.CITY_SECRETS);
     });
+
+    public enum BackgroundAbility implements Attribute {
+        CITY_SECRETS(ability()
+            .withDescription("When not in combat, travel at double speed between locations in city.")),
+        SHIPS_PASSAGE(ability()
+            .withName("Ship's Passage")
+            .withDescription("Can secure free passage on sailing ships.")),
+        RESEARCHER(ability()
+            .withDescription("Can attempt to obtain a piece of lore.")),
+        WANDERER(ability()
+            .withDescription("Excellent memory for maps and geography. ")
+            .withDescription("Can find food if available.")),
+        DISCOVERY(ability()
+            .withDescription("Have made a unique and powerful discovery.")),
+        BY_POPULAR_DEMAND(ability()
+            .withDescription("Find a place to perform is each town, receiving free lodging.")),
+        FALSE_IDENTITY(ability()
+            .withDescription("Can assume persona of second identity. ")
+            .withDescription("Can forge official papers and letters if samples are available. ")),
+        GUILD_MEMBERSHIP(ability()
+            .withDescription("Guild will provide lodging and food. ")
+            .withDescription("Must pay dues of 5GP each month.")),;
+
+        private final AttributeDelegate delegate;
+
+        private static AttributeDelegate ability() {
+            return new AttributeDelegate();
+        }
+
+        private BackgroundAbility(AttributeDelegate delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        public AttributeType getType() {
+            return BACKGROUND_FEATURE;
+        }
+
+        @Override
+        public String toString() {
+            return delegate.getName().orElse(StringUtils.capitaliseEnumName(name()));
+        }
+
+    }
 
     private final ChoiceGenerator generator = new ChoiceGenerator();
 

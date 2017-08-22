@@ -415,28 +415,7 @@ public enum Ability implements Attribute {
         .withDescription("As an action, charm an incapacitated humanoid with touch.")),
 
     MAGIC_SCHOOL_SAVANT(classTalent()
-        .withDescription("Halve gold and time to copy [$magic_school] spells into spellbook.")),
-
-    /*
-     * Background abilities
-    **/
-    CITY_SECRETS(BACKGROUND_FEATURE, "City Secrets",
-        "When not in combat, travel at double speed between locations in city."),
-    SHIPS_PASSAGE(BACKGROUND_FEATURE, "Ship's Passage",
-        "Can secure free passage on sailing ships."),
-    RESEARCHER(BACKGROUND_FEATURE, "Researcher",
-        "Can attempt to obtain a piece of lore."),
-    WANDERER(BACKGROUND_FEATURE, "Wanderer",
-        "Excellent memory for maps and geography. Can find food if available."),
-    DISCOVERY(BACKGROUND_FEATURE, "Discovery",
-        "Have made a unique and powerful discovery."),
-    BY_POPULAR_DEMAND(BACKGROUND_FEATURE, "By Popular Demand",
-        "Find a place to perform is each town, receiving free lodging."),
-    FALSE_IDENTITY(BACKGROUND_FEATURE, "False Identity",
-        "Can assume persona of second identity. "
-        + "Can forge official papers and letters if samples are available. "),
-    GUILD_MEMBERSHIP(BACKGROUND_FEATURE, "Guild Membership",
-        "Guild will provide lodging and food. Must pay dues of 5GP each month."),;
+        .withDescription("Halve gold and time to copy [$magic_school] spells into spellbook.")),;
 
     private static class AbilityDelegate extends AttributeDelegate {
 

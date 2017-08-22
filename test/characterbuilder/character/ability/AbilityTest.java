@@ -5,8 +5,8 @@ import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellAbility;
-import static characterbuilder.utils.TestUtils.testDescriptions;
 import characterbuilder.utils.TestCharacter;
+import static characterbuilder.utils.TestUtils.testDescriptions;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -26,7 +26,6 @@ public class AbilityTest {
     @Test
     public void testName() {
         assertThat(Ability.DARKVISION.toString(), is("Darkvision"));
-        assertThat(Ability.SHIPS_PASSAGE.toString(), is("Ship's Passage"));
     }
 
     @Test

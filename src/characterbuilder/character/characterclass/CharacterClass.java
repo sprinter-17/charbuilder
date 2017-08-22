@@ -465,6 +465,21 @@ public enum CharacterClass implements Attribute {
     WIZARD(6, ARCANE_TRADITION, INTELLIGENCE, WISDOM,
         Arrays.asList(INTELLIGENCE, DEXTERITY, CONSTITUTION), (cls, gen) -> {
         final String casting = cls.toString();
+        gen.level(1).addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
+        gen.level(1).addChoice(new AttributeChoice("Skill",
+            ARCANA, HISTORY, INSIGHT, INVESTIGATION, MEDICINE, RELIGION).withCount(2));
+        gen.level(1).addChoice(new EquipmentChoice("Weapon", QUARTERSTAFF, DAGGER));
+        gen.level(1).addChoice(new EquipmentChoice("Wizard Gear",
+            COMPONENT_POUCH, CRYSTAL, ORB, ROD, STAFF, WAND));
+        gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
+            SCHOLAR_PACK, EXPLORER_PACK));
+        gen.level(1).addEquipment(SPELLBOOK);
+        gen.level(1).addAttributes(ARCANE_RECOVERY);
+        gen.level(2).addChoice(new AttributeChoice("Arcane Tradition", MagicSchool.values()));
+        gen.level(2).addAttributes(MAGIC_SCHOOL_SAVANT);
+        gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
+        gen.level(18).addAttributes(Ability.SPELL_MASTERY);
+        gen.level(20).addAction("Signature Spell", ch -> ch.addAttribute(new SignatureSpell()));
         gen.level(1).addChoice(cantripChoice(3, INTELLIGENCE));
         gen.level(4, 10).addChoice(cantripChoice(1, INTELLIGENCE));
         gen.level(1)
@@ -483,21 +498,6 @@ public enum CharacterClass implements Attribute {
         gen.level(17).addSpellSlots(casting, 9, 1);
         gen.level(1).addKnownSpells(casting, 6);
         gen.cond(ch -> ch.getLevel() > 1).addKnownSpells(casting, 2);
-        gen.level(1).addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
-        gen.level(1).addChoice(new AttributeChoice("Skill",
-            ARCANA, HISTORY, INSIGHT, INVESTIGATION, MEDICINE, RELIGION).withCount(2));
-        gen.level(1).addChoice(new EquipmentChoice("Weapon", QUARTERSTAFF, DAGGER));
-        gen.level(1).addChoice(new EquipmentChoice("Wizard Gear",
-            COMPONENT_POUCH, CRYSTAL, ORB, ROD, STAFF, WAND));
-        gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
-            SCHOLAR_PACK, EXPLORER_PACK));
-        gen.level(1).addEquipment(SPELLBOOK);
-        gen.level(1).addAttributes(ARCANE_RECOVERY);
-        gen.level(2).addChoice(new AttributeChoice("Arcane Tradition", MagicSchool.values()));
-        gen.level(2).addAttributes(MAGIC_SCHOOL_SAVANT);
-        gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
-        gen.level(18).addAttributes(Ability.SPELL_MASTERY);
-        gen.level(20).addAction("Signature Spell", ch -> ch.addAttribute(new SignatureSpell()));
     });
 
     private final int hitDie;
