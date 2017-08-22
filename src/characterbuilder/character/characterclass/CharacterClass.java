@@ -55,7 +55,6 @@ import characterbuilder.character.spell.SpellClassMap;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 import org.w3c.dom.Node;
@@ -486,15 +485,39 @@ public enum CharacterClass implements Attribute {
     private CharacterClass(int hitDie, AttributeType classAttribute,
         AttributeType savingThrow1, AttributeType savingThrow2,
         List<AttributeType> primaryAttributes, BiConsumer<CharacterClass, ChoiceGenerator> generator) {
-        this.delegate = new CharacterClassDelegate(hitDie, classAttribute,
-            savingThrow1, savingThrow2, primaryAttributes, generator);
+        this.delegate = new CharacterClassDelegate() {
+            @Override
+            public AttributeType getClassAttribute() {
+                return classAttribute;
+            }
+
+            @Override
+            public int getHitDie() {
+                return hitDie;
+            }
+
+            @Override
+            public Stream<AttributeType> getPrimaryAttributes() {
+                return primaryAttributes.stream();
+            }
+
+            @Override
+            public boolean hasSavingsThrow(AttributeType type) {
+                return Stream.of(savingThrow1, savingThrow2).anyMatch(type::equals);
+            }
+
+            @Override
+            protected void makeGenerator(ChoiceGenerator gen) {
+                generator.accept(CharacterClass.this, gen);
+            }
+        };
     }
 
     private CharacterClass(CharacterClassDelegate delegate) {
         this.delegate = delegate;
     }
 
-    public Optional<AttributeType> getClassAttribute() {
+    public AttributeType getClassAttribute() {
         return delegate.getClassAttribute();
     }
 

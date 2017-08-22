@@ -4,47 +4,20 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.choice.ChoiceGenerator;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
-public class CharacterClassDelegate {
+public abstract class CharacterClassDelegate {
 
-    private final int hitDie;
-    private final AttributeType classAttribute;
-    private final List<AttributeType> savingThrows = new ArrayList<>();
-    private final List<AttributeType> primaryAttributes;
-    private final BiConsumer<CharacterClass, ChoiceGenerator> generatorMaker;
     private Optional<ChoiceGenerator> generator = Optional.empty();
 
-    public CharacterClassDelegate(int hitDie, AttributeType classAttribute,
-        AttributeType savingThrow1, AttributeType savingThrow2,
-        List<AttributeType> primaryAttributes, BiConsumer<CharacterClass, ChoiceGenerator> generator) {
-        this.hitDie = hitDie;
-        this.classAttribute = classAttribute;
-        savingThrows.add(savingThrow1);
-        savingThrows.add(savingThrow2);
-        this.primaryAttributes = primaryAttributes;
-        this.generatorMaker = generator;
-    }
+    public abstract AttributeType getClassAttribute();
 
-    public Optional<AttributeType> getClassAttribute() {
-        return Optional.ofNullable(classAttribute);
-    }
+    public abstract int getHitDie();
 
-    public int getHitDie() {
-        return hitDie;
-    }
+    public abstract Stream<AttributeType> getPrimaryAttributes();
 
-    public Stream<AttributeType> getPrimaryAttributes() {
-        return primaryAttributes.stream();
-    }
-
-    public boolean hasSavingsThrow(AttributeType type) {
-        return savingThrows.contains(type);
-    }
+    public abstract boolean hasSavingsThrow(AttributeType type);
 
     public void generateInitialChoices(Character character) {
         character.addAttributes(
@@ -66,9 +39,12 @@ public class CharacterClassDelegate {
     public ChoiceGenerator getGenerator(CharacterClass characterClass) {
         if (!generator.isPresent()) {
             generator = Optional.of(new ChoiceGenerator());
-            generatorMaker.accept(characterClass, generator.get());
+            makeGenerator(generator.get());
+//            generatorMaker.accept(characterClass, generator.get());
         }
         return generator.get();
     }
+
+    protected abstract void makeGenerator(ChoiceGenerator gen);
 
 }

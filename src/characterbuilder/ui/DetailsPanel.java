@@ -74,10 +74,9 @@ public class DetailsPanel extends CharacterSubPanel {
         classAttributeValue.setText(null);
         if (character.hasAttribute(CHARACTER_CLASS)) {
             CharacterClass charClass = character.getAttribute(CHARACTER_CLASS);
-            charClass.getClassAttribute().ifPresent(attrType -> {
-                classAttributeName.setText(attrType.toString());
-                classAttributeValue.setText(character.getAttribute(attrType).toString());
-            });
+            classAttributeName.setText(charClass.getClassAttribute().toString());
+            classAttributeValue.setText(character.getAttribute(charClass.getClassAttribute())
+                .toString());
         }
     }
 }

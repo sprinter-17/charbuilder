@@ -1,6 +1,5 @@
 package characterbuilder.character.characterclass;
 
-import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.ability.Ability;
@@ -10,6 +9,7 @@ import static characterbuilder.character.attribute.AttributeType.DIVINE_DOMAIN;
 import static characterbuilder.character.characterclass.CharacterClass.BARBARIAN;
 import static characterbuilder.character.characterclass.CharacterClass.CLERIC;
 import static characterbuilder.character.characterclass.CharacterClass.FIGHTER;
+import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.InitialChoiceGenerator;
 import characterbuilder.character.choice.Option;
@@ -82,8 +82,8 @@ public class CharacterClassTest {
 
     @Test
     public void testClassAttribute() {
-        assertThat(CLERIC.getClassAttribute().get(), is(DIVINE_DOMAIN));
-        assertThat(FIGHTER.getClassAttribute().get(), is(AttributeType.MARTIAL_ARCHETYPE));
+        assertThat(CLERIC.getClassAttribute(), is(DIVINE_DOMAIN));
+        assertThat(FIGHTER.getClassAttribute(), is(AttributeType.MARTIAL_ARCHETYPE));
     }
 
     @Test
