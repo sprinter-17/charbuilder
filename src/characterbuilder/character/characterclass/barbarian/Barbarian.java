@@ -37,11 +37,6 @@ public class Barbarian extends CharacterClassDelegate {
     }
 
     @Override
-    public boolean hasSavingsThrow(AttributeType type) {
-        return getPrimaryAttributes().anyMatch(type::equals);
-    }
-
-    @Override
     protected void makeGenerator(ChoiceGenerator gen) {
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD, ALL_WEAPONS);

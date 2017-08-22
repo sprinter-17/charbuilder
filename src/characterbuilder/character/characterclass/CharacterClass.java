@@ -12,8 +12,8 @@ import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.characterclass.barbarian.Barbarian;
-import characterbuilder.character.characterclass.bard.BardicCollege;
-import characterbuilder.character.characterclass.cleric.DivineDomain;
+import characterbuilder.character.characterclass.bard.Bard;
+import characterbuilder.character.characterclass.cleric.Cleric;
 import characterbuilder.character.characterclass.druid.DruidCircle;
 import characterbuilder.character.characterclass.fighter.MartialArchetype;
 import characterbuilder.character.characterclass.monk.MonasticTradition;
@@ -31,10 +31,8 @@ import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import static characterbuilder.character.choice.ChoiceGenerator.levels;
-import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.choice.ExpertiseChoice;
-import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.equipment.AdventureGear;
 import static characterbuilder.character.equipment.AdventureGear.*;
 import characterbuilder.character.equipment.Armour;
@@ -49,8 +47,6 @@ import characterbuilder.character.equipment.Weapon;
 import static characterbuilder.character.equipment.Weapon.*;
 import characterbuilder.character.spell.SignatureSpell;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellAbility;
-import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.character.spell.SpellClassMap;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
@@ -61,100 +57,8 @@ import org.w3c.dom.Node;
 
 public enum CharacterClass implements Attribute {
     BARBARIAN(new Barbarian()),
-    BARD(8, BARDIC_COLLEGE, DEXTERITY, CHARISMA,
-        Arrays.asList(CHARISMA, DEXTERITY), (cls, gen) -> {
-        gen.level(1).addSpellCasting("Bard", CHARISMA, cls, "All");
-        gen.level(1).addChoice(cantripChoice(2, CHARISMA));
-        gen.level(4, 10).addChoice(cantripChoice(1, CHARISMA));
-        gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS);
-        gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
-        gen.level(1).addChoice(3, new AttributeChoice("Skill", Skill.values()));
-        gen.level(1).addChoice(new EquipmentChoice("Weapon", RAPIER, LONGSWORD)
-            .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED));
-        gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
-            EquipmentPack.DIPLOMAT_PACK, EquipmentPack.ENTERTAINER_PACK));
-        gen.level(1).addEquipment(LEATHER_ARMOUR, DAGGER);
-        gen.level(1).addChoice(3, new AttributeChoice("Musical Instrument Proficiency",
-            MusicalInstrument.getAllProficiencies()));
-        gen.level(1).addChoice(new EquipmentChoice("Musical Instrument")
-            .with(EquipmentCategory.MUSICAL_INSTRUMENT));
-        gen.level(1).addAttributes(BARDIC_INSPIRATION);
-        gen.level(2).addAttributes(JACK_OF_ALL_TRADES);
-        gen.level(2).addAttributes(SONG_OF_REST);
-        gen.level(3).addChoice(new AttributeChoice("Bard College", BardicCollege.values()));
-        gen.level(3, 10).addChoice(2, new ExpertiseChoice());
-        gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
-        gen.level(5).addAttributes(FONT_OF_INSPIRATION);
-        gen.level(6).addAttributes(COUNTERCHARM);
-        gen.level(20).addAttributes(SUPERIOR_INSPIRATION);
-        gen.level(1).addSpellSlots("Bard", 1, 2);
-        gen.level(2, 3).addSpellSlots("Bard", 1, 1);
-        gen.level(3).addSpellSlots("Bard", 2, 2);
-        gen.level(4).addSpellSlots("Bard", 2, 1);
-        gen.level(5).addSpellSlots("Bard", 3, 2);
-        gen.level(6).addSpellSlots("Bard", 3, 1);
-        gen.level(7, 8, 9).addSpellSlots("Bard", 4, 1);
-        gen.level(9, 10).addSpellSlots("Bard", 5, 1);
-        gen.level(11, 19).addSpellSlots("Bard", 6, 1);
-        gen.level(13, 12).addSpellSlots("Bard", 7, 1);
-        gen.level(15).addSpellSlots("Bard", 8, 1);
-        gen.level(17).addSpellSlots("Bard", 9, 1);
-
-        gen.cond(ch -> ch.getLevel() > 1).replaceSpell("Bard");
-        gen.level(1).addKnownSpells("Bard", 4);
-        gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17).addKnownSpells("Bard", 1);
-        gen.level(10, 14, 18)
-            .addChoice(2, new OptionChoice("Magical Secrets") {
-                @Override
-                public void select(Character character, ChoiceSelector selector) {
-                    SpellCasting casting = character.getSpellCasting("Bard");
-                    selector.chooseOption(Arrays.stream(Spell.values())
-                        .filter(spell -> !casting.hasLearntSpell(spell))
-                        .filter(spell -> spell.getLevel() <= casting.getMaxSlot()), spell -> {
-                        if (spell.isCantrip()) {
-                            character.addAttribute(new SpellAbility(spell, CHARISMA));
-                        } else {
-                            casting.addKnownSpells(1);
-                            casting.addLearntSpell(spell);
-                        }
-                    });
-                }
-            });
-    }) {
-
-    },
-    CLERIC(8, DIVINE_DOMAIN, WISDOM, CHARISMA,
-        Arrays.asList(WISDOM, CONSTITUTION, STRENGTH), (cls, gen) -> {
-        gen.level(1).addSpellCasting("Cleric", WISDOM, cls, "[$wis_mod + $level]");
-        gen.level(1).learnAllSpells("Cleric");
-        gen.level(1).addChoice(cantripChoice(3, WISDOM));
-        gen.level(5, 10).addChoice(cantripChoice(1, WISDOM));
-        gen.level(1).addSpellSlots("Cleric", 1, 2);
-        gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
-            Proficiency.SHIELD, ALL_SIMPLE_WEAPONS);
-        gen.level(1).addChoice(new AttributeChoice("Divine Domain", DivineDomain.values()));
-        gen.level(1).addChoice(new AttributeChoice("Skill",
-            HISTORY, INSIGHT, MEDICINE, PERSUASION, RELIGION).withCount(2));
-        gen.level(1).addChoice(new EquipmentChoice("Primary Weapon", MACE, WARHAMMER));
-        gen.level(1).addChoice(new EquipmentChoice("Secondary Weapon")
-            .with(EquipmentCategory.SIMPLE_MELEE)
-            .with(LIGHT_CROSSBOW, new EquipmentSet(CROSSBOW_BOLT, 20)));
-        gen.level(1).addChoice(new EquipmentChoice("Armour",
-            SCALE_MAIL_ARMOUR, LEATHER_ARMOUR, CHAIN_MAIL_ARMOUR));
-        gen.level(1).addChoice(new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL));
-        gen.level(2, 3).addSpellSlots("Cleric", 1, 1);
-        gen.level(3).addSpellSlots("Cleric", 2, 2);
-        gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
-        gen.level(4).addSpellSlots("Cleric", 2, 1);
-        gen.level(5).addSpellSlots("Cleric", 3, 2);
-        gen.level(6).addSpellSlots("Cleric", 3, 1);
-        gen.level(7, 8, 9).addSpellSlots("Cleric", 4, 1);
-        gen.level(9, 10, 18).addSpellSlots("Cleric", 5, 1);
-        gen.level(11, 19).addSpellSlots("Cleric", 6, 1);
-        gen.level(13, 20).addSpellSlots("Cleric", 7, 1);
-        gen.level(15).addSpellSlots("Cleric", 8, 1);
-        gen.level(17).addSpellSlots("Cleric", 9, 1);
-    }),
+    BARD(new Bard()),
+    CLERIC(new Cleric()),
     DRUID(8, DRUID_CIRCLE, INTELLIGENCE, WISDOM, Arrays.asList(WISDOM, CONSTITUTION), (cls, gen)
         -> {
         gen.level(1).addSpellCasting("Druid", WISDOM, cls, "[$wis_mod + $level]");

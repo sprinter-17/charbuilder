@@ -11,13 +11,15 @@ public abstract class CharacterClassDelegate {
 
     private Optional<ChoiceGenerator> generator = Optional.empty();
 
-    public abstract AttributeType getClassAttribute();
-
     public abstract int getHitDie();
+
+    public abstract AttributeType getClassAttribute();
 
     public abstract Stream<AttributeType> getPrimaryAttributes();
 
-    public abstract boolean hasSavingsThrow(AttributeType type);
+    public boolean hasSavingsThrow(AttributeType type) {
+        return getPrimaryAttributes().anyMatch(type::equals);
+    }
 
     public void generateInitialChoices(Character character) {
         character.addAttributes(
@@ -40,7 +42,6 @@ public abstract class CharacterClassDelegate {
         if (!generator.isPresent()) {
             generator = Optional.of(new ChoiceGenerator());
             makeGenerator(generator.get());
-//            generatorMaker.accept(characterClass, generator.get());
         }
         return generator.get();
     }
