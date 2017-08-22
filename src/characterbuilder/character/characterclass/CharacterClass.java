@@ -1,5 +1,19 @@
 package characterbuilder.character.characterclass;
 
+import characterbuilder.character.characterclass.barbarian.PrimalPath;
+import characterbuilder.character.characterclass.ranger.RangerArchetype;
+import characterbuilder.character.characterclass.fighter.MartialArchetype;
+import characterbuilder.character.characterclass.paladin.SacredOath;
+import characterbuilder.character.characterclass.rogue.RoguishArchetype;
+import characterbuilder.character.characterclass.warlock.OtherwordlyPatron;
+import characterbuilder.character.characterclass.monk.MonasticTradition;
+import characterbuilder.character.characterclass.wizard.MagicSchool;
+import characterbuilder.character.characterclass.ranger.FavouredTerrain;
+import characterbuilder.character.characterclass.ranger.FavouredEnemy;
+import characterbuilder.character.characterclass.warlock.EldritchInvocation;
+import characterbuilder.character.characterclass.cleric.DivineDomain;
+import characterbuilder.character.characterclass.bard.BardicCollege;
+import characterbuilder.character.characterclass.druid.DruidCircle;
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Ability;
 import static characterbuilder.character.ability.Ability.*;
@@ -12,7 +26,7 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.IntAttribute;
-import static characterbuilder.character.characterclass.MysticArcanum.chooseArcanum;
+import static characterbuilder.character.characterclass.warlock.MysticArcanum.chooseArcanum;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;

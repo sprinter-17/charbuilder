@@ -15,7 +15,7 @@ import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
-import characterbuilder.character.characterclass.DivineDomain;
+import characterbuilder.character.characterclass.cleric.DivineDomain;
 import characterbuilder.character.equipment.EquipmentSet;
 import static characterbuilder.character.equipment.AdventureGear.BASKET;
 import characterbuilder.character.equipment.Token;

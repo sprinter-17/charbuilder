@@ -8,7 +8,6 @@ import characterbuilder.character.ability.Skill;
 import static characterbuilder.character.ability.Skill.*;
 import static characterbuilder.character.attribute.AttributeType.*;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
-import characterbuilder.character.characterclass.DraconicAncestory;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;

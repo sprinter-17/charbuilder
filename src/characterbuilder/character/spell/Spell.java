@@ -1,7 +1,7 @@
 package characterbuilder.character.spell;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.characterclass.MagicSchool;
+import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.choice.Option;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;

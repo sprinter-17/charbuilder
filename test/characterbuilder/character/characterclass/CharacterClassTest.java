@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass;
 
+import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.ability.Ability;

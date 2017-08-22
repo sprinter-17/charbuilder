@@ -6,7 +6,7 @@ import static characterbuilder.character.attribute.AttributeType.INTELLIGENCE;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
-import characterbuilder.character.characterclass.DraconicAncestory;
+import characterbuilder.character.attribute.DraconicAncestory;
 import characterbuilder.character.spell.SpellCasting;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.containsString;
