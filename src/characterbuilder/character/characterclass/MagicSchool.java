@@ -15,42 +15,42 @@ import org.w3c.dom.Element;
 
 public enum MagicSchool implements Attribute {
     ABJURATION(magicSchool()
-        .withLevelAttributes(2, ArcaneTradition.ARCANE_WARD)
+        .withLevelAttributes(2, ArcaneTradition.SAVANT, ArcaneTradition.ARCANE_WARD)
         .withLevelAttributes(6, ArcaneTradition.PROJECTED_WARD)
         .withLevelAttributes(10, ArcaneTradition.IMPROVED_ABJURATION)
         .withLevelAttributes(16, ArcaneTradition.SPELL_RESISTANCE)),
     CONJURATION(magicSchool()
-        .withLevelAttributes(2, ArcaneTradition.MINOR_CONJURATION)
+        .withLevelAttributes(2, ArcaneTradition.SAVANT, ArcaneTradition.MINOR_CONJURATION)
         .withLevelAttributes(6, ArcaneTradition.BENIGN_TRANSPOSITION)
         .withLevelAttributes(10, ArcaneTradition.FOCUSED_CONJURATION)
         .withLevelAttributes(16, ArcaneTradition.DURABLE_SUMMONS)),
     DIVINATION(magicSchool()
-        .withLevelAttributes(2, ArcaneTradition.PORTENT)
+        .withLevelAttributes(2, ArcaneTradition.SAVANT, ArcaneTradition.PORTENT)
         .withLevelAttributes(6, ArcaneTradition.EXPERT_DIVINATION)
         .withLevelAttributes(10, ArcaneTradition.THE_THIRD_EYE)
         .withLevelAttributes(16, ArcaneTradition.GREATER_PORTENT)),
     ENCHANTMENT(magicSchool()
-        .withLevelAttributes(2, ArcaneTradition.HYPNOTIC_GAZE)
+        .withLevelAttributes(2, ArcaneTradition.SAVANT, ArcaneTradition.HYPNOTIC_GAZE)
         .withLevelAttributes(6, ArcaneTradition.INSTINCTIVE_CHARM)
         .withLevelAttributes(10, ArcaneTradition.SPLIT_ENCHANTMENT)
         .withLevelAttributes(16, ArcaneTradition.ALERT_MEMORIES)),
     EVOCATION(magicSchool()
-        .withLevelAttributes(2, ArcaneTradition.SCULPT_SPELLS)
+        .withLevelAttributes(2, ArcaneTradition.SAVANT, ArcaneTradition.SCULPT_SPELLS)
         .withLevelAttributes(6, ArcaneTradition.POTENT_CANTRIP)
         .withLevelAttributes(10, ArcaneTradition.EMPOWERED_EVOCATION)
         .withLevelAttributes(16, ArcaneTradition.OVERCHANNEL)),
     ILLUSION(magicSchool()
-        .withLevelAttributes(2, ArcaneTradition.IMPROVED_MINOR_ILLUSION)
+        .withLevelAttributes(2, ArcaneTradition.SAVANT, ArcaneTradition.IMPROVED_MINOR_ILLUSION)
         .withLevelAttributes(6, ArcaneTradition.MALLEABLE_ILLUSIONS)
         .withLevelAttributes(10, ArcaneTradition.ILLUSORY_SELF)
         .withLevelAttributes(16, ArcaneTradition.ILLUSORY_REALITY)),
     NECROMANCY(magicSchool()
-        .withLevelAttributes(2, ArcaneTradition.GRIM_HARVEST)
+        .withLevelAttributes(2, ArcaneTradition.SAVANT, ArcaneTradition.GRIM_HARVEST)
         .withLevelAttributes(6, ArcaneTradition.UNDEAD_THRALLS)
         .withLevelAttributes(10, ArcaneTradition.INURED_TO_UNDEATH)
         .withLevelAttributes(16, ArcaneTradition.COMMAND_UNDEAD)),
     TRANSMUTATION(magicSchool()
-        .withLevelAttributes(2, ArcaneTradition.MINOR_ALCHEMY)
+        .withLevelAttributes(2, ArcaneTradition.SAVANT, ArcaneTradition.MINOR_ALCHEMY)
         .withLevelAttributes(6, ArcaneTradition.TRANSMUTERS_STONE)
         .withLevelAttributes(10, ArcaneTradition.SHAPECHANGER)
         .withLevelAttributes(16, ArcaneTradition.MASTER_TRANSMUTER));
@@ -58,12 +58,16 @@ public enum MagicSchool implements Attribute {
     private final AttributeDelegate delegate;
 
     private enum ArcaneTradition implements Attribute {
+
+        SAVANT(magicSchool()
+            .withDescription("Halve gold and time to copy [$magic_school] spells into spellbook.")),
         ARCANE_WARD(magicSchool()
             .withDescription("On casting Abjuration spell of 1st level or higher, "
                 + "gain [$level * 2 + $int_mod] temporary HP.")
             .withDescription("When at 0 HP, regain 2x spell level when casting Abjuration spell.")),
         PROJECTED_WARD(magicSchool()
-            .withDescription("As a reaction, use Arcane Ward to absorb damage from ally within 30 feet.")),
+            .withDescription("As a reaction, use Arcane Ward to absorb damage from ally "
+                + "within 30 feet.")),
         IMPROVED_ABJURATION(magicSchool()
             .withDescription("Add [$prof] to ability checks when casting Abjuration spells.")),
         SPELL_RESISTANCE(magicSchool()
@@ -90,8 +94,8 @@ public enum MagicSchool implements Attribute {
             .withDescription("Use once between each long rest.")),
         GREATER_PORTENT(magicSchool()),
         HYPNOTIC_GAZE(magicSchool()
-            .withDescription("As an action, attempt to charm 1 creature within 5 feet.")
-            .withDescription("Wis. save DC[$spell_dc] or charmed for 1 turn, speed 0, incapacitated.")),
+            .withDescription("As an action, charm 1 creature within 5 feet: speed 0, incapacitated.")
+            .withDescription("Wis. save DC[$spell_dc].")),
         INSTINCTIVE_CHARM(magicSchool()
             .withDescription("As a reaction on being attacked, divert attack to closest creature. "
                 + "Wis. save DC[$spell_dc].")),
@@ -123,8 +127,8 @@ public enum MagicSchool implements Attribute {
             .withDescription("As an action, change the nature of illusion with duration "
                 + "of at least 1 minute.")),
         ILLUSORY_SELF(magicSchool()
-            .withDescription("As a reaction on being attacked, interpose illusory duplicate that causes "
-                + "attack to miss.")
+            .withDescription("As a reaction on being attacked, interpose illusory duplicate that "
+                + "causes attack to miss.")
             .withDescription("Use once between each rest.")),
         ILLUSORY_REALITY(magicSchool()
             .withDescription("As a bonus action, make an illusion real for 1 minute.")),
@@ -133,8 +137,10 @@ public enum MagicSchool implements Attribute {
                 + "or 3x for Necromancy spells.")
             .withDescription("No effect on killing undead or constructs.")),
         UNDEAD_THRALLS(magicSchool()
-            .withDescription("When casting <em>Animate Dead</em>, target an additional corpse or bones.")
-            .withDescription("Undead created with Necromancy have +[$level] HP and +[$prof] weapon damage.")
+            .withDescription("When casting <em>Animate Dead</em>, target "
+                + "an additional corpse or bones.")
+            .withDescription("Undead created with Necromancy have +[$level] HP and +[$prof] "
+                + "weapon damage.")
             .withAction("Gain Animate Dead", ch -> {
                 SpellCasting wizardCasting = ch.getSpellCasting("Wizard");
                 if (!wizardCasting.hasLearntSpell(Spell.ANIMATE_DEAD))
@@ -143,9 +149,10 @@ public enum MagicSchool implements Attribute {
         INURED_TO_UNDEATH(magicSchool()
             .withDescription("Resistance to necrotic damage and maximum HP cannot be reduced.")),
         COMMAND_UNDEAD(magicSchool()
-            .withDescription("As an action, control 1 undead within 60 feet. Chr. save DC[$spell_dc].")
-            .withDescription("Undead with Int. of 8 have advantage on save. Int. of 12 can repeat save "
-                + "each hour.")),
+            .withDescription("As an action, control 1 undead within 60 feet. "
+                + "Chr. save DC[$spell_dc].")
+            .withDescription("Undead with Int. of 8 have advantage on save. "
+                + "Int. of 12 can repeat save each hour.")),
         MINOR_ALCHEMY(magicSchool()
             .withDescription("Change the substance of 1 physical object for 1 hour. "
                 + "Requires 10 minutes per cubic foot of material.")),

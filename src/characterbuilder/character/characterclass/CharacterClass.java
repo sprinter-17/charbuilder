@@ -476,7 +476,6 @@ public enum CharacterClass implements Attribute {
         gen.level(1).addEquipment(SPELLBOOK);
         gen.level(1).addAttributes(ARCANE_RECOVERY);
         gen.level(2).addChoice(new AttributeChoice("Arcane Tradition", MagicSchool.values()));
-        gen.level(2).addAttributes(MAGIC_SCHOOL_SAVANT);
         gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
         gen.level(18).addAttributes(Ability.SPELL_MASTERY);
         gen.level(20).addAction("Signature Spell", ch -> ch.addAttribute(new SignatureSpell()));

@@ -412,10 +412,7 @@ public enum Ability implements Attribute {
         .withDescription("Resistance to psychic damage.")
         .withDescription("Creature dealing psychic attack takes equal damage.")),
     CREATE_THRALL(classTalent()
-        .withDescription("As an action, charm an incapacitated humanoid with touch.")),
-
-    MAGIC_SCHOOL_SAVANT(classTalent()
-        .withDescription("Halve gold and time to copy [$magic_school] spells into spellbook.")),;
+        .withDescription("As an action, charm an incapacitated humanoid with touch.")),;
 
     private static class AbilityDelegate extends AttributeDelegate {
 
