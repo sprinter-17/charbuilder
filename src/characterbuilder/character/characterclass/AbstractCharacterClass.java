@@ -34,11 +34,6 @@ public abstract class AbstractCharacterClass {
             .generateChoices(character);
     }
 
-    public Stream<String> getDescription(Character character) {
-        return getGenerator(character.getAttribute(AttributeType.CHARACTER_CLASS))
-            .getDescription(character);
-    }
-
     public ChoiceGenerator getGenerator(CharacterClass characterClass) {
         if (!generator.isPresent()) {
             generator = Optional.of(new ChoiceGenerator());

@@ -2,7 +2,7 @@ package characterbuilder.sheet;
 
 import characterbuilder.character.Character;
 import static characterbuilder.character.attribute.AttributeType.SPELLCASTING;
-import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.SpellCasting;
 import java.util.ArrayList;
 import static java.util.Comparator.comparingInt;
@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public class SpellPage extends Page {
 
-    private final List<Spell> spells = new ArrayList<>();
+    private final List<LearntSpell> spells = new ArrayList<>();
     private final SpellCasting casting;
 
     public static Stream<PageBuilder.Container> getPages(Character character) {
@@ -24,7 +24,7 @@ public class SpellPage extends Page {
         super(character);
         this.casting = casting;
         casting.getLearntSpells()
-            .sorted(comparingInt(Spell::getLevel))
+            .sorted(comparingInt(LearntSpell::getLevel))
             .forEach(spells::add);
     }
 

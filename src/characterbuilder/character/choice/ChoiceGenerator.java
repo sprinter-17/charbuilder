@@ -169,7 +169,7 @@ public class ChoiceGenerator {
 
     public ChoiceGenerator addLearntSpells(String casting, Spell... spells) {
         addAction("Add Spells", ch -> Arrays.stream(spells)
-            .forEach(getCasting(ch, casting)::addLearntSpell));
+            .forEach(getCasting(ch, casting)::addPreparedSpell));
         return this;
     }
 
@@ -186,7 +186,7 @@ public class ChoiceGenerator {
                     .filter(sp -> !sp.isCantrip())
                     .filter(sp -> sp.getLevel() <= level)
                     .filter(sp -> !spellCasting.hasLearntSpell(sp)),
-                    spellCasting::addLearntSpell);
+                    spellCasting::addPreparedSpell);
             }
 
             @Override
@@ -254,7 +254,7 @@ public class ChoiceGenerator {
                 SpellCasting spellCasting = getCasting(character, casting);
                 selector.chooseOption(spellList.stream()
                     .filter(sp -> sp.getLevel() > 0 && sp.getLevel() <= spellCasting.getMaxSlot())
-                    .filter(sp -> !spellCasting.hasLearntSpell(sp)), spellCasting::addLearntSpell);
+                    .filter(sp -> !spellCasting.hasLearntSpell(sp)), spellCasting::addPreparedSpell);
             }
 
             @Override

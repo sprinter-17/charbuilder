@@ -79,26 +79,26 @@ public class SpellCastingTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testCannotAddCantripToSpellCasting() {
-        casting.addLearntSpell(Spell.MAGE_HAND);
+        casting.addPreparedSpell(Spell.MAGE_HAND);
     }
 
     @Test
     public void testLearnSpell() {
-        assertFalse(casting.getLearntSpells().anyMatch(Spell.AID::equals));
-        casting.addLearntSpell(Spell.AID);
-        assertTrue(casting.getLearntSpells().anyMatch(Spell.AID::equals));
+        assertFalse(casting.hasLearntSpell(Spell.AID));
+        casting.addPreparedSpell(Spell.AID);
+        assertTrue(casting.hasLearntSpell(Spell.AID));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCannotLearnSpellTwice() {
-        casting.addLearntSpell(Spell.AID);
-        casting.addLearntSpell(Spell.AID);
+        casting.addPreparedSpell(Spell.AID);
+        casting.addPreparedSpell(Spell.AID);
     }
 
     @Test
     public void testHasLearntSpell() {
         assertFalse(casting.hasLearntSpell(Spell.FIREBALL));
-        casting.addLearntSpell(Spell.FIREBALL);
+        casting.addPreparedSpell(Spell.FIREBALL);
         assertTrue(casting.hasLearntSpell(Spell.FIREBALL));
     }
 
@@ -129,7 +129,7 @@ public class SpellCastingTest {
 
     @Test
     public void testSelectNone() {
-        casting.addLearntSpell(Spell.ALARM);
+        casting.addPreparedSpell(Spell.ALARM);
         casting.replaceSpell(character);
         character.selectChoice("Replace Spellcasting Spell", "None");
         assertFalse(character.hasChoice("Remove Spellcasting Spell"));
@@ -138,7 +138,7 @@ public class SpellCastingTest {
 
     @Test
     public void testRemoveSpell() {
-        casting.addLearntSpell(Spell.ALARM);
+        casting.addPreparedSpell(Spell.ALARM);
         casting.replaceSpell(character);
         character.selectChoice("Replace Spellcasting Spell", "Alarm");
         assertFalse(character.hasChoice("Remove Spellcasting Spell"));
@@ -150,7 +150,7 @@ public class SpellCastingTest {
         casting.choose(character);
         casting.addSlots(1, 1);
         casting.addKnownSpells(4);
-        casting.addLearntSpell(Spell.ALARM);
+        casting.addPreparedSpell(Spell.ALARM);
         assertTrue(character.hasChoice("Spellcasting Spell (x3)"));
         casting.replaceSpell(character);
         character.selectChoice("Replace Spellcasting Spell", "Alarm");
@@ -181,8 +181,8 @@ public class SpellCastingTest {
     public void testSaveAndLoad() {
         casting.addSlots(1, 5);
         casting.addSlots(3, 2);
-        casting.addLearntSpell(Spell.HEAL);
-        casting.addLearntSpell(Spell.ANIMAL_MESSENGER);
+        casting.addPreparedSpell(Spell.HEAL);
+        casting.addLearntSpell(Spell.ANIMAL_MESSENGER, false);
         casting.addExpandedSpell(Spell.DARKVISION);
         casting.learnAllSpells();
         assertThat(AttributeType.load(casting.save(TestDoc.doc())), is(casting));

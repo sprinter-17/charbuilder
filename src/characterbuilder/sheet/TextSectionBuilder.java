@@ -2,7 +2,7 @@ package characterbuilder.sheet;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
-import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.LearntSpell;
 import static characterbuilder.sheet.Page.element;
 import static characterbuilder.sheet.Page.html;
 import static characterbuilder.sheet.Page.nbsp;
@@ -70,7 +70,7 @@ public class TextSectionBuilder {
             + element("td", ability.getDescription(character).collect(joining("<br>"))));
     }
 
-    public void addSpells(List<Spell> spells) {
+    public void addSpells(List<LearntSpell> spells) {
         int count = 0;
         while (count < spells.size()
             && builder.fits(html(content
@@ -81,14 +81,14 @@ public class TextSectionBuilder {
         spells.subList(0, count).clear();
     }
 
-    private String spellDescription(List<Spell> spells) {
-        return spells.stream().collect(groupingBy(Spell::getLevel))
+    private String spellDescription(List<LearntSpell> spells) {
+        return spells.stream().collect(groupingBy(LearntSpell::getLevel))
             .entrySet().stream()
             .map(e -> spellLevelText(e.getKey(), e.getValue()))
             .collect(joining());
     }
 
-    private String spellLevelText(int level, List<Spell> spells) {
+    private String spellLevelText(int level, List<LearntSpell> spells) {
         StringBuilder text = new StringBuilder();
         text.append("<h4 style='margin-bottom: -5px; margin-top: 10px'>");
         text.append(level > 0 ? "Level " + level + " Spells" : "Cantrips");
@@ -101,21 +101,21 @@ public class TextSectionBuilder {
         return text.toString();
     }
 
-    private void spellText(StringBuilder text, Spell spell, boolean even) {
+    private void spellText(StringBuilder text, LearntSpell spell, boolean even) {
         String colour = even ? "#f0f0f0" : "#ffffff";
         String tr = String.format("<tr style='background-color:%s'>", colour);
         text.append(tr);
-        spellValue(text, "&#x25A2;", 5);
+        spellValue(text, spell.isPrepared() ? "&#x25A3;" : "&#x25A2;", 5);
         spellName(text, spell.toString(), 20);
-        spellValue(text, spell.getCastingTime(), 12);
-        spellValue(text, spell.getComponents(), 12);
-        spellValue(text, spell.getRange(), 12);
-        spellValue(text, spell.getArea(), 12);
-        spellValue(text, spell.getDuration(), 12);
+        spellValue(text, spell.getSpell().getCastingTime(), 12);
+        spellValue(text, spell.getSpell().getComponents(), 12);
+        spellValue(text, spell.getSpell().getRange(), 12);
+        spellValue(text, spell.getSpell().getArea(), 12);
+        spellValue(text, spell.getSpell().getDuration(), 12);
         text.append("</tr>");
         text.append(tr)
             .append("<td/><td colspan='6'><em>")
-            .append(spell.getEffect(character))
+            .append(spell.getSpell().getEffect(character))
             .append("</em></td></tr>");
     }
 

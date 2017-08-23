@@ -144,7 +144,7 @@ public enum MagicSchool implements Attribute {
             .withAction("Gain Animate Dead", ch -> {
                 SpellCasting wizardCasting = ch.getSpellCasting("Wizard");
                 if (!wizardCasting.hasLearntSpell(Spell.ANIMATE_DEAD))
-                    wizardCasting.addLearntSpell(Spell.ANIMATE_DEAD);
+                    wizardCasting.addPreparedSpell(Spell.ANIMATE_DEAD);
             })),
         INURED_TO_UNDEATH(magicSchool()
             .withDescription("Resistance to necrotic damage and maximum HP cannot be reduced.")),
@@ -170,7 +170,7 @@ public enum MagicSchool implements Attribute {
             .withAction("Gain Polymorph", ch -> {
                 SpellCasting wizardCasting = ch.getSpellCasting("Wizard");
                 if (!wizardCasting.hasLearntSpell(Spell.POLYMORPH))
-                    wizardCasting.addLearntSpell(Spell.POLYMORPH);
+                    wizardCasting.addPreparedSpell(Spell.POLYMORPH);
             })),
         MASTER_TRANSMUTER(magicSchool()
             .withDescription("As an action, consume transmuter's stone to "

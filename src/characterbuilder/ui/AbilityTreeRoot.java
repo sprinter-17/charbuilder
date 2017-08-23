@@ -4,6 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
+import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellCasting;
 import java.util.Arrays;
@@ -57,6 +58,7 @@ public class AbilityTreeRoot extends DefaultMutableTreeNode {
         DefaultMutableTreeNode castingNode = new DefaultMutableTreeNode(casting);
         add(castingNode);
         casting.getLearntSpells()
+            .map(LearntSpell::getSpell)
             .collect(Collectors.groupingBy(Spell::getLevel))
             .forEach((level, spells) -> addSpellLevel(castingNode, level, spells));
     }

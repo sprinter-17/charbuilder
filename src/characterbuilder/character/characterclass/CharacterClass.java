@@ -78,11 +78,6 @@ public enum CharacterClass implements Attribute {
         delegate.generateLevelChoices(character);
     }
 
-    @Override
-    public Stream<String> getDescription(Character character) {
-        return delegate.getDescription(character);
-    }
-
     public ChoiceGenerator getGenerator() {
         return delegate.getGenerator(this);
     }

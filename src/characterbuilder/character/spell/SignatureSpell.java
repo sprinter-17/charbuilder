@@ -31,7 +31,8 @@ public class SignatureSpell implements Attribute {
         character.addChoice(new OptionChoice("Signature Spell", 2) {
             @Override
             public void select(Character character, ChoiceSelector selector) {
-                selector.chooseOption(casting.getLearntSpells().filter(sp -> sp.isLevel(3)),
+                selector.chooseOption(casting.getLearntSpells()
+                    .map(LearntSpell::getSpell).filter(sp -> sp.isLevel(3)),
                     spells::add);
             }
         });

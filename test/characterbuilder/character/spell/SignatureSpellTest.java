@@ -22,9 +22,9 @@ public class SignatureSpellTest {
         wizard = new TestCharacter().withScores(10);
         WIZARD.choose(wizard);
         casting = wizard.getAttribute(AttributeType.SPELLCASTING);
-        casting.addLearntSpell(Spell.FIREBALL);
-        casting.addLearntSpell(Spell.FLY);
-        casting.addLearntSpell(Spell.GASEOUS_FORM);
+        casting.addPreparedSpell(Spell.FIREBALL);
+        casting.addPreparedSpell(Spell.FLY);
+        casting.addPreparedSpell(Spell.GASEOUS_FORM);
         signature = new SignatureSpell();
     }
 

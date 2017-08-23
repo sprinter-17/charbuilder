@@ -138,7 +138,7 @@ public class CharacterSaverTest {
     @Test
     public void testLearntSpells() {
         SpellCasting casting = new SpellCasting("Spells", INTELLIGENCE, WIZARD, "All");
-        casting.addLearntSpell(Spell.ANTIMAGIC_FIELD);
+        casting.addPreparedSpell(Spell.ANTIMAGIC_FIELD);
         character.addAttribute(casting);
         saveAndLoad();
         casting = character.getAttribute(SPELLCASTING);

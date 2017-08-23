@@ -7,7 +7,7 @@ import static characterbuilder.character.attribute.AttributeType.AGE;
 import static characterbuilder.character.attribute.AttributeType.PHYSICAL_DESCRIPTION;
 import static characterbuilder.character.attribute.AttributeType.WEIGHT;
 import characterbuilder.character.equipment.EquipmentCategory;
-import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.SpellAbility;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -34,10 +34,11 @@ public class BackgroundPage extends Page {
             .filter(AttributePlacement.DETAIL::isPlacementFor)
             .sorted(Comparator.comparing(Attribute::getType))
             .forEach(abilities::add);
-        List<Spell> spellAbilities = new ArrayList<>();
+        List<LearntSpell> spellAbilities = new ArrayList<>();
         character.getAllAttributes()
             .filter(attr -> attr.hasType(AttributeType.SPELL_ABILITY))
             .map(attr -> ((SpellAbility) attr).getSpell())
+            .map(sp -> new LearntSpell(sp, true))
             .forEach(spellAbilities::add);
         TextSectionBuilder sectionBuilder = new TextSectionBuilder(character, "Abilities", 100, 69);
         sectionBuilder.addAbilities(abilities);

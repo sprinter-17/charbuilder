@@ -64,9 +64,6 @@ public enum DivineDomain implements Attribute {
     });
 
     public enum DivineDomainAbility implements Attribute {
-        /*
-     * Divine domain abilities
-    **/
         KNOWLEDGE_OF_THE_AGES(ability()
             .withDescription("As an action, gain proficiency with one skill or tool "
                 + "for 10 minutes.")),

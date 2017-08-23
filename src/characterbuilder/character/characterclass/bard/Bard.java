@@ -93,7 +93,7 @@ public class Bard extends AbstractCharacterClass {
                     character.addAttribute(new SpellAbility(spell, CHARISMA));
                 } else {
                     casting.addKnownSpells(1);
-                    casting.addLearntSpell(spell);
+                    casting.addPreparedSpell(spell);
                 }
             });
         }
