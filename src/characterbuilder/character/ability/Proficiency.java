@@ -45,6 +45,7 @@ public enum Proficiency implements Attribute {
     //
     DISGUISE_KIT(TOOLS),
     FORGERY_KIT(TOOLS),
+    POISONERS_KIT(TOOLS),
     HERBALISM_KIT(TOOLS),
     NAVIGATORS_TOOLS(TOOLS),
     THIEVES_TOOLS(TOOLS),

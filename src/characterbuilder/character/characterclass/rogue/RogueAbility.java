@@ -39,7 +39,31 @@ public enum RogueAbility implements Attribute {
     THIEFS_REFLEXES(delegate()
         .withName("Thief's Reflexes")
         .withDescription("Take two turns during first round of combat. "
-            + "Second turn is at initiative - 10.")),;
+            + "Second turn is at initiative - 10.")),
+    ASSASSINATE(delegate()
+        .withDescription("Advantage on attack against creatures with lower initiative.")
+        .withDescription("Automatic critical against surprised creatures.")),
+    INFILTRATION_EXPERTISE(delegate()
+        .withDescription("Spend 7 days and 25 GP in research to establish false identity.")),
+    IMPOSTER(delegate()
+        .withDescription("Spend three hours in study to mimic a person's "
+            + "speech, writing and behaviour.")),
+    DEATH_STRIKE(delegate()
+        .withDescription("Double attack damage against surprised creatures. "
+            + "Con. save DC[8+$dex_mod+$prof].")),
+    MAGE_HAND_LEGERDEMAIN(delegate()
+        .withDescription("<em>Mage Hand</em> is invisible and can perform additional tasks: "
+            + "stow or retrieve object in ally's container; pick locks and disarm traps.")),
+    MAGICAL_AMBUSH(delegate()
+        .withDescription("If hidden, target of spell has disadvantage on save.")),
+    VERSATILE_TRICKSTER(delegate()
+        .withDescription("As a bonus action, use <em>Mage Hand</em> to distract a creature within "
+            + "5 feet giving advantage on attack.")),
+    SPELL_THIEF(delegate()
+        .withDescription("As a reaction against a spell that targets thief, steal the spell. "
+            + "Spell proficiency save DC[$spell_dc].")
+        .withDescription("Spell is prepared for next 8 hours.")
+        .withDescription("Use once between each long rest.")),;
 
     private final AttributeDelegate delegate;
 
