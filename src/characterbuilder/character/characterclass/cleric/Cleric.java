@@ -2,15 +2,11 @@ package characterbuilder.character.characterclass.cleric;
 
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_SIMPLE_WEAPONS;
-import static characterbuilder.character.ability.Skill.HISTORY;
-import static characterbuilder.character.ability.Skill.INSIGHT;
-import static characterbuilder.character.ability.Skill.MEDICINE;
-import static characterbuilder.character.ability.Skill.PERSUASION;
-import static characterbuilder.character.ability.Skill.RELIGION;
+import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.WISDOM;
-import static characterbuilder.character.characterclass.CharacterClass.CLERIC;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
+import static characterbuilder.character.characterclass.CharacterClass.CLERIC;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;

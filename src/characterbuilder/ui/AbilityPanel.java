@@ -1,7 +1,7 @@
 package characterbuilder.ui;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.choice.Option;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import static java.util.stream.Collectors.joining;
@@ -28,10 +28,9 @@ public class AbilityPanel extends CharacterSubPanel {
             String description = "";
             if (value instanceof DefaultMutableTreeNode) {
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
-                if (node.getUserObject() instanceof Attribute) {
-                    Attribute attribute = (Attribute) node.getUserObject();
-                    description = attribute.getDescription(getCharacter())
-                        .collect(joining("<br>"));
+                if (node.getUserObject() instanceof Option) {
+                    Option option = (Option) node.getUserObject();
+                    description = option.getDescription(getCharacter()).collect(joining("<br>"));
                 }
             }
             if (description.isEmpty())

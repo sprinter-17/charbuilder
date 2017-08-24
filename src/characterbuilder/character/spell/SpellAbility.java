@@ -66,4 +66,9 @@ public class SpellAbility implements Attribute {
         return other.spell == spell && other.abilityScore == abilityScore;
     }
 
+    @Override
+    public void choose(Character character) {
+        if (!character.hasAttribute(this))
+            Attribute.super.choose(character);
+    }
 }

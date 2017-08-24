@@ -34,6 +34,7 @@ public class MainWindow {
     private final LoadDialog loadDialog = new LoadDialog(frame, this::setCharacter);
     private final JToolBar tools = new JToolBar();
     private Optional<Character> character = Optional.empty();
+    private Optional<String> name = Optional.empty();
     private final ChoicePanel choices = new ChoicePanel(this::updateFromChoices);
     private final CharacterPanel panel = new CharacterPanel();
 
@@ -95,6 +96,8 @@ public class MainWindow {
 
     private void setCharacter(Character character) {
         this.character = Optional.of(character);
+        if (character.hasAttribute(AttributeType.NAME))
+            this.name = Optional.of(character.getStringAttribute(AttributeType.NAME));
         character.addChoiceList(choices);
         update();
     }
@@ -166,7 +169,7 @@ public class MainWindow {
                 .replaceAll("\\s+", "_").replaceAll("\\W", "") + ".xml";
             Path filePath = Paths.get("characters", fileName);
             if (Files.exists(filePath))
-                if (JOptionPane.showConfirmDialog(frame,
+                if (nameNotChanged() || JOptionPane.showConfirmDialog(frame,
                     "Overwrite previous file for character?",
                     "Overwrite Character?", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION)
                     Files.delete(filePath);
@@ -175,10 +178,16 @@ public class MainWindow {
             saver.save(character.get(), Files.
                 newOutputStream(filePath, StandardOpenOption.CREATE_NEW));
             character.get().clearDirty();
+            name = Optional.of(character.get().getStringAttribute(AttributeType.NAME));
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(frame, ex.toString(),
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private boolean nameNotChanged() {
+        return name.isPresent()
+            && name.get().equals(character.get().getStringAttribute(AttributeType.NAME));
     }
 
     public void showCharacterSheet() {

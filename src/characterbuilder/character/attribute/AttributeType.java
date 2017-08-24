@@ -13,6 +13,7 @@ import characterbuilder.character.characterclass.barbarian.Barbarian;
 import characterbuilder.character.characterclass.barbarian.PrimalPath;
 import characterbuilder.character.characterclass.bard.Bard;
 import characterbuilder.character.characterclass.bard.BardicCollege;
+import characterbuilder.character.characterclass.cleric.ClericAbility;
 import characterbuilder.character.characterclass.cleric.DivineDomain;
 import characterbuilder.character.characterclass.druid.Druid;
 import characterbuilder.character.characterclass.druid.DruidCircle;
@@ -24,7 +25,6 @@ import characterbuilder.character.characterclass.monk.MonasticTradition;
 import characterbuilder.character.characterclass.monk.MonkAbility;
 import characterbuilder.character.characterclass.paladin.SacredOath;
 import characterbuilder.character.characterclass.ranger.FavouredEnemy;
-import characterbuilder.character.characterclass.ranger.FavouredTerrain;
 import characterbuilder.character.characterclass.ranger.RangerAbility;
 import characterbuilder.character.characterclass.ranger.RangerArchetype;
 import characterbuilder.character.characterclass.ranger.RangerCompanion;
@@ -80,6 +80,7 @@ public enum AttributeType {
     FIGHTING_STYLE(false, FightingStyle::load),
     BARBARIAN_ABILITY(false, Barbarian::loadAbility),
     BARD_ABILITY(false, Bard::loadAbility),
+    CLERIC_ABILITY(false, ClericAbility::load),
     DRUID_ABILITY(false, Druid::loadAbility),
     FIGHTER_ABILITY(false, FighterAbility::load),
     MONK_ABILITY(false, MonkAbility::load),
@@ -89,6 +90,7 @@ public enum AttributeType {
     MONASTIC_TRADITION(true, MonasticTradition::load),
     ELEMENTAL_DISCIPLINE(false, ElementalDiscipline::load),
     DRUID_CIRCLE(true, DruidCircle::load),
+    DRUID_CIRCLE_ABILITY(false, DruidCircle.Ability::load),
     SACRED_OATH(true, SacredOath::load),
     RANGER_ARCHETYPE(true, RangerArchetype::load),
     SORCEROUS_ORIGIN(true, SorcerousOrigin::load),
@@ -110,7 +112,7 @@ public enum AttributeType {
     DIVINE_DOMAIN(true, DivineDomain::load),
     DIVINE_DOMAIN_ABILITY(false, DivineDomain::loadAbility),
     FAVOURED_ENEMY(false, FavouredEnemy::load),
-    FAVOURED_TERRAIN(false, FavouredTerrain::load),
+    TERRAIN(false, Terrain::load),
     RANGERS_COMPANION(true, RangerCompanion::load),
     SKILL(false, Skill::load),
     FEAT(false, Feat::load),

@@ -5,6 +5,7 @@ import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.choice.Option;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -2688,6 +2689,9 @@ public enum Spell implements Option {
     private final String duration;
     private final String components;
     private final String effect;
+
+    public static final Comparator<Spell> ORDER = Comparator
+        .comparingInt(Spell::getLevel).thenComparing(Spell::toString);
 
     public static Stream<Spell> getSpellsAtLevel(int level) {
         return Arrays.stream(values()).filter(sp -> sp.isLevel(level));

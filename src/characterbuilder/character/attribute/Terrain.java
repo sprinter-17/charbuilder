@@ -1,13 +1,11 @@
-package characterbuilder.character.characterclass.ranger;
+package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Ability;
-import characterbuilder.character.attribute.Attribute;
-import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.utils.StringUtils;
 import org.w3c.dom.Node;
 
-public enum FavouredTerrain implements Attribute {
+public enum Terrain implements Attribute {
     ARCTIC,
     COAST,
     DESERT,
@@ -19,7 +17,7 @@ public enum FavouredTerrain implements Attribute {
 
     @Override
     public AttributeType getType() {
-        return AttributeType.FAVOURED_TERRAIN;
+        return AttributeType.TERRAIN;
     }
 
     @Override
@@ -27,7 +25,7 @@ public enum FavouredTerrain implements Attribute {
         character.addAttribute(Ability.NATURAL_EXPLORER);
     }
 
-    public static FavouredTerrain load(Node node) {
+    public static Terrain load(Node node) {
         return valueOf(node.getTextContent());
     }
 

@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass.ranger;
 
+import characterbuilder.character.attribute.Terrain;
 import static characterbuilder.character.ability.Ability.EXTRA_ATTACK;
 import characterbuilder.character.ability.FightingStyle;
 import characterbuilder.character.ability.Proficiency;
@@ -62,8 +63,7 @@ public class Ranger extends AbstractCharacterClass {
         gen.level(1).addEquipment(LONGBOW).addEquipment(ARROW, 20);
         gen.level(1, 6, 14).addChoice(
             new AttributeChoice("Favoured Enemy", FavouredEnemy.values()));
-        gen.level(1, 6, 10).addChoice(
-            new AttributeChoice("Favoured Terrain", FavouredTerrain.values()));
+        gen.level(1, 6, 10).addChoice(new AttributeChoice("Favoured Terrain", Terrain.values()));
         gen.level(2).addChoice(new AttributeChoice("Fighting Style", FightingStyle.values()));
         gen.level(3).addChoice(new AttributeChoice("Ranger Archetype", RangerArchetype.values()));
         gen.level(3).addAttributes(PRIMEVAL_AWARENESS);

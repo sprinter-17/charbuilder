@@ -3,14 +3,7 @@ package characterbuilder.character.characterclass.druid;
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.DRUIDIC;
-import static characterbuilder.character.ability.Skill.ANIMAL_HANDLING;
-import static characterbuilder.character.ability.Skill.ARCANA;
-import static characterbuilder.character.ability.Skill.INSIGHT;
-import static characterbuilder.character.ability.Skill.MEDICINE;
-import static characterbuilder.character.ability.Skill.NATURE;
-import static characterbuilder.character.ability.Skill.PERCEPTION;
-import static characterbuilder.character.ability.Skill.RELIGION;
-import static characterbuilder.character.ability.Skill.SURVIVAL;
+import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
@@ -40,6 +33,7 @@ import static characterbuilder.character.equipment.Weapon.SCIMITAR;
 import static characterbuilder.character.equipment.Weapon.SICKLE;
 import static characterbuilder.character.equipment.Weapon.SLING;
 import static characterbuilder.character.equipment.Weapon.SPEAR;
+import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
 import org.w3c.dom.Element;
 
@@ -48,7 +42,12 @@ public class Druid extends AbstractCharacterClass {
     public enum Ability implements Attribute {
         WILD_SHAPE(ability()
             .withDescription("As an action, assume the shape of a beast of up to "
-                + "CR[max($level 2:1/4,4:1/2,8:1)].")),;
+                + "CR[max($level 2:1/4,4:1/2,8:1)].")
+            .withDescription("Use [max($level 2:twice,20:unlimited number of times)] between rests.")),
+        TIMELESS_BODY(ability()
+            .withDescription("Age at 1/10th normal rate.")),
+        BEAST_SPELLS(ability()
+            .withDescription("Cast spells without material components while using <em>Wild Shape</em>.")),;
 
         private final AttributeDelegate delegate;
 
@@ -70,6 +69,11 @@ public class Druid extends AbstractCharacterClass {
         public Stream<String> getDescription(Character character) {
             return delegate.getDescription(character);
         }
+
+        @Override
+        public String toString() {
+            return delegate.getName().orElse(StringUtils.capitaliseEnumName(name()));
+        }
     }
 
     @Override
@@ -84,12 +88,12 @@ public class Druid extends AbstractCharacterClass {
 
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
-        return Stream.of(AttributeType.INTELLIGENCE, AttributeType.WISDOM);
+        return Stream.of(AttributeType.WISDOM, AttributeType.CONSTITUTION);
     }
 
     @Override
     public boolean hasSavingsThrow(AttributeType type) {
-        return Stream.of(AttributeType.WISDOM, AttributeType.CONSTITUTION).anyMatch(type::equals);
+        return Stream.of(AttributeType.INTELLIGENCE, AttributeType.WISDOM).anyMatch(type::equals);
     }
 
     @Override
@@ -125,6 +129,7 @@ public class Druid extends AbstractCharacterClass {
         gen.level(2).addAttributes(WILD_SHAPE);
         gen.level(2).addChoice(new AttributeChoice("Druid Circle", DruidCircle.values()));
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
+        gen.level(18).addAttributes(TIMELESS_BODY, BEAST_SPELLS);
     }
 
     public static Ability loadAbility(Element element) {
