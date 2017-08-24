@@ -17,6 +17,7 @@ import characterbuilder.character.equipment.Token;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public enum Background implements Attribute {
@@ -36,14 +37,14 @@ public enum Background implements Attribute {
                 new Token("Deck of Marked Cards"),
                 new Token("Signet Ring of Imaginary Duke")))
             .addEquipment(GOLD_PIECE, 15)
-            .addAttributes(BackgroundAbility.FALSE_IDENTITY)),
+            .addAttributes(Ability.FALSE_IDENTITY)),
     CRIMINAL(gen
         -> gen.addAttributes(DECEPTION, STEALTH, Proficiency.THIEVES_TOOLS)
             .addEquipment(AdventureGear.GOLD_PIECE, 15)
             .addEquipment(CROWBAR, COMMON_CLOTHES)
             .addChoice(Proficiency.choose(LANGUAGE))),
     ENTERTAINER(gen
-        -> gen.addAttributes(ACROBATICS, PERFORMANCE, BackgroundAbility.BY_POPULAR_DEMAND)
+        -> gen.addAttributes(ACROBATICS, PERFORMANCE, Ability.BY_POPULAR_DEMAND)
             .addAttributes(Proficiency.DISGUISE_KIT)
             .addChoice(new AttributeChoice("Musical Instrument Proficiency",
                 MusicalInstrument.getAllProficiencies()))
@@ -65,7 +66,7 @@ public enum Background implements Attribute {
         gen.addEquipment(TRAVELERS_CLOTHES);
         gen.addEquipment(GOLD_PIECE, 15);
         gen.addChoice(Proficiency.choose(GUILD_BUSINESS));
-        gen.addAttributes(BackgroundAbility.GUILD_MEMBERSHIP);
+        gen.addAttributes(Ability.GUILD_MEMBERSHIP);
     }),
     HERMIT(gen -> {
         gen.addAttributes(MEDICINE, RELIGION, Proficiency.HERBALISM_KIT);
@@ -73,7 +74,7 @@ public enum Background implements Attribute {
         gen.addEquipment(GOLD_PIECE, 5);
         gen.addEquipment(BLANKET, COMMON_CLOTHES, AdventureGear.HERBALISM_KIT);
         gen.addTokens("Notes of prayers");
-        gen.addAttributes(BackgroundAbility.DISCOVERY);
+        gen.addAttributes(Ability.DISCOVERY);
     }),
     NOBLE(gen
         -> gen
@@ -89,7 +90,7 @@ public enum Background implements Attribute {
         gen.addEquipment(AdventureGear.STAFF, AdventureGear.TRAVELERS_CLOTHES);
         gen.addTokens("Hunting trap", "Trophy from animal");
         gen.addEquipment(AdventureGear.GOLD_PIECE, 10);
-        gen.addAttributes(BackgroundAbility.WANDERER);
+        gen.addAttributes(Ability.WANDERER);
     }),
     SAGE(gen -> {
         gen.addAttributes(ARCANA, HISTORY)
@@ -97,14 +98,14 @@ public enum Background implements Attribute {
             .addChoice(2, Proficiency.choose(LANGUAGE));
         gen.addTokens("Bottle of black ink", "Quill", "Letter with unanswered question");
         gen.addEquipment(AdventureGear.COMMON_CLOTHES);
-        gen.addAttributes(BackgroundAbility.RESEARCHER);
+        gen.addAttributes(Ability.RESEARCHER);
     }),
     SAILOR(gen -> {
         gen.addAttributes(ATHLETICS, PERCEPTION, Proficiency.NAVIGATORS_TOOLS, WATER_VEHICLES);
         gen.addEquipment(AdventureGear.GOLD_PIECE, 10);
         gen.addEquipment(new Token("Belaying pin"), AdventureGear.ROPE_SILK,
             new Token("Luck charm"), AdventureGear.COMMON_CLOTHES);
-        gen.addAttributes(BackgroundAbility.SHIPS_PASSAGE);
+        gen.addAttributes(Ability.SHIPS_PASSAGE);
     }),
     SOLDIER(gen -> {
         gen.addAttributes(ATHLETICS, INTIMIDATION, LAND_VEHICLES);
@@ -122,10 +123,10 @@ public enum Background implements Attribute {
             new Token("Map of city"), new Token("Pet mouse"), new Token("Momento of parents"));
         gen.addEquipment(COMMON_CLOTHES);
         gen.addEquipment(AdventureGear.GOLD_PIECE, 10);
-        gen.addAttributes(BackgroundAbility.CITY_SECRETS);
+        gen.addAttributes(Ability.CITY_SECRETS);
     });
 
-    public enum BackgroundAbility implements Attribute {
+    public enum Ability implements Attribute {
         CITY_SECRETS(ability()
             .withDescription("When not in combat, travel at double speed between locations in city.")),
         SHIPS_PASSAGE(ability()
@@ -153,13 +154,13 @@ public enum Background implements Attribute {
             return new AttributeDelegate();
         }
 
-        private BackgroundAbility(AttributeDelegate delegate) {
+        private Ability(AttributeDelegate delegate) {
             this.delegate = delegate;
         }
 
         @Override
         public AttributeType getType() {
-            return BACKGROUND_FEATURE;
+            return BACKGROUND_ABILITY;
         }
 
         @Override
@@ -167,6 +168,9 @@ public enum Background implements Attribute {
             return delegate.getName().orElse(StringUtils.capitaliseEnumName(name()));
         }
 
+        public static Ability load(Element element) {
+            return valueOf(element.getTextContent());
+        }
     }
 
     private final ChoiceGenerator generator = new ChoiceGenerator();
@@ -196,6 +200,6 @@ public enum Background implements Attribute {
     }
 
     public static Background load(Node node) {
-        return Background.valueOf(node.getTextContent());
+        return valueOf(node.getTextContent());
     }
 }

@@ -96,7 +96,7 @@ public enum AttributeType {
     WARLOCK_ABILITY(false, Warlock::loadAbility),
     ELDRITCH_INVOCATION(false, EldritchInvocation::load),
     MYSTIC_ARCANUM(false, MysticArcanum::load),
-    BACKGROUND_FEATURE(false, Ability::load),
+    BACKGROUND_ABILITY(false, Background.Ability::load),
     ENTERTAINER_ROUTINE(false, Proficiency::load),
     GUILD_BUSINESS(false, Proficiency::load),
     SPELL_ABILITY(false, SpellAbility::load),

@@ -5,12 +5,15 @@ import static characterbuilder.character.attribute.AttributeType.SPELLCASTING;
 import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.SpellCasting;
 import java.util.ArrayList;
+import java.util.Comparator;
 import static java.util.Comparator.comparingInt;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class SpellPage extends Page {
 
+    private static final Comparator<LearntSpell> SPELL_ORDER
+        = comparingInt(LearntSpell::getLevel).thenComparing(ls -> ls.getSpell().toString());
     private final List<LearntSpell> spells = new ArrayList<>();
     private final SpellCasting casting;
 
@@ -23,9 +26,7 @@ public class SpellPage extends Page {
     public SpellPage(Character character, SpellCasting casting) {
         super(character);
         this.casting = casting;
-        casting.getLearntSpells()
-            .sorted(comparingInt(LearntSpell::getLevel))
-            .forEach(spells::add);
+        casting.getLearntSpells().sorted(SPELL_ORDER).forEach(spells::add);
     }
 
     @Override

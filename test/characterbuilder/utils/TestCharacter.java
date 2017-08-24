@@ -4,6 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.choice.Option;
 import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.choice.TestChoiceSelector;
 
@@ -33,6 +34,10 @@ public class TestCharacter extends Character {
 
     public void selectChoice(String choice, String option) {
         selector.withChoice(option);
+        selectChoice(choice);
+    }
+
+    public void selectChoice(String choice) {
         for (int i = 0; i < getChoiceCount(); i++) {
             OptionChoice optionChoice = getChoice(i);
             if (optionChoice.getName().equals(choice)) {
@@ -41,5 +46,9 @@ public class TestCharacter extends Character {
             }
         }
         throw new IllegalArgumentException("No choice " + choice);
+    }
+
+    public boolean hadOption(Option option) {
+        return selector.hadOption(option);
     }
 }

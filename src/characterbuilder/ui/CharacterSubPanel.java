@@ -30,6 +30,7 @@ public class CharacterSubPanel extends JPanel {
     private final List<GridBagConstraints> constraints = new ArrayList<>();
     private final CharacterUpdater updater;
     private Character character;
+    private boolean isUpdating = false;
 
     public CharacterSubPanel(String title, LayoutManager layout, CharacterUpdater updater) {
         super(layout);
@@ -68,8 +69,13 @@ public class CharacterSubPanel extends JPanel {
         constraints.get(column).gridwidth = 1;
     }
 
-    public void updateCharacter(Character character) {
+    protected void updateCharacter(Character character) {
         this.character = character;
+        isUpdating = true;
+    }
+
+    protected void finishUpdate() {
+        isUpdating = false;
     }
 
     protected Character getCharacter() {
@@ -112,17 +118,20 @@ public class CharacterSubPanel extends JPanel {
         return new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                update(e.getDocument());
+                if (!isUpdating)
+                    update(e.getDocument());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                update(e.getDocument());
+                if (!isUpdating)
+                    update(e.getDocument());
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                update(e.getDocument());
+                if (!isUpdating)
+                    update(e.getDocument());
             }
 
             private void update(Document document) {

@@ -110,6 +110,10 @@ public class Character {
         return dirty;
     }
 
+    public void setDirty() {
+        dirty = true;
+    }
+
     public void clearDirty() {
         dirty = false;
     }
@@ -126,11 +130,11 @@ public class Character {
 
     public void addAttribute(Attribute attribute) {
         attributes.addAttribute(attribute);
-        dirty = true;
+        setDirty();
     }
 
     public void removeAttribute(Attribute attribute) {
-        dirty = attributes.removeAttribute(attribute) || dirty;
+        dirty = attributes.removeAttribute(attribute) || isDirty();
     }
 
     public boolean hasAttribute(AttributeType type) {
@@ -142,7 +146,7 @@ public class Character {
     }
 
     public void removeAttributesOfType(AttributeType type) {
-        dirty = attributes.removeAttributesOfType(type) || dirty;
+        dirty = attributes.removeAttributesOfType(type) || isDirty();
     }
 
     public int getAttributeCount(AttributeType type) {
@@ -218,7 +222,7 @@ public class Character {
             int unadjusted2 = score2.getValue() - mod2;
             score1.setValue(unadjusted2 + mod1);
             score2.setValue(unadjusted1 + mod2);
-            dirty = true;
+            setDirty();
         }
     }
 
@@ -231,7 +235,7 @@ public class Character {
             CharacterClass characterClass = getAttribute(CHARACTER_CLASS);
             int hp = adjustHitPointIncrease(characterClass.getHitDie());
             addAttribute(new IntAttribute(HIT_POINTS, hp));
-            dirty = true;
+            setDirty();
         }
     }
 
@@ -258,7 +262,7 @@ public class Character {
             attributes.getAllAttributes()
                 .collect(toList())
                 .forEach(attr -> attr.generateLevelChoices(this));
-            dirty = true;
+            setDirty();
         }
     }
 
@@ -285,12 +289,12 @@ public class Character {
 
     public void addEquipment(Equipment equipment) {
         inventory.addItem(equipment);
-        dirty = true;
+        setDirty();
     }
 
     public void removeEquipment(EquipmentSet equipment) {
         inventory.removeItem(equipment);
-        dirty = true;
+        setDirty();
     }
 
     public boolean hasEquipment(Equipment equipment) {

@@ -8,6 +8,7 @@ import static characterbuilder.sheet.Page.html;
 import static characterbuilder.sheet.Page.nbsp;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
@@ -83,7 +84,7 @@ public class TextSectionBuilder {
 
     private String spellDescription(List<LearntSpell> spells) {
         return spells.stream().collect(groupingBy(LearntSpell::getLevel))
-            .entrySet().stream()
+            .entrySet().stream().sorted(Map.Entry.comparingByKey())
             .map(e -> spellLevelText(e.getKey(), e.getValue()))
             .collect(joining());
     }
@@ -96,7 +97,9 @@ public class TextSectionBuilder {
         text.append("<table style=\"width:385px; padding-left:10px; border-spacing:0px\">");
         text.append("<tr><td/><th>Name</th><th>Casting Time</th><th>Components</th>"
             + "<th>Range</th><th>Area</th><th>Duration</th></tr>");
-        spells.forEach(spell -> spellText(text, spell, spells.indexOf(spell) % 2 == 0));
+        spells.stream()
+            .sorted(Comparator.comparing(ls -> ls.getSpell().toString()))
+            .forEach(spell -> spellText(text, spell, spells.indexOf(spell) % 2 == 0));
         text.append("</table>");
         return text.toString();
     }
@@ -106,7 +109,7 @@ public class TextSectionBuilder {
         String tr = String.format("<tr style='background-color:%s'>", colour);
         text.append(tr);
         spellValue(text, spell.isPrepared() ? "&#x25A3;" : "&#x25A2;", 5);
-        spellName(text, spell.toString(), 20);
+        spellName(text, spell.getSpell().toString(), 20);
         spellValue(text, spell.getSpell().getCastingTime(), 12);
         spellValue(text, spell.getSpell().getComponents(), 12);
         spellValue(text, spell.getSpell().getRange(), 12);

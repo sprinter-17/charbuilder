@@ -112,7 +112,8 @@ public enum Proficiency implements Attribute {
             @Override
             public void select(Character character, ChoiceSelector selector) {
                 selector.chooseOption(Arrays.stream(values())
-                    .filter(attr -> attr.hasType(type)),
+                    .filter(attr -> attr.hasType(type))
+                    .filter(attr -> !character.hasAttribute(attr)),
                     attr -> attr.choose(character));
             }
         };

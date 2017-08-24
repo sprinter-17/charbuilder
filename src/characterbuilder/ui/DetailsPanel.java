@@ -45,6 +45,7 @@ public class DetailsPanel extends CharacterSubPanel {
                 } else {
                     ch.addAttribute(new StringAttribute(NAME, name));
                 }
+                ch.setDirty();
                 if (nameField.getText().isEmpty())
                     nameField.setBackground(Color.YELLOW);
                 else
@@ -78,5 +79,6 @@ public class DetailsPanel extends CharacterSubPanel {
             classAttributeValue.setText(character.getAttribute(charClass.getClassAttribute())
                 .toString());
         }
+        finishUpdate();
     }
 }

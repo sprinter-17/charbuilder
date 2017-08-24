@@ -167,6 +167,15 @@ public class SpellCastingTest {
     }
 
     @Test
+    public void testLearntSpellsNotInAllSpells() {
+        casting.learnAllSpells();
+        casting.addSlots(1, 1);
+        casting.addPreparedSpell(Spell.CURE_WOUNDS);
+        assertThat(casting.getLearntSpells()
+            .filter(ls -> ls.isSpell(Spell.CURE_WOUNDS)).count(), is(1L));
+    }
+
+    @Test
     public void testExpandedSpellsInChoice() {
         casting.addExpandedSpell(Spell.DARKVISION);
         casting.addSlots(2, 1);

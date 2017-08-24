@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -51,6 +52,12 @@ public class CharacterSaverTest {
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(CharacterSaverTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Test
+    public void testLoadedCharacterIsNotDirty() {
+        saveAndLoad();
+        assertFalse(character.isDirty());
     }
 
     @Test

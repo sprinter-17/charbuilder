@@ -168,6 +168,7 @@ public class SpellCasting implements Attribute {
         if (learnAll)
             return getAvailableSpells()
                 .filter(sp -> sp.getLevel() <= getMaxSlot() && !sp.isCantrip())
+                .filter(sp -> learntSpells.stream().noneMatch(ls -> ls.isSpell(sp)))
                 .map(sp -> new LearntSpell(sp, false));
         else
             return Stream.empty();

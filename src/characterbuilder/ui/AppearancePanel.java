@@ -98,6 +98,7 @@ public class AppearancePanel extends CharacterSubPanel {
         weight.setText(character.getAttribute(AttributeType.WEIGHT).toString());
         description.setText(character.getStringAttribute(AttributeType.PHYSICAL_DESCRIPTION));
         description.setEnabled(true);
+        finishUpdate();
     }
 
 }
