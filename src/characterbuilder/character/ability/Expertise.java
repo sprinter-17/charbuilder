@@ -1,8 +1,11 @@
 package characterbuilder.character.ability;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.saveload.Savable.child;
+import characterbuilder.utils.StringUtils;
+import java.util.stream.Stream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -26,6 +29,11 @@ public class Expertise implements Attribute {
     @Override
     public String toString() {
         return "Expertise in " + attribute.toString();
+    }
+
+    @Override
+    public Stream<String> getDescription(Character character) {
+        return Stream.of(StringUtils.expand("+[$prof] proficiency bonus.", character));
     }
 
     @Override

@@ -1,9 +1,7 @@
 package characterbuilder.character;
 
 import characterbuilder.character.ability.Ability;
-import characterbuilder.character.ability.Expertise;
 import characterbuilder.character.ability.Feat;
-import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeSet;
@@ -198,15 +196,6 @@ public class Character {
         if (hasAttribute(type) && getScore(type).hasProficientSaves())
             modifier += getProficiencyBonus();
         return modifier;
-    }
-
-    public int getSkillBonus(Skill skill) {
-        int skillBonus = getModifier(skill.getRelatedAttribute());
-        if (attributes.hasAttribute(skill))
-            skillBonus += getProficiencyBonus();
-        if (attributes.hasAttribute(new Expertise(skill)))
-            skillBonus += getProficiencyBonus();
-        return skillBonus;
     }
 
     public void swapAttributes(AttributeType attribute1, AttributeType attribute2) {

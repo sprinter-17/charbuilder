@@ -1,5 +1,6 @@
 package characterbuilder.character.ability;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
@@ -37,8 +38,13 @@ public enum Skill implements Attribute {
         return AttributeType.SKILL;
     }
 
-    public AttributeType getRelatedAttribute() {
-        return relatedAttribute;
+    public int getBonus(Character character) {
+        int skillBonus = character.getModifier(relatedAttribute);
+        if (character.hasAttribute(this))
+            skillBonus += character.getProficiencyBonus();
+        if (character.hasAttribute(new Expertise(this)))
+            skillBonus += character.getProficiencyBonus();
+        return skillBonus;
     }
 
     public String toString() {

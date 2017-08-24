@@ -2,6 +2,7 @@ package characterbuilder.character.ability;
 
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.saveload.TestDoc;
+import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -25,6 +26,14 @@ public class ExpertiseTest {
     @Test
     public void testIsFor() {
         assertTrue(expertise.isFor(Skill.ARCANA));
+    }
+
+    @Test
+    public void testDescription() {
+        TestCharacter character = new TestCharacter();
+        character.setLevel(10);
+        assertThat(expertise.getDescription(character).findFirst().get(),
+            is("+4 proficiency bonus."));
     }
 
     @Test

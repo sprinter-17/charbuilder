@@ -108,8 +108,7 @@ public class MainPage extends Page {
             .sorted(Comparator.comparing(p -> p.toString())).collect(Collectors.toList());
         IntStream.range(0, characterSkills.size())
             .forEach(i -> skills.with(builder.field(characterSkills.get(i).toString(),
-            bonusText(character.getSkillBonus(characterSkills.get(i))),
-            10, i + 1)));
+            bonusText(characterSkills.get(i).getBonus(character)), 10, i + 1)));
         return skills;
     }
 
