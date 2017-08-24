@@ -33,7 +33,8 @@ public enum RogueAbility implements Attribute {
         .withDescription("Climb at normal speed. "
             + "Add [$dex_mod]' to running long jump length.")),
     SUPREME_SNEAK(delegate()
-        .withDescription("Advantage on all stealth checks if moving no more than [$speed/2]' on the same turn.")),
+        .withDescription("Advantage on all stealth checks if moving no more than [$speed/2]' "
+            + "on the same turn.")),
     USE_MAGIC_DEVICES(delegate()
         .withDescription("Ignore all class, race and level requirements on the use of magic items.")),
     THIEFS_REFLEXES(delegate()
