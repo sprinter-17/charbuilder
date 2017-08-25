@@ -1,7 +1,5 @@
 package characterbuilder.character.characterclass.warlock;
 
-import characterbuilder.character.characterclass.warlock.OtherwordlyPatron;
-import characterbuilder.character.ability.Ability;
 import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.utils.TestCharacter;
@@ -23,7 +21,7 @@ public class OtherwordlyPatronTest {
     @Test
     public void testAbility() {
         OtherwordlyPatron.THE_GREAT_OLD_ONE.choose(character);
-        assertTrue(character.hasAttribute(Ability.AWAKENED_MIND));
+        assertTrue(character.hasAttribute(Warlock.Ability.AWAKENED_MIND));
     }
 
     @Test

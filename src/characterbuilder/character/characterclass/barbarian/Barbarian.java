@@ -59,7 +59,39 @@ public class Barbarian extends AbstractCharacterClass {
             .withDescription("Melee weapon attack as bonus action each turn. ")
             .withDescription("Exhaustion when rage ends.")),
         MINDLESS_RAGE(ability()
-            .withDescription("Cannot be charmed or frightened during rage.")),;
+            .withDescription("Cannot be charmed or frightened during rage.")),
+        TOTEM_SPIRIT_BEAR(ability()
+            .withName("Totem Spirit (Bear)")
+            .withDescription("During rage, resistance to all damage except psychic.")),
+        TOTEM_SPIRIT_EAGLE(ability()
+            .withName("Totem Spirit (Eagle)")
+            .withDescription("During rage, if not wearing heavy armour, "
+                + "disadvantage opportunity attacks, "
+                + "take Dash bonus action.")),
+        TOTEM_SPIRIT_WOLF(ability()
+            .withName("Totem Spirit (Wolf)")
+            .withDescription("During rage, friends have advantage on melee attacks "
+                + "against enemies within 5'.")),
+        ASPECT_OF_BEAST_BEAR(ability()
+            .withName("Aspect of the Beast (Bear)")
+            .withDescription("Carrying capacity doubled. Advantage on Str. checks moving objects.")),
+        ASPECT_OF_BEAST_EAGLE(ability()
+            .withName("Aspect of the Beast (Eagle)")
+            .withDescription("See up to 1 mile without difficulty. "
+                + "Dim light does not disadvantage Perception checks.")),
+        ASPECT_OF_BEAST_WOLF(ability()
+            .withName("Aspect of the Beast (Wolf)")
+            .withDescription("Track at fast pace; stealth at normal pace.")),
+        TOTEMIC_ATTUNEMENT_BEAR(ability()
+            .withName("Totemic Attunement (Bear)")
+            .withDescription("During rage, enemies within 5' disadvantaged on attacks on friends.")),
+        TOTEMIC_ATTUNEMENT_EAGLE(ability()
+            .withName("Totemic Attunement (Eagle)")
+            .withDescription("During rage, fly at [$speed]'")),
+        TOTEMIC_ATTUNEMENT_WOLF(ability()
+            .withName("Totemic Attunement (Wolf)")
+            .withDescription("During rage, as bonus action knock enemy prone when hit "
+                + "with melee attack.")),;
 
         private final AttributeDelegate delegate;
 

@@ -1,8 +1,8 @@
 package characterbuilder.character.characterclass.paladin;
 
-import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.characterclass.paladin.Paladin.Ability.*;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.utils.StringUtils;

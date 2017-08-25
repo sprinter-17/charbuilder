@@ -1,8 +1,7 @@
 package characterbuilder.character.characterclass.warlock;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Ability;
-import static characterbuilder.character.ability.Ability.*;
+import static characterbuilder.character.characterclass.warlock.Warlock.Ability.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.spell.Spell;
@@ -37,9 +36,9 @@ public enum OtherwordlyPatron implements Attribute {
             TELEKINESIS));
     }
 
-    private final Map<Integer, Ability> abilities = new HashMap<>();
+    private final Map<Integer, Attribute> abilities = new HashMap<>();
 
-    private OtherwordlyPatron(Ability... abilities) {
+    private OtherwordlyPatron(Attribute... abilities) {
         this.abilities.put(1, abilities[0]);
         this.abilities.put(6, abilities[1]);
         this.abilities.put(10, abilities[2]);

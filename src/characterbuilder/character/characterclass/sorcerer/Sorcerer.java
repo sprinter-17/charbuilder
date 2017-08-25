@@ -1,12 +1,7 @@
 package characterbuilder.character.characterclass.sorcerer;
 
 import static characterbuilder.character.ability.Ability.FONT_OF_MAGIC;
-import static characterbuilder.character.ability.Skill.ARCANA;
-import static characterbuilder.character.ability.Skill.DECEPTION;
-import static characterbuilder.character.ability.Skill.INSIGHT;
-import static characterbuilder.character.ability.Skill.INTIMIDATION;
-import static characterbuilder.character.ability.Skill.PERSUASION;
-import static characterbuilder.character.ability.Skill.RELIGION;
+import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.characterclass.AbstractCharacterClass;

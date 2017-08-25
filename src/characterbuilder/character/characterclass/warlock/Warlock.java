@@ -49,7 +49,39 @@ public class Warlock extends AbstractCharacterClass {
             .withEquipment(AdventureGear.BOOK_OF_SHADOWS)
             .withChoice(cantripChoice(3, "Book of Shadow Cantrips", CHARISMA, getSpellsAtLevel(0)))),
         ELDRITCH_MASTER(ability()
-            .withDescription("Spend 1 minute to regain all spell slots once between each long rest."));
+            .withDescription("Spend 1 minute to regain all spell slots once between each long rest.")),
+        FEY_PRESENCE(ability()
+            .withDescription("As an action, charm or frighten creatures within a 10-foot cube "
+                + "around Warlock for 1 turn. Wis. save.")),
+        MISTY_ESCAPE(ability()
+            .withDescription("As a reaction to taking damage, turn invisible and teleport up to 60 feet.")),
+        BEGUILING_DEFENSES(ability()
+            .withDescription("Immune to charm. ")
+            .withDescription("As a reaction to a charm attempt, Wis. save or target charmed for 1 minute.")),
+        DARK_DELERIUM(ability()
+            .withDescription("As a reaction, charm or frighten one creature within 60 feet for 1 minute. "
+                + "Wis. save.")),
+        DARK_ONES_BLESSING(ability()
+            .withDescription("On reducing enemy to 0 HP, gain [$chr_mod + $level] temporary HP.")),
+        DARK_ONES_OWN_LUCK(ability()
+            .withDescription("Add 1d10 to 1 ability check or save.")
+            .withDescription("Use once between each long rest.")),
+        FIENDISH_RESILIENCE(ability()
+            .withDescription("Resistance to a chosen damage type.")),
+        HURL_THROUGH_HELL(ability()
+            .withDescription("On hitting an enemy, send away for 1 turn and cause 10d10 phychic damage.")),
+        AWAKENED_MIND(ability()
+            .withDescription("Communicate telepathically with any creature within 30 feet.")),
+        ENTROPIC_WARD(ability()
+            .withDescription("As a reaction, impose disadvantage on an attack roll.")
+            .withDescription("If the attack misses, next attack against target has advantage.")
+            .withDescription("Use once between each rest.")),
+        THOUGHT_SHIELD(ability()
+            .withDescription("Immune to telepathy.")
+            .withDescription("Resistance to psychic damage.")
+            .withDescription("Creature dealing psychic attack takes equal damage.")),
+        CREATE_THRALL(ability()
+            .withDescription("As an action, charm an incapacitated humanoid with touch."));
 
         private final AttributeDelegate delegate;
 

@@ -23,6 +23,7 @@ import characterbuilder.character.characterclass.fighter.MartialArchetype;
 import characterbuilder.character.characterclass.monk.ElementalDiscipline;
 import characterbuilder.character.characterclass.monk.MonasticTradition;
 import characterbuilder.character.characterclass.monk.MonkAbility;
+import characterbuilder.character.characterclass.paladin.Paladin;
 import characterbuilder.character.characterclass.paladin.SacredOath;
 import characterbuilder.character.characterclass.ranger.FavouredEnemy;
 import characterbuilder.character.characterclass.ranger.RangerAbility;
@@ -91,6 +92,7 @@ public enum AttributeType {
     ELEMENTAL_DISCIPLINE(false, ElementalDiscipline::load),
     DRUID_CIRCLE(true, DruidCircle::load),
     DRUID_CIRCLE_ABILITY(false, DruidCircle.Ability::load),
+    PALADIN_ABILITY(false, Paladin.Ability::load),
     SACRED_OATH(true, SacredOath::load),
     RANGER_ARCHETYPE(true, RangerArchetype::load),
     SORCEROUS_ORIGIN(true, SorcerousOrigin::load),

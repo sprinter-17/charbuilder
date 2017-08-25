@@ -1,6 +1,5 @@
 package characterbuilder.character;
 
-import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Feat;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
@@ -272,7 +271,7 @@ public class CharacterTest {
     public void testCarryingCapacity() {
         character.addAttribute(new IntAttribute(AttributeType.STRENGTH, 14));
         assertThat(character.getCarryingCapacity(), is(Weight.lb(14 * 15)));
-        character.addAttribute(Ability.ASPECT_OF_BEAST_BEAR);
+        character.addAttribute(Barbarian.Ability.ASPECT_OF_BEAST_BEAR);
         assertThat(character.getCarryingCapacity(), is(Weight.lb(14 * 15 * 2)));
     }
 

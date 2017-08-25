@@ -1,6 +1,5 @@
 package characterbuilder.character;
 
-import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Feat;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
@@ -12,6 +11,7 @@ import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.barbarian.Barbarian;
 import static characterbuilder.character.characterclass.barbarian.Barbarian.Ability.FAST_MOVEMENT;
 import characterbuilder.character.choice.ChoiceList;
 import characterbuilder.character.choice.ChoiceSelector;
@@ -308,7 +308,7 @@ public class Character {
 
     public Weight getCarryingCapacity() {
         Weight capacity = Weight.lb(getIntAttribute(STRENGTH) * 15);
-        if (hasAttribute(Ability.ASPECT_OF_BEAST_BEAR))
+        if (hasAttribute(Barbarian.Ability.ASPECT_OF_BEAST_BEAR))
             capacity = capacity.times(2);
         return capacity;
     }
