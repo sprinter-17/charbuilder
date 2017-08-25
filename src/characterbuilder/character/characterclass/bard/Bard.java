@@ -53,7 +53,17 @@ public class Bard extends AbstractCharacterClass {
             .withDescription("As an action, all friends within 30' have advantage "
                 + "on saves vs fear and charm.")),
         SUPERIOR_INSPIRATION(ability()
-            .withDescription("Regain 1 Bardic Inspiration on initiative roll, if no uses left.")),;
+            .withDescription("Regain 1 Bardic Inspiration on initiative roll, if no uses left.")),
+        CUTTING_WORDS(ability()
+            .withDescription("As a reaction, use Bardic Inspiration to subtract die roll from attack, "
+                + "ability, damage from creature within 60'")),
+        PEERLESS_SKILL(ability()
+            .withDescription("Use Bardic Inspiration for ability checks.")),
+        COMBAT_INSPIRATION(ability()
+            .withDescription("Creature with Bardic Inspiration can add roll to damage or AC "
+                + "as reaction.")),
+        BATTLE_MAGIC(ability()
+            .withDescription("Can make one weapon attack as bonus action when casting spell.")),;
 
         private final AttributeDelegate delegate;
 

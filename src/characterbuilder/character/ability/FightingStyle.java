@@ -5,6 +5,7 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.FIGHTING_STYLE;
+import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
 import org.w3c.dom.Element;
 
@@ -31,6 +32,11 @@ public enum FightingStyle implements Attribute {
     @Override
     public AttributeType getType() {
         return FIGHTING_STYLE;
+    }
+
+    @Override
+    public String toString() {
+        return StringUtils.capitaliseEnumName(name());
     }
 
     @Override

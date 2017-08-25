@@ -4,6 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.saveload.Savable;
 import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
 import org.w3c.dom.Element;
@@ -94,7 +95,14 @@ public enum RangerAbility implements Attribute {
         return delegate.getName().orElse(StringUtils.capitaliseEnumName(name()));
     }
 
-    public static RangerAbility load(Element element) {
-        return valueOf(element.getTextContent());
+    public static Attribute load(Element element) {
+        switch (Savable.text(element)) {
+            case "FAVOURED_TERRAIN":
+                return FavouredTerrain.load(element);
+            case "FAVOURED_ENEMY":
+                return FavouredEnemy.load(element);
+            default:
+                return valueOf(element.getTextContent());
+        }
     }
 }

@@ -1,11 +1,12 @@
 package characterbuilder.character.characterclass.bard;
 
 import characterbuilder.character.Character;
-import static characterbuilder.character.ability.Ability.*;
+import static characterbuilder.character.ability.Ability.EXTRA_ATTACK;
 import static characterbuilder.character.ability.Proficiency.*;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.characterclass.bard.Bard.Ability.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.spell.Spell;

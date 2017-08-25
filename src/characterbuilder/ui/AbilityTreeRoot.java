@@ -44,6 +44,13 @@ public class AbilityTreeRoot extends DefaultMutableTreeNode {
             case EXPERTISE:
             case MUSICAL_INSTRUMENT_PROFICIENCY:
             case FEAT:
+            case BARD_ABILITY:
+            case CLERIC_ABILITY:
+            case ROGUE_ABILITY:
+            case RANGER_ABILITY:
+            case FIGHTER_ABILITY:
+            case PALADIN_ABILITY:
+            case WARLOCK_ABILITY:
                 addAttributes(character, type);
                 break;
         }

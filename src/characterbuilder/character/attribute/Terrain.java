@@ -1,9 +1,7 @@
 package characterbuilder.character.attribute;
 
-import characterbuilder.character.Character;
-import characterbuilder.character.ability.Ability;
 import characterbuilder.utils.StringUtils;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
 public enum Terrain implements Attribute {
     ARCTIC,
@@ -15,18 +13,12 @@ public enum Terrain implements Attribute {
     SWAMP,
     UNDERDARK;
 
-    @Override
     public AttributeType getType() {
         return AttributeType.TERRAIN;
     }
 
-    @Override
-    public void generateInitialChoices(Character character) {
-        character.addAttribute(Ability.NATURAL_EXPLORER);
-    }
-
-    public static Terrain load(Node node) {
-        return valueOf(node.getTextContent());
+    public static Terrain load(Element element) {
+        return valueOf(element.getTextContent());
     }
 
     @Override

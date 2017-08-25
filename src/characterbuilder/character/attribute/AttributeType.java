@@ -25,7 +25,6 @@ import characterbuilder.character.characterclass.monk.MonasticTradition;
 import characterbuilder.character.characterclass.monk.MonkAbility;
 import characterbuilder.character.characterclass.paladin.Paladin;
 import characterbuilder.character.characterclass.paladin.SacredOath;
-import characterbuilder.character.characterclass.ranger.FavouredEnemy;
 import characterbuilder.character.characterclass.ranger.RangerAbility;
 import characterbuilder.character.characterclass.ranger.RangerArchetype;
 import characterbuilder.character.characterclass.ranger.RangerCompanion;
@@ -113,7 +112,6 @@ public enum AttributeType {
     BARDIC_COLLEGE(true, BardicCollege::load),
     DIVINE_DOMAIN(true, DivineDomain::load),
     DIVINE_DOMAIN_ABILITY(false, DivineDomain::loadAbility),
-    FAVOURED_ENEMY(false, FavouredEnemy::load),
     TERRAIN(false, Terrain::load),
     RANGERS_COMPANION(true, RangerCompanion::load),
     SKILL(false, Skill::load),
