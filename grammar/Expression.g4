@@ -12,6 +12,7 @@ grammar Expression;
     import java.util.List;
     import java.util.ArrayList;
     import java.util.Map;
+    import java.util.Optional;
     import java.util.HashMap;
     import java.util.stream.Collectors;
     import characterbuilder.character.Character;
@@ -55,6 +56,13 @@ grammar Expression;
         else
             return errors.stream().collect(Collectors.joining(", ", "[ *ERROR* ", "]"));
     }
+
+    private Optional<DraconicAncestry> draconicAncestry() {
+        if (character().hasAttribute(DRACONIC_ANCESTRY))
+            return Optional.of(character().getAttribute(DRACONIC_ANCESTRY, DraconicAncestry.class));
+        else
+            return Optional.empty();
+    }
 }
 
 expr returns [String value] 
@@ -63,10 +71,10 @@ expr returns [String value]
     ;
 
 string_expr returns [String value]
-    : '$draconic_breath' {$value = character().getAttribute(DRACONIC_ANCESTRY, 
-        DraconicAncestry.class).getBreathWeapon();}
-    | '$draconic_damage' {$value = character().getAttribute(DRACONIC_ANCESTRY,
-        DraconicAncestry.class).getDamage().toString();}
+    : '$draconic_breath' { $value = draconicAncestry()
+        .map(DraconicAncestry::getBreathWeapon).orElse("Draconic Breath");}
+    | '$draconic_damage' { $value = draconicAncestry()
+        .map(DraconicAncestry::getDamage).map(DamageType::toString).orElse("Damage");}
     | '$magic_school'
         {$value = character().getAttribute(ARCANE_TRADITION).toString();}
     | 'if(' bool_expr SPACE? ':' SPACE? string_expr ')'
