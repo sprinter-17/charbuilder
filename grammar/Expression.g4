@@ -65,8 +65,10 @@ expr returns [String value]
 string_expr returns [String value]
     : int_expr  
         {$value = String.valueOf($int_expr.value);}
-    | '$breath' {$value = character().getAttribute(DRACONIC_ANCESTORY, 
-                    DraconicAncestory.class).getBreathWeapon();}
+    | '$draconic_breath' {$value = character().getAttribute(DRACONIC_ANCESTORY, 
+        DraconicAncestory.class).getBreathWeapon();}
+    | '$draconic_damage' {$value = character().getAttribute(DRACONIC_ANCESTORY,
+        DraconicAncestory.class).getDamage().toString();}
     | '$magic_school'
         {$value = character().getAttribute(ARCANE_TRADITION).toString();}
     | 'if(' bool_expr SPACE? ':' SPACE? string_expr ')'

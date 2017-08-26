@@ -13,6 +13,7 @@ import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.characterclass.barbarian.Barbarian;
 import static characterbuilder.character.characterclass.barbarian.Barbarian.Ability.FAST_MOVEMENT;
+import characterbuilder.character.characterclass.sorcerer.Sorcerer;
 import characterbuilder.character.choice.ChoiceList;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.OptionChoice;
@@ -234,6 +235,8 @@ public class Character {
             hitPoints++;
         if (hasAttribute(Feat.TOUGH))
             hitPoints += 2;
+        if (hasAttribute(Sorcerer.Ability.DRACONIC_RESILIENCE))
+            hitPoints++;
         return Math.max(1, hitPoints);
     }
 

@@ -1,6 +1,7 @@
 package characterbuilder.utils;
 
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.attribute.DraconicAncestory;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.characterclass.CharacterClass;
@@ -107,5 +108,12 @@ public class EvalutationTest {
         character.addAttribute(new IntAttribute(AttributeType.DEXTERITY, 14));
         assertThat(eval("$spell_mod", context), is("4"));
         assertThat(eval("$spell_dc", context), is("12"));
+    }
+
+    @Test
+    public void testDraconicAncestory() {
+        character.addAttribute(DraconicAncestory.COPPER);
+        assertThat(eval("$draconic_damage", context), is("Acid"));
+        assertThat(eval("$draconic_breath", context), is("Acid, 5x30' line, Dex. save"));
     }
 }

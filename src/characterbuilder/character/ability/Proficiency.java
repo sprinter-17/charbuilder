@@ -38,6 +38,7 @@ public enum Proficiency implements Attribute {
     INFERNAL(LANGUAGE),
     THIEVES_CANT(LANGUAGE),
     DRUIDIC(LANGUAGE),
+    DRACONIC(LANGUAGE),
     //
     SMITH(ARTISAN),
     BREWER(ARTISAN),

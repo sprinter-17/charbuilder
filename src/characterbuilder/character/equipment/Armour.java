@@ -9,8 +9,8 @@ import static characterbuilder.character.attribute.Value.gp;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.lb;
 import characterbuilder.character.characterclass.barbarian.Barbarian;
-import characterbuilder.character.characterclass.monk.Monk;
 import characterbuilder.character.characterclass.monk.MonkAbility;
+import characterbuilder.character.characterclass.sorcerer.Sorcerer;
 import static characterbuilder.character.equipment.EquipmentCategory.HEAVY_ARMOUR;
 import static characterbuilder.character.equipment.EquipmentCategory.LIGHT_ARMOUR;
 import static characterbuilder.character.equipment.EquipmentCategory.MEDIUM_ARMOUR;
@@ -76,6 +76,8 @@ public enum Armour implements Equipment {
     public static int getArmourClass(Character character) {
         int ac = 10;
         Optional<Armour> bestArmour = bestArmour(character);
+        if (!bestArmour.isPresent() && character.hasAttribute(Sorcerer.Ability.DRACONIC_RESILIENCE))
+            ac = 13;
         ac += bestArmour.map(arm -> arm.armourClass + getBonus(character, arm)).orElse(0);
         if (character.hasEquipment(SHIELD))
             ac += 2 + getBonus(character, SHIELD);

@@ -7,9 +7,12 @@ import characterbuilder.character.attribute.AttributeDelegate;
 import static characterbuilder.character.attribute.AttributeDelegate.delegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
+import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import characterbuilder.character.characterclass.CharacterClass;
-import static characterbuilder.character.characterclass.sorcerer.Sorcerer.Ability.*;
+import static characterbuilder.character.characterclass.sorcerer.Sorcerer.Ability.FONT_OF_MAGIC;
+import static characterbuilder.character.characterclass.sorcerer.Sorcerer.Ability.SORCEROUS_RESTORATIONS;
+import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.choice.EquipmentChoice;
@@ -38,7 +41,40 @@ public class Sorcerer extends AbstractCharacterClass {
             .withDescription("As a bonus action, convert sorcery points to spell slots. "
                 + "2 1st, 3 2nd, 5 3rd, 6 4th 7 5th. ")
             .withDescription("Or convert spell slots to sorcery points. "
-                + "1 sorcery point for each level. ")),;
+                + "1 sorcery point for each level. ")),
+        SORCEROUS_RESTORATIONS(delegate()
+            .withDescription("Regain 4 sorcery points after short rest.")),
+        DRACONIC_RESILIENCE(delegate()
+            .withDescription("Increase in HP and unarmoured AC [13+$dex_mod].")
+            .withAction("Increase HP", ch -> {
+                ch.getAttribute(AttributeType.HIT_POINTS, IntAttribute.class)
+                    .addValue(ch.getLevel());
+            })),
+        ELEMENTAL_AFFINITY(delegate()
+            .withDescription("+[$chr_mod] to one damage roll of spells dealing "
+                + "[$draconic_damage] damage.")
+            .withDescription("Spend 1 sorcery point to gain resistance "
+                + "to [$draconic_damage] for 1 hour.")),
+        DRAGON_WINGS(delegate()
+            .withDescription("As a bonus action, sprout or dismiss dragon wings "
+                + "if not wearing armour.")
+            .withDescription("Gain flying speed equal to current speed.")),
+        DRACONIC_PRESENCE(delegate()
+            .withDescription("As an action, spend 5 sorcery points to exude aura of awe or fear "
+                + "to 60 feet for 1 minute. Creatures in aura are charmed or frightened. Wis save.")),
+        WILD_MAGIC_SURGE(delegate()
+            .withDescription("Each spell can cause a <em>Wild Magic</em> surge on a roll of 1 on d20.")),
+        TIDES_OF_CHAOS(delegate()
+            .withDescription("Gain advantage on one attack, ability check or save.")
+            .withDescription("Use once between each long rest.")),
+        BEND_LUCK(delegate()
+            .withDescription("As a reaction to an attack, ability check or save, "
+                + "spend 2 sorcery points to apply a d4 penalty to roll.")),
+        CONTROLLED_CHAOS(delegate()
+            .withDescription("On each <em>Wild Magic</em> surge, roll twice and use either number.")),
+        SPELL_BOMBARDMENT(delegate()
+            .withDescription("On rolling maximum damage on at least one die for a spell, "
+                + "roll the same die again and add to the damage."));
 
         private final AttributeDelegate delegate;
 
@@ -52,8 +88,8 @@ public class Sorcerer extends AbstractCharacterClass {
         }
 
         @Override
-        public void generateLevelChoices(Character character) {
-            Attribute.super.generateLevelChoices(character);
+        public void generateInitialChoices(Character character) {
+            delegate.generateChoices(character);
         }
 
         @Override
@@ -103,6 +139,8 @@ public class Sorcerer extends AbstractCharacterClass {
         gen.level(2).addAttributes(FONT_OF_MAGIC);
         gen.level(3).addChoice(2, new AttributeChoice("Metamagic", MetaMagic.values()));
         gen.level(10, 17).addChoice(new AttributeChoice("Metamagic", MetaMagic.values()));
+        gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
+        gen.level(20).addAttributes(SORCEROUS_RESTORATIONS);
 
         gen.level(1)
             .addSpellCasting(casting, CHARISMA, CharacterClass.SORCERER, "All")

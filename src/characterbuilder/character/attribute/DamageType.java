@@ -5,7 +5,9 @@ import characterbuilder.utils.StringUtils;
 public enum DamageType {
     ACID,
     COLD,
+    FIRE,
     LIGHTNING,
+    POISON,
     THUNDER;
 
     @Override
