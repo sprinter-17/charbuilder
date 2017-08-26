@@ -51,6 +51,8 @@ public class AbilityTreeRoot extends DefaultMutableTreeNode {
             case FIGHTER_ABILITY:
             case PALADIN_ABILITY:
             case WARLOCK_ABILITY:
+            case SORCERER_ABILITY:
+            case META_MAGIC:
                 addAttributes(character, type);
                 break;
         }

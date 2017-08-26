@@ -34,14 +34,20 @@ public class FavouredEnemy implements Attribute {
         OOZES,
         PLANTS,
         UNDEAD,
+        BUGBEARS,
         GNOLLS,
         ORCS,
-        GOBLINS;
-
-        private final static Enemy[] HUMANOIDS = {GNOLLS, ORCS, GOBLINS};
+        GOBLINS,
+        WEREBOAR,
+        WEREBEAR,
+        WERERAT,
+        WERETIGER,
+        WEREWOLF,
+        KOBOLD,
+        KENKU;
 
         public boolean isHumanoid() {
-            return Arrays.stream(HUMANOIDS).anyMatch(this::equals);
+            return this.ordinal() >= BUGBEARS.ordinal();
         }
 
         @Override

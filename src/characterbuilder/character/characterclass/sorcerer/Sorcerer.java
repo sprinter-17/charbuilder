@@ -1,11 +1,15 @@
 package characterbuilder.character.characterclass.sorcerer;
 
-import static characterbuilder.character.ability.Ability.FONT_OF_MAGIC;
+import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Skill.*;
+import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.AttributeDelegate;
+import static characterbuilder.character.attribute.AttributeDelegate.delegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import characterbuilder.character.characterclass.CharacterClass;
+import static characterbuilder.character.characterclass.sorcerer.Sorcerer.Ability.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.choice.EquipmentChoice;
@@ -22,9 +26,50 @@ import static characterbuilder.character.equipment.Weapon.DART;
 import static characterbuilder.character.equipment.Weapon.LIGHT_CROSSBOW;
 import static characterbuilder.character.equipment.Weapon.QUARTERSTAFF;
 import static characterbuilder.character.equipment.Weapon.SLING;
+import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
+import org.w3c.dom.Element;
 
 public class Sorcerer extends AbstractCharacterClass {
+
+    public enum Ability implements Attribute {
+        FONT_OF_MAGIC(delegate()
+            .withDescription("[$level] sorcery points. ")
+            .withDescription("As a bonus action, convert sorcery points to spell slots. "
+                + "2 1st, 3 2nd, 5 3rd, 6 4th 7 5th. ")
+            .withDescription("Or convert spell slots to sorcery points. "
+                + "1 sorcery point for each level. ")),;
+
+        private final AttributeDelegate delegate;
+
+        private Ability(AttributeDelegate delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        public AttributeType getType() {
+            return AttributeType.SORCERER_ABILITY;
+        }
+
+        @Override
+        public void generateLevelChoices(Character character) {
+            Attribute.super.generateLevelChoices(character);
+        }
+
+        @Override
+        public String toString() {
+            return delegate.getName().orElse(StringUtils.capitaliseEnumName(name()));
+        }
+
+        @Override
+        public Stream<String> getDescription(Character character) {
+            return delegate.getDescription(character);
+        }
+
+        public static Ability load(Element element) {
+            return valueOf(element.getTextContent());
+        }
+    }
 
     @Override
     public int getHitDie() {
@@ -56,6 +101,8 @@ public class Sorcerer extends AbstractCharacterClass {
         gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
             DUNGEONEER_PACK, EXPLORER_PACK));
         gen.level(2).addAttributes(FONT_OF_MAGIC);
+        gen.level(3).addChoice(2, new AttributeChoice("Metamagic", MetaMagic.values()));
+        gen.level(10, 17).addChoice(new AttributeChoice("Metamagic", MetaMagic.values()));
 
         gen.level(1)
             .addSpellCasting(casting, CHARISMA, CharacterClass.SORCERER, "All")

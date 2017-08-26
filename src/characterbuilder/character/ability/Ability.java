@@ -24,11 +24,7 @@ public enum Ability implements Attribute {
     INTIMIDATING_PRESENCE(CLASS_TALENT, "Intimidating Presence",
         "As action, one creature within 30' Wis. save vs DC[8+$prof+$chr_mod] or be frightened."),
     RETALIATION(CLASS_TALENT, "Retaliation",
-        "As reaction, make melee weapon attack against creature within 5' that has caused damage."),
-    FONT_OF_MAGIC(CLASS_TALENT,
-        "[$level] sorcery points. As a bonus action, convert sorcery points to spell slots. "
-        + "2 1st, 3 2nd, 5 3rd, 6 4th 7 5th. Or convert spell slots to sorcery points. "
-        + "1 sorcery point for each level. "),;
+        "As reaction, make melee weapon attack against creature within 5' that has caused damage."),;
 
     private static class AbilityDelegate extends AttributeDelegate {
 

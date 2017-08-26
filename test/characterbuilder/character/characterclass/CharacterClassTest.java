@@ -100,7 +100,7 @@ public class CharacterClassTest {
     public void testMultipleCharacterGeneration() {
         setLogging(Level.OFF);
         InitialChoiceGenerator init = new InitialChoiceGenerator();
-        for (int i = 1; i <= 500; i++) {
+        for (int i = 1; i <= 1000; i++) {
             LOG.info("Character #" + i);
             character = new TestCharacter();
             character.addChoiceList(new IterativeSelector(i));

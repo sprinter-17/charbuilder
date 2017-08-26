@@ -30,6 +30,8 @@ import characterbuilder.character.characterclass.ranger.RangerArchetype;
 import characterbuilder.character.characterclass.ranger.RangerCompanion;
 import characterbuilder.character.characterclass.rogue.RogueAbility;
 import characterbuilder.character.characterclass.rogue.RoguishArchetype;
+import characterbuilder.character.characterclass.sorcerer.MetaMagic;
+import characterbuilder.character.characterclass.sorcerer.Sorcerer;
 import characterbuilder.character.characterclass.sorcerer.SorcerousOrigin;
 import characterbuilder.character.characterclass.warlock.EldritchInvocation;
 import characterbuilder.character.characterclass.warlock.MysticArcanum;
@@ -86,6 +88,8 @@ public enum AttributeType {
     MONK_ABILITY(false, MonkAbility::load),
     RANGER_ABILITY(false, RangerAbility::load),
     ROGUE_ABILITY(false, RogueAbility::load),
+    SORCERER_ABILITY(false, Sorcerer.Ability::load),
+    META_MAGIC(false, MetaMagic::load),
     ROGUISH_ARCHETYPE(true, RoguishArchetype::load),
     MONASTIC_TRADITION(true, MonasticTradition::load),
     ELEMENTAL_DISCIPLINE(false, ElementalDiscipline::load),
