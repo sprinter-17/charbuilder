@@ -103,9 +103,35 @@ public class ChoiceGenerator {
         return this;
     }
 
+    public ChoiceGenerator addAttributeChoice(String name, Attribute... attributes) {
+        choices.add(new AttributeChoice(name, attributes));
+        return this;
+    }
+
+    public ChoiceGenerator addAttributeChoice(int count, String name, Attribute... attributes) {
+        choices.add(new AttributeChoice(name, attributes).withCount(count));
+        return this;
+    }
+
+    public ChoiceGenerator addAttributeChoice(int count, String name, Stream<Attribute> attributes) {
+        choices.add(new AttributeChoice(name, attributes).withCount(count));
+        return this;
+    }
+
     public ChoiceGenerator addChoice(int count, OptionChoice choice) {
         choices.add(choice.withCount(count));
         return this;
+    }
+
+    public ChoiceGenerator addAbilityScoreOrFeatChoice() {
+        choices.add(new AbilityScoreOrFeatIncrease().withCount(2));
+        return this;
+    }
+
+    public EquipmentChoice addEquipmentChoice(String name, Equipment... equipment) {
+        EquipmentChoice choice = new EquipmentChoice(name, equipment);
+        choices.add(choice);
+        return choice;
     }
 
     public ChoiceGenerator removeAttribute(Attribute attribute) {

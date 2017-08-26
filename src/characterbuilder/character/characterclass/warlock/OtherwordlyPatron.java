@@ -1,7 +1,7 @@
 package characterbuilder.character.characterclass.warlock;
 
 import characterbuilder.character.Character;
-import static characterbuilder.character.characterclass.warlock.Warlock.Ability.*;
+import static characterbuilder.character.characterclass.warlock.WarlockAbility.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.spell.Spell;

@@ -6,7 +6,7 @@ import static characterbuilder.character.attribute.AttributeType.INTELLIGENCE;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
-import characterbuilder.character.attribute.DraconicAncestory;
+import characterbuilder.character.attribute.DraconicAncestry;
 import characterbuilder.character.spell.SpellCasting;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -20,7 +20,7 @@ public class TestUtils {
         TestCharacter character = new TestCharacter();
         character.setLevel(1);
         character.addAttribute(Race.HALF_ELF);
-        character.addAttribute(DraconicAncestory.BLUE);
+        character.addAttribute(DraconicAncestry.BLUE);
         character.addAttribute(new IntAttribute(AttributeType.HIT_POINTS, 10));
         character.addAttribute(new SpellCasting("Casting", INTELLIGENCE, WIZARD, "All"));
         character.withScores(14);

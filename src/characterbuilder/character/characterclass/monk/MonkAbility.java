@@ -109,5 +109,4 @@ public enum MonkAbility implements Attribute {
     public static MonkAbility load(Element element) {
         return valueOf(element.getTextContent());
     }
-
 }

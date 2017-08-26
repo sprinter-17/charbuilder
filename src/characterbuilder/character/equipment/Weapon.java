@@ -168,8 +168,8 @@ public enum Weapon implements Equipment {
     @Override
     public Stream<String> getDescription(Character character) {
         return Stream.concat(Equipment.super.getDescription(character),
-            getAttacks(character).map(at -> "Attack +" + at.getBonus() + " " + at.getDamage()
-            + at.getDescription().map(d -> " (" + d + ")").orElse(null)));
+            getAttacks(character).map(at -> String.format("Attack %+d ", at.getBonus())
+            + at.getDamage() + at.getDescription().map(d -> " (" + d + ")").orElse(null)));
     }
 
     @Override

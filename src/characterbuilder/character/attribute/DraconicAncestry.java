@@ -2,11 +2,14 @@ package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.RacialTalent;
+import static characterbuilder.character.attribute.AttributeType.DRACONIC_ANCESTRY;
+import characterbuilder.character.choice.AttributeChoice;
+import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
 import org.w3c.dom.Node;
 
-public enum DraconicAncestory implements Attribute {
+public enum DraconicAncestry implements Attribute {
     BLACK(DamageType.ACID, "5x30' line, Dex. save"),
     BLUE(DamageType.LIGHTNING, "5x40' line, Dex. save"),
     BRASS(DamageType.FIRE, "5x30' line, Dex. save"),
@@ -21,14 +24,23 @@ public enum DraconicAncestory implements Attribute {
     private final DamageType damage;
     private final String breathWeapon;
 
-    private DraconicAncestory(DamageType damage, String breathWeapon) {
+    public static OptionChoice choose() {
+        return new AttributeChoice("Draconic Ancestry", values()) {
+            @Override
+            public boolean isAllowed(Character character) {
+                return !character.hasAttribute(DRACONIC_ANCESTRY);
+            }
+        };
+    }
+
+    private DraconicAncestry(DamageType damage, String breathWeapon) {
         this.damage = damage;
         this.breathWeapon = breathWeapon;
     }
 
     @Override
     public AttributeType getType() {
-        return AttributeType.DRACONIC_ANCESTORY;
+        return AttributeType.DRACONIC_ANCESTRY;
     }
 
     public DamageType getDamage() {
@@ -51,11 +63,14 @@ public enum DraconicAncestory implements Attribute {
 
     @Override
     public Stream<String> getDescription(Character character) {
-        return Stream.of("Breath " + breathWeapon);
+        if (character.hasAttribute(Race.DRAGONBORN))
+            return Stream.of("Breath " + damage.toString() + " " + breathWeapon);
+        else
+            return Stream.of("Damage " + damage.toString());
     }
 
-    public static DraconicAncestory load(Node node) {
-        return DraconicAncestory.valueOf(node.getTextContent());
+    public static DraconicAncestry load(Node node) {
+        return DraconicAncestry.valueOf(node.getTextContent());
     }
 
 }

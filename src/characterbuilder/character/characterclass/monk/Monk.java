@@ -4,21 +4,12 @@ import static characterbuilder.character.ability.Ability.EVASION;
 import static characterbuilder.character.ability.Ability.EXTRA_ATTACK;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_SIMPLE_WEAPONS;
-import static characterbuilder.character.ability.Skill.ACROBATICS;
-import static characterbuilder.character.ability.Skill.ATHLETICS;
-import static characterbuilder.character.ability.Skill.HISTORY;
-import static characterbuilder.character.ability.Skill.INSIGHT;
-import static characterbuilder.character.ability.Skill.RELIGION;
-import static characterbuilder.character.ability.Skill.STEALTH;
-import characterbuilder.character.attribute.Attribute;
-import characterbuilder.character.attribute.AttributeDelegate;
+import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import static characterbuilder.character.characterclass.monk.MonkAbility.*;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
-import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
-import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.equipment.EquipmentCategory;
 import static characterbuilder.character.equipment.EquipmentPack.DUNGEONEER_PACK;
 import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
@@ -26,10 +17,8 @@ import characterbuilder.character.equipment.MusicalInstrument;
 import static characterbuilder.character.equipment.Weapon.DART;
 import static characterbuilder.character.equipment.Weapon.SHORTSWORD;
 import java.util.stream.Stream;
-import org.w3c.dom.Element;
 
 public class Monk extends AbstractCharacterClass {
-
 
     @Override
     public int getHitDie() {
@@ -55,22 +44,19 @@ public class Monk extends AbstractCharacterClass {
     protected void makeGenerator(ChoiceGenerator gen) {
         gen.level(1).addWeaponProficiencies(SHORTSWORD);
         gen.level(1).addAttributes(ALL_SIMPLE_WEAPONS);
-        gen.level(1).addChoice(new AttributeChoice("Tools",
-            Stream.concat(
-                MusicalInstrument.getAllProficiencies(),
-                Proficiency.allOfType(AttributeType.TOOLS))));
-        gen.level(1).addChoice(2, new AttributeChoice("Skill", ACROBATICS, ATHLETICS, HISTORY,
-            INSIGHT, RELIGION, STEALTH));
-        gen.level(1).addChoice(new EquipmentChoice("Weapon").with(SHORTSWORD)
-            .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED));
-        gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
-            DUNGEONEER_PACK, EXPLORER_PACK));
+        gen.level(1).addAttributeChoice(1, "Tools", Stream.concat(
+            MusicalInstrument.getAllProficiencies(),
+            Proficiency.allOfType(AttributeType.TOOLS)));
+        gen.level(1).addAttributeChoice(2, "Skill", ACROBATICS, ATHLETICS, HISTORY,
+            INSIGHT, RELIGION, STEALTH);
+        gen.level(1).addEquipmentChoice("Weapon").with(SHORTSWORD)
+            .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED);
+        gen.level(1).addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
         gen.level(1).addEquipment(DART, 10);
         gen.level(1).addAttributes(UNARMORED_DEFENCE, MARTIAL_ARTS);
         gen.level(2).addAttributes(KI, FLURRY_OF_BLOWS, PATIENT_DEFENCE, STEP_OF_THE_WIND,
             UNARMOURED_MOVEMENT);
-        gen.level(3).addChoice(
-            new AttributeChoice("Monastic Tradition", MonasticTradition.values()));
+        gen.level(3).addAttributeChoice("Monastic Tradition", MonasticTradition.values());
         gen.level(3).addAttributes(DEFLECT_MISSILES);
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
         gen.level(4).addAttributes(SLOW_FALL);
@@ -84,9 +70,5 @@ public class Monk extends AbstractCharacterClass {
         gen.level(15).addAttributes(TIMELESS_BODY);
         gen.level(18).addAttributes(EMPTY_BODY);
         gen.level(20).addAttributes(PERFECT_SELF);
-    }
-
-    public static MonkAbility loadAbility(Element element) {
-        return MonkAbility.valueOf(element.getTextContent());
     }
 }

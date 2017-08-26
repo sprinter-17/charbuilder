@@ -6,7 +6,7 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.STRENGTH;
 import static characterbuilder.character.characterclass.CharacterClass.DRUID;
-import static characterbuilder.character.characterclass.barbarian.Barbarian.Ability.*;
+import static characterbuilder.character.characterclass.barbarian.BarbarianAbility.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.spell.Spell;

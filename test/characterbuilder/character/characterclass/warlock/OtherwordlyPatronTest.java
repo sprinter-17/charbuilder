@@ -21,7 +21,7 @@ public class OtherwordlyPatronTest {
     @Test
     public void testAbility() {
         OtherwordlyPatron.THE_GREAT_OLD_ONE.choose(character);
-        assertTrue(character.hasAttribute(Warlock.Ability.AWAKENED_MIND));
+        assertTrue(character.hasAttribute(WarlockAbility.AWAKENED_MIND));
     }
 
     @Test

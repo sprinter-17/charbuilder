@@ -48,11 +48,6 @@ public class Cleric extends AbstractCharacterClass {
 
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
-        gen.level(1).addSpellCasting("Cleric", WISDOM, CLERIC, "[$wis_mod + $level]");
-        gen.level(1).learnAllSpells("Cleric");
-        gen.level(1).addChoice(cantripChoice(3, WISDOM));
-        gen.level(5, 10).addChoice(cantripChoice(1, WISDOM));
-        gen.level(1).addSpellSlots("Cleric", 1, 2);
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD, ALL_SIMPLE_WEAPONS);
         gen.level(1).addChoice(new AttributeChoice("Divine Domain", DivineDomain.values()));
@@ -65,6 +60,16 @@ public class Cleric extends AbstractCharacterClass {
         gen.level(1).addChoice(new EquipmentChoice("Armour",
             SCALE_MAIL_ARMOUR, LEATHER_ARMOUR, CHAIN_MAIL_ARMOUR));
         gen.level(1).addChoice(new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL));
+        addSpellCasting(gen);
+    }
+
+    private void addSpellCasting(ChoiceGenerator gen) {
+        String casting = "Cleric";
+        gen.level(1).addSpellCasting(casting, WISDOM, CLERIC, "[$wis_mod + $level]");
+        gen.level(1).learnAllSpells(casting);
+        gen.level(1).addChoice(cantripChoice(3, WISDOM));
+        gen.level(5, 10).addChoice(cantripChoice(1, WISDOM));
+        gen.level(1).addSpellSlots(casting, 1, 2);
         gen.level(2, 3).addSpellSlots("Cleric", 1, 1);
         gen.level(3).addSpellSlots("Cleric", 2, 2);
         gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());

@@ -12,14 +12,14 @@ import org.w3c.dom.Element;
 public enum MetaMagic implements Attribute {
     CAREFUL_SPELL(delegate()
         .withDescription("Spend 1 sorcery point. "
-            + "Choose [if($chr_mod <= 1,1 creature, up to $chr_mod creatures)] "
+            + "Choose [if($chr_mod <= 1:1 creature: up to $chr_mod creatures)] "
             + "to automatically succeed on their save for the spell.")),
     DISTANT_SPELL(delegate()
         .withDescription("Spend 1 sorcery point. Double range of spell, or extend range of "
             + "<em>Touch</em> to 30 feet.")),
     EMPOWERED_SPELL(delegate()
         .withDescription("Spend 1 sorcery point. "
-            + "Reroll [if($chr_mod <= 1,1 damage die, up to $chr_mod damage dice].")),
+            + "Reroll [if($chr_mod <= 1:1 damage die: up to $chr_mod damage dice)].")),
     EXENDED_SPELL(delegate()
         .withDescription("Spend 1 sorcery point. "
             + "Double duration of spell with duration of at least 1 minute up to 24 hours.")),

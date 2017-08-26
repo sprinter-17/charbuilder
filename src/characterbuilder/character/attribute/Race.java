@@ -85,7 +85,7 @@ public enum Race implements Attribute {
         gen.addAttributes(GNOME_CUNNING, COMMON, GNOMISH, ARTIFICERS_LORE, TINKER);
     }),
     DRAGONBORN(2, 0, 0, 0, 0, 1, 30, 15, "5'6\"", "2d8", "175lb", "2d6", gen -> {
-        gen.addChoice(new AttributeChoice("Draconic Ancestory", DraconicAncestory.values()));
+        gen.addChoice(DraconicAncestry.choose());
     }),
     HUMAN(1, 1, 1, 1, 1, 1, 30, 18, "4'8\"", "2d10", "110lb", "2d4", gen -> {
         gen.addAttributes(COMMON);
@@ -101,7 +101,8 @@ public enum Race implements Attribute {
     });
 
     private static final CharacterRandom RANDOM = new CharacterRandom();
-    private final EnumMap<AttributeType, Integer> adjustments = new EnumMap<>(AttributeType.class);
+    private final EnumMap<AttributeType, Integer> adjustments = new EnumMap<>(AttributeType.class
+    );
     private final int speed;
     private final int ageOfMaturity;
     private final Height baseHeight;
@@ -129,8 +130,10 @@ public enum Race implements Attribute {
             this.baseWeight = Weight.valueOf(baseWeight);
             this.weightModifier = weightModifier;
             generator.accept(this.generator);
+
         } catch (Height.HeightFormatException | Weight.WeightFormatException ex) {
-            Logger.getLogger(Race.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Race.class
+                .getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Race data exception " + ex);
         }
     }
@@ -174,6 +177,7 @@ public enum Race implements Attribute {
 
     public static Race load(Node node) {
         return Race.valueOf(node.getTextContent());
+
     }
 
     private static class SuperRace implements Option {

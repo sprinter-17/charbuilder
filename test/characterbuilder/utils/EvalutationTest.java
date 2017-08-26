@@ -1,7 +1,7 @@
 package characterbuilder.utils;
 
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.DraconicAncestory;
+import characterbuilder.character.attribute.DraconicAncestry;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.characterclass.CharacterClass;
@@ -62,6 +62,7 @@ public class EvalutationTest {
     public void testIfExpression() {
         assertThat(eval("if(4 > 3:Foo)", context), is("Foo"));
         assertThat(eval("if(4 < 3:Foo)", context), is(""));
+        assertThat(eval("if(4 < 3:Foo:Bar $level Bar)", context), is("Bar 1 Bar"));
     }
 
     @Test
@@ -112,7 +113,7 @@ public class EvalutationTest {
 
     @Test
     public void testDraconicAncestory() {
-        character.addAttribute(DraconicAncestory.COPPER);
+        character.addAttribute(DraconicAncestry.COPPER);
         assertThat(eval("$draconic_damage", context), is("Acid"));
         assertThat(eval("$draconic_breath", context), is("Acid, 5x30' line, Dex. save"));
     }

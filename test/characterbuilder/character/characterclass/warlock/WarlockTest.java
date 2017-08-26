@@ -19,7 +19,7 @@ public class WarlockTest {
 
     @Test
     public void testSpellAbility() {
-        Warlock.Ability.PACT_OF_THE_CHAIN.choose(warlock);
+        WarlockAbility.PACT_OF_THE_CHAIN.choose(warlock);
         assertTrue(warlock.hasAttribute(new SpellAbility(Spell.FIND_FAMILIAR, CHARISMA)));
     }
 }

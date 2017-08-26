@@ -7,6 +7,7 @@ import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.characterclass.barbarian.Barbarian;
+import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -87,7 +88,7 @@ public class ArmourTest {
     public void testUnarmouredDefence() {
         IntAttribute constitution = new IntAttribute(AttributeType.CONSTITUTION, 10);
         character.addAttribute(constitution);
-        character.addAttribute(Barbarian.Ability.UNARMORED_DEFENCE);
+        character.addAttribute(BarbarianAbility.UNARMORED_DEFENCE);
         assertThat(Armour.getArmourClass(character), is(10));
         constitution.setValue(14);
         assertThat(Armour.getArmourClass(character), is(12));

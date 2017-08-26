@@ -2,7 +2,7 @@ package characterbuilder.character.characterclass.sorcerer;
 
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
-import static characterbuilder.character.characterclass.sorcerer.Sorcerer.Ability.*;
+import static characterbuilder.character.characterclass.sorcerer.SorcererAbility.*;
 import characterbuilder.character.equipment.Armour;
 import static characterbuilder.character.saveload.TestDoc.doc;
 import characterbuilder.utils.TestCharacter;
@@ -30,7 +30,7 @@ public class SorcererTest {
 
     @Test
     public void testDescriptionExpressions() {
-        TestUtils.testDescriptions(Sorcerer.Ability.values());
+        TestUtils.testDescriptions(SorcererAbility.values());
     }
 
 }

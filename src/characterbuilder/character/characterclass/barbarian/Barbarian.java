@@ -11,109 +11,17 @@ import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
-import static characterbuilder.character.characterclass.barbarian.Barbarian.Ability.*;
-import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
-import characterbuilder.character.choice.AttributeChoice;
+import static characterbuilder.character.characterclass.barbarian.BarbarianAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.levels;
-import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.equipment.EquipmentCategory;
 import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
 import characterbuilder.character.equipment.EquipmentSet;
 import static characterbuilder.character.equipment.Weapon.*;
 import java.util.stream.Stream;
-import org.w3c.dom.Element;
 
 public class Barbarian extends AbstractCharacterClass {
 
-    public enum Ability implements Attribute {
-        RAGE(ability()
-            .withDescription("As bonus action, enter rage for 1 minute. ")
-            .withDescription("Advantage on Str. checks and saves.")
-            .withDescription("+[max($level 1:2,9:3,16:4)] dam on melee attacks. ")
-            .withDescription("Resistance to bludgeoning, piercing and slashing damage. "
-                + "Use [max($level 1:2,6:4,12:5,17:6)] times between long rests. ")),
-        UNARMORED_DEFENCE(ability()
-            .withDescription("Unarmoured AC[10+$dex_mod+$con_mod].")),
-        RECKLESS_ATTACK(ability()
-            .withDescription("Choose to attack recklessly gaining and giving advantage "
-                + "on melee attacks.")),
-        DANGER_SENSE(ability()
-            .withDescription("Advantage on Dex. saving throws against visible effects")),
-        FAST_MOVEMENT(ability()
-            .withDescription("+10' speed when unarmoured.")),
-        FERAL_INSTINCTS(ability()
-            .withDescription("Advantage on initiative, enter rage and act normally on surprise.")),
-        BRUTAL_CRITICAL(ability()
-            .withDescription("Roll [max($level 9:1,13:2,17:3)] extra [plural(die,dice)] "
-                + "damage on critical.")),
-        RELENTLESS_RAGE(ability()
-            .withDescription("When dropping to 0HP during rage, make Con. save vs DC10 (+5 per use) "
-                + "to drop to 1HP instead.")),
-        PERSISTENT_RAGE(ability()
-            .withDescription("Rage continues until ended voluntarily or falls unconscious.")),
-        INDOMITABLE_MIGHT(ability()
-            .withDescription("Str check minimum [$str].")),
-        FRENZY(ability()
-            .withDescription("Can enter frenzy during rage. ")
-            .withDescription("Melee weapon attack as bonus action each turn. ")
-            .withDescription("Exhaustion when rage ends.")),
-        MINDLESS_RAGE(ability()
-            .withDescription("Cannot be charmed or frightened during rage.")),
-        TOTEM_SPIRIT_BEAR(ability()
-            .withName("Totem Spirit (Bear)")
-            .withDescription("During rage, resistance to all damage except psychic.")),
-        TOTEM_SPIRIT_EAGLE(ability()
-            .withName("Totem Spirit (Eagle)")
-            .withDescription("During rage, if not wearing heavy armour, "
-                + "disadvantage opportunity attacks, "
-                + "take Dash bonus action.")),
-        TOTEM_SPIRIT_WOLF(ability()
-            .withName("Totem Spirit (Wolf)")
-            .withDescription("During rage, friends have advantage on melee attacks "
-                + "against enemies within 5'.")),
-        ASPECT_OF_BEAST_BEAR(ability()
-            .withName("Aspect of the Beast (Bear)")
-            .withDescription("Carrying capacity doubled. Advantage on Str. checks moving objects.")),
-        ASPECT_OF_BEAST_EAGLE(ability()
-            .withName("Aspect of the Beast (Eagle)")
-            .withDescription("See up to 1 mile without difficulty. "
-                + "Dim light does not disadvantage Perception checks.")),
-        ASPECT_OF_BEAST_WOLF(ability()
-            .withName("Aspect of the Beast (Wolf)")
-            .withDescription("Track at fast pace; stealth at normal pace.")),
-        TOTEMIC_ATTUNEMENT_BEAR(ability()
-            .withName("Totemic Attunement (Bear)")
-            .withDescription("During rage, enemies within 5' disadvantaged on attacks on friends.")),
-        TOTEMIC_ATTUNEMENT_EAGLE(ability()
-            .withName("Totemic Attunement (Eagle)")
-            .withDescription("During rage, fly at [$speed]'")),
-        TOTEMIC_ATTUNEMENT_WOLF(ability()
-            .withName("Totemic Attunement (Wolf)")
-            .withDescription("During rage, as bonus action knock enemy prone when hit "
-                + "with melee attack.")),;
-
-        private final AttributeDelegate delegate;
-
-        private Ability(AttributeDelegate delegate) {
-            this.delegate = delegate;
-        }
-
-        @Override
-        public AttributeType getType() {
-            return AttributeType.BARBARIAN_ABILITY;
-        }
-
-        @Override
-        public void generateInitialChoices(Character character) {
-            delegate.generateChoices(character);
-        }
-
-        @Override
-        public Stream<String> getDescription(Character character) {
-            return delegate.getDescription(character);
-        }
-    }
 
     @Override
     public int getHitDie() {
@@ -134,20 +42,20 @@ public class Barbarian extends AbstractCharacterClass {
     protected void makeGenerator(ChoiceGenerator gen) {
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD, ALL_WEAPONS);
-        gen.level(1).addChoice(2, new AttributeChoice("Skill",
-            ANIMAL_HANDLING, ATHLETICS, INTIMIDATION, NATURE, PERCEPTION, SURVIVAL));
-        gen.level(1).addChoice(new EquipmentChoice("Primary Weapon")
-            .with(GREATEAXE).with(EquipmentCategory.MARTIAL_MELEE));
-        gen.level(1).addChoice(new EquipmentChoice("Secondary Weapon")
+        gen.level(1).addAttributeChoice(2, "Skill",
+            ANIMAL_HANDLING, ATHLETICS, INTIMIDATION, NATURE, PERCEPTION, SURVIVAL);
+        gen.level(1).addEquipmentChoice("Primary Weapon")
+            .with(GREATEAXE).with(EquipmentCategory.MARTIAL_MELEE);
+        gen.level(1).addEquipmentChoice("Secondary Weapon")
             .with(new EquipmentSet(HANDAXE, 2))
             .with(EquipmentCategory.SIMPLE_MELEE)
-            .with(EquipmentCategory.SIMPLE_RANGED));
+            .with(EquipmentCategory.SIMPLE_RANGED);
         gen.level(1).addEquipment(EXPLORER_PACK);
         gen.level(1).addEquipment(JAVELIN, 4);
         gen.level(1).addAttributes(RAGE, UNARMORED_DEFENCE);
         gen.level(2).addAttributes(RECKLESS_ATTACK, DANGER_SENSE);
-        gen.level(3).addChoice(new AttributeChoice("Primal Path", PrimalPath.values()));
-        gen.cond(levels(4, 8, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
+        gen.level(3).addAttributeChoice("Primal Path", PrimalPath.values());
+        gen.cond(levels(4, 8, 12, 16, 19)).addAbilityScoreOrFeatChoice();
         gen.level(5).addAttributes(EXTRA_ATTACK, FAST_MOVEMENT);
         gen.level(7).addAttributes(FERAL_INSTINCTS);
         gen.level(9).addAttributes(BRUTAL_CRITICAL);
@@ -160,9 +68,5 @@ public class Barbarian extends AbstractCharacterClass {
             ch.getAttribute(CONSTITUTION, AbilityScore.class).setMax(24);
             ch.getAttribute(CONSTITUTION, AbilityScore.class).addValue(4);
         });
-    }
-
-    public static Ability loadAbility(Element element) {
-        return Ability.valueOf(element.getTextContent());
     }
 }

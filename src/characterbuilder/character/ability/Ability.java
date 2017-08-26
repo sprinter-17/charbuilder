@@ -15,16 +15,7 @@ public enum Ability implements Attribute {
         .withDescription("Use reaction to halve attack damage from visible attacker.")),
     EVASION(classTalent()
         .withDescription("Save vs Dex for no damage, fail for half.")),
-    EXTRA_ATTACK(CLASS_TALENT, "Attack two times in each attack action."),
-    ARCANE_RECOVERY(CLASS_TALENT, "Once per day, following a short rest, "
-        + "recover [$level /^ 2] [plural(level,levels)] of expended spell slots below sixth level."),
-    SPELL_MASTERY(classTalent()
-        .withDescription("Choose one first and one second level spell from spellbook.")
-        .withDescription("Cast at lowest level without spending a spell slot.")),
-    INTIMIDATING_PRESENCE(CLASS_TALENT, "Intimidating Presence",
-        "As action, one creature within 30' Wis. save vs DC[8+$prof+$chr_mod] or be frightened."),
-    RETALIATION(CLASS_TALENT, "Retaliation",
-        "As reaction, make melee weapon attack against creature within 5' that has caused damage."),;
+    EXTRA_ATTACK(CLASS_TALENT, "Attack two times in each attack action."),;
 
     private static class AbilityDelegate extends AttributeDelegate {
 

@@ -2,7 +2,7 @@ package characterbuilder.character.characterclass.paladin;
 
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import static characterbuilder.character.characterclass.paladin.Paladin.Ability.*;
+import static characterbuilder.character.characterclass.paladin.PaladinAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.utils.StringUtils;

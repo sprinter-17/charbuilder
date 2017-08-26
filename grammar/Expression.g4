@@ -63,18 +63,15 @@ expr returns [String value]
     ;
 
 string_expr returns [String value]
-    : int_expr  
-        {$value = String.valueOf($int_expr.value);}
-    | '$draconic_breath' {$value = character().getAttribute(DRACONIC_ANCESTORY, 
-        DraconicAncestory.class).getBreathWeapon();}
-    | '$draconic_damage' {$value = character().getAttribute(DRACONIC_ANCESTORY,
-        DraconicAncestory.class).getDamage().toString();}
+    : '$draconic_breath' {$value = character().getAttribute(DRACONIC_ANCESTRY, 
+        DraconicAncestry.class).getBreathWeapon();}
+    | '$draconic_damage' {$value = character().getAttribute(DRACONIC_ANCESTRY,
+        DraconicAncestry.class).getDamage().toString();}
     | '$magic_school'
         {$value = character().getAttribute(ARCANE_TRADITION).toString();}
     | 'if(' bool_expr SPACE? ':' SPACE? string_expr ')'
         {$value = $bool_expr.value ? $string_expr.value : ""; }
-    | 'if(' bool_expr SPACE? ':' SPACE? str1=string_expr SPACE? 
-            ':' SPACE? str2=string_expr ')'
+    | 'if(' bool_expr SPACE? ':' SPACE? str1=string_expr SPACE? ':' SPACE? str2=string_expr ')'
         {$value = $bool_expr.value ? $str1.value : $str2.value; }
     | 'max(' int_expr SPACE max_terms ')'  
         {int value = $int_expr.value;
@@ -89,8 +86,10 @@ string_expr returns [String value]
         {$value = $int_expr.value != 0 ? String.format("%+d", $int_expr.value) : "";}
     | WORD            
         {$value = $WORD.text;}
-    | WORD SPACE   
-        {$value = $WORD.text + $SPACE.text;}
+    | int_expr
+        {$value = String.valueOf($int_expr.value);}
+    | SPACE   
+        {$value = $SPACE.text;}
     | str1=string_expr str2=string_expr
         {$value = $str1.value + $str2.value;}
     ;

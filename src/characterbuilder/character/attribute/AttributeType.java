@@ -9,13 +9,13 @@ import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.RacialTalent;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.characterclass.CharacterClass;
-import characterbuilder.character.characterclass.barbarian.Barbarian;
+import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
 import characterbuilder.character.characterclass.barbarian.PrimalPath;
-import characterbuilder.character.characterclass.bard.Bard;
+import characterbuilder.character.characterclass.bard.BardAbility;
 import characterbuilder.character.characterclass.bard.BardicCollege;
 import characterbuilder.character.characterclass.cleric.ClericAbility;
 import characterbuilder.character.characterclass.cleric.DivineDomain;
-import characterbuilder.character.characterclass.druid.Druid;
+import characterbuilder.character.characterclass.druid.DruidAbility;
 import characterbuilder.character.characterclass.druid.DruidCircle;
 import characterbuilder.character.characterclass.fighter.FighterAbility;
 import characterbuilder.character.characterclass.fighter.Maneuver;
@@ -23,7 +23,7 @@ import characterbuilder.character.characterclass.fighter.MartialArchetype;
 import characterbuilder.character.characterclass.monk.ElementalDiscipline;
 import characterbuilder.character.characterclass.monk.MonasticTradition;
 import characterbuilder.character.characterclass.monk.MonkAbility;
-import characterbuilder.character.characterclass.paladin.Paladin;
+import characterbuilder.character.characterclass.paladin.PaladinAbility;
 import characterbuilder.character.characterclass.paladin.SacredOath;
 import characterbuilder.character.characterclass.ranger.RangerAbility;
 import characterbuilder.character.characterclass.ranger.RangerArchetype;
@@ -31,13 +31,14 @@ import characterbuilder.character.characterclass.ranger.RangerCompanion;
 import characterbuilder.character.characterclass.rogue.RogueAbility;
 import characterbuilder.character.characterclass.rogue.RoguishArchetype;
 import characterbuilder.character.characterclass.sorcerer.MetaMagic;
-import characterbuilder.character.characterclass.sorcerer.Sorcerer;
+import characterbuilder.character.characterclass.sorcerer.SorcererAbility;
 import characterbuilder.character.characterclass.sorcerer.SorcerousOrigin;
 import characterbuilder.character.characterclass.warlock.EldritchInvocation;
 import characterbuilder.character.characterclass.warlock.MysticArcanum;
 import characterbuilder.character.characterclass.warlock.OtherwordlyPatron;
-import characterbuilder.character.characterclass.warlock.Warlock;
+import characterbuilder.character.characterclass.warlock.WarlockAbility;
 import characterbuilder.character.characterclass.wizard.MagicSchool;
+import characterbuilder.character.characterclass.wizard.WizardAbility;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
 import characterbuilder.character.spell.SignatureSpell;
@@ -75,32 +76,33 @@ public enum AttributeType {
     BOND(false, StringAttribute::load),
     FLAW(false, StringAttribute::load),
     RACIAL_TALENT(false, RacialTalent::load),
-    DRACONIC_ANCESTORY(true, DraconicAncestory::load),
+    DRACONIC_ANCESTRY(true, DraconicAncestry::load),
     CLASS_TALENT(false, Ability::load),
     MANEUVER(false, Maneuver::load),
     MARTIAL_ARCHETYPE(true, MartialArchetype::load),
     FIGHTING_STYLE(false, FightingStyle::load),
-    BARBARIAN_ABILITY(false, Barbarian::loadAbility),
-    BARD_ABILITY(false, Bard::loadAbility),
+    BARBARIAN_ABILITY(false, BarbarianAbility::load),
+    BARD_ABILITY(false, BardAbility::load),
     CLERIC_ABILITY(false, ClericAbility::load),
-    DRUID_ABILITY(false, Druid::loadAbility),
+    DRUID_ABILITY(false, DruidAbility::load),
     FIGHTER_ABILITY(false, FighterAbility::load),
     MONK_ABILITY(false, MonkAbility::load),
     RANGER_ABILITY(false, RangerAbility::load),
     ROGUE_ABILITY(false, RogueAbility::load),
-    SORCERER_ABILITY(false, Sorcerer.Ability::load),
+    SORCERER_ABILITY(false, SorcererAbility::load),
+    WIZARD_ABILITY(false, WizardAbility::load),
     META_MAGIC(false, MetaMagic::load),
     ROGUISH_ARCHETYPE(true, RoguishArchetype::load),
     MONASTIC_TRADITION(true, MonasticTradition::load),
     ELEMENTAL_DISCIPLINE(false, ElementalDiscipline::load),
     DRUID_CIRCLE(true, DruidCircle::load),
     DRUID_CIRCLE_ABILITY(false, DruidCircle.Ability::load),
-    PALADIN_ABILITY(false, Paladin.Ability::load),
+    PALADIN_ABILITY(false, PaladinAbility::load),
     SACRED_OATH(true, SacredOath::load),
     RANGER_ARCHETYPE(true, RangerArchetype::load),
     SORCEROUS_ORIGIN(true, SorcerousOrigin::load),
     OTHERWORLDLY_PATRON(true, OtherwordlyPatron::load),
-    WARLOCK_ABILITY(false, Warlock::loadAbility),
+    WARLOCK_ABILITY(false, WarlockAbility::load),
     ELDRITCH_INVOCATION(false, EldritchInvocation::load),
     MYSTIC_ARCANUM(false, MysticArcanum::load),
     BACKGROUND_ABILITY(false, Background.Ability::load),

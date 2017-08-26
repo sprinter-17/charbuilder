@@ -34,10 +34,13 @@ public class FavouredEnemy implements Attribute {
         OOZES,
         PLANTS,
         UNDEAD,
+
+        // All humanoids below this point
         BUGBEARS,
         GNOLLS,
         ORCS,
         GOBLINS,
+        HOBGOBLINS,
         WEREBOAR,
         WEREBEAR,
         WERERAT,

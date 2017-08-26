@@ -4,25 +4,12 @@ import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_SIMPLE_WEAPONS;
 import static characterbuilder.character.ability.Proficiency.THIEVES_CANT;
-import static characterbuilder.character.ability.Skill.ACROBATICS;
-import static characterbuilder.character.ability.Skill.ATHLETICS;
-import static characterbuilder.character.ability.Skill.DECEPTION;
-import static characterbuilder.character.ability.Skill.INSIGHT;
-import static characterbuilder.character.ability.Skill.INTIMIDATION;
-import static characterbuilder.character.ability.Skill.INVESTIGATION;
-import static characterbuilder.character.ability.Skill.PERCEPTION;
-import static characterbuilder.character.ability.Skill.PERFORMANCE;
-import static characterbuilder.character.ability.Skill.PERSUASION;
-import static characterbuilder.character.ability.Skill.SLEIGHT_OF_HAND;
-import static characterbuilder.character.ability.Skill.STEALTH;
+import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import static characterbuilder.character.characterclass.rogue.RogueAbility.*;
-import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
-import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.levels;
-import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.choice.ExpertiseChoice;
 import characterbuilder.character.equipment.AdventureGear;
 import static characterbuilder.character.equipment.AdventureGear.ARROW;
@@ -66,27 +53,20 @@ public class Rogue extends AbstractCharacterClass {
 
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
+        addAbilities(gen);
+        addEquipment(gen);
+    }
+
+    private void addAbilities(ChoiceGenerator gen) {
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS,
             Proficiency.THIEVES_TOOLS);
         gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
         gen.level(1).addAttributes(SNEAK_ATTACK, THIEVES_CANT);
-        gen.level(1).
-            addChoice(new AttributeChoice("Skill", ACROBATICS, ATHLETICS, DECEPTION, INSIGHT,
-                INTIMIDATION, INVESTIGATION, PERCEPTION, PERFORMANCE, PERSUASION,
-                SLEIGHT_OF_HAND, STEALTH).withCount(4));
+        gen.level(1).addAttributeChoice(4, "Skill", ACROBATICS, ATHLETICS, DECEPTION, INSIGHT,
+            INTIMIDATION, INVESTIGATION, PERCEPTION, PERFORMANCE, PERSUASION, SLEIGHT_OF_HAND, STEALTH);
         gen.level(1).addChoice(new ExpertiseChoice().withCount(2));
-        gen.level(1).addEquipment(LEATHER_ARMOUR)
-            .addEquipment(DAGGER, 2)
-            .addEquipment(AdventureGear.THIEVES_TOOLS);
-        gen.level(1).addChoice(new EquipmentChoice("Primary Weapon", RAPIER, SHORTSWORD));
-        gen.level(1).addChoice(new EquipmentChoice("Secondard Weapon")
-            .with(SHORTBOW, QUIVER, new EquipmentSet(ARROW, 20))
-            .with(SHORTSWORD));
-        gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
-            BUGLAR_PACK, DUNGEONEER_PACK, EXPLORER_PACK));
         gen.level(2).addAttributes(CUNNING_ACTION);
-        gen.level(3).addChoice(new AttributeChoice("Roguish Archetype",
-            RoguishArchetype.values()));
+        gen.level(3).addAttributeChoice("Roguish Archetype", RoguishArchetype.values());
         gen.level(5).addAttributes(Ability.UNCANNY_DODGE);
         gen.level(6).addChoice(new ExpertiseChoice().withCount(2));
         gen.level(7).addAttributes(Ability.EVASION);
@@ -95,6 +75,17 @@ public class Rogue extends AbstractCharacterClass {
         gen.level(15).addAttributes(SLIPPERY_MIND);
         gen.level(18).addAttributes(ELUSIVE);
         gen.level(20).addAttributes(STROKE_OF_LUCK);
-        gen.cond(levels(4, 8, 10, 12, 16, 19)).addChoice(2, new AbilityScoreOrFeatIncrease());
+        gen.cond(levels(4, 8, 10, 12, 16, 19)).addAbilityScoreOrFeatChoice();
+    }
+
+    private void addEquipment(ChoiceGenerator gen) {
+        gen.level(1).addEquipment(LEATHER_ARMOUR)
+            .addEquipment(DAGGER, 2)
+            .addEquipment(AdventureGear.THIEVES_TOOLS);
+        gen.level(1).addEquipmentChoice("Primary Weapon", RAPIER, SHORTSWORD);
+        gen.level(1).addEquipmentChoice("Secondard Weapon")
+            .with(SHORTBOW, QUIVER, new EquipmentSet(ARROW, 20)).with(SHORTSWORD);
+        gen.level(1)
+            .addEquipmentChoice("Adventure Pack", BUGLAR_PACK, DUNGEONEER_PACK, EXPLORER_PACK);
     }
 }

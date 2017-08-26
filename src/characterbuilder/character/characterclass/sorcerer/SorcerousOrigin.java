@@ -4,9 +4,8 @@ import characterbuilder.character.Character;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.DraconicAncestory;
-import static characterbuilder.character.characterclass.sorcerer.Sorcerer.Ability.*;
-import characterbuilder.character.choice.AttributeChoice;
+import characterbuilder.character.attribute.DraconicAncestry;
+import static characterbuilder.character.characterclass.sorcerer.SorcererAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
@@ -15,7 +14,7 @@ import org.w3c.dom.Node;
 
 public enum SorcerousOrigin implements Attribute {
     DRACONIC_BLOODLINE(gen -> {
-        gen.level(1).addChoice(new AttributeChoice("Draconic Ancestry", DraconicAncestory.values()));
+        gen.level(1).addChoice(DraconicAncestry.choose());
         gen.level(1).addAttributes(Proficiency.DRACONIC, DRACONIC_RESILIENCE);
         gen.level(6).addAttributes(ELEMENTAL_AFFINITY);
         gen.level(14).addAttributes(DRAGON_WINGS);

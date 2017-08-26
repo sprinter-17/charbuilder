@@ -10,13 +10,10 @@ import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import static characterbuilder.character.characterclass.CharacterClass.BARD;
-import static characterbuilder.character.characterclass.bard.Bard.Ability.*;
-import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
-import characterbuilder.character.choice.AttributeChoice;
+import static characterbuilder.character.characterclass.bard.BardAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import characterbuilder.character.choice.ChoiceSelector;
-import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.choice.ExpertiseChoice;
 import characterbuilder.character.choice.OptionChoice;
 import static characterbuilder.character.equipment.Armour.LEATHER_ARMOUR;
@@ -37,55 +34,6 @@ import org.w3c.dom.Element;
 
 public class Bard extends AbstractCharacterClass {
 
-    public enum Ability implements Attribute {
-        BARDIC_INSPIRATION(ability()
-            .withDescription("As bonus action inspire 1 creature within 60'; "
-                + "add [max($level 1:d6,5:d8,10:d10,15:d12)] to one ability, attack or save; "
-                + "use [$chr_mod] [plural(time,times)] between long rests")),
-        JACK_OF_ALL_TRADES(ability()
-            .withDescription("Add +[$prof/2] to non-proficient ability checks.")),
-        SONG_OF_REST(ability()
-            .withDescription("During short rests friends regain additional "
-                + "1d[max($level 2:6,9:8,13:10,17:12)]HP")),
-        FONT_OF_INSPIRATION(ability()
-            .withDescription("Regain all Bardic Inspirations in short and long rests.")),
-        COUNTERCHARM(ability()
-            .withDescription("As an action, all friends within 30' have advantage "
-                + "on saves vs fear and charm.")),
-        SUPERIOR_INSPIRATION(ability()
-            .withDescription("Regain 1 Bardic Inspiration on initiative roll, if no uses left.")),
-        CUTTING_WORDS(ability()
-            .withDescription("As a reaction, use Bardic Inspiration to subtract die roll from attack, "
-                + "ability, damage from creature within 60'")),
-        PEERLESS_SKILL(ability()
-            .withDescription("Use Bardic Inspiration for ability checks.")),
-        COMBAT_INSPIRATION(ability()
-            .withDescription("Creature with Bardic Inspiration can add roll to damage or AC "
-                + "as reaction.")),
-        BATTLE_MAGIC(ability()
-            .withDescription("Can make one weapon attack as bonus action when casting spell.")),;
-
-        private final AttributeDelegate delegate;
-
-        private Ability(AttributeDelegate delegate) {
-            this.delegate = delegate;
-        }
-
-        @Override
-        public AttributeType getType() {
-            return AttributeType.BARD_ABILITY;
-        }
-
-        @Override
-        public void generateInitialChoices(characterbuilder.character.Character character) {
-            delegate.generateChoices(character);
-        }
-
-        @Override
-        public Stream<String> getDescription(characterbuilder.character.Character character) {
-            return delegate.getDescription(character);
-        }
-    }
 
     private class MagicalSecret extends OptionChoice {
 
@@ -95,7 +43,7 @@ public class Bard extends AbstractCharacterClass {
 
         @Override
         public void select(Character character, ChoiceSelector selector) {
-            SpellCasting casting = character.getSpellCasting("Bard");
+            SpellCasting casting = character.getSpellCasting(CASTING_NAME);
             selector.chooseOption(Arrays.stream(Spell.values())
                 .filter(spell -> !casting.hasLearntSpell(spell))
                 .filter(spell -> spell.getLevel() <= casting.getMaxSlot()), spell -> {
@@ -107,8 +55,9 @@ public class Bard extends AbstractCharacterClass {
                 }
             });
         }
-
     }
+
+    private static final String CASTING_NAME = "Bard";
 
     @Override
     public int getHitDie() {
@@ -127,50 +76,57 @@ public class Bard extends AbstractCharacterClass {
 
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
-        gen.level(1).addSpellCasting("Bard", CHARISMA, BARD, "All");
-        gen.level(1).addChoice(cantripChoice(2, CHARISMA));
-        gen.level(4, 10).addChoice(cantripChoice(1, CHARISMA));
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS);
         gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
-        gen.level(1).addChoice(3, new AttributeChoice("Skill", Skill.values()));
-        gen.level(1).addChoice(new EquipmentChoice("Weapon", RAPIER, LONGSWORD)
-            .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED));
-        gen.level(1).addChoice(new EquipmentChoice("Adventure Pack",
-            EquipmentPack.DIPLOMAT_PACK, EquipmentPack.ENTERTAINER_PACK));
+        gen.level(1).addAttributeChoice(3, "Skill", Skill.values());
+        gen.level(1).addEquipmentChoice("Weapon", RAPIER, LONGSWORD)
+            .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED);
+        gen.level(1).addEquipmentChoice("Adventure Pack",
+            EquipmentPack.DIPLOMAT_PACK, EquipmentPack.ENTERTAINER_PACK);
         gen.level(1).addEquipment(LEATHER_ARMOUR, DAGGER);
-        gen.level(1).addChoice(3, new AttributeChoice("Musical Instrument Proficiency",
-            MusicalInstrument.getAllProficiencies()));
-        gen.level(1).addChoice(new EquipmentChoice("Musical Instrument")
-            .with(EquipmentCategory.MUSICAL_INSTRUMENT));
+        gen.level(1).addAttributeChoice(3, "Musical Instrument Proficiency",
+            MusicalInstrument.getAllProficiencies());
+        gen.level(1).addEquipmentChoice("Musical Instrument")
+            .with(EquipmentCategory.MUSICAL_INSTRUMENT);
         gen.level(1).addAttributes(BARDIC_INSPIRATION);
         gen.level(2).addAttributes(JACK_OF_ALL_TRADES);
         gen.level(2).addAttributes(SONG_OF_REST);
-        gen.level(3).addChoice(new AttributeChoice("Bard College", BardicCollege.values()));
+        gen.level(3).addAttributeChoice("Bard College", BardicCollege.values());
         gen.level(3, 10).addChoice(2, new ExpertiseChoice());
-        gen.level(4, 8, 12, 16, 19).addChoice(2, new AbilityScoreOrFeatIncrease());
+        gen.level(4, 8, 12, 16, 19).addAbilityScoreOrFeatChoice();
         gen.level(5).addAttributes(FONT_OF_INSPIRATION);
         gen.level(6).addAttributes(COUNTERCHARM);
-        gen.level(20).addAttributes(SUPERIOR_INSPIRATION);
-        gen.level(1).addSpellSlots("Bard", 1, 2);
-        gen.level(2, 3).addSpellSlots("Bard", 1, 1);
-        gen.level(3).addSpellSlots("Bard", 2, 2);
-        gen.level(4).addSpellSlots("Bard", 2, 1);
-        gen.level(5).addSpellSlots("Bard", 3, 2);
-        gen.level(6).addSpellSlots("Bard", 3, 1);
-        gen.level(7, 8, 9).addSpellSlots("Bard", 4, 1);
-        gen.level(9, 10).addSpellSlots("Bard", 5, 1);
-        gen.level(11, 19).addSpellSlots("Bard", 6, 1);
-        gen.level(13, 12).addSpellSlots("Bard", 7, 1);
-        gen.level(15).addSpellSlots("Bard", 8, 1);
-        gen.level(17).addSpellSlots("Bard", 9, 1);
-
-        gen.cond(ch -> ch.getLevel() > 1).replaceSpell("Bard");
-        gen.level(1).addKnownSpells("Bard", 4);
-        gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17).addKnownSpells("Bard", 1);
         gen.level(10, 14, 18).addChoice(2, new MagicalSecret());
+        gen.level(20).addAttributes(SUPERIOR_INSPIRATION);
+        addSpellCasting(gen);
     }
 
-    public static Ability loadAbility(Element element) {
-        return Ability.valueOf(element.getTextContent());
+    private void addSpellCasting(ChoiceGenerator gen) {
+        gen.level(1).addSpellCasting(CASTING_NAME, CHARISMA, BARD, "All");
+        addCantrips(gen);
+        addSpellSlots(gen);
+        gen.cond(ch -> ch.getLevel() > 1).replaceSpell(CASTING_NAME);
+        gen.level(1).addKnownSpells(CASTING_NAME, 4);
+        gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17).addKnownSpells(CASTING_NAME, 1);
+    }
+
+    private void addCantrips(ChoiceGenerator gen) {
+        gen.level(1).addChoice(cantripChoice(2, CHARISMA));
+        gen.level(4, 10).addChoice(cantripChoice(1, CHARISMA));
+    }
+
+    private void addSpellSlots(ChoiceGenerator gen) {
+        gen.level(1).addSpellSlots(CASTING_NAME, 1, 2);
+        gen.level(2, 3).addSpellSlots(CASTING_NAME, 1, 1);
+        gen.level(3).addSpellSlots(CASTING_NAME, 2, 2);
+        gen.level(4).addSpellSlots(CASTING_NAME, 2, 1);
+        gen.level(5).addSpellSlots(CASTING_NAME, 3, 2);
+        gen.level(6).addSpellSlots(CASTING_NAME, 3, 1);
+        gen.level(7, 8, 9).addSpellSlots(CASTING_NAME, 4, 1);
+        gen.level(9, 10).addSpellSlots(CASTING_NAME, 5, 1);
+        gen.level(11, 19).addSpellSlots(CASTING_NAME, 6, 1);
+        gen.level(13, 12).addSpellSlots(CASTING_NAME, 7, 1);
+        gen.level(15).addSpellSlots(CASTING_NAME, 8, 1);
+        gen.level(17).addSpellSlots(CASTING_NAME, 9, 1);
     }
 }

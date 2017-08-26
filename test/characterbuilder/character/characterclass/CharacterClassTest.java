@@ -35,8 +35,8 @@ public class CharacterClassTest {
 
     private static final Logger LOG = Logger.getLogger(CharacterClassTest.class.getName());
 
-    private int choiceCount = 0;
     private TestCharacter character;
+    private IterativeSelector selector;
 
     @Before
     public void setup() {
@@ -101,9 +101,10 @@ public class CharacterClassTest {
         setLogging(Level.OFF);
         InitialChoiceGenerator init = new InitialChoiceGenerator();
         for (int i = 1; i <= 1000; i++) {
+            selector = new IterativeSelector(i);
             LOG.info("Character #" + i);
             character = new TestCharacter();
-            character.addChoiceList(new IterativeSelector(i));
+            character.addChoiceList(selector);
             init.generateChoices(character);
             exhaustChoices(i, character);
             while (character.getLevel() < 20) {
@@ -133,7 +134,7 @@ public class CharacterClassTest {
     private void exhaustChoices(int count, Character character) {
         LOG.info("  Level " + character.getLevel());
         while (character.getChoiceCount() > 0) {
-            OptionChoice choice = character.getChoice(choiceCount++ % character.getChoiceCount());
+            OptionChoice choice = character.getChoice(selector.count(character.getChoiceCount()));
             LOG.fine("    Choosing " + choice.toString());
             try {
                 character.selectChoice(choice);
@@ -142,6 +143,7 @@ public class CharacterClassTest {
                     + (character.getChoiceCount() > 3 ? "..." : ""));
             } catch (IllegalStateException ex) {
                 String message = count + ":"
+                    + character.getAttribute(AttributeType.RACE).toString() + " "
                     + character.getAttribute(AttributeType.CHARACTER_CLASS).toString()
                     + "/" + character.getLevel()
                     + " Choosing " + choice.toString() + ": " + ex.getMessage();
