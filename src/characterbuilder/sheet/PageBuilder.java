@@ -22,7 +22,7 @@ public class PageBuilder {
 
     private static final int PAGE_WIDTH = 595;
     private static final int PAGE_HEIGHT = 842;
-    private static final int MARGIN = 30;
+    private static final int MARGIN = 33;
 
     public int getWidth(int zoom) {
         return PAGE_WIDTH * zoom;
@@ -146,9 +146,9 @@ public class PageBuilder {
                 g.fill(outer);
                 super.paint(g, z);
                 g.setColor(Color.BLACK);
-                g.setStroke(new BasicStroke(1.4f * z));
+                g.setStroke(new BasicStroke(1.1f * z));
                 g.draw(outer);
-                g.setStroke(new BasicStroke(0.8f * z));
+                g.setStroke(new BasicStroke(0.6f * z));
                 g.draw(inner);
             }
 

@@ -2,6 +2,7 @@ package characterbuilder.character.equipment;
 
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
+import static characterbuilder.character.saveload.Savable.child;
 import static characterbuilder.character.saveload.Savable.text;
 import java.util.Objects;
 import org.w3c.dom.Document;
@@ -50,10 +51,9 @@ public class CustomTreasure implements Equipment {
     }
 
     public static CustomTreasure load(EquipmentCategory category, Node node) {
-        Element element = (Element) node;
-        Node valueNode = element.getFirstChild();
-        Node weightNode = valueNode.getNextSibling();
-        Node descNode = weightNode.getNextSibling();
+        Node valueNode = child(node, "value");
+        Node weightNode = child(node, "weight");
+        Node descNode = child(node, "description");
         return new CustomTreasure(text(descNode), Value.load(valueNode), Weight.load(weightNode));
     }
 

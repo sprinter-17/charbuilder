@@ -139,7 +139,7 @@ public enum Background implements Attribute {
             .withDescription("Excellent memory for maps and geography. ")
             .withDescription("Can find food if available.")),
         DISCOVERY(ability()
-            .withDescription("Have made a unique and powerful discovery.")),
+            .withDescription("Has made a unique and powerful discovery.")),
         BY_POPULAR_DEMAND(ability()
             .withDescription("Find a place to perform is each town, receiving free lodging.")),
         FALSE_IDENTITY(ability()
@@ -167,6 +167,11 @@ public enum Background implements Attribute {
         @Override
         public String toString() {
             return delegate.getName().orElse(StringUtils.capitaliseEnumName(name()));
+        }
+
+        @Override
+        public Stream<String> getDescription(Character character) {
+            return delegate.getDescription(character);
         }
 
         public static Ability load(Element element) {

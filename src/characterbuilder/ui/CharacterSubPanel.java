@@ -2,6 +2,7 @@ package characterbuilder.ui;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.attribute.StringAttribute;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -112,6 +113,17 @@ public class CharacterSubPanel extends JPanel {
         field.setEnabled(true);
         if (!field.getText().equals(value))
             field.setText(value);
+    }
+
+    protected final DocumentListener updateTextAttribute(AttributeType attribute) {
+        return updateTextField((ch, txt) -> {
+            if (txt == null || txt.isEmpty())
+                ch.removeAttributesOfType(attribute);
+            else if (ch.hasAttribute(attribute))
+                ch.getAttribute(attribute, StringAttribute.class).setValue(txt);
+            else
+                ch.addAttribute(new StringAttribute(attribute, txt));
+        });
     }
 
     protected final DocumentListener updateTextField(BiConsumer<Character, String> updater) {

@@ -4,7 +4,6 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Height;
 import characterbuilder.character.attribute.IntAttribute;
-import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.attribute.Weight;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -75,15 +74,8 @@ public class AppearancePanel extends CharacterSubPanel {
         description.setLineWrap(true);
         description.setWrapStyleWord(true);
         description.setEnabled(false);
-        description.getDocument().addDocumentListener(updateTextField((ch, txt) -> {
-            if (txt == null || txt.isEmpty())
-                ch.removeAttributesOfType(AttributeType.PHYSICAL_DESCRIPTION);
-            else if (ch.hasAttribute(AttributeType.PHYSICAL_DESCRIPTION))
-                ch.getAttribute(AttributeType.PHYSICAL_DESCRIPTION, StringAttribute.class)
-                    .setValue(txt);
-            else
-                ch.addAttribute(new StringAttribute(AttributeType.PHYSICAL_DESCRIPTION, txt));
-        }));
+        description.getDocument()
+            .addDocumentListener(updateTextAttribute(AttributeType.PHYSICAL_DESCRIPTION));
     }
 
     @Override

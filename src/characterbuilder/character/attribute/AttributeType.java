@@ -72,6 +72,7 @@ public enum AttributeType {
     HEIGHT(true, Height::load),
     WEIGHT(true, Weight::load),
     PHYSICAL_DESCRIPTION(true, StringAttribute::load),
+    PERSONAL_HISTORY(true, StringAttribute::load),
     TRAIT(false, StringAttribute::load),
     IDEAL(false, StringAttribute::load),
     BOND(false, StringAttribute::load),

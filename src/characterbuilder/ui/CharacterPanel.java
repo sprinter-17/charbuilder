@@ -19,6 +19,7 @@ public class CharacterPanel extends JPanel {
     private final DetailsPanel levelPanel;
     private final AbilityScorePanel abilityScorePanel;
     private final AppearancePanel appearancePanel;
+    private final PersonalHistoryPanel historyPanel;
     private final AbilityPanel abilityPanel;
     private final InventoryPanel inventoryPanel;
     private final PersonalityPanel personalityPanel;
@@ -45,6 +46,7 @@ public class CharacterPanel extends JPanel {
         this.levelPanel = new DetailsPanel(updater);
         this.abilityScorePanel = new AbilityScorePanel(updater);
         appearancePanel = new AppearancePanel(updater);
+        historyPanel = new PersonalHistoryPanel(updater);
         abilityPanel = new AbilityPanel(updater);
         inventoryPanel = new InventoryPanel(updater);
         personalityPanel = new PersonalityPanel(updater);
@@ -58,7 +60,8 @@ public class CharacterPanel extends JPanel {
         add(panel, levelPanel, 0, 0, 1, 1);
         add(panel, abilityScorePanel, 1, 0, 1, 1);
         c.weighty = 1.0;
-        add(panel, appearancePanel, 0, 1, 2, 1);
+        add(panel, appearancePanel, 0, 1, 1, 1);
+        add(panel, historyPanel, 1, 1, 1, 1);
         c.weighty = 0.0;
         add(panel, abilityPanel, 2, 0, 1, 2);
         add(panel, inventoryPanel, 3, 0, 1, 2);
@@ -92,7 +95,7 @@ public class CharacterPanel extends JPanel {
     }
 
     public void updateCharacterData(Character character) {
-        Stream.of(appearancePanel, abilityScorePanel,
+        Stream.of(appearancePanel, historyPanel, abilityScorePanel,
             levelPanel, abilityPanel, inventoryPanel, personalityPanel)
             .forEach(panel -> panel.updateCharacter(character));
         errorUpdater = Optional.of(() -> updateErrors(character));

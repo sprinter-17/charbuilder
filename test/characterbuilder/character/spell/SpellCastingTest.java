@@ -193,6 +193,7 @@ public class SpellCastingTest {
         casting.addPreparedSpell(Spell.HEAL);
         casting.addLearntSpell(Spell.ANIMAL_MESSENGER, false);
         casting.addExpandedSpell(Spell.DARKVISION);
+        casting.addKnownSpells(17);
         casting.learnAllSpells();
         assertThat(AttributeType.load(casting.save(TestDoc.doc())), is(casting));
     }

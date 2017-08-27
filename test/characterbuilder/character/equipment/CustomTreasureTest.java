@@ -38,11 +38,6 @@ public class CustomTreasureTest {
     }
 
     @Test
-    public void testSaveLoad() {
-        assertThat(EquipmentCategory.load(treasure.save(TestDoc.doc())), is(treasure));
-    }
-
-    @Test
     public void testCustomTreasureSet() {
         EquipmentSet set = new EquipmentSet(treasure, 17);
         assertThat(set.getBaseEquipment(), is(treasure));
@@ -50,5 +45,10 @@ public class CustomTreasureTest {
         assertThat(set.toString(), is("17 Large golden statues"));
         set = new EquipmentSet(treasure, 1);
         assertThat(set.toString(), is("Large golden statue"));
+    }
+
+    @Test
+    public void testSaveLoad() {
+        assertThat(EquipmentCategory.load(treasure.save(TestDoc.doc())), is(treasure));
     }
 }

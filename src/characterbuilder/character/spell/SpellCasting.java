@@ -231,6 +231,7 @@ public class SpellCasting implements Attribute {
         element.appendChild(doc.createElement("prepared_spells"))
             .setTextContent(preparedSpellText);
         element.setAttribute("learn_all", Boolean.toString(learnAll));
+        element.setAttribute("known_spells", Integer.toString(knownSpells));
         for (int i = 0; i < spellSlots.length; i++) {
             Element slot = doc.createElement("spell_slot");
             slot.setAttribute("level", String.valueOf(i + 1));
@@ -260,6 +261,7 @@ public class SpellCasting implements Attribute {
             casting.learnAllSpells();
         if (Boolean.valueOf(element.getAttribute("learn_all")))
             casting.learnAllSpells();
+        casting.addKnownSpells(Integer.valueOf(element.getAttribute("known_spells")));
         Savable.children(element, "spell_slot")
             .forEach(el -> loadSpellSlot(casting, el));
         Savable.children(element, "learnt_spell")
@@ -295,6 +297,7 @@ public class SpellCasting implements Attribute {
             && other.preparedSpellText.equals(preparedSpellText)
             && Arrays.equals(other.spellSlots, spellSlots)
             && other.spellClass.equals(spellClass)
+            && other.knownSpells == knownSpells
             && other.learnAll == learnAll
             && other.learntSpells.equals(learntSpells)
             && other.expandedSpells.equals(expandedSpells);

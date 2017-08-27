@@ -11,6 +11,7 @@ import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
+import static characterbuilder.sheet.EquipmentPlacement.FRONT;
 import static characterbuilder.sheet.PageBuilder.Align.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -240,7 +241,7 @@ public class MainPage extends Page {
 
     private String equipmentDescription() {
         return html(character.getInventory()
-            .filter(eq -> !eq.getCategory().equals(EquipmentCategory.TREASURE))
+            .filter(eq -> EquipmentPlacement.forCategory(eq.getCategory()) == FRONT)
             .collect(Collectors.groupingBy(Equipment::getCategory))
             .entrySet().stream().map(this::equipmentCategoryDescription)
             .collect(Collectors.joining()));
