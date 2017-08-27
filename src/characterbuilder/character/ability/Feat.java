@@ -85,7 +85,7 @@ public enum Feat implements Attribute {
         .withAttribute(Proficiency.LIGHT_ARMOUR)),
     LINGUIST(feat()
         .withIncrease(INTELLIGENCE)
-        .withChoice(3, Proficiency.choose(LANGUAGE))
+        .withChoice(Language.choose(3))
         .withDescription("Create written ciphers. DC [$int + $prof] to decipher.")),
     LUCKY(feat()
         .withDescription("Up to 3 times between each long rest reroll a d20 for an attack, "

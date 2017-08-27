@@ -1,17 +1,16 @@
 package characterbuilder.character.characterclass.cleric;
 
-import characterbuilder.character.characterclass.cleric.DivineDomain;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
+import static characterbuilder.character.characterclass.cleric.ClericAbility.CHANNEL_DIVINITY;
 import characterbuilder.character.characterclass.cleric.DivineDomain.DivineDomainAbility;
-import static characterbuilder.character.characterclass.cleric.DivineDomain.DivineDomainAbility.CHANNEL_DIVINITY;
 import static characterbuilder.character.characterclass.cleric.DivineDomain.KNOWLEDGE;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.character.spell.SpellCasting;
-import static characterbuilder.utils.TestUtils.testDescriptions;
 import characterbuilder.utils.TestCharacter;
+import static characterbuilder.utils.TestUtils.testDescriptions;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;

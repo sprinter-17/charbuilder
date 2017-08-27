@@ -1,7 +1,6 @@
 package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.RacialTalent;
 import static characterbuilder.character.attribute.AttributeType.DRACONIC_ANCESTRY;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.OptionChoice;
@@ -49,11 +48,6 @@ public enum DraconicAncestry implements Attribute {
 
     public String getBreathWeapon() {
         return damage.toString() + ", " + breathWeapon;
-    }
-
-    @Override
-    public void generateInitialChoices(Character character) {
-        character.addAttribute(RacialTalent.BREATH_WEAPON);
     }
 
     @Override

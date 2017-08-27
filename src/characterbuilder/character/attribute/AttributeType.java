@@ -5,6 +5,7 @@ import characterbuilder.character.ability.ElementalAdept;
 import characterbuilder.character.ability.Expertise;
 import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.FightingStyle;
+import characterbuilder.character.ability.Language;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.RacialTalent;
 import characterbuilder.character.ability.Skill;
@@ -127,7 +128,7 @@ public enum AttributeType {
     WEAPON_PROFICIENCY(false, Weapon::loadProficiency),
     MUSICAL_INSTRUMENT_PROFICIENCY(false, MusicalInstrument::loadProficiency),
     ARMOUR_PROFICIENCY(false, Proficiency::load),
-    LANGUAGE(false, Proficiency::load),
+    LANGUAGE(false, Language::load),
     ARTISAN(false, Proficiency::load),
     TOOLS(false, Proficiency::load);
 

@@ -1,7 +1,7 @@
 package characterbuilder.character.characterclass.sorcerer;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.ability.Proficiency;
+import characterbuilder.character.ability.Language;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.DraconicAncestry;
@@ -15,7 +15,7 @@ import org.w3c.dom.Node;
 public enum SorcerousOrigin implements Attribute {
     DRACONIC_BLOODLINE(gen -> {
         gen.level(1).addChoice(DraconicAncestry.choose());
-        gen.level(1).addAttributes(Proficiency.DRACONIC, DRACONIC_RESILIENCE);
+        gen.level(1).addAttributes(Language.DRACONIC, DRACONIC_RESILIENCE);
         gen.level(6).addAttributes(ELEMENTAL_AFFINITY);
         gen.level(14).addAttributes(DRAGON_WINGS);
         gen.level(18).addAttributes(DRACONIC_PRESENCE);

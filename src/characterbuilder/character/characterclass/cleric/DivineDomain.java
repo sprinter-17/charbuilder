@@ -1,13 +1,13 @@
 package characterbuilder.character.characterclass.cleric;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.Language;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
-import static characterbuilder.character.attribute.AttributeType.LANGUAGE;
 import static characterbuilder.character.characterclass.CharacterClass.DRUID;
 import static characterbuilder.character.characterclass.cleric.DivineDomain.DivineDomainAbility.*;
 import characterbuilder.character.choice.AttributeChoice;
@@ -23,9 +23,8 @@ import org.w3c.dom.Element;
 public enum DivineDomain implements Attribute {
     KNOWLEDGE(gen -> {
         gen.level(1).addLearntSpells("Cleric", COMMAND, IDENTIFY);
-        gen.level(1).addChoice(2, Proficiency.choose(LANGUAGE));
-        gen.level(1).addChoice(2, new AttributeChoice("Skill", ARCANA, HISTORY,
-            Skill.NATURE, RELIGION));
+        gen.level(1).addChoice(Language.choose(2));
+        gen.level(1).addAttributeChoice(2, "Skill", ARCANA, HISTORY, Skill.NATURE, RELIGION);
         gen.level(2).addAttributes(KNOWLEDGE_OF_THE_AGES);
         gen.level(3).addLearntSpells("Cleric", AUGURY, SUGGESTION);
         gen.level(5).addLearntSpells("Cleric", NONDETECTION, SPEAK_WITH_DEAD);
@@ -122,18 +121,6 @@ public enum DivineDomain implements Attribute {
             .withDescription("Add [$wis_mod] to damage from cantrips.")),
         VISIONS_OF_THE_PAST(ability()
             .withDescription("After 1 minute of mediation, object and area reading")),
-        TURN_UNDEAD(ability()
-            .withDescription("Each undead within 30' save vs Wis or turned for 1 minute.")),
-        DESTROY_UNDEAD(ability()
-            .withDescription("Turned undead with CR of [max($level 5:1/2, 8:1, 11:2, 14:3, 17:4)] "
-                + "or less are destroyed")),
-        DIVINE_INTERVENTION(ability()
-            .withDescription("[if($level<20:$level% chance of deity intervening.:Deity intervenes.)] ")
-            .withDescription("7 days between each successful use. "
-                + "1 day between each unsuccessful use.")),
-        CHANNEL_DIVINITY(ability()
-            .withDescription("Use [max($level 2:one, 6:two, 18:three)] channel divinity "
-                + "[plural(power,powers)] between each rest.")),
         PRESERVE_LIFE(ability()
             .withDescription("Restore [$level*5] total HP to creatures within 30' up to "
                 + "half their maximum.")),
@@ -246,9 +233,6 @@ public enum DivineDomain implements Attribute {
     private DivineDomain(Consumer<ChoiceGenerator> consumer) {
         this.generatorMaker = gen -> {
             consumer.accept(gen);
-            gen.level(2).addAttributes(TURN_UNDEAD, CHANNEL_DIVINITY);
-            gen.level(5).addAttributes(DESTROY_UNDEAD).addSpellSlots("Cleric", 3, 2);
-            gen.level(10).addAttributes(DIVINE_INTERVENTION);
         };
     }
 

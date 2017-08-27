@@ -1,9 +1,9 @@
 package characterbuilder.character.characterclass.rogue;
 
 import characterbuilder.character.ability.Ability;
+import characterbuilder.character.ability.Language;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_SIMPLE_WEAPONS;
-import static characterbuilder.character.ability.Proficiency.THIEVES_CANT;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
@@ -61,7 +61,7 @@ public class Rogue extends AbstractCharacterClass {
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS,
             Proficiency.THIEVES_TOOLS);
         gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
-        gen.level(1).addAttributes(SNEAK_ATTACK, THIEVES_CANT);
+        gen.level(1).addAttributes(SNEAK_ATTACK, Language.THIEVES_CANT);
         gen.level(1).addAttributeChoice(4, "Skill", ACROBATICS, ATHLETICS, DECEPTION, INSIGHT,
             INTIMIDATION, INVESTIGATION, PERCEPTION, PERFORMANCE, PERSUASION, SLEIGHT_OF_HAND, STEALTH);
         gen.level(1).addChoice(new ExpertiseChoice().withCount(2));

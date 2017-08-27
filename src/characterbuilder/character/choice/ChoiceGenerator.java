@@ -7,6 +7,7 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.equipment.Equipment;
+import characterbuilder.character.equipment.EquipmentCategory;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Token;
 import characterbuilder.character.equipment.Weapon;
@@ -132,6 +133,11 @@ public class ChoiceGenerator {
         EquipmentChoice choice = new EquipmentChoice(name, equipment);
         choices.add(choice);
         return choice;
+    }
+
+    public ChoiceGenerator addEquipmentChoice(EquipmentCategory category) {
+        choices.add(new EquipmentChoice(category));
+        return this;
     }
 
     public ChoiceGenerator removeAttribute(Attribute attribute) {

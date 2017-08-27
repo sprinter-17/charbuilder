@@ -4,8 +4,6 @@ import characterbuilder.character.Character;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_SIMPLE_WEAPONS;
 import characterbuilder.character.ability.Skill;
-import characterbuilder.character.attribute.Attribute;
-import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
@@ -30,10 +28,8 @@ import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import java.util.Arrays;
 import java.util.stream.Stream;
-import org.w3c.dom.Element;
 
 public class Bard extends AbstractCharacterClass {
-
 
     private class MagicalSecret extends OptionChoice {
 
@@ -76,18 +72,18 @@ public class Bard extends AbstractCharacterClass {
 
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
+        addAbilities(gen);
+        addEquipment(gen);
+        addCantrips(gen);
+        addSpellCasting(gen);
+    }
+
+    private void addAbilities(ChoiceGenerator gen) {
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS);
         gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
         gen.level(1).addAttributeChoice(3, "Skill", Skill.values());
-        gen.level(1).addEquipmentChoice("Weapon", RAPIER, LONGSWORD)
-            .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED);
-        gen.level(1).addEquipmentChoice("Adventure Pack",
-            EquipmentPack.DIPLOMAT_PACK, EquipmentPack.ENTERTAINER_PACK);
-        gen.level(1).addEquipment(LEATHER_ARMOUR, DAGGER);
         gen.level(1).addAttributeChoice(3, "Musical Instrument Proficiency",
             MusicalInstrument.getAllProficiencies());
-        gen.level(1).addEquipmentChoice("Musical Instrument")
-            .with(EquipmentCategory.MUSICAL_INSTRUMENT);
         gen.level(1).addAttributes(BARDIC_INSPIRATION);
         gen.level(2).addAttributes(JACK_OF_ALL_TRADES);
         gen.level(2).addAttributes(SONG_OF_REST);
@@ -98,21 +94,29 @@ public class Bard extends AbstractCharacterClass {
         gen.level(6).addAttributes(COUNTERCHARM);
         gen.level(10, 14, 18).addChoice(2, new MagicalSecret());
         gen.level(20).addAttributes(SUPERIOR_INSPIRATION);
-        addSpellCasting(gen);
     }
 
-    private void addSpellCasting(ChoiceGenerator gen) {
-        gen.level(1).addSpellCasting(CASTING_NAME, CHARISMA, BARD, "All");
-        addCantrips(gen);
-        addSpellSlots(gen);
-        gen.cond(ch -> ch.getLevel() > 1).replaceSpell(CASTING_NAME);
-        gen.level(1).addKnownSpells(CASTING_NAME, 4);
-        gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17).addKnownSpells(CASTING_NAME, 1);
+    private void addEquipment(ChoiceGenerator gen) {
+        gen.level(1).addEquipmentChoice("Weapon", RAPIER, LONGSWORD)
+            .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED);
+        gen.level(1).addEquipmentChoice("Adventure Pack",
+            EquipmentPack.DIPLOMAT_PACK, EquipmentPack.ENTERTAINER_PACK);
+        gen.level(1).addEquipment(LEATHER_ARMOUR, DAGGER);
+        gen.level(1).addEquipmentChoice("Musical Instrument")
+            .with(EquipmentCategory.MUSICAL_INSTRUMENT);
     }
 
     private void addCantrips(ChoiceGenerator gen) {
         gen.level(1).addChoice(cantripChoice(2, CHARISMA));
         gen.level(4, 10).addChoice(cantripChoice(1, CHARISMA));
+    }
+
+    private void addSpellCasting(ChoiceGenerator gen) {
+        gen.level(1).addSpellCasting(CASTING_NAME, CHARISMA, BARD, "All");
+        addSpellSlots(gen);
+        gen.cond(ch -> ch.getLevel() > 1).replaceSpell(CASTING_NAME);
+        gen.level(1).addKnownSpells(CASTING_NAME, 4);
+        gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17).addKnownSpells(CASTING_NAME, 1);
     }
 
     private void addSpellSlots(ChoiceGenerator gen) {

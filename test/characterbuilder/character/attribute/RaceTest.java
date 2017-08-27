@@ -1,19 +1,27 @@
 package characterbuilder.character.attribute;
 
-import characterbuilder.character.Character;
+import characterbuilder.character.CharacterRandom;
+import characterbuilder.character.ability.RacialTalent;
 import static characterbuilder.character.attribute.AttributeType.HEIGHT;
 import static characterbuilder.character.attribute.AttributeType.STRENGTH;
 import static characterbuilder.character.attribute.AttributeType.WEIGHT;
-import characterbuilder.character.choice.TestChoiceSelector;
+import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.spell.Spell;
+import characterbuilder.utils.TestCharacter;
+import static characterbuilder.utils.TestMatchers.hasSpellAbility;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
 public class RaceTest {
 
+    private TestCharacter character;
+
     @Before
     public void setup() {
+        character = new TestCharacter();
     }
 
     @Test
@@ -25,8 +33,7 @@ public class RaceTest {
     @Test
     public void testStartingHeightAndWeight() {
         for (int i = 0; i < 10000; i++) {
-            Character character = new Character();
-            character.addChoiceList(new TestChoiceSelector());
+            character = new TestCharacter();
             Race.HILL_DWARF.generateInitialChoices(character);
             Height height = character.getAttribute(HEIGHT);
             Weight weight = character.getAttribute(WEIGHT);
@@ -35,5 +42,27 @@ public class RaceTest {
             assertTrue(weight.compareTo(Weight.LB.times(119)) >= 0);
             assertTrue(weight.compareTo(Weight.LB.times(214)) <= 0);
         }
+    }
+
+    @Test
+    public void testDragonbornHasBreathWeapon() {
+        Race.DRAGONBORN.choose(character);
+        assertTrue(character.hasAttribute(RacialTalent.BREATH_WEAPON));
+    }
+
+    @Test
+    public void testTieflingSpells() {
+        CharacterClass.FIGHTER.choose(character);
+        Race.TIEFLING.choose(character);
+        character.withScores(10).generateHitPoints();
+        assertThat(character, hasSpellAbility(Spell.THAUMATURGY));
+        character.increaseLevel(new CharacterRandom());
+        assertThat(character, not(hasSpellAbility(Spell.HELLISH_REBUKE)));
+        character.increaseLevel(new CharacterRandom());
+        assertThat(character, hasSpellAbility(Spell.HELLISH_REBUKE));
+        character.increaseLevel(new CharacterRandom());
+        assertThat(character, not(hasSpellAbility(Spell.DARKNESS)));
+        character.increaseLevel(new CharacterRandom());
+        assertThat(character, hasSpellAbility(Spell.DARKNESS));
     }
 }

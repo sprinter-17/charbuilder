@@ -70,9 +70,14 @@ public class Sorcerer extends AbstractCharacterClass {
     }
 
     private void addSpellCasting(ChoiceGenerator gen) {
-        gen.level(1)
-            .addSpellCasting(CASTING_NAME, CHARISMA, CharacterClass.SORCERER, "All")
-            .addSpellSlots(CASTING_NAME, 1, 2).addKnownSpells(CASTING_NAME, 2);
+        gen.level(1).addSpellCasting(CASTING_NAME, CHARISMA, CharacterClass.SORCERER, "All");
+        addSpellSlots(gen);
+        addKnownSpells(gen);
+        gen.cond(ch -> ch.getLevel() > 1).replaceSpell(CASTING_NAME);
+    }
+
+    private void addSpellSlots(ChoiceGenerator gen) {
+        gen.level(1).addSpellSlots(CASTING_NAME, 1, 2);
         gen.level(2, 3).addSpellSlots(CASTING_NAME, 1, 1);
         gen.level(3).addSpellSlots(CASTING_NAME, 2, 2);
         gen.level(4).addSpellSlots(CASTING_NAME, 2, 1);
@@ -84,7 +89,10 @@ public class Sorcerer extends AbstractCharacterClass {
         gen.level(13, 20).addSpellSlots(CASTING_NAME, 7, 1);
         gen.level(15).addSpellSlots(CASTING_NAME, 8, 1);
         gen.level(17).addSpellSlots(CASTING_NAME, 9, 1);
-        gen.cond(ch -> ch.getLevel() > 1).replaceSpell(CASTING_NAME);
+    }
+
+    private void addKnownSpells(ChoiceGenerator gen) {
+        gen.level(1).addKnownSpells(CASTING_NAME, 2);
         gen.level(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17).addKnownSpells(CASTING_NAME, 1);
     }
 }

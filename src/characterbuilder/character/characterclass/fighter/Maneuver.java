@@ -26,7 +26,7 @@ public enum Maneuver implements Attribute {
         + "ally uses reaction to move half speed without opportunity attacks."),
     MENANCING_ATTACK("On hit, damage +ROLL, target Wis. save or frightened for 1 turn."),
     PARRY("On being hit, use reaction to reduce damage by ROLL[bonus($dex_mod)]."),
-    PRECISION_ATTACK("Attack +ROLL before or after ROLL."),
+    PRECISION_ATTACK("Attack +ROLL before or after roll."),
     PUSHING_ATTACK("On hit, damage +ROLL, target Str. save or pushed up to 15 feet away."),
     RALLY("As bonus action, ally gains ROLL[bonus($chr_mod)] temporary HP."),
     RIPOSTE("On being missed, as reaction make attack, damage +ROLL on hit."),

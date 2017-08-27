@@ -57,11 +57,24 @@ public class Fighter extends AbstractCharacterClass {
 
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
+        addAbilities(gen);
+        addEquipment(gen);
+    }
+
+    private void addAbilities(ChoiceGenerator gen) {
         gen.level(1)
             .addAttributes(ALL_ARMOUR, ALL_WEAPONS, SECOND_WIND)
             .addAttributeChoice(2, "Skill", ACROBATICS, ANIMAL_HANDLING, ATHLETICS, HISTORY,
                 INSIGHT, INTIMIDATION, PERCEPTION, SURVIVAL)
             .addAttributeChoice("Fighting Style", FightingStyle.values());
+        gen.level(2).addAttributes(ACTION_SURGE);
+        gen.level(3).addAttributeChoice("Martial Archetype", MartialArchetype.values());
+        gen.level(5).addAttributes(EXTRA_ATTACK);
+        gen.level(9).addAttributes(INDOMITABLE);
+        gen.cond(levels(4, 6, 8, 12, 14, 16, 19)).addAbilityScoreOrFeatChoice();
+    }
+
+    private void addEquipment(ChoiceGenerator gen) {
         gen.level(1).addEquipmentChoice("Armour")
             .with(CHAIN_MAIL_ARMOUR).with(LEATHER_ARMOUR, LONGBOW, new EquipmentSet(ARROW, 20));
         gen.level(1).addEquipmentChoice("Primary Weapon").with(EquipmentCategory.MARTIAL_MELEE);
@@ -71,10 +84,5 @@ public class Fighter extends AbstractCharacterClass {
             .with(LIGHT_CROSSBOW, new EquipmentSet(CROSSBOW_BOLT, 20))
             .with(new EquipmentSet(HANDAXE, 2));
         gen.level(1).addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
-        gen.level(2).addAttributes(ACTION_SURGE);
-        gen.level(3).addAttributeChoice("Martial Archetype", MartialArchetype.values());
-        gen.level(5).addAttributes(EXTRA_ATTACK);
-        gen.level(9).addAttributes(INDOMITABLE);
-        gen.cond(levels(4, 6, 8, 12, 14, 16, 19)).addAbilityScoreOrFeatChoice();
     }
 }

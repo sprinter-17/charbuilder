@@ -17,10 +17,10 @@ public class ProficiencyTest {
 
     @Test
     public void testChoiceExcludesCurrentAttributes() {
-        character.addAttribute(Proficiency.ELVISH);
-        character.addChoice(Proficiency.choose(AttributeType.LANGUAGE));
-        character.selectChoice("Language");
-        assertFalse(character.hadOption(Proficiency.ELVISH));
+        character.addAttribute(Proficiency.ACTOR);
+        character.addChoice(Proficiency.choose(AttributeType.ENTERTAINER_ROUTINE));
+        character.selectChoice("Entertainer Routine");
+        assertFalse(character.hadOption(Proficiency.ACTOR));
     }
 
 }

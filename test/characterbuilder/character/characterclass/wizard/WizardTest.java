@@ -1,12 +1,15 @@
 package characterbuilder.character.characterclass.wizard;
 
 import characterbuilder.character.CharacterRandom;
-import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.Race.HUMAN;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
+import characterbuilder.character.spell.LearntSpell;
+import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.TestCharacter;
+import junit.framework.AssertionFailedError;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,11 +27,20 @@ public class WizardTest {
     }
 
     @Test
+    public void testWizardSpellUnprepared() {
+        SpellCasting casting = character.getSpellCasting("Wizard");
+        character.selectChoice("Wizard Spell", "Alarm");
+        LearntSpell alarm = casting.getLearntSpells().filter(ls -> ls.isSpell(Spell.ALARM))
+            .findAny().orElseThrow(() -> new AssertionFailedError("No alarm spell"));
+        assertFalse(alarm.isPrepared());
+    }
+
+    @Test
     public void testTotalSpellSlots() {
         for (int level = 1; level < 20; level++) {
             character.increaseLevel(new CharacterRandom());
         }
-        SpellCasting casting = character.getAttribute(AttributeType.SPELLCASTING);
+        SpellCasting casting = character.getSpellCasting("Wizard");
         assertThat(casting.getSlotsAtLevel(1), is(4));
         assertThat(casting.getSlotsAtLevel(2), is(3));
         assertThat(casting.getSlotsAtLevel(3), is(3));

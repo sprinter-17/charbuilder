@@ -1,7 +1,7 @@
 package characterbuilder.character.saveload;
 
 import characterbuilder.character.Character;
-import static characterbuilder.character.ability.Proficiency.COMMON;
+import static characterbuilder.character.ability.Proficiency.ACTOR;
 import static characterbuilder.character.ability.RacialTalent.DARKVISION;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Alignment;
@@ -108,10 +108,10 @@ public class CharacterSaverTest {
     @Test
     public void testAbilities() {
         character.addAttribute(DARKVISION);
-        character.addAttribute(COMMON);
+        character.addAttribute(ACTOR);
         saveAndLoad();
         assertTrue(character.hasAttribute(DARKVISION));
-        assertTrue(character.hasAttribute(COMMON));
+        assertTrue(character.hasAttribute(ACTOR));
     }
 
     @Test

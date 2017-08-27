@@ -126,6 +126,11 @@ public class Character {
         Arrays.stream(attributes).forEach(this::addAttribute);
     }
 
+    public void addAttributeIfNotPresent(Attribute attribute) {
+        if (!hasAttribute(attribute))
+            addAttribute(attribute);
+    }
+
     public void addAttribute(Attribute attribute) {
         attributes.addAttribute(attribute);
         setDirty();

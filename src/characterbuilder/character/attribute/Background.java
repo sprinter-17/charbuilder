@@ -1,6 +1,7 @@
 package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.Language;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.*;
 import static characterbuilder.character.ability.Skill.*;
@@ -26,7 +27,7 @@ public enum Background implements Attribute {
             .addEquipment(GOLD_PIECE, 15)
             .addEquipment(INCENSE_BLOCK, 5)
             .addChoice(new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL))
-            .addChoice(2, Proficiency.choose(LANGUAGE))),
+            .addChoice(Language.choose(2))),
     CHARLATAN(gen
         -> gen.addAttributes(DECEPTION, SLEIGHT_OF_HAND)
             .addAttributes(Proficiency.DISGUISE_KIT, Proficiency.FORGERY_KIT)
@@ -42,7 +43,7 @@ public enum Background implements Attribute {
         -> gen.addAttributes(DECEPTION, STEALTH, Proficiency.THIEVES_TOOLS)
             .addEquipment(AdventureGear.GOLD_PIECE, 15)
             .addEquipment(CROWBAR, COMMON_CLOTHES)
-            .addChoice(Proficiency.choose(LANGUAGE))),
+            .addChoice(Language.choose(1))),
     ENTERTAINER(gen
         -> gen.addAttributes(ACROBATICS, PERFORMANCE, Ability.BY_POPULAR_DEMAND)
             .addAttributes(Proficiency.DISGUISE_KIT)
@@ -60,7 +61,7 @@ public enum Background implements Attribute {
     GUILD_ARTISAN(gen -> {
         gen.addAttributes(INSIGHT, PERSUASION);
         gen.addChoice(Proficiency.choose(ARTISAN));
-        gen.addChoice(Proficiency.choose(LANGUAGE));
+        gen.addChoice(Language.choose(1));
         gen.addChoice(new EquipmentChoice(EquipmentCategory.TOOL));
         gen.addTokens("Letter of introduction from guild");
         gen.addEquipment(TRAVELERS_CLOTHES);
@@ -70,7 +71,7 @@ public enum Background implements Attribute {
     }),
     HERMIT(gen -> {
         gen.addAttributes(MEDICINE, RELIGION, Proficiency.HERBALISM_KIT);
-        gen.addChoice(Proficiency.choose(LANGUAGE));
+        gen.addChoice(Language.choose(1));
         gen.addEquipment(GOLD_PIECE, 5);
         gen.addEquipment(BLANKET, COMMON_CLOTHES, AdventureGear.HERBALISM_KIT);
         gen.addTokens("Notes of prayers");
@@ -80,13 +81,13 @@ public enum Background implements Attribute {
         -> gen
             .addAttributes(PERSUASION, HISTORY)
             .addEquipment(new EquipmentSet(AdventureGear.GOLD_PIECE, 25))
-            .addChoice(Proficiency.choose(LANGUAGE))
+            .addChoice(Language.choose(1))
             .addChoice(new AttributeChoice("Gaming skill", CARDS, DICE))),
     OUTLANDER(gen -> {
         gen.addAttributes(ATHLETICS, SURVIVAL);
         gen.addChoice(new AttributeChoice("Musical Instrument Proficiency",
             MusicalInstrument.getAllProficiencies()));
-        gen.addChoice(Proficiency.choose(LANGUAGE));
+        gen.addChoice(Language.choose(1));
         gen.addEquipment(AdventureGear.STAFF, AdventureGear.TRAVELERS_CLOTHES);
         gen.addTokens("Hunting trap", "Trophy from animal");
         gen.addEquipment(AdventureGear.GOLD_PIECE, 10);
@@ -95,7 +96,7 @@ public enum Background implements Attribute {
     SAGE(gen -> {
         gen.addAttributes(ARCANA, HISTORY)
             .addEquipment(AdventureGear.GOLD_PIECE, 10)
-            .addChoice(2, Proficiency.choose(LANGUAGE));
+            .addChoice(Language.choose(2));
         gen.addTokens("Bottle of black ink", "Quill", "Letter with unanswered question");
         gen.addEquipment(AdventureGear.COMMON_CLOTHES);
         gen.addAttributes(Ability.RESEARCHER);

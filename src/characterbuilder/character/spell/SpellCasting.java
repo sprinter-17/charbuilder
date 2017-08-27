@@ -55,7 +55,11 @@ public class SpellCasting implements Attribute {
                 .filter(sp -> !sp.isCantrip())
                 .filter(sp -> sp.getLevel() <= getMaxSlot())
                 .filter(sp -> !hasLearntSpell(sp)),
-                SpellCasting.this::addPreparedSpell);
+                this::addSpell);
+        }
+
+        private void addSpell(Spell spell) {
+            addLearntSpell(spell, preparedSpellText.equals("All"));
         }
 
         @Override

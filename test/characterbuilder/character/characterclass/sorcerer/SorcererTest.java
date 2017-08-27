@@ -1,7 +1,9 @@
 package characterbuilder.character.characterclass.sorcerer;
 
+import characterbuilder.character.ability.RacialTalent;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.sorcerer.SorcererAbility.*;
 import characterbuilder.character.equipment.Armour;
 import static characterbuilder.character.saveload.TestDoc.doc;
@@ -26,6 +28,15 @@ public class SorcererTest {
         DRACONIC_RESILIENCE.choose(character);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(24));
         assertThat(Armour.getArmourClass(character), is(15));
+    }
+
+    @Test
+    public void testDraconicSorcerersDoNotHaveBreathWeapon() {
+        TestCharacter character = new TestCharacter();
+        CharacterClass.SORCERER.choose(character);
+        SorcerousOrigin.DRACONIC_BLOODLINE.choose(character);
+        character.selectChoice("Draconic Ancestry", "Black");
+        assertFalse(character.hasAttribute(RacialTalent.BREATH_WEAPON));
     }
 
     @Test

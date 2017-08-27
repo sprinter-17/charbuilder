@@ -8,6 +8,10 @@ public interface Option extends Savable {
 
     void choose(Character character);
 
+    default String getOptionName() {
+        return toString();
+    }
+
     default Stream<String> getDescription(Character character) {
         return Stream.empty();
     }

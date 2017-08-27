@@ -4,8 +4,8 @@ import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.attribute.Race;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.Option;
 import characterbuilder.character.choice.OptionChoice;
@@ -20,6 +20,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import static java.util.Comparator.comparing;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -82,7 +83,9 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     @Override
     public <T extends Option> void chooseOption(Stream<T> options, Consumer<T> followUp) {
         detailPanel.removeAll();
-        options.map(opt -> new OptionPanel(opt.toString(), opt.getDescription(character.get()),
+        options
+            .sorted(comparing(Option::getOptionName))
+            .map(opt -> new OptionPanel(opt.getOptionName(), opt.getDescription(character.get()),
             () -> selectOption(() -> followUp.accept(opt)), selectButton))
             .forEach(panel -> detailPanel.add(panel, columnPosition(0)));
         padDetailPanel();

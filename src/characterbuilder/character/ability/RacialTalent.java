@@ -32,7 +32,7 @@ public enum RacialTalent implements Attribute {
     STEALTHY(delegate()
         .withDescription("Can attempt to hide when obscured by larger creature.")),
     BREATH_WEAPON(delegate()
-        .withDescription("Breath: [$breath] vs DC [8+$con_mod+$prof] or "
+        .withDescription("Breath: [$draconic_breath] vs DC [8+$con_mod+$prof] or "
             + "[max($level 1:2d6,6:3d6,11:4d6,16:5d6)] damage")),
     SUNLIGHT_SENSITIVITY(delegate()
         .withDescription("Disadvantage on attack and perception when target is in direct sunlight")),
