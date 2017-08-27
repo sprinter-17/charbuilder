@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass.druid;
 
+import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.Language;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Skill.*;
@@ -65,6 +66,7 @@ public class Druid extends AbstractCharacterClass {
             SCIMITAR, SICKLE, SLING, SPEAR);
         gen.level(1).addAttributeChoice(2, "Skill", ARCANA, ANIMAL_HANDLING,
             INSIGHT, MEDICINE, NATURE, PERCEPTION, RELIGION, SURVIVAL);
+        gen.level(1).addAttributes(Feat.RITUAL_CASTER);
         gen.level(2).addAttributes(WILD_SHAPE);
         gen.level(2).addAttributeChoice("Druid Circle", DruidCircle.values());
         gen.level(4, 8, 12, 16, 19).addAbilityScoreOrFeatChoice();

@@ -1,6 +1,7 @@
 package characterbuilder.character.characterclass.bard;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_SIMPLE_WEAPONS;
 import characterbuilder.character.ability.Skill;
@@ -84,6 +85,7 @@ public class Bard extends AbstractCharacterClass {
         gen.level(1).addAttributeChoice(3, "Skill", Skill.values());
         gen.level(1).addAttributeChoice(3, "Musical Instrument Proficiency",
             MusicalInstrument.getAllProficiencies());
+        gen.level(1).addAttributes(Feat.RITUAL_CASTER);
         gen.level(1).addAttributes(BARDIC_INSPIRATION);
         gen.level(2).addAttributes(JACK_OF_ALL_TRADES);
         gen.level(2).addAttributes(SONG_OF_REST);

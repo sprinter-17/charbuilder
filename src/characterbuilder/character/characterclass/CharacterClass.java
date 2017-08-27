@@ -79,7 +79,7 @@ public enum CharacterClass implements Attribute {
     }
 
     public ChoiceGenerator getGenerator() {
-        return delegate.getGenerator(this);
+        return delegate.getGenerator();
     }
 
     public Stream<Spell> getSpells() {

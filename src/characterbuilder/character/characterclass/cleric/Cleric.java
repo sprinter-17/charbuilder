@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass.cleric;
 
+import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_SIMPLE_WEAPONS;
 import static characterbuilder.character.ability.Skill.*;
@@ -63,6 +64,7 @@ public class Cleric extends AbstractCharacterClass {
         gen.level(1).addChoice(new AttributeChoice("Divine Domain", DivineDomain.values()));
         gen.level(1).addChoice(new AttributeChoice("Skill",
             HISTORY, INSIGHT, MEDICINE, PERSUASION, RELIGION).withCount(2));
+        gen.level(1).addAttributes(Feat.RITUAL_CASTER);
         gen.level(2).addAttributes(TURN_UNDEAD, CHANNEL_DIVINITY);
         gen.level(5).addAttributes(DESTROY_UNDEAD);
         gen.level(10).addAttributes(DIVINE_INTERVENTION);

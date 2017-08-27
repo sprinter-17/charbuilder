@@ -30,11 +30,10 @@ public abstract class AbstractCharacterClass {
     }
 
     public void generateLevelChoices(Character character) {
-        getGenerator(character.getAttribute(AttributeType.CHARACTER_CLASS))
-            .generateChoices(character);
+        getGenerator().generateChoices(character);
     }
 
-    public ChoiceGenerator getGenerator(CharacterClass characterClass) {
+    public ChoiceGenerator getGenerator() {
         if (!generator.isPresent()) {
             generator = Optional.of(new ChoiceGenerator());
             makeGenerator(generator.get());

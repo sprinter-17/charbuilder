@@ -2,7 +2,9 @@ package characterbuilder.sheet;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.Value;
 import characterbuilder.character.spell.LearntSpell;
+import characterbuilder.character.spell.Spell;
 import static characterbuilder.sheet.Page.element;
 import static characterbuilder.sheet.Page.html;
 import static characterbuilder.sheet.Page.nbsp;
@@ -95,7 +97,7 @@ public class TextSectionBuilder {
         text.append(level > 0 ? "Level " + level + " Spells" : "Cantrips");
         text.append("</h4>");
         text.append("<table style=\"width:385px; padding-left:10px; border-spacing:0px\">");
-        text.append("<tr><td/><th>Name</th><th>Casting Time</th><th>Components</th>"
+        text.append("<tr><td/><th>Name</th><th>School</th><th>Casting Time</th><th>Components</th>"
             + "<th>Range</th><th>Area</th><th>Duration</th></tr>");
         spells.stream()
             .sorted(Comparator.comparing(ls -> ls.getSpell().toString()))
@@ -104,21 +106,24 @@ public class TextSectionBuilder {
         return text.toString();
     }
 
-    private void spellText(StringBuilder text, LearntSpell spell, boolean even) {
+    private void spellText(StringBuilder text, LearntSpell learntSpell, boolean even) {
         String colour = even ? "#f0f0f0" : "#ffffff";
         String tr = String.format("<tr style='background-color:%s'>", colour);
         text.append(tr);
-        spellValue(text, spell.isPrepared() ? "&#x25A3;" : "&#x25A2;", 5);
-        spellName(text, spell.getSpell().toString(), 20);
-        spellValue(text, spell.getSpell().getCastingTime(), 12);
-        spellValue(text, spell.getSpell().getComponents(), 12);
-        spellValue(text, spell.getSpell().getRange(), 12);
-        spellValue(text, spell.getSpell().getArea(), 12);
-        spellValue(text, spell.getSpell().getDuration(), 12);
+        Spell spell = learntSpell.getSpell();
+        spellValue(text, learntSpell.isPrepared() ? "&#x25A3;" : "&#x25A2;", 5);
+        spellName(text, spell.toString(), 14);
+        spellValue(text, spell.getSchoolAndRitual(), 10);
+        spellValue(text, spell.getCastingTime(), 12);
+        spellValue(text, spell.getComponents()
+            + (spell.getCost().isGreaterThan(Value.ZERO) ? "<br>" + spell.getCost() : ""), 12);
+        spellValue(text, learntSpell.getSpell().getRange(), 10);
+        spellValue(text, learntSpell.getSpell().getArea(), 10);
+        spellValue(text, learntSpell.getSpell().getDuration(), 12);
         text.append("</tr>");
         text.append(tr)
             .append("<td/><td colspan='6'><em>")
-            .append(spell.getSpell().getEffect(character))
+            .append(learntSpell.getSpell().getEffects(character).collect(joining("<br>")))
             .append("</em></td></tr>");
     }
 

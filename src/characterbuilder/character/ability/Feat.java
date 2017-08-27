@@ -118,7 +118,8 @@ public enum Feat implements Attribute {
         .withChoice(new AbilityScoreOrFeatIncrease().withProficiency())
         .withDescription("Gain proficiency in saves using chosen ability.")),
     RITUAL_CASTER(feat()
-        .withDescription("Owns a ritual book and able to cast spells as rituals.")
+        .withDescription("Can cast spells as rituals.")
+        .withDescription("Ritual add 10 minutes to casting time.")
         .withPrerequisite(
             ch -> ch.getIntAttribute(INTELLIGENCE) >= 13 || ch.getIntAttribute(WISDOM) >= 13)),
     SAVAGE_ATTACKER(feat()
