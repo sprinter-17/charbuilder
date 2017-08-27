@@ -2,7 +2,6 @@ package characterbuilder.character.equipment;
 
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
-import java.text.NumberFormat;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -119,15 +118,7 @@ public class EquipmentSet implements Equipment {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        if (count > 1)
-            builder.append(NumberFormat.getInstance().format(count)).append(" ");
-        if (bonus != 0)
-            builder.append(String.format("%+d ", bonus));
-        builder.append(equipment.toString());
-        if (count > 1)
-            builder.append("s");
-        return builder.toString();
+        return equipment.toString(count, bonus);
     }
 
     @Override
