@@ -1,7 +1,9 @@
-package characterbuilder.ui;
+package characterbuilder.ui.ability;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.choice.Option;
+import characterbuilder.ui.CharacterSubPanel;
+import characterbuilder.ui.CharacterUpdater;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import static java.util.stream.Collectors.joining;

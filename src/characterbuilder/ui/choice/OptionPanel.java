@@ -1,4 +1,4 @@
-package characterbuilder.ui;
+package characterbuilder.ui.choice;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

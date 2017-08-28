@@ -1,4 +1,4 @@
-package characterbuilder.ui;
+package characterbuilder.ui.equipment;
 
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;

@@ -1,4 +1,4 @@
-package characterbuilder.ui;
+package characterbuilder.ui.equipment;
 
 import characterbuilder.character.Character;
 import static java.util.Comparator.comparing;

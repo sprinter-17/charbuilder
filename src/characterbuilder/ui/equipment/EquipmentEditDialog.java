@@ -1,4 +1,4 @@
-package characterbuilder.ui;
+package characterbuilder.ui.equipment;
 
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;

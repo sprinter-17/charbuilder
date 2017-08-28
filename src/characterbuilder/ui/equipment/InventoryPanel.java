@@ -1,5 +1,6 @@
-package characterbuilder.ui;
+package characterbuilder.ui.equipment;
 
+import characterbuilder.ui.equipment.CustomTreasureDialog;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
@@ -10,6 +11,8 @@ import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.AdventureGear;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
+import characterbuilder.ui.CharacterSubPanel;
+import characterbuilder.ui.CharacterUpdater;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;

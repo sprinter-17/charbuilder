@@ -1,4 +1,4 @@
-package characterbuilder.ui;
+package characterbuilder.ui.choice;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;

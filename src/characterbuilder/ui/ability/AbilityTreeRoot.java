@@ -1,4 +1,4 @@
-package characterbuilder.ui;
+package characterbuilder.ui.ability;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;

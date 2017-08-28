@@ -1,5 +1,8 @@
 package characterbuilder.ui;
 
+import characterbuilder.ui.equipment.InventoryPanel;
+import characterbuilder.ui.ability.AbilityPanel;
+import characterbuilder.ui.ability.AbilityScorePanel;
 import characterbuilder.character.Character;
 import java.awt.BorderLayout;
 import java.awt.Color;

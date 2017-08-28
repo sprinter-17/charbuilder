@@ -1,5 +1,6 @@
 package characterbuilder.ui;
 
+import characterbuilder.ui.choice.ChoicePanel;
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.attribute.AttributeType;
