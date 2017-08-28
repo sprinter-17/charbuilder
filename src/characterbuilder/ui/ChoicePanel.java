@@ -61,6 +61,22 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         ListCellRenderer renderer = choiceList.getCellRenderer();
         choiceList.setCellRenderer((list, val, i, sel, foc) -> renderer.
             getListCellRendererComponent(list, val.toString(), i, sel, foc));
+        clearSelectAction();
+    }
+
+    private void setSelectAction(String name, Runnable action) {
+        selectButton.setAction(new AbstractAction(name) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                action.run();
+            }
+        });
+        selectButton.setEnabled(true);
+    }
+
+    private void clearSelectAction() {
+        selectButton.setText(null);
+        selectButton.setAction(null);
         selectButton.setEnabled(false);
     }
 
@@ -91,6 +107,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         padDetailPanel();
         detailPanel.revalidate();
         splitter.repaint();
+        clearSelectAction();
     }
 
     private void padDetailPanel() {
@@ -118,17 +135,14 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
             valueLabel(values.get(i));
         });
         setScoreLabels(scorePanels, scores);
-        selectButton.setEnabled(true);
-        selectButton.setAction(new AbstractAction("Accept Scores") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selectOption(() -> consumer.accept(IntStream.range(0, 6)
-                    .mapToObj(i -> new AbilityScore(scores.get(i), values.get(i)))));
-            }
-        });
         padDetailPanel();
         detailPanel.revalidate();
         splitter.repaint();
+        setSelectAction("Accept Scores", () -> {
+            selectOption(() -> consumer.accept(IntStream.range(0, 6)
+                .mapToObj(i -> new AbilityScore(scores.get(i), values.get(i)))));
+            clearSelectAction();
+        });
     }
 
     private List<AttributeType> generateOrderedScores() {
@@ -196,6 +210,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     public void choiceMade() {
         choiceModel.update();
         listener.run();
+        clearSelectAction();
     }
 
     private void selectOption(Runnable action) {
@@ -204,8 +219,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         detailPanel.removeAll();
         detailPanel.repaint();
         choiceModel.update();
-        selectButton.setEnabled(false);
-        selectButton.setText("Select");
+        clearSelectAction();
         selectChoice(choiceModel.indexOf(current).orElse(0));
         listener.run();
     }

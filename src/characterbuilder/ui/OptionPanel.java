@@ -3,6 +3,7 @@ package characterbuilder.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,6 +11,7 @@ import java.awt.event.MouseListener;
 import java.util.Optional;
 import static java.util.stream.Collectors.joining;
 import java.util.stream.Stream;
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,6 +19,7 @@ import javax.swing.JPanel;
 
 public class OptionPanel extends JPanel {
 
+    private final String name;
     private final Runnable selectAction;
     private final JButton selectButton;
     private final ActionListener actionListener = ev -> choose();
@@ -26,6 +29,7 @@ public class OptionPanel extends JPanel {
     public OptionPanel(String name, Stream<String> description,
         Runnable selectAction, JButton selectButton) {
         super(new BorderLayout());
+        this.name = name;
         String descriptionText = description.collect(joining("<br>"));
         if (descriptionText.isEmpty())
             this.description = Optional.empty();
@@ -52,6 +56,12 @@ public class OptionPanel extends JPanel {
                         if (child instanceof OptionPanel)
                             ((OptionPanel) child).setSelected(child == OptionPanel.this);
                     }
+                    selectButton.setAction(new AbstractAction("Select " + name) {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            choose();
+                        }
+                    });
                     selectButton.setEnabled(true);
                 }
             }
