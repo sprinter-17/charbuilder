@@ -108,14 +108,14 @@ public class InventoryPanel extends CharacterSubPanel {
     private void buyItem(ActionEvent event) {
         Value wealth = getCharacter().getTreasureValue();
         JPopupMenu popup = new JPopupMenu();
-        for (EquipmentCategory category : equipmentList.keySet()) {
-            JMenu equipmentMenu = new JMenu(category.toString());
-            equipmentList.getOrDefault(category, new ArrayList<>())
-                .stream().filter(eq -> !eq.getCategory().equals(TREASURE))
-                .forEach(eq -> equipmentMenu.add(addItemAction(eq, true))
-                .setEnabled(!eq.getValue().isGreaterThan(wealth)));
-            popup.add(equipmentMenu);
-        }
+        equipmentList.entrySet().stream().filter(e -> !e.getKey().equals(TREASURE))
+            .forEach(entry -> {
+                JMenu equipmentMenu = new JMenu(entry.getKey().toString());
+                entry.getValue().stream()
+                    .forEach(eq -> equipmentMenu.add(addItemAction(eq, true))
+                    .setEnabled(!eq.getValue().isGreaterThan(wealth)));
+                popup.add(equipmentMenu);
+            });
         popup.show(buyButton, 0, 0);
     }
 
