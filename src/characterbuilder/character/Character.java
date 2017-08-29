@@ -12,16 +12,18 @@ import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
+import characterbuilder.character.characterclass.monk.MonkAbility;
 import characterbuilder.character.characterclass.sorcerer.SorcererAbility;
 import characterbuilder.character.choice.ChoiceList;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.equipment.Armour;
+import characterbuilder.character.equipment.Attack;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Inventory;
-import characterbuilder.character.equipment.Weapon;
 import characterbuilder.character.spell.SpellCasting;
+import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -305,8 +307,24 @@ public class Character {
         return inventory.getEquipment();
     }
 
-    public Stream<Weapon> getWeapons() {
-        return inventory.getWeapons();
+    public Stream<Attack> getAttacks() {
+        return Stream.concat(getUnarmouredAttacks(), getWeaponAttacks());
+    }
+
+    private Stream<Attack> getUnarmouredAttacks() {
+        String name = "Unarmoured";
+        int abilityBonus = getModifier(STRENGTH);
+        String damage = String.valueOf(1 + abilityBonus);
+        if (hasAttribute(MonkAbility.MARTIAL_ARTS)) {
+            abilityBonus = Math.max(abilityBonus, getModifier(DEXTERITY));
+            damage = StringUtils.expand("[max($level 1:1d4,5:1d6,11:1d8,17:1d10)"
+                + "bonus(max($str_mod,$dex_mod))]", this);
+        }
+        return Stream.of(new Attack(name, getProficiencyBonus() + abilityBonus, damage));
+    }
+
+    private Stream<Attack> getWeaponAttacks() {
+        return inventory.getWeapons().flatMap(weapon -> weapon.getAttacks(this));
     }
 
     public Weight getInventoryWeight() {

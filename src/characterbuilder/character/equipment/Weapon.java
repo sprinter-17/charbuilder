@@ -101,11 +101,16 @@ public enum Weapon implements Equipment {
 
     private static BiFunction<Weapon, Character, Attack> attack(String damage,
         Function<Character, Integer> bonus) {
-        return attack(damage, bonus, "");
+        return attack(damage, bonus, Optional.empty());
     }
 
     private static BiFunction<Weapon, Character, Attack> attack(String damage,
         Function<Character, Integer> bonus, String description) {
+        return attack(damage, bonus, Optional.of(description));
+    }
+
+    private static BiFunction<Weapon, Character, Attack> attack(String damage,
+        Function<Character, Integer> bonus, Optional<String> description) {
         return (w, ch) -> {
             int mod = bonus.apply(ch);
             mod += ch.getInventory()
@@ -117,7 +122,7 @@ public enum Weapon implements Equipment {
                 hit += ch.getProficiencyBonus();
             String name = w.toString();
             Attack attack = new Attack(name, hit, damageText(damage, mod));
-            attack.setDescription(description);
+            description.ifPresent(attack::setDescription);
             return attack;
         };
     }

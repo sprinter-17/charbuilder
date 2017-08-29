@@ -85,7 +85,7 @@ public enum Race implements Attribute {
     }),
     DRAGONBORN(2, 0, 0, 0, 0, 1, 30, 15, "5'6\"", "2d8", "175lb", "2d6", (gen, lgen) -> {
         gen.addChoice(DraconicAncestry.choose());
-        gen.addAttributes(BREATH_WEAPON);
+        gen.addAttributes(COMMON, DRACONIC, BREATH_WEAPON);
     }),
     HUMAN(1, 1, 1, 1, 1, 1, 30, 18, "4'8\"", "2d10", "110lb", "2d4", (gen, lgen) -> {
         gen.addAttributes(COMMON);

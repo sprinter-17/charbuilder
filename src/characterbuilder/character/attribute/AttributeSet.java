@@ -63,7 +63,7 @@ public class AttributeSet {
 
     public boolean hasAttribute(Attribute attribute) {
         return getAllAttributes().anyMatch(attribute::equals)
-            || (attribute.getSuperSet().isPresent() && hasAttribute(attribute.getSuperSet().get()));
+            || attribute.getSuperSet().map(this::hasAttribute).orElse(false);
     }
 
     public boolean removeAttributesOfType(AttributeType type) {

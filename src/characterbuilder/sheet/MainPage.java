@@ -171,9 +171,9 @@ public class MainPage extends Page {
 
     private String attackText() {
         List<String> rows = new ArrayList<>();
-        rows.add(row("th style='text-align:left; height:5px'", "Attack", "Hit", "Damage"));
-        character.getWeapons().flatMap(weapon -> weapon.getAttacks(character))
-            .map(at -> row("td style='height:5px'", at.getName(),
+        rows.add(row("th style='text-align:left; height:0px'", "Attack", "Hit", "Damage"));
+        character.getAttacks().map(at -> row("td style='height:0px'", at.getName()
+            + at.getDescription().map(d -> " " + d).orElse(""),
             String.format("%+d", at.getBonus()), at.getDamage()))
             .forEach(rows::add);
         return table(rows);

@@ -23,7 +23,6 @@ public interface Attribute extends Option {
     }
 
     default void generateLevelChoices(Character character) {
-
     }
 
     @Override

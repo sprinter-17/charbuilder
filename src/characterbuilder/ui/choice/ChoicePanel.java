@@ -80,7 +80,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     }
 
     private void selectChoice(int index) {
-        if (choiceModel.getSize() > index) {
+        if (index < choiceModel.getSize()) {
             choiceList.setSelectionInterval(index, index);
             showOptions();
         }
@@ -91,8 +91,8 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         detailPanel.removeAll();
         options
             .sorted(comparing(Option::getOptionName))
-            .map(opt -> new OptionPanel(opt, character.get(), () -> followUp.accept(opt), action,
-            getWidth() - 70))
+            .map(opt -> new OptionPanel(opt, character.get(),
+            () -> followUp.accept(opt), action, getWidth() - 70))
             .forEach(panel -> detailPanel.add(panel, detailPanel.columnPosition(0)));
         detailPanel.fill();
         detailPanel.revalidate();

@@ -1,14 +1,14 @@
 package characterbuilder.ui.equipment;
 
-import characterbuilder.ui.equipment.CustomTreasureDialog;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
+import characterbuilder.character.equipment.AdventureGear;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
+import static characterbuilder.character.equipment.EquipmentCategory.TREASURE;
 import characterbuilder.character.equipment.EquipmentSet;
-import characterbuilder.character.equipment.AdventureGear;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
 import characterbuilder.ui.CharacterSubPanel;
@@ -39,6 +39,7 @@ import javax.swing.tree.TreePath;
 
 public class InventoryPanel extends CharacterSubPanel {
 
+    private final JButton buyButton = new JButton("Buy");
     private final JButton addButton = new JButton("Add");
     private final JButton removeButton = new JButton("Remove");
     private final JButton editButton = new JButton("Edit");
@@ -58,9 +59,11 @@ public class InventoryPanel extends CharacterSubPanel {
     private void addButtons() {
         JToolBar toolBar = new JToolBar();
         add(toolBar, BorderLayout.NORTH);
+        toolBar.add(buyButton);
         toolBar.add(addButton);
         toolBar.add(removeButton);
         toolBar.add(editButton);
+        buyButton.addActionListener(this::buyItem);
         addButton.addActionListener(this::addItem);
         removeButton.addActionListener(this::removeItem);
         editButton.addActionListener(this::editItem);
@@ -81,10 +84,12 @@ public class InventoryPanel extends CharacterSubPanel {
                 .append(weight.toString())
                 .append("; Treasure: ")
                 .append(worth.toString());
-            addButton.setEnabled(worth.isGreaterThan(Value.ZERO));
+            buyButton.setEnabled(worth.isGreaterThan(Value.ZERO));
+            addButton.setEnabled(true);
             removeButton.setEnabled(getSelectedItem().isPresent());
             editButton.setEnabled(getSelectedItem().isPresent());
         } else {
+            buyButton.setEnabled(false);
             addButton.setEnabled(false);
             removeButton.setEnabled(false);
             editButton.setEnabled(false);
@@ -100,44 +105,65 @@ public class InventoryPanel extends CharacterSubPanel {
             .map(node -> (Equipment) node.getUserObject());
     }
 
-    private void addItem(ActionEvent event) {
+    private void buyItem(ActionEvent event) {
         Value wealth = getCharacter().getTreasureValue();
         JPopupMenu popup = new JPopupMenu();
         for (EquipmentCategory category : equipmentList.keySet()) {
             JMenu equipmentMenu = new JMenu(category.toString());
             equipmentList.getOrDefault(category, new ArrayList<>())
-                .forEach(eq -> equipmentMenu.add(addItemAction(eq))
+                .stream().filter(eq -> !eq.getCategory().equals(TREASURE))
+                .forEach(eq -> equipmentMenu.add(addItemAction(eq, true))
                 .setEnabled(!eq.getValue().isGreaterThan(wealth)));
+            popup.add(equipmentMenu);
+        }
+        popup.show(buyButton, 0, 0);
+    }
+
+    private void addItem(ActionEvent event) {
+        JPopupMenu popup = new JPopupMenu();
+        for (EquipmentCategory category : equipmentList.keySet()) {
+            JMenu equipmentMenu = new JMenu(category.toString());
+            equipmentList.getOrDefault(category, new ArrayList<>())
+                .forEach(eq -> equipmentMenu.add(addItemAction(eq, false)));
             if (category.equals(EquipmentCategory.TREASURE))
-                equipmentMenu.add(new AbstractAction("Custom...") {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        JFrame frame = (JFrame) SwingUtilities.
-                            getWindowAncestor(InventoryPanel.this);
-                        CustomTreasureDialog dialog = new CustomTreasureDialog(frame, tr -> {
-                            getCharacter().addEquipment(tr);
-                            triggerUpdate(getCharacter());
-                        });
-                        dialog.setVisible(true);
-                    }
-                });
+                equipmentMenu.add(addCustomTreasure());
             popup.add(equipmentMenu);
         }
         popup.show(addButton, 0, 0);
     }
 
-    private Action addItemAction(Equipment equipment) {
-        return new AbstractAction(equipment.toString()) {
+    private Action addCustomTreasure() {
+        return new AbstractAction("Custom...") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addEquipment(equipment);
+                JFrame frame = (JFrame) SwingUtilities.
+                    getWindowAncestor(InventoryPanel.this);
+                CustomTreasureDialog dialog = new CustomTreasureDialog(frame, tr -> {
+                    getCharacter().addEquipment(tr);
+                    triggerUpdate(getCharacter());
+                });
+                dialog.setVisible(true);
             }
         };
     }
 
-    private void addEquipment(Equipment equipment) {
+    private Action addItemAction(Equipment equipment, boolean buy) {
+        return new AbstractAction(equipmentDescription(equipment)) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addEquipment(equipment, buy);
+            }
+        };
+    }
+
+    private String equipmentDescription(Equipment equipment) {
+        return String.format("%s (%s/%s)", equipment.toString(), equipment.getValue().toString(),
+            equipment.getWeight().toString());
+    }
+
+    private void addEquipment(Equipment equipment, boolean buy) {
         getCharacter().addEquipment(equipment);
-        if (equipment.getCategory() != EquipmentCategory.TREASURE)
+        if (buy)
             getCharacter().spendTreasure(equipment.getValue());
         triggerUpdate(getCharacter());
     }

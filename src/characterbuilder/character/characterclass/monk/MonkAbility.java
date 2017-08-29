@@ -76,7 +76,8 @@ public enum MonkAbility implements Attribute {
             + "make a melee attack.")),
     DISCIPLE_OF_THE_ELEMENTS(delegate()
         .withDescription("Spend up to [max($level 3:2,5:3,9:4,13:5,17:7)] Ki points "
-            + "to cast an elemental spell.")),
+            + "to cast an elemental spell.")
+        .withDescription("+1 spell level per extra Ki point")),
     SHADOW_ARTS(delegate()
         .withDescription("Spend 2 Ki points to cast Darkness, Darkvision, Pass Without Trace "
             + "or Silence.")),;
