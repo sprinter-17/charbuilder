@@ -3,6 +3,7 @@ package characterbuilder.character.choice;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -12,16 +13,13 @@ import org.junit.Test;
 
 public class InitialChoiceGeneratorTest {
 
-    private characterbuilder.character.Character character;
+    private TestCharacter character;
     private ChoiceGenerator generator;
-    private ChoiceSelector selector;
 
     @Before
     public void setup() {
-        character = new characterbuilder.character.Character();
+        character = new TestCharacter();
         generator = new InitialChoiceGenerator();
-        selector = new TestChoiceSelector();
-        character.addChoiceList(selector);
         generator.generateChoices(character);
     }
 
@@ -34,7 +32,7 @@ public class InitialChoiceGeneratorTest {
     @Test
     public void testAttributeAdded() {
         assertFalse(character.hasAttribute(AttributeType.RACE));
-        character.getChoice(1).select(character, selector);
+        character.selectChoice("Race", "Human");
         assertThat(character.getAttribute(AttributeType.RACE), is(Race.HUMAN));
     }
 
@@ -61,6 +59,14 @@ public class InitialChoiceGeneratorTest {
         assertFalse(character.hasChoice("Generate ability scores"));
         Race.MOUNTAIN_DWARF.choose(character);
         assertTrue(character.hasChoice("Generate ability scores"));
+    }
+
+    @Test
+    public void testRacialBonuses() {
+        Race.HUMAN.choose(character);
+        CharacterClass.CLERIC.choose(character);
+        character.selectChoice("Generate ability scores");
+        assertThat(character.getIntAttribute(AttributeType.STRENGTH), is(11));
     }
 
 }

@@ -16,6 +16,10 @@ public class TestCharacter extends Character {
         addChoiceList(selector);
     }
 
+    public TestChoiceSelector getSelector() {
+        return selector;
+    }
+
     public TestCharacter withScores(int value) {
         AbilityScore.SCORES.forEach(as -> addAttribute(new AbilityScore(as, value)));
         return this;

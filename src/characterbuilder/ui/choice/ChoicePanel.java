@@ -24,9 +24,12 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     private final ChoiceModel choiceModel = new ChoiceModel();
     private final JList<OptionChoice> choiceList = new JList(choiceModel);
     private final DetailPanel detailPanel = new DetailPanel();
-    private final SelectionAction action = new SelectionAction();
+    private final SelectionAction action = new SelectionAction(this::choiceMade);
     private final JSplitPane splitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+
+    private Optional<AbilityScoreChoice> scoreChoice = Optional.empty();
     private Optional<Character> character = Optional.empty();
+    private Optional<OptionChoice> currentChoice = Optional.empty();
 
     public ChoicePanel(Runnable listener) {
         super(new BorderLayout());
@@ -55,6 +58,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     private void showOptions() {
         if (choiceList.getModel().getSize() > 0 && choiceList.getSelectedIndex() > -1) {
             choiceModel.select(choiceList.getSelectedIndex());
+            currentChoice = Optional.of(choiceModel.getElementAt(choiceList.getSelectedIndex()));
             choiceModel.update();
             splitter.repaint();
         }
@@ -65,8 +69,13 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     }
 
     public void update(Character character) {
-        this.character = Optional.of(character);
-        choiceModel.setCharacter(character);
+        if (this.character.equals(Optional.of(character))) {
+            choiceModel.update();
+        } else {
+            this.character = Optional.of(character);
+            scoreChoice = Optional.empty();
+            choiceModel.setCharacter(character);
+        }
         selectChoice(0);
     }
 
@@ -82,8 +91,8 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         detailPanel.removeAll();
         options
             .sorted(comparing(Option::getOptionName))
-            .map(opt -> new OptionPanel(opt.getOptionName(), opt.getDescription(character.get()),
-            () -> selectOption(() -> followUp.accept(opt)), action))
+            .map(opt -> new OptionPanel(opt, character.get(), () -> followUp.accept(opt), action,
+            getWidth() - 70))
             .forEach(panel -> detailPanel.add(panel, detailPanel.columnPosition(0)));
         detailPanel.fill();
         detailPanel.revalidate();
@@ -93,26 +102,18 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
 
     @Override
     public void generateAbilityScores(Consumer<Stream<AbilityScore>> consumer) {
-        AbilityScoreChoice abilityScoreChoice = new AbilityScoreChoice(character.get(), consumer, action);
-        abilityScoreChoice.showInPanel(detailPanel);
+        if (!scoreChoice.isPresent())
+            scoreChoice = Optional.of(new AbilityScoreChoice(character.get(), consumer, action));
+        scoreChoice.get().showInPanel(detailPanel);
     }
 
     @Override
     public void choiceMade() {
-        choiceModel.update();
-        listener.run();
-        action.clear();
-    }
-
-    private void selectOption(Runnable optionAction) {
-        OptionChoice current = choiceModel.getElementAt(choiceList.getSelectedIndex());
-        optionAction.run();
         detailPanel.removeAll();
         detailPanel.repaint();
         choiceModel.update();
         action.clear();
-        selectChoice(choiceModel.indexOf(current).orElse(0));
+        selectChoice(currentChoice.map(choiceModel::indexOf).map(oi -> oi.orElse(0)).orElse(0));
         listener.run();
     }
-
 }

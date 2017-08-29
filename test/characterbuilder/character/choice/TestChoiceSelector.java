@@ -42,7 +42,7 @@ public class TestChoiceSelector implements ChoiceSelector {
 
     @Override
     public void generateAbilityScores(Consumer<Stream<AbilityScore>> consumer) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        consumer.accept(AbilityScore.SCORES.stream().map(as -> new AbilityScore(as, 10)));
     }
 
     public int getOptionCount() {

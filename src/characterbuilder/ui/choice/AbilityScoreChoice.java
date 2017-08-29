@@ -6,7 +6,6 @@ import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.characterclass.CharacterClass;
-import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,88 +25,142 @@ import javax.swing.JPanel;
 
 public class AbilityScoreChoice {
 
+    private static final int PANEL_HEIGHT = 20;
+
     private final Consumer<Stream<AbilityScore>> consumer;
     private final SelectionAction action;
     private final List<AttributeType> scores = new ArrayList<>(AbilityScore.SCORES);
     private final List<Integer> values = new ArrayList<>();
+    private final List<ScorePanel> scorePanels = new ArrayList<>();
+    private final CharacterClass characterClass;
     private final Race race;
+
+    private class ScorePanel extends JPanel {
+
+        private final int index;
+
+        public ScorePanel(int index) {
+            super(new BorderLayout());
+            this.index = index;
+            if (index > 0) {
+                addSwapAction();
+            }
+            setLabels();
+            setPreferredSize(new Dimension(140, PANEL_HEIGHT));
+            setBackground(Color.WHITE);
+            setBorder(BorderFactory.createEtchedBorder());
+        }
+
+        private void addSwapAction() {
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    scores.add(index - 1, scores.remove(index));
+                    setLabels();
+                    scorePanels.get(index - 1).setLabels();
+                    getParent().repaint();
+                }
+            });
+        }
+
+        public void setLabels() {
+            removeAll();
+            AttributeType score = scores.get(index);
+            addScoreLabel(score);
+            addAdjustmentLabel(score);
+            revalidate();
+        }
+
+        private void addScoreLabel(AttributeType score) {
+            JLabel scoreLabel = new JLabel(score.toString());
+            add(scoreLabel, BorderLayout.WEST);
+        }
+
+        private void addAdjustmentLabel(AttributeType score) {
+            int adjustment = race.getAttributeAdjustment(score);
+            JLabel adjustmentLabel = new JLabel(String.format("%+d", adjustment));
+            adjustmentLabel.setPreferredSize(new Dimension(30, 30));
+            add(adjustmentLabel, BorderLayout.EAST);
+        }
+
+        public AbilityScore getAbilityScore() {
+            return new AbilityScore(scores.get(index), values.get(index));
+        }
+    }
 
     public AbilityScoreChoice(Character character, Consumer<Stream<AbilityScore>> consumer,
         SelectionAction action) {
         this.consumer = consumer;
         this.action = action;
         this.race = character.getAttribute(AttributeType.RACE);
-        generateOrderedScores(character);
+        this.characterClass = character.getAttribute(AttributeType.CHARACTER_CLASS);
+        generateOrderedScores();
         generateValues();
+        generateScorePanels();
     }
 
-    private void generateOrderedScores(Character character) {
-        CharacterClass characterClass = character.getAttribute(AttributeType.CHARACTER_CLASS);
+    private void generateOrderedScores() {
         List<AttributeType> primaryScores = characterClass.getPrimaryAttributes().collect(toList());
         Collections.shuffle(scores);
         scores.sort(Comparator.comparing(as -> primaryScores.contains(as)
-            ? primaryScores.indexOf(as) : 7));
+            ? primaryScores.indexOf(as) : primaryScores.size()));
     }
 
     private void generateValues() {
-        CharacterRandom random = new CharacterRandom();
-        IntStream.generate(random::nextAbilityScore).limit(6).forEach(values::add);
+        final CharacterRandom random = new CharacterRandom();
+        do {
+            values.clear();
+            IntStream.generate(random::nextAbilityScore).limit(6).forEach(values::add);
+        } while (!valuesViable());
         values.sort(Comparator.reverseOrder());
     }
 
-    public void showInPanel(DetailPanel detailPanel) {
-        List<JPanel> scorePanels = new ArrayList<>();
+    private boolean valuesViable() {
+        return averageViable() && minimumViable() && maximumViable();
+    }
 
+    private boolean averageViable() {
+        return valueStream().average().getAsDouble() > 9.5;
+    }
+
+    private boolean minimumViable() {
+        return valueStream().filter(v -> v < 10).count() < 3L;
+    }
+
+    private boolean maximumViable() {
+        return valueStream().max().getAsInt() > 14;
+    }
+
+    private IntStream valueStream() {
+        return values.stream().mapToInt(i -> i);
+    }
+
+    private void generateScorePanels() {
+        IntStream.range(0, 6)
+            .mapToObj(ScorePanel::new)
+            .forEach(scorePanels::add);
+    }
+
+    public void showInPanel(DetailPanel detailPanel) {
         detailPanel.removeAll();
-        IntStream.range(0, 6).forEach(i -> {
-            JPanel panel = new JPanel(new BorderLayout());
-            panel.setPreferredSize(new Dimension(140, 40));
-            panel.setBackground(Color.WHITE);
-            panel.setBorder(BorderFactory.createEtchedBorder());
-            addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (i > 0) {
-                        scores.add(i - 1, scores.remove(i));
-                        setScoreLabels(detailPanel, scorePanels, scores);
-                    }
-                }
-            });
-            detailPanel.add(panel, detailPanel.columnPosition(0));
-            scorePanels.add(panel);
-            valueLabel(detailPanel, values.get(i));
-        });
-        setScoreLabels(detailPanel, scorePanels, scores);
+        scorePanels.forEach(panel -> addScorePanel(panel, detailPanel));
         detailPanel.fill();
         detailPanel.revalidate();
         action.setSelectAction("Accept Scores", () -> {
-            consumer.accept(IntStream.range(0, 6)
-                .mapToObj(i -> new AbilityScore(scores.get(i), values.get(i))));
+            consumer.accept(scorePanels.stream().map(ScorePanel::getAbilityScore));
             action.clear();
         });
     }
 
-    private JLabel valueLabel(DetailPanel detailPanel, int value) {
-        JLabel valLabel = new JLabel(String.valueOf(value));
-        valLabel.setPreferredSize(new Dimension(50, 40));
-        valLabel.setBorder(BorderFactory.createEtchedBorder());
-        detailPanel.add(valLabel, detailPanel.columnPosition(1));
-        return valLabel;
+    private void addScorePanel(ScorePanel panel, DetailPanel detailPanel) {
+        detailPanel.add(panel, detailPanel.columnPosition(0));
+        detailPanel.add(valueLabel(values.get(panel.index)), detailPanel.columnPosition(1));
     }
 
-    private void setScoreLabels(DetailPanel detailPanel, List<JPanel> panels,
-        List<AttributeType> scores) {
-        IntStream.range(0, 6).forEach(i -> {
-            JPanel panel = panels.get(i);
-            panel.removeAll();
-            AttributeType score = scores.get(i);
-            panel.add(new JLabel(score.toString()), BorderLayout.WEST);
-            int adjustment = race.getAttributeAdjustment(score);
-            JLabel adjustmentLabel = new JLabel(String.format("%+d", adjustment));
-            adjustmentLabel.setPreferredSize(new Dimension(30, 30));
-            panel.add(adjustmentLabel, BorderLayout.EAST);
-            panel.revalidate();
-            detailPanel.repaint();
-        });
+    private JLabel valueLabel(int value) {
+        JLabel valLabel = new JLabel(String.valueOf(value));
+        valLabel.setPreferredSize(new Dimension(50, PANEL_HEIGHT));
+        valLabel.setBorder(BorderFactory.createEtchedBorder());
+        return valLabel;
     }
 }

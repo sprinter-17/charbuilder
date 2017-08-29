@@ -42,9 +42,11 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
             }
 
             private void addAbilityScore(Character character, AbilityScore score) {
+                Race race = character.getAttribute(AttributeType.RACE);
                 if (character.getAttribute(AttributeType.CHARACTER_CLASS, CharacterClass.class)
                     .hasSavingsThrow(score.getType()))
                     score.setProficientSaves();
+                score.addValue(race.getAttributeAdjustment(score.getType()));
                 character.addAttribute(score);
             }
         };
