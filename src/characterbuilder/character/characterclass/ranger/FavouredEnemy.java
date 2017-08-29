@@ -142,7 +142,7 @@ public class FavouredEnemy implements Attribute {
         if (languages.size() == 1)
             languages.forEach(character::addAttribute);
         else if (languages.size() > 1)
-            character.pushChoice(new AttributeChoice("Language for " + enemy.toString(),
+            character.addChoice(0, new AttributeChoice("Language for " + enemy.toString(),
                 languages.stream()));
         if (enemy.isHumanoid() && !choice.humanoidOnly) {
             choice.addCount(1);

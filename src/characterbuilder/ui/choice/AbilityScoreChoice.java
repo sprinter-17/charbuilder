@@ -27,13 +27,12 @@ public class AbilityScoreChoice {
 
     private static final int PANEL_HEIGHT = 20;
 
-    private final Consumer<Stream<AbilityScore>> consumer;
     private final SelectionAction action;
     private final List<AttributeType> scores = new ArrayList<>(AbilityScore.SCORES);
     private final List<Integer> values = new ArrayList<>();
     private final List<ScorePanel> scorePanels = new ArrayList<>();
-    private final CharacterClass characterClass;
-    private final Race race;
+    private CharacterClass characterClass;
+    private Race race;
 
     private class ScorePanel extends JPanel {
 
@@ -45,7 +44,6 @@ public class AbilityScoreChoice {
             if (index > 0) {
                 addSwapAction();
             }
-            setLabels();
             setPreferredSize(new Dimension(140, PANEL_HEIGHT));
             setBackground(Color.WHITE);
             setBorder(BorderFactory.createEtchedBorder());
@@ -88,22 +86,10 @@ public class AbilityScoreChoice {
         }
     }
 
-    public AbilityScoreChoice(Character character, Consumer<Stream<AbilityScore>> consumer,
-        SelectionAction action) {
-        this.consumer = consumer;
+    public AbilityScoreChoice(SelectionAction action) {
         this.action = action;
-        this.race = character.getAttribute(AttributeType.RACE);
-        this.characterClass = character.getAttribute(AttributeType.CHARACTER_CLASS);
-        generateOrderedScores();
         generateValues();
         generateScorePanels();
-    }
-
-    private void generateOrderedScores() {
-        List<AttributeType> primaryScores = characterClass.getPrimaryAttributes().collect(toList());
-        Collections.shuffle(scores);
-        scores.sort(Comparator.comparing(as -> primaryScores.contains(as)
-            ? primaryScores.indexOf(as) : primaryScores.size()));
     }
 
     private void generateValues() {
@@ -141,7 +127,11 @@ public class AbilityScoreChoice {
             .forEach(scorePanels::add);
     }
 
-    public void showInPanel(DetailPanel detailPanel) {
+    public void showInPanel(DetailPanel detailPanel, Character character,
+        Consumer<Stream<AbilityScore>> consumer) {
+        this.race = character.getAttribute(AttributeType.RACE);
+        this.characterClass = character.getAttribute(AttributeType.CHARACTER_CLASS);
+        generateOrderedScores();
         detailPanel.removeAll();
         scorePanels.forEach(panel -> addScorePanel(panel, detailPanel));
         detailPanel.fill();
@@ -152,9 +142,17 @@ public class AbilityScoreChoice {
         });
     }
 
-    private void addScorePanel(ScorePanel panel, DetailPanel detailPanel) {
-        detailPanel.add(panel, detailPanel.columnPosition(0));
-        detailPanel.add(valueLabel(values.get(panel.index)), detailPanel.columnPosition(1));
+    private void generateOrderedScores() {
+        List<AttributeType> primaryScores = characterClass.getPrimaryAttributes().collect(toList());
+        Collections.shuffle(scores);
+        scores.sort(Comparator.comparing(as -> primaryScores.contains(as)
+            ? primaryScores.indexOf(as) : primaryScores.size()));
+    }
+
+    private void addScorePanel(ScorePanel scorePanel, DetailPanel detailPanel) {
+        scorePanel.setLabels();
+        detailPanel.add(scorePanel, detailPanel.columnPosition(0));
+        detailPanel.add(valueLabel(values.get(scorePanel.index)), detailPanel.columnPosition(1));
     }
 
     private JLabel valueLabel(int value) {

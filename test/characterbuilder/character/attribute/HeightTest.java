@@ -11,6 +11,12 @@ import org.junit.Test;
 public class HeightTest {
 
     @Test
+    public void testCopy() {
+        Height original = Height.FOOT.times(5);
+        assertThat(original.copy(), is(original));
+    }
+
+    @Test
     public void testValueOf() throws HeightFormatException {
         assertThat(Height.valueOf("5' 2\""), is(FOOT.times(5).add(INCH.times(2))));
     }

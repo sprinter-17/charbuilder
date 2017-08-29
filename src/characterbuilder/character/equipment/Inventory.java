@@ -119,4 +119,8 @@ public class Inventory {
     public Weight getWeight() {
         return items.stream().map(Equipment::getWeight).reduce(Weight.ZERO, Weight::add);
     }
+
+    public void copyFrom(Inventory other) {
+        items.addAll(other.items);
+    }
 }

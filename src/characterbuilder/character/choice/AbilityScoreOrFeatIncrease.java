@@ -8,7 +8,6 @@ import characterbuilder.character.attribute.IntAttribute;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -82,7 +81,7 @@ public class AbilityScoreOrFeatIncrease extends OptionChoice {
     public void select(Character character, ChoiceSelector selector) {
         if (!isAllowed(character))
             throw new IllegalStateException("Attempt to increase non-existent ability scores.");
-        Stream.Builder<Option> options = Stream.builder();
+        List<Option> options = new ArrayList<>();
         scoresAllowed.stream()
             .filter(as -> character.getIntAttribute(as) < 20)
             .map(AbilityScoreIncrease::new)
@@ -94,7 +93,10 @@ public class AbilityScoreOrFeatIncrease extends OptionChoice {
                 .filter(ab -> !character.hasAttribute(ab))
                 .forEach(options::add);
         }
-        selector.chooseOption(options.build(), o -> o.choose(character));
+        if (!options.isEmpty())
+            selector.chooseOption(options.stream(), o -> o.choose(character));
+        else
+            selector.choiceMade();
     }
 
     @Override

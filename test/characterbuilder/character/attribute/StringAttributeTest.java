@@ -2,6 +2,7 @@ package characterbuilder.character.attribute;
 
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +30,14 @@ public class StringAttributeTest {
     public void testSetValue() {
         attr.setValue("Anne");
         assertThat(attr.toString(), is("Anne"));
+    }
+
+    @Test
+    public void testCopy() {
+        Attribute copy = attr.copy();
+        assertThat(attr, is(copy));
+        attr.setValue("Foo");
+        assertThat(attr, not(is(copy)));
     }
 
     @Test

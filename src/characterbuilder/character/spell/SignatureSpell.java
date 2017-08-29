@@ -51,6 +51,13 @@ public class SignatureSpell implements Attribute {
     }
 
     @Override
+    public Attribute copy() {
+        SignatureSpell copy = new SignatureSpell();
+        copy.spells.addAll(spells);
+        return copy;
+    }
+
+    @Override
     public Element save(Document doc) {
         Element element = getType().save(doc);
         spells.forEach(sp -> element

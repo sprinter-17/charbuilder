@@ -185,7 +185,7 @@ public enum EldritchInvocation implements Attribute {
                         if (choice.isPresent()) {
                             choice.get().addCount(1);
                         } else {
-                            character.pushChoice(getChoice(1));
+                            character.addChoice(0, getChoice(1));
                         }
                     }
                     selector.choiceMade();

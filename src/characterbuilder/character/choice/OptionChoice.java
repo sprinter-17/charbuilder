@@ -32,6 +32,10 @@ public abstract class OptionChoice implements Choice {
         return --currentCount <= 0;
     }
 
+    public boolean unUseAndCheck() {
+        return ++currentCount == 1;
+    }
+
     @Override
     public void addTo(Character character) {
         this.currentCount = initialCount;

@@ -119,7 +119,7 @@ public enum MagicSchool implements Attribute {
             .withAction("Cantrip", ch -> {
                 Attribute minorIllusion = new SpellAbility(Spell.MINOR_ILLUSION, INTELLIGENCE);
                 if (ch.hasAttribute(minorIllusion))
-                    ch.pushChoice(cantripChoice(1, INTELLIGENCE));
+                    ch.addChoice(0, cantripChoice(1, INTELLIGENCE));
                 else
                     ch.addAttribute(minorIllusion);
             })),

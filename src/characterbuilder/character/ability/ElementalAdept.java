@@ -34,6 +34,11 @@ public class ElementalAdept implements Attribute {
     }
 
     @Override
+    public Attribute copy() {
+        return new ElementalAdept(type);
+    }
+
+    @Override
     public Element save(Document doc) {
         Element element = getType().save(doc);
         element.setTextContent(type.name());

@@ -4,6 +4,7 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
 import static characterbuilder.character.attribute.AttributeDelegate.delegate;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
 import org.w3c.dom.Element;
 
@@ -47,6 +48,11 @@ public enum BardAbility implements Attribute {
     @Override
     public void generateInitialChoices(characterbuilder.character.Character character) {
         delegate.generateChoices(character);
+    }
+
+    @Override
+    public String toString() {
+        return delegate.getName().orElse(StringUtils.capitaliseEnumName(name()));
     }
 
     @Override

@@ -49,7 +49,7 @@ public enum DruidCircle implements Attribute {
         CIRCLE_SPELLS(delegate()) {
             @Override
             public void generateInitialChoices(Character character) {
-                character.pushChoice(new OptionChoice("Circle Spells Terrain") {
+                character.addChoice(0, new OptionChoice("Circle Spells Terrain") {
                     @Override
                     public void select(Character character, ChoiceSelector selector) {
                         selector.chooseOption(Arrays.stream(Terrain.values()), terrain -> {

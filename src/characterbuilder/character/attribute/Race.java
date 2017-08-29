@@ -197,7 +197,7 @@ public enum Race implements Attribute {
 
         @Override
         public void choose(Character character) {
-            character.pushChoice(subRaceSelection);
+            character.addChoice(0, subRaceSelection);
         }
 
         @Override

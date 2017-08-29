@@ -2,6 +2,7 @@ package characterbuilder.character.attribute;
 
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +23,14 @@ public class AbilityScoreTest {
         dex.setMax(22);
         dex.addValue(10);
         assertThat(dex.getValue(), is(22));
+    }
+
+    @Test
+    public void testCopy() {
+        Attribute copy = dex.copy();
+        assertThat(dex, is(copy));
+        dex.addValue(1);
+        assertThat(dex, not(is(copy)));
     }
 
     @Test

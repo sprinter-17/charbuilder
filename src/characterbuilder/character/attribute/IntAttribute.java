@@ -38,6 +38,11 @@ public class IntAttribute implements Attribute {
     }
 
     @Override
+    public Attribute copy() {
+        return new IntAttribute(type, value);
+    }
+
+    @Override
     public Element save(Document doc) {
         Element element = getType().save(doc);
         element.setTextContent(String.valueOf(value));

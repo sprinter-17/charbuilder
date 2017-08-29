@@ -18,6 +18,17 @@ import org.w3c.dom.Element;
 
 public class SpellCasting implements Attribute {
 
+    private final String name;
+    private final AttributeType spellAbilityScore;
+    private final String preparedSpellText;
+    private final CharacterClass spellClass;
+    private final List<LearntSpell> learntSpells = new ArrayList<>();
+    private final List<Spell> expandedSpells = new ArrayList<>();
+    private final ChooseSpell choice;
+    private boolean learnAll = false;
+    private int knownSpells = 0;
+    private int[] spellSlots = {};
+
     private class ReplaceSpell extends OptionChoice {
 
         public ReplaceSpell() {
@@ -74,17 +85,6 @@ public class SpellCasting implements Attribute {
         }
     }
 
-    private final String name;
-    private final AttributeType spellAbilityScore;
-    private final String preparedSpellText;
-    private final CharacterClass spellClass;
-    private final List<LearntSpell> learntSpells = new ArrayList<>();
-    private final List<Spell> expandedSpells = new ArrayList<>();
-    private final ChooseSpell choice;
-    private boolean learnAll = false;
-    private int knownSpells = 0;
-    private int[] spellSlots = {};
-
     public SpellCasting(String name, AttributeType spellAbilityScore,
         CharacterClass spellClass, String preparedSpellText) {
         this.name = name;
@@ -133,7 +133,7 @@ public class SpellCasting implements Attribute {
     }
 
     public void replaceSpell(Character character) {
-        character.pushChoice(new ReplaceSpell());
+        character.addChoice(0, new ReplaceSpell());
     }
 
     public void addKnownSpells(int count) {
@@ -217,6 +217,16 @@ public class SpellCasting implements Attribute {
 
     public String getPreparedSpellText(Character character) {
         return StringUtils.expand(preparedSpellText, character);
+    }
+
+    @Override
+    public Attribute copy() {
+        SpellCasting copy = new SpellCasting(name, spellAbilityScore, spellClass, preparedSpellText);
+        copy.learntSpells.addAll(learntSpells);
+        copy.expandedSpells.addAll(expandedSpells);
+        copy.learnAll = learnAll;
+        copy.spellSlots = Arrays.copyOf(spellSlots, spellSlots.length);
+        return copy;
     }
 
     @Override

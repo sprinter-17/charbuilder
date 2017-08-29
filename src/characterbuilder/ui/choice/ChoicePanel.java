@@ -36,7 +36,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         this.listener = listener;
         addSplitter();
         addChoiceList();
-        addSelectButton();
+        addButtons();
     }
 
     private void addSplitter() {
@@ -64,8 +64,16 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         }
     }
 
-    private void addSelectButton() {
+    private void addButtons() {
         action.addButton(this);
+    }
+
+    public void newCharacter() {
+        scoreChoice = Optional.empty();
+    }
+
+    public void setCurrentChoice(OptionChoice choice) {
+        currentChoice = Optional.of(choice);
     }
 
     public void update(Character character) {
@@ -73,13 +81,13 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
             choiceModel.update();
         } else {
             this.character = Optional.of(character);
-            scoreChoice = Optional.empty();
             choiceModel.setCharacter(character);
         }
-        selectChoice(0);
+        selectChoice();
     }
 
-    private void selectChoice(int index) {
+    private void selectChoice() {
+        int index = currentChoice.map(choiceModel::indexOf).map(oi -> oi.orElse(0)).orElse(0);
         if (index < choiceModel.getSize()) {
             choiceList.setSelectionInterval(index, index);
             showOptions();
@@ -103,8 +111,8 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
     @Override
     public void generateAbilityScores(Consumer<Stream<AbilityScore>> consumer) {
         if (!scoreChoice.isPresent())
-            scoreChoice = Optional.of(new AbilityScoreChoice(character.get(), consumer, action));
-        scoreChoice.get().showInPanel(detailPanel);
+            scoreChoice = Optional.of(new AbilityScoreChoice(action));
+        scoreChoice.get().showInPanel(detailPanel, character.get(), consumer);
     }
 
     @Override
@@ -113,7 +121,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         detailPanel.repaint();
         choiceModel.update();
         action.clear();
-        selectChoice(currentChoice.map(choiceModel::indexOf).map(oi -> oi.orElse(0)).orElse(0));
+        selectChoice();
         listener.run();
     }
 }

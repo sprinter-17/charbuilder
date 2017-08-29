@@ -37,6 +37,11 @@ public class Expertise implements Attribute {
     }
 
     @Override
+    public Attribute copy() {
+        return new Expertise(attribute);
+    }
+
+    @Override
     public Element save(Document doc) {
         Element element = getType().save(doc);
         element.appendChild(attribute.save(doc));

@@ -18,6 +18,10 @@ public interface Attribute extends Option {
         return Optional.empty();
     }
 
+    default Attribute copy() {
+        return this;
+    }
+
     default void generateInitialChoices(Character character) {
         generateLevelChoices(character);
     }

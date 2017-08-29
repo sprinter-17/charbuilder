@@ -75,7 +75,7 @@ public enum ElementalDiscipline implements Attribute {
                         if (choice.isPresent()) {
                             choice.get().addCount(1);
                         } else {
-                            character.pushChoice(chooseDiscipline());
+                            character.addChoice(0, chooseDiscipline());
                         }
                     }
                     selector.choiceMade();

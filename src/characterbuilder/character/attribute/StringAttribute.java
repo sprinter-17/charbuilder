@@ -30,6 +30,11 @@ public class StringAttribute implements Attribute {
     }
 
     @Override
+    public Attribute copy() {
+        return new StringAttribute(type, value);
+    }
+
+    @Override
     public Element save(Document doc) {
         Element element = getType().save(doc);
         element.setTextContent(value);

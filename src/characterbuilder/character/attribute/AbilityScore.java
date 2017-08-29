@@ -50,6 +50,14 @@ public class AbilityScore extends IntAttribute {
     }
 
     @Override
+    public Attribute copy() {
+        AbilityScore copy = new AbilityScore(getType(), getValue());
+        copy.proficientSaves = proficientSaves;
+        copy.max = max;
+        return copy;
+    }
+
+    @Override
     public Element save(Document doc) {
         Element element = getType().save(doc);
         element.setTextContent(String.valueOf(getValue()));

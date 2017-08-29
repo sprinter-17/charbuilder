@@ -9,6 +9,11 @@ import org.junit.Test;
 public class AlignmentTest {
 
     @Test
+    public void testCopy() {
+        assertThat(LAWFUL_GOOD.copy(), is(LAWFUL_GOOD));
+    }
+
+    @Test
     public void testSaveAndLoad() {
         assertThat(AttributeType.load(LAWFUL_GOOD.save(TestDoc.doc())), is(LAWFUL_GOOD));
     }

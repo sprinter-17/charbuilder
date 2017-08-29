@@ -1,12 +1,13 @@
 package characterbuilder.ui;
 
-import characterbuilder.ui.choice.ChoicePanel;
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.InitialChoiceGenerator;
+import characterbuilder.character.choice.UndoQueue;
 import characterbuilder.character.saveload.CharacterSaver;
 import characterbuilder.sheet.CharacterSheet;
+import characterbuilder.ui.choice.ChoicePanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -50,11 +51,15 @@ public class MainWindow {
         frame.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, choices, panel),
             BorderLayout.CENTER);
         frame.pack();
+        update();
     }
 
     private void addTools() {
         addTool("New Character", this::newCharacter);
         addTool("Load Character", this::loadCharacter);
+        addTool("Undo", this::undo,
+            () -> character.isPresent(),
+            () -> character.get().canUndo());
         addTool("Save Character", this::saveCharacter,
             () -> character.isPresent(),
             () -> character.get().isDirty(),
@@ -91,6 +96,7 @@ public class MainWindow {
         if (canDiscardCharacter()) {
             setCharacter(new Character());
             new InitialChoiceGenerator().generateChoices(character.get());
+            choices.newCharacter();
             update();
         }
     }
@@ -118,6 +124,13 @@ public class MainWindow {
         if (canDiscardCharacter()) {
             loadDialog.setVisible(true);
         }
+    }
+
+    private void undo() {
+        UndoQueue.Element undoElement = character.get().undoChoice();
+        this.character = Optional.of(undoElement.getCharacter());
+        choices.setCurrentChoice(undoElement.getChoice());
+        update();
     }
 
     private void exit() {

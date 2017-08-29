@@ -14,11 +14,12 @@ public interface ChoiceSelector {
 
     }
 
-    default ChoiceSelector withAction(Runnable action) {
+    default ChoiceSelector withActions(Runnable preAction, Runnable postAction) {
         return new ChoiceSelector() {
             @Override
             public <T extends Option> void chooseOption(Stream<T> options, Consumer<T> followUp) {
                 ChoiceSelector.this.chooseOption(options, opt -> {
+                    preAction.run();
                     followUp.accept(opt);
                     choiceMade();
                 });
@@ -27,6 +28,7 @@ public interface ChoiceSelector {
             @Override
             public void generateAbilityScores(Consumer<Stream<AbilityScore>> consumer) {
                 ChoiceSelector.this.generateAbilityScores(sa -> {
+                    preAction.run();
                     consumer.accept(sa);
                     choiceMade();
                 });
@@ -35,7 +37,7 @@ public interface ChoiceSelector {
             @Override
             public void choiceMade() {
                 ChoiceSelector.this.choiceMade();
-                action.run();
+                postAction.run();
             }
         };
     }

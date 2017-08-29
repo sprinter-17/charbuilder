@@ -9,9 +9,17 @@ public class ChoiceList {
 
     private final ChoiceSelector selector;
     private final List<OptionChoice> choices = new ArrayList<>();
+    private UndoQueue undoQueue = new UndoQueue();
 
     public ChoiceList(ChoiceSelector selector) {
         this.selector = selector;
+    }
+
+    public ChoiceList copy() {
+        ChoiceList copy = new ChoiceList(selector);
+        copy.choices.addAll(choices);
+        copy.undoQueue = undoQueue;
+        return copy;
     }
 
     public void add(OptionChoice choice) {
@@ -19,9 +27,9 @@ public class ChoiceList {
             choices.add(choice);
     }
 
-    public void push(OptionChoice choice) {
+    public void add(int index, OptionChoice choice) {
         if (!choices.contains(choice))
-            choices.add(0, choice);
+            choices.add(index, choice);
     }
 
     public boolean isEmpty() {
@@ -49,9 +57,24 @@ public class ChoiceList {
     }
 
     public void select(Character character, OptionChoice choice) {
-        choice.select(character, selector.withAction(() -> {
-            if (choice.useAndCheck())
-                choices.remove(choice);
-        }));
+        choice.select(character, selector.withActions(
+            () -> preAction(character, choice), () -> postAction(choice)));
+    }
+
+    private void preAction(Character character, OptionChoice choice) {
+        undoQueue.add(character, choice, choices.indexOf(choice));
+    }
+
+    private void postAction(OptionChoice choice) {
+        if (choice.useAndCheck())
+            choices.remove(choice);
+    }
+
+    public boolean canUndo() {
+        return undoQueue.canUndo();
+    }
+
+    public UndoQueue.Element undo() {
+        return undoQueue.undo();
     }
 }

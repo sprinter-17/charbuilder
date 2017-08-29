@@ -69,4 +69,8 @@ public class AttributeSet {
     public boolean removeAttributesOfType(AttributeType type) {
         return attributes.removeIf(type::isTypeOfAttribute);
     }
+
+    public void copyFrom(AttributeSet other) {
+        other.attributes.stream().map(Attribute::copy).forEach(attributes::add);
+    }
 }

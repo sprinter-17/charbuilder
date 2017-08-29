@@ -17,6 +17,7 @@ import characterbuilder.character.characterclass.sorcerer.SorcererAbility;
 import characterbuilder.character.choice.ChoiceList;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.OptionChoice;
+import characterbuilder.character.choice.UndoQueue;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Attack;
 import characterbuilder.character.equipment.Equipment;
@@ -54,8 +55,8 @@ public class Character {
         choices.add(choice);
     }
 
-    public void pushChoice(OptionChoice choice) {
-        choices.push(choice);
+    public void addChoice(int index, OptionChoice choice) {
+        choices.add(index, choice);
     }
 
     public OptionChoice getChoice(int index) {
@@ -76,6 +77,14 @@ public class Character {
     public void selectChoice(OptionChoice choice) {
         assert choices != null;
         choices.select(this, choice);
+    }
+
+    public boolean canUndo() {
+        return choices.canUndo();
+    }
+
+    public UndoQueue.Element undoChoice() {
+        return choices.undo();
     }
 
     public boolean hasChoice(OptionChoice choice) {
@@ -361,5 +370,14 @@ public class Character {
             .filter(at -> !hasAttribute(at) || getStringAttribute(at).isEmpty())
             .map(AttributeType::toString)
             .collect(joining(", "));
+    }
+
+    public Character copy() {
+        Character copy = new Character();
+        copy.attributes.copyFrom(attributes);
+        copy.inventory.copyFrom(inventory);
+        copy.choices = choices.copy();
+        copy.dirty = dirty;
+        return copy;
     }
 }
