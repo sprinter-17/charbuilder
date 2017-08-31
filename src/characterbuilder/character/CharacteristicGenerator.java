@@ -3,11 +3,7 @@ package characterbuilder.character;
 import characterbuilder.character.attribute.Alignment;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import static characterbuilder.character.attribute.AttributeType.ALIGNMENT;
-import static characterbuilder.character.attribute.AttributeType.BOND;
-import static characterbuilder.character.attribute.AttributeType.FLAW;
-import static characterbuilder.character.attribute.AttributeType.IDEAL;
-import static characterbuilder.character.attribute.AttributeType.TRAIT;
+import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.Background;
 import characterbuilder.character.attribute.StringAttribute;
 import java.util.ArrayList;
@@ -50,7 +46,7 @@ public class CharacteristicGenerator {
 
         background = Background.ACOLYTE;
         type = TRAIT;
-        add("I idolize a particular hero of my faith, and constantly refer to that person’s "
+        add("I idolise a particular hero of my faith, and constantly refer to that person’s "
             + "deeds and example.");
         add("I can find common ground between the fiercest enemies, empathizing with "
             + "them and always working toward peace.");
@@ -576,14 +572,14 @@ public class CharacteristicGenerator {
 
         type = IDEAL;
         add("All people, rich or poor, deserve respect.", Alignment::isGood);
-        add("We have to take care of each otehr, because no on else is going to do it. ",
+        add("We have to take care of each other, because no one else is going to do it. ",
             Alignment::isLawful);
         add("The low are lifted up and the high and mighty are brought down. Change is the nature "
             + "of things.", Alignment::isChaotic);
         add("The rich need to be shown what life and death are like in the gutters.",
             Alignment::isEvil);
         add("I help the people who help me - that's what keeps us alive. ", Alignment::isNeutral);
-        add("I'm going to prove taht I'm worthy of a better life.");
+        add("I'm going to prove that I'm worthy of a better life.");
 
         type = BOND;
         add("My town or city is my home and I'll fight to defend it.");
