@@ -3,34 +3,20 @@ package characterbuilder.character.characterclass.fighter;
 import characterbuilder.character.ability.FightingStyle;
 import static characterbuilder.character.ability.Proficiency.ALL_ARMOUR;
 import static characterbuilder.character.ability.Proficiency.ALL_WEAPONS;
-import static characterbuilder.character.ability.Skill.ACROBATICS;
-import static characterbuilder.character.ability.Skill.ANIMAL_HANDLING;
-import static characterbuilder.character.ability.Skill.ATHLETICS;
-import static characterbuilder.character.ability.Skill.HISTORY;
-import static characterbuilder.character.ability.Skill.INSIGHT;
-import static characterbuilder.character.ability.Skill.INTIMIDATION;
-import static characterbuilder.character.ability.Skill.PERCEPTION;
-import static characterbuilder.character.ability.Skill.SURVIVAL;
+import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
-import static characterbuilder.character.characterclass.fighter.FighterAbility.ACTION_SURGE;
-import static characterbuilder.character.characterclass.fighter.FighterAbility.EXTRA_ATTACK;
-import static characterbuilder.character.characterclass.fighter.FighterAbility.INDOMITABLE;
-import static characterbuilder.character.characterclass.fighter.FighterAbility.SECOND_WIND;
+import static characterbuilder.character.characterclass.fighter.FighterAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.levels;
 import static characterbuilder.character.equipment.AdventureGear.ARROW;
 import static characterbuilder.character.equipment.AdventureGear.CROSSBOW_BOLT;
 import characterbuilder.character.equipment.Armour;
-import static characterbuilder.character.equipment.Armour.CHAIN_MAIL_ARMOUR;
-import static characterbuilder.character.equipment.Armour.LEATHER_ARMOUR;
+import static characterbuilder.character.equipment.Armour.*;
 import characterbuilder.character.equipment.EquipmentCategory;
-import static characterbuilder.character.equipment.EquipmentPack.DUNGEONEER_PACK;
-import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
+import static characterbuilder.character.equipment.EquipmentPack.*;
 import characterbuilder.character.equipment.EquipmentSet;
-import static characterbuilder.character.equipment.Weapon.HANDAXE;
-import static characterbuilder.character.equipment.Weapon.LIGHT_CROSSBOW;
-import static characterbuilder.character.equipment.Weapon.LONGBOW;
+import static characterbuilder.character.equipment.Weapon.*;
 import java.util.stream.Stream;
 
 public class Fighter extends AbstractCharacterClass {
@@ -63,10 +49,10 @@ public class Fighter extends AbstractCharacterClass {
 
     private void addAbilities(ChoiceGenerator gen) {
         gen.level(1)
-            .addAttributes(ALL_ARMOUR, ALL_WEAPONS, SECOND_WIND)
-            .addAttributeChoice(2, "Skill", ACROBATICS, ANIMAL_HANDLING, ATHLETICS, HISTORY,
-                INSIGHT, INTIMIDATION, PERCEPTION, SURVIVAL)
-            .addAttributeChoice("Fighting Style", FightingStyle.values());
+                .addAttributes(ALL_ARMOUR, ALL_WEAPONS, SECOND_WIND)
+                .addAttributeChoice(2, "Skill", ACROBATICS, ANIMAL_HANDLING, ATHLETICS, HISTORY,
+                        INSIGHT, INTIMIDATION, PERCEPTION, SURVIVAL)
+                .addAttributeChoice("Fighting Style", FightingStyle.values());
         gen.level(2).addAttributes(ACTION_SURGE);
         gen.level(3).addAttributeChoice("Martial Archetype", MartialArchetype.values());
         gen.level(5).addAttributes(EXTRA_ATTACK);
@@ -76,13 +62,13 @@ public class Fighter extends AbstractCharacterClass {
 
     private void addEquipment(ChoiceGenerator gen) {
         gen.level(1).addEquipmentChoice("Armour")
-            .with(CHAIN_MAIL_ARMOUR).with(LEATHER_ARMOUR, LONGBOW, new EquipmentSet(ARROW, 20));
+                .with(CHAIN_MAIL_ARMOUR).with(LEATHER_ARMOUR, LONGBOW, new EquipmentSet(ARROW, 20));
         gen.level(1).addEquipmentChoice("Primary Weapon").with(EquipmentCategory.MARTIAL_MELEE);
         gen.level(1).addEquipmentChoice("Secondary Weapon Or Shield")
-            .with(Armour.SHIELD).with(EquipmentCategory.MARTIAL_MELEE);
+                .with(Armour.SHIELD).with(EquipmentCategory.MARTIAL_MELEE);
         gen.level(1).addEquipmentChoice("Ranged Weapon")
-            .with(LIGHT_CROSSBOW, new EquipmentSet(CROSSBOW_BOLT, 20))
-            .with(new EquipmentSet(HANDAXE, 2));
+                .with(LIGHT_CROSSBOW, new EquipmentSet(CROSSBOW_BOLT, 20))
+                .with(new EquipmentSet(HANDAXE, 2));
         gen.level(1).addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
     }
 }
