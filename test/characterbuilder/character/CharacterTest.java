@@ -17,7 +17,6 @@ import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.LB;
 import characterbuilder.character.characterclass.CharacterClass;
-import characterbuilder.character.characterclass.barbarian.Barbarian;
 import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
 import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.choice.TestOptionChoice;
@@ -34,9 +33,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class CharacterTest {
 
@@ -192,8 +188,12 @@ public class CharacterTest {
 
     @Test
     public void testHitPointIncreaseMinimum() {
-        random = mock(CharacterRandom.class);
-        when(random.nextHitPoints(anyInt())).thenReturn(1);
+        random = new CharacterRandom() {
+            @Override
+            public int nextHitPoints(int max) {
+                return 1;
+            }
+        };
         setLevel(CharacterClass.FIGHTER, 1);
         character.getAttribute(CONSTITUTION, IntAttribute.class).setValue(1);
         character.increaseLevel(random);
@@ -223,7 +223,7 @@ public class CharacterTest {
         setLevel(CharacterClass.FIGHTER, 1);
         for (int level = 0; level < 20; level++) {
             assertThat(character.getIntAttribute(EXPERIENCE_POINTS),
-                is(Character.XP_LEVELS[level]));
+                    is(Character.XP_LEVELS[level]));
             character.increaseLevel(random);
         }
     }
@@ -298,9 +298,9 @@ public class CharacterTest {
 
     private void setLevel(CharacterClass charClass, int level) {
         Stream.of(
-            charClass,
-            Race.HUMAN,
-            new IntAttribute(HIT_POINTS, charClass.getHitDie()),
-            new AbilityScore(CONSTITUTION, 10)).forEach(attr -> attr.choose(character));
+                charClass,
+                Race.HUMAN,
+                new IntAttribute(HIT_POINTS, charClass.getHitDie()),
+                new AbilityScore(CONSTITUTION, 10)).forEach(attr -> attr.choose(character));
     }
 }
