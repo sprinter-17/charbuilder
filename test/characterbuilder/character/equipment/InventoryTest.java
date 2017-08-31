@@ -87,32 +87,4 @@ public class InventoryTest {
         inventory.addItem(new EquipmentSet(BATTLEAXE, 0, 4));
         assertThat(inventory.getWeight(), is(BATTLEAXE.getWeight().times(4)));
     }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testSpendTooMuchTreasure() {
-        inventory.addItem(SILVER_PIECE);
-        inventory.spendTreasure(Value.GP);
-    }
-
-    @Test
-    public void testSpendExactMatchTreasure() {
-        inventory.addItem(SILVER_PIECE);
-        inventory.spendTreasure(Value.SP);
-        assertThat(inventory.getTreasureValue(), is(Value.ZERO));
-    }
-
-    @Test
-    public void testSpendPartOfTreasure() {
-        inventory.addItem(new EquipmentSet(SILVER_PIECE, 5));
-        inventory.spendTreasure(Value.SP);
-        assertThat(inventory.getTreasureValue(), is(Value.SP.times(4)));
-    }
-
-    @Test
-    public void testSpendWithChange() {
-        inventory.addItem(GOLD_PIECE);
-        inventory.spendTreasure(Value.SP.times(7));
-        assertThat(inventory.getTreasureValue(), is(Value.SP.times(3)));
-    }
-
 }

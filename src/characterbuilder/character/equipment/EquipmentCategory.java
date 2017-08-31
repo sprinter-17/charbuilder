@@ -64,6 +64,10 @@ public enum EquipmentCategory {
         this.loader = (cat, node) -> loader.apply(node);
     }
 
+    public boolean isTreasure() {
+        return this == CUSTOM_TREASURE || this == TREASURE;
+    }
+
     public Optional<Attribute> getProficiency() {
         return proficiency;
     }

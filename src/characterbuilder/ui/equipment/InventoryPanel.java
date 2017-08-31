@@ -14,6 +14,7 @@ import characterbuilder.character.equipment.Weapon;
 import characterbuilder.ui.CharacterSubPanel;
 import characterbuilder.ui.CharacterUpdater;
 import java.awt.BorderLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -60,12 +61,12 @@ public class InventoryPanel extends CharacterSubPanel {
         JToolBar toolBar = new JToolBar();
         add(toolBar, BorderLayout.NORTH);
         toolBar.add(buyButton);
-        toolBar.add(addButton);
-        toolBar.add(removeButton);
-        toolBar.add(editButton);
         buyButton.addActionListener(this::buyItem);
+        toolBar.add(addButton);
         addButton.addActionListener(this::addItem);
+        toolBar.add(removeButton);
         removeButton.addActionListener(this::removeItem);
+        toolBar.add(editButton);
         editButton.addActionListener(this::editItem);
     }
 
@@ -75,26 +76,31 @@ public class InventoryPanel extends CharacterSubPanel {
     }
 
     private void setStatus() {
+        if (getCharacter() != null)
+            setValues();
+        else
+            clearValues();
+    }
+
+    private void setValues() {
         StringBuilder status = new StringBuilder();
-        if (getCharacter() != null) {
-            Weight weight = getCharacter().getInventoryWeight();
-            Value worth = getCharacter().getTreasureValue();
-            status
-                .append("Weight: ")
-                .append(weight.toString())
-                .append("; Treasure: ")
-                .append(worth.toString());
-            buyButton.setEnabled(worth.isGreaterThan(Value.ZERO));
-            addButton.setEnabled(true);
-            removeButton.setEnabled(getSelectedItem().isPresent());
-            editButton.setEnabled(getSelectedItem().isPresent());
-        } else {
-            buyButton.setEnabled(false);
-            addButton.setEnabled(false);
-            removeButton.setEnabled(false);
-            editButton.setEnabled(false);
-        }
+        Weight weight = getCharacter().getInventoryWeight();
+        Value worth = getCharacter().getTreasureValue();
+        status.append("Weight: ").append(weight.toString())
+            .append("; Treasure: ").append(worth.toString());
+        buyButton.setEnabled(worth.isGreaterThan(Value.ZERO));
+        addButton.setEnabled(true);
+        removeButton.setEnabled(getSelectedItem().isPresent());
+        editButton.setEnabled(getSelectedItem().isPresent());
         statusField.setText(status.toString());
+    }
+
+    private void clearValues() {
+        buyButton.setEnabled(false);
+        addButton.setEnabled(false);
+        removeButton.setEnabled(false);
+        editButton.setEnabled(false);
+        statusField.setText(null);
     }
 
     private Optional<Equipment> getSelectedItem() {
@@ -108,28 +114,49 @@ public class InventoryPanel extends CharacterSubPanel {
     private void buyItem(ActionEvent event) {
         Value wealth = getCharacter().getTreasureValue();
         JPopupMenu popup = new JPopupMenu();
-        equipmentList.entrySet().stream().filter(e -> !e.getKey().equals(TREASURE))
-            .forEach(entry -> {
-                JMenu equipmentMenu = new JMenu(entry.getKey().toString());
-                entry.getValue().stream()
-                    .forEach(eq -> equipmentMenu.add(addItemAction(eq, true))
-                    .setEnabled(!eq.getValue().isGreaterThan(wealth)));
+        equipmentList.forEach((category, equipment) -> {
+            JMenu equipmentMenu = new JMenu(category.toString());
+            equipment.forEach(eq -> equipmentMenu.add(addItemAction(eq, true))
+                .setEnabled(!eq.getValue().isGreaterThan(wealth)));
+            if (category != TREASURE)
                 popup.add(equipmentMenu);
-            });
+        });
         popup.show(buyButton, 0, 0);
     }
 
     private void addItem(ActionEvent event) {
         JPopupMenu popup = new JPopupMenu();
-        for (EquipmentCategory category : equipmentList.keySet()) {
+        equipmentList.forEach((category, equipment) -> {
             JMenu equipmentMenu = new JMenu(category.toString());
-            equipmentList.getOrDefault(category, new ArrayList<>())
-                .forEach(eq -> equipmentMenu.add(addItemAction(eq, false)));
-            if (category.equals(EquipmentCategory.TREASURE))
+            if (category.equals(EquipmentCategory.TREASURE)) {
+                equipmentMenu.add(addTreasure(AdventureGear.COPPER_PIECE));
+                equipmentMenu.add(addTreasure(AdventureGear.SILVER_PIECE));
+                equipmentMenu.add(addTreasure(AdventureGear.GOLD_PIECE));
                 equipmentMenu.add(addCustomTreasure());
+            } else {
+                equipment.forEach(eq -> equipmentMenu.add(addItemAction(eq, false)));
+            }
             popup.add(equipmentMenu);
-        }
+        });
         popup.show(addButton, 0, 0);
+    }
+
+    private Action addTreasure(AdventureGear treasure) {
+        return new AbstractAction(treasure.toString() + "s") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editItem(new EquipmentSet(treasure, 100), false);
+            }
+        };
+    }
+
+    private Action addItemAction(Equipment equipment, boolean buy) {
+        return new AbstractAction(equipmentDescription(equipment)) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addEquipment(equipment, buy);
+            }
+        };
     }
 
     private Action addCustomTreasure() {
@@ -143,15 +170,6 @@ public class InventoryPanel extends CharacterSubPanel {
                     triggerUpdate(getCharacter());
                 });
                 dialog.setVisible(true);
-            }
-        };
-    }
-
-    private Action addItemAction(Equipment equipment, boolean buy) {
-        return new AbstractAction(equipmentDescription(equipment)) {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addEquipment(equipment, buy);
             }
         };
     }
@@ -173,30 +191,42 @@ public class InventoryPanel extends CharacterSubPanel {
     }
 
     private void processRemoveEquipment(Equipment equipment) {
-        if (equipment.getCount() == 1) {
-            getCharacter().removeEquipment(new EquipmentSet(equipment));
+        if (equipment.getCount() == 1)
+            removeSingleItem(equipment);
+        else
+            removeMultipleItems(equipment);
+    }
+
+    private void removeSingleItem(Equipment equipment) {
+        getCharacter().removeEquipment(new EquipmentSet(equipment));
+        triggerUpdate(getCharacter());
+    }
+
+    private void removeMultipleItems(Equipment equipment) throws HeadlessException {
+        EquipmentCountDialog dialog = new EquipmentCountDialog("Equipment Removal", equipment,
+            count -> {
+            getCharacter().removeEquipment(new EquipmentSet(equipment, count));
             triggerUpdate(getCharacter());
-        } else {
-            EquipmentCountDialog dialog = new EquipmentCountDialog("Equipment Removal",
-                equipment, count -> {
-                getCharacter().removeEquipment(new EquipmentSet(equipment, count));
-                triggerUpdate(getCharacter());
-            });
-            dialog.setLocationRelativeTo(this);
-            dialog.setVisible(true);
-        }
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }
 
     private void editItem(ActionEvent ev) {
-        getSelectedItem().ifPresent(eq -> {
-            EquipmentEditDialog dialog = new EquipmentEditDialog(eq, es -> {
-                getCharacter().removeEquipment(new EquipmentSet(eq, eq.getBonus(), eq.getCount()));
-                getCharacter().addEquipment(es);
-                triggerUpdate(getCharacter());
-            });
-            dialog.setLocationRelativeTo(scroller);
-            dialog.setVisible(true);
+        getSelectedItem().ifPresent(eq -> editItem(eq, true));
+    }
+
+    private void editItem(Equipment item, boolean remove) {
+        EquipmentEditDialog dialog = new EquipmentEditDialog(item, es -> {
+            if (remove) {
+                EquipmentSet toRemove = new EquipmentSet(item, item.getBonus(), item.getCount());
+                getCharacter().removeEquipment(toRemove);
+            }
+            getCharacter().addEquipment(es);
+            triggerUpdate(getCharacter());
         });
+        dialog.setLocationRelativeTo(scroller);
+        dialog.setVisible(true);
     }
 
     private void addInventoryTree() {

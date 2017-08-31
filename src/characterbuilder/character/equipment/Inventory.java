@@ -2,9 +2,7 @@ package characterbuilder.character.equipment;
 
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
-import static characterbuilder.character.equipment.AdventureGear.SILVER_PIECE;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -12,6 +10,11 @@ import java.util.stream.Stream;
 public class Inventory {
 
     private final List<Equipment> items = new ArrayList<>();
+    private final TreasureSpender spender;
+
+    public Inventory() {
+        this.spender = new TreasureSpender(this);
+    }
 
     public int getItemCount() {
         return items.stream().mapToInt(Equipment::getCount).sum();
@@ -77,43 +80,15 @@ public class Inventory {
     }
 
     public Value getTreasureValue() {
-        return getTreasure()
-            .map(Equipment::getValue)
-            .reduce(Value.ZERO, Value::add);
+        return spender.getValue();
     }
 
     public void spendTreasure(Value value) {
-        if (value.isGreaterThan(getTreasureValue()))
-            throw new IllegalArgumentException("Attempt to spend more than total treasure");
-        while (value.isGreaterThan(Value.ZERO)) {
-            Equipment treasure = getTreasure()
-                .sorted(Comparator.comparing(Equipment::getValue, Value::compareTo))
-                .findAny().get();
-            removeItem(treasure.getBaseEquipment());
-            if (treasure.getBaseEquipment().getValue().isGreaterThan(value)) {
-                if (treasure.getBaseEquipment().equals(AdventureGear.GOLD_PIECE)) {
-                    addItem(new EquipmentSet(SILVER_PIECE, 10));
-                } else if (treasure.getBaseEquipment().equals(AdventureGear.SILVER_PIECE)) {
-                    addItem(new EquipmentSet(AdventureGear.COPPER_PIECE, 10));
-                } else {
-                    throw new IllegalStateException("Incorrect change calculation");
-                }
-            } else {
-                value = value.subtract(treasure.getBaseEquipment().getValue());
-            }
-        }
-    }
-
-    private Stream<Equipment> getTreasure() {
-        return items.stream()
-            .filter(eq -> eq.getCategory().equals(EquipmentCategory.TREASURE));
+        spender.spend(value);
     }
 
     public Value getValue() {
-        return items.stream()
-            .filter(eq -> eq.getCategory().equals(EquipmentCategory.TREASURE)
-            || eq.getCategory().equals(EquipmentCategory.CUSTOM_TREASURE))
-            .map(Equipment::getValue).reduce(Value.ZERO, Value::add);
+        return getTreasureValue();
     }
 
     public Weight getWeight() {
