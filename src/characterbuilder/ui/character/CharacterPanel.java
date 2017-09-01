@@ -1,9 +1,9 @@
-package characterbuilder.ui;
+package characterbuilder.ui.character;
 
-import characterbuilder.ui.equipment.InventoryPanel;
+import characterbuilder.character.Character;
 import characterbuilder.ui.ability.AbilityPanel;
 import characterbuilder.ui.ability.AbilityScorePanel;
-import characterbuilder.character.Character;
+import characterbuilder.ui.equipment.InventoryPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -13,19 +13,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class CharacterPanel extends JPanel {
 
     private final DetailsPanel levelPanel;
     private final AbilityScorePanel abilityScorePanel;
+    private final PicturePanel picturePanel;
     private final AppearancePanel appearancePanel;
-    private final PersonalHistoryPanel historyPanel;
     private final AbilityPanel abilityPanel;
     private final InventoryPanel inventoryPanel;
     private final PersonalityPanel personalityPanel;
+    private final DescriptionPanel descriptionPanel;
+    private final PersonalHistoryPanel historyPanel;
     private final List<Runnable> changeListeners = new ArrayList<>();
     private final JLabel errorLabel = new JLabel("Missing Attributes");
     private final JLabel errors = new JLabel();
@@ -48,11 +52,13 @@ public class CharacterPanel extends JPanel {
         };
         this.levelPanel = new DetailsPanel(updater);
         this.abilityScorePanel = new AbilityScorePanel(updater);
+        picturePanel = new PicturePanel(updater);
         appearancePanel = new AppearancePanel(updater);
-        historyPanel = new PersonalHistoryPanel(updater);
         abilityPanel = new AbilityPanel(updater);
         inventoryPanel = new InventoryPanel(updater);
         personalityPanel = new PersonalityPanel(updater);
+        descriptionPanel = new DescriptionPanel(updater);
+        historyPanel = new PersonalHistoryPanel(updater);
         setUpPanels();
         setUpErrorLabel();
     }
@@ -63,17 +69,21 @@ public class CharacterPanel extends JPanel {
         add(panel, levelPanel, 0, 0, 1, 1);
         add(panel, abilityScorePanel, 1, 0, 1, 1);
         c.weighty = 1.0;
-        add(panel, appearancePanel, 0, 1, 1, 1);
-        add(panel, historyPanel, 1, 1, 1, 1);
+        add(panel, picturePanel, 0, 1, 1, 1);
+        add(panel, appearancePanel, 1, 1, 1, 1);
         c.weighty = 0.0;
         add(panel, abilityPanel, 2, 0, 1, 2);
         add(panel, inventoryPanel, 3, 0, 1, 2);
+        JTabbedPane tabs = new JTabbedPane();
+        tabs.add("Personality", personalityPanel);
+        tabs.add("Physical Description", descriptionPanel);
+        tabs.add("History", historyPanel);
         c.weighty = 1.0;
-        add(panel, personalityPanel, 0, 2, 4, 1);
+        add(panel, tabs, 0, 2, 4, 1);
         add(panel, BorderLayout.CENTER);
     }
 
-    private void add(JPanel parent, JPanel child, int x, int y, int width, int height) {
+    private void add(JPanel parent, JComponent child, int x, int y, int width, int height) {
         c.gridx = x;
         c.gridy = y;
         c.gridwidth = width;
@@ -98,8 +108,8 @@ public class CharacterPanel extends JPanel {
     }
 
     public void updateCharacterData(Character character) {
-        Stream.of(appearancePanel, historyPanel, abilityScorePanel,
-            levelPanel, abilityPanel, inventoryPanel, personalityPanel)
+        Stream.of(appearancePanel, historyPanel, abilityScorePanel, descriptionPanel,
+            picturePanel, levelPanel, abilityPanel, inventoryPanel, personalityPanel)
             .forEach(panel -> panel.updateCharacter(character));
         errorUpdater = Optional.of(() -> updateErrors(character));
         triggerChange();

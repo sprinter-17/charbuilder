@@ -7,14 +7,15 @@ import characterbuilder.character.choice.InitialChoiceGenerator;
 import characterbuilder.character.choice.UndoQueue;
 import characterbuilder.character.saveload.CharacterSaver;
 import characterbuilder.sheet.CharacterSheet;
+import characterbuilder.ui.character.CharacterPanel;
 import characterbuilder.ui.choice.ChoicePanel;
+import characterbuilder.utils.StringUtils;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -176,12 +177,7 @@ public class MainWindow {
 
     public void saveCharacter() {
         try {
-            if (Files.notExists(Paths.get("characters")))
-                Files.createDirectory(Paths.get("characters"));
-            String fileName = character.get().getAttribute(AttributeType.NAME).toString().
-                toLowerCase()
-                .replaceAll("\\s+", "_").replaceAll("\\W", "") + ".xml";
-            Path filePath = Paths.get("characters", fileName);
+            Path filePath = StringUtils.path(character.get(), "xml");
             if (Files.exists(filePath))
                 if (nameNotChanged() || JOptionPane.showConfirmDialog(frame,
                     "Overwrite previous file for character?",

@@ -48,9 +48,9 @@ import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXParseException;
 
 public enum AttributeType {
     NAME(true, StringAttribute::load),
@@ -71,6 +71,7 @@ public enum AttributeType {
     AGE(true, IntAttribute::load),
     HEIGHT(true, Height::load),
     WEIGHT(true, Weight::load),
+    PICTURE(true, Picture::load),
     PHYSICAL_DESCRIPTION(true, StringAttribute::load),
     PERSONAL_HISTORY(true, StringAttribute::load),
     TRAIT(false, StringAttribute::load),
@@ -134,22 +135,28 @@ public enum AttributeType {
     TOOLS(false, Proficiency::load);
 
     @FunctionalInterface
-    private interface Loader {
+    private interface TypedLoader {
 
-        Attribute load(AttributeType type, Element element);
+        Attribute load(AttributeType type, Element element) throws SAXParseException;
+    }
+
+    @FunctionalInterface
+    private interface TypelessLoader {
+
+        Attribute load(Element element) throws SAXParseException;
     }
 
     public static final List<AttributeType> PERSONALITY = Arrays.asList(
         TRAIT, FLAW, BOND, IDEAL);
 
     private final boolean unique;
-    private final Loader loader;
+    private final TypedLoader loader;
 
-    private AttributeType(boolean unique, Function<Element, Attribute> loader) {
-        this(unique, (t, n) -> loader.apply(n));
+    private AttributeType(boolean unique, TypelessLoader loader) {
+        this(unique, (t, n) -> loader.load(n));
     }
 
-    private AttributeType(boolean unique, Loader loader) {
+    private AttributeType(boolean unique, TypedLoader loader) {
         this.unique = unique;
         this.loader = loader;
     }
@@ -166,7 +173,7 @@ public enum AttributeType {
         return doc.createElement(name().toLowerCase());
     }
 
-    public static Attribute load(Element element) {
+    public static Attribute load(Element element) throws SAXParseException {
         AttributeType type = AttributeType.valueOf(element.getTagName().toUpperCase());
         return type.loader.load(type, element);
     }

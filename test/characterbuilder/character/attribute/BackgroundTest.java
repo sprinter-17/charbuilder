@@ -5,6 +5,7 @@ import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class BackgroundTest {
 
@@ -15,7 +16,7 @@ public class BackgroundTest {
     }
 
     @Test
-    public void testSaveAndLoadAbility() {
+    public void testSaveAndLoadAbility() throws SAXParseException {
         assertThat(AttributeType.load(Ability.DISCOVERY.save(TestDoc.doc())), is(Ability.DISCOVERY));
     }
 }

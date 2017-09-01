@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class ExpertiseTest {
 
@@ -37,7 +38,7 @@ public class ExpertiseTest {
     }
 
     @Test
-    public void testSaveLoad() {
+    public void testSaveLoad() throws SAXParseException {
         assertThat(AttributeType.load(expertise.save(TestDoc.doc())), is(expertise));
     }
 }

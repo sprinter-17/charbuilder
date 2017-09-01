@@ -7,6 +7,7 @@ import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class LanguageTest {
 
@@ -21,7 +22,7 @@ public class LanguageTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
+    public void testSaveAndLoad() throws SAXParseException {
         assertThat(AttributeType.load(DWARVISH.save(doc())), is(DWARVISH));
     }
 

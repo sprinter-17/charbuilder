@@ -9,6 +9,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class AbilityTest {
 
@@ -31,7 +32,7 @@ public class AbilityTest {
     }
 
     @Test
-    public void testSaveLoad() {
+    public void testSaveLoad() throws SAXParseException {
         assertThat(AttributeType.load(RacialTalent.DARKVISION.save(TestDoc.doc())),
             is(RacialTalent.DARKVISION));
     }

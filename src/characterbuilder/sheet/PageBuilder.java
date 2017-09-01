@@ -6,7 +6,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.NumberFormat;
@@ -278,6 +280,19 @@ public class PageBuilder {
 
             private Shape circle(int r, int z) {
                 return new Ellipse2D.Float(x(z) + horz(xp, z) - r, y(z) + vert(yp, z) - r, 2 * r, 2 * r);
+            }
+        };
+    }
+
+    public Component image(Image image, int xp, int yp) {
+        return new Component() {
+            @Override
+            public void paint(Graphics2D g, int z) {
+                int width = image.getWidth(null);
+                int height = image.getHeight(null);
+                AffineTransform transform = AffineTransform.getScaleInstance(z, z);
+                transform.translate(x(z) + horz(xp, z) - width / 2, y(z) + horz(yp, z) - height / 2);
+                g.drawImage(image, transform, null);
             }
         };
     }

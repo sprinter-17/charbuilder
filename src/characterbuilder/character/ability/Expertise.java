@@ -8,6 +8,7 @@ import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXParseException;
 
 public class Expertise implements Attribute {
 
@@ -48,7 +49,7 @@ public class Expertise implements Attribute {
         return element;
     }
 
-    public static Expertise load(AttributeType type, Element element) {
+    public static Expertise load(AttributeType type, Element element) throws SAXParseException {
         return new Expertise(AttributeType.load(child(element)));
     }
 

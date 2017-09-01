@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class CantripTest {
 
@@ -24,7 +25,7 @@ public class CantripTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
+    public void testSaveAndLoad() throws SAXParseException {
         assertThat(AttributeType.load(cantrip.save(TestDoc.doc())), is(cantrip));
     }
 }

@@ -11,6 +11,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class SpellCastingTest {
 
@@ -187,7 +188,7 @@ public class SpellCastingTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
+    public void testSaveAndLoad() throws SAXParseException {
         casting.addSlots(1, 5);
         casting.addSlots(3, 2);
         casting.addPreparedSpell(Spell.HEAL);

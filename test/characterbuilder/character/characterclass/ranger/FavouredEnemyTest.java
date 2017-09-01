@@ -12,6 +12,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class FavouredEnemyTest {
 
@@ -61,7 +62,7 @@ public class FavouredEnemyTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
+    public void testSaveAndLoad() throws SAXParseException {
         FavouredEnemy favouredEnemy = new FavouredEnemy();
         favouredEnemy.addEnemy(FavouredEnemy.Enemy.FEY);
         favouredEnemy.addEnemy(FavouredEnemy.Enemy.FIENDS);

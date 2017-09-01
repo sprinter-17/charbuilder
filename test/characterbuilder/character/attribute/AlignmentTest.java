@@ -5,6 +5,7 @@ import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class AlignmentTest {
 
@@ -14,7 +15,7 @@ public class AlignmentTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
+    public void testSaveAndLoad() throws SAXParseException {
         assertThat(AttributeType.load(LAWFUL_GOOD.save(TestDoc.doc())), is(LAWFUL_GOOD));
     }
 

@@ -10,6 +10,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class SignatureSpellTest {
 
@@ -44,7 +45,7 @@ public class SignatureSpellTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
+    public void testSaveAndLoad() throws SAXParseException {
         signature.choose(wizard);
         wizard.selectChoice("Signature Spell", "Fireball");
         wizard.selectChoice("Signature Spell", "Gaseous Form");

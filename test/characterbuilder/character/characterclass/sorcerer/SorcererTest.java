@@ -12,13 +12,9 @@ import characterbuilder.utils.TestUtils;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class SorcererTest {
-
-    @Test
-    public void testSaveAndLoadAbility() {
-        assertThat(AttributeType.load(FONT_OF_MAGIC.save(doc())), is(FONT_OF_MAGIC));
-    }
 
     @Test
     public void testDraconicResilience() {
@@ -44,4 +40,8 @@ public class SorcererTest {
         TestUtils.testDescriptions(SorcererAbility.values());
     }
 
+    @Test
+    public void testSaveAndLoadAbility() throws SAXParseException {
+        assertThat(AttributeType.load(FONT_OF_MAGIC.save(doc())), is(FONT_OF_MAGIC));
+    }
 }

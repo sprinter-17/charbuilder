@@ -1,6 +1,5 @@
 package characterbuilder.character.ability;
 
-import characterbuilder.character.ability.ElementalAdept;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
@@ -10,6 +9,7 @@ import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class ElementalAdeptTest {
 
@@ -33,7 +33,7 @@ public class ElementalAdeptTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
+    public void testSaveAndLoad() throws SAXParseException {
         assertThat(AttributeType.load(adept.save(TestDoc.doc())), is(adept));
     }
 }

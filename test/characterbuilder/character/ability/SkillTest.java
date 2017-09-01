@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class SkillTest {
 
@@ -30,7 +31,7 @@ public class SkillTest {
     }
 
     @Test
-    public void testSaveLoad() {
+    public void testSaveLoad() throws SAXParseException {
         assertThat(AttributeType.load(Skill.DECEPTION.save(TestDoc.doc())), is(Skill.DECEPTION));
     }
 }

@@ -20,9 +20,9 @@ public abstract class Page {
     public abstract Stream<PageBuilder.Container> getPages();
 
     protected PageBuilder.Component name() {
-        return builder.borderedSection(0, 0, 30, 8)
-            .with(builder.caption("Name", 15, 6, PageBuilder.Align.BOTTOM_CENTRE))
-            .with(builder.value(attr(NAME), 15, 3, PageBuilder.Align.CENTRE));
+        return builder.borderedSection(0, 0, 28, 8)
+            .with(builder.caption("Name", 14, 6, PageBuilder.Align.BOTTOM_CENTRE))
+            .with(builder.value(attr(NAME), 14, 3, PageBuilder.Align.CENTRE));
     }
 
     protected static String html(String value) {

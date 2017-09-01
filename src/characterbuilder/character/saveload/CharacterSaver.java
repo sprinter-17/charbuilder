@@ -25,6 +25,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXParseException;
 
 public class CharacterSaver {
 
@@ -100,7 +101,7 @@ public class CharacterSaver {
         return character;
     }
 
-    private void loadAttributes(Character character, Node attributesNode) {
+    private void loadAttributes(Character character, Node attributesNode) throws SAXParseException {
         for (Node child = attributesNode.getFirstChild(); child != null;
             child = child.getNextSibling()) {
             if (child.getNodeType() == Node.ELEMENT_NODE) {

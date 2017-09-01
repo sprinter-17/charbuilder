@@ -3,8 +3,8 @@ package characterbuilder.ui.ability;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.ui.CharacterSubPanel;
-import characterbuilder.ui.CharacterUpdater;
+import characterbuilder.ui.character.CharacterSubPanel;
+import characterbuilder.ui.character.CharacterUpdater;
 import java.util.EnumMap;
 import javax.swing.JLabel;
 

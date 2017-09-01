@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class IntAttributeTest {
 
@@ -54,7 +55,7 @@ public class IntAttributeTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
+    public void testSaveAndLoad() throws SAXParseException {
         assertThat(AttributeType.load(attr.save(TestDoc.doc())), is(attr));
     }
 }

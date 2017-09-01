@@ -366,7 +366,7 @@ public class Character {
     }
 
     public String getErrors() {
-        return Stream.of(NAME, TRAIT, IDEAL, BOND, FLAW)
+        return Stream.of(NAME, TRAIT, IDEAL, BOND, FLAW, PHYSICAL_DESCRIPTION, PERSONAL_HISTORY)
             .filter(at -> !hasAttribute(at) || getStringAttribute(at).isEmpty())
             .map(AttributeType::toString)
             .collect(joining(", "));

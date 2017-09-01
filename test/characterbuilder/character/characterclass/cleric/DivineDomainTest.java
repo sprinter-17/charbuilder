@@ -17,6 +17,7 @@ import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class DivineDomainTest {
 
@@ -67,7 +68,7 @@ public class DivineDomainTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
+    public void testSaveAndLoad() throws SAXParseException {
         assertThat(AttributeType.load(KNOWLEDGE.save(TestDoc.doc())), is(KNOWLEDGE));
         assertThat(AttributeType.load(CHANNEL_DIVINITY.save(TestDoc.doc())), is(CHANNEL_DIVINITY));
     }

@@ -1,5 +1,7 @@
-package characterbuilder.ui;
+package characterbuilder.ui.character;
 
+import characterbuilder.ui.character.CharacterUpdater;
+import characterbuilder.ui.character.CharacterSubPanel;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import java.awt.GridBagConstraints;

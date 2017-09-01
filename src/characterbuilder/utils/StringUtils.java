@@ -1,6 +1,11 @@
 package characterbuilder.utils;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.attribute.AttributeType;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,6 +54,14 @@ public class StringUtils {
             return word.toLowerCase();
         else
             return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+    }
+
+    public static Path path(Character character, String extension) throws IOException {
+        if (Files.notExists(Paths.get("characters")))
+            Files.createDirectory(Paths.get("characters"));
+        String fileName = character.getAttribute(AttributeType.NAME).toString()
+            .toLowerCase().replaceAll("\\s+", "_").replaceAll("\\W", "") + "." + extension;
+        return Paths.get("characters", fileName);
     }
 
     public static String expand(String text, Character character) {

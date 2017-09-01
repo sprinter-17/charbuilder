@@ -14,6 +14,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class FavouredTerrainTest {
 
@@ -48,7 +49,7 @@ public class FavouredTerrainTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
+    public void testSaveAndLoad() throws SAXParseException {
         favouredTerrain.addTerrain(Terrain.ARCTIC);
         favouredTerrain.addTerrain(Terrain.MOUNTAIN);
         assertThat(AttributeType.load(favouredTerrain.save(TestDoc.doc())), is(favouredTerrain));

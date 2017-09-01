@@ -6,11 +6,12 @@ import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class MusicalInstrumentTest {
 
     @Test
-    public void testSaveLoadProficiency() {
+    public void testSaveLoadProficiency() throws SAXParseException {
         Attribute prof = MusicalInstrument.BAGPIPES.getProficiency();
         assertThat(AttributeType.load(prof.save(TestDoc.doc())), is(prof));
     }

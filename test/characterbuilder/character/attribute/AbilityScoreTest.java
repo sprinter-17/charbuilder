@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class AbilityScoreTest {
 
@@ -34,7 +35,7 @@ public class AbilityScoreTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
+    public void testSaveAndLoad() throws SAXParseException {
         dex.setProficientSaves();
         dex.setMax(27);
         assertThat(AttributeType.load(dex.save(TestDoc.doc())), is(dex));

@@ -1,6 +1,5 @@
 package characterbuilder.character.characterclass.warlock;
 
-import characterbuilder.character.characterclass.warlock.MysticArcanum;
 import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
@@ -12,6 +11,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXParseException;
 
 public class MysticArcanumTest {
 
@@ -31,7 +31,7 @@ public class MysticArcanumTest {
     }
 
     @Test
-    public void testSaveAndLoad() {
+    public void testSaveAndLoad() throws SAXParseException {
         assertThat(AttributeType.load(new MysticArcanum(Spell.ALARM).save(TestDoc.doc())),
             is(new MysticArcanum(Spell.ALARM)));
     }

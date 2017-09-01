@@ -1,4 +1,4 @@
-package characterbuilder.ui;
+package characterbuilder.ui.character;
 
 import characterbuilder.character.Character;
 
