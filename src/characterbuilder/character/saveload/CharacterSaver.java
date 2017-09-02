@@ -24,7 +24,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXParseException;
 
 public class CharacterSaver {
@@ -39,7 +38,9 @@ public class CharacterSaver {
 
     public void save(Character character, OutputStream output) {
         doc = builder.newDocument();
-        Node root = doc.appendChild(doc.createElement("character"));
+        Element characterElement = doc.createElement("character");
+        characterElement.setAttribute("format", Integer.toString(Format.CURRENT));
+        Node root = doc.appendChild(characterElement);
         saveAttributes(character, root.appendChild(doc.createElement("attributes")));
         saveEquipment(character, root.appendChild(doc.createElement("inventory")));
         writeDocument(doc, output);
@@ -73,30 +74,17 @@ public class CharacterSaver {
 
     public Character load(InputStream input) throws SAXException, IOException {
         doc = builder.parse(input);
-        Element root = (Element) doc.getFirstChild();
-        Node node = root.getFirstChild();
         Character character = new Character();
-
-        try {
-            while (node != null) {
-                switch (node.getNodeName()) {
-                    case "attributes":
-                        loadAttributes(character, node);
-                        break;
-                    case "inventory":
-                        loadEquipment(character, node);
-                        break;
-                    case "#text":
-                        break;
-                    default:
-                        throw new SAXNotRecognizedException("Unrecognised root element "
-                            + node.getNodeName());
-                }
-                node = node.getNextSibling();
-            }
-        } catch (IllegalArgumentException ex) {
-            throw new SAXException(ex);
-        }
+        Element characterElement = (Element) doc.getFirstChild();
+        if (!characterElement.getTagName().equals("character"))
+            throw new SAXException("Root node must have tag 'character'.");
+        int format = 1;
+        if (characterElement.hasAttribute("format"))
+            format = Integer.valueOf(characterElement.getAttribute("format"));
+        Format fileFormat = new Format(format);
+        loadAttributes(character, Savable.child(characterElement, "attributes"));
+        loadEquipment(character, Savable.child(characterElement, "inventory"));
+        fileFormat.postProcess(character);
         character.clearDirty();
         return character;
     }
