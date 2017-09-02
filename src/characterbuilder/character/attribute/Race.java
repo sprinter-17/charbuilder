@@ -42,7 +42,7 @@ public enum Race implements Attribute {
         gen.addChoice(new AttributeChoice("Artisan talent", SMITH, BREWER, MASON));
     }),
     HIGH_ELF(0, 2, 0, 1, 0, 0, 30, 100, "4'6\"", "2d10", "90lb", "1d4", (gen, lgen) -> {
-        gen.addAttributes(DARKVISION, FEY_ANCESTORY, PERCEPTION, COMMON, ELVISH);
+        gen.addAttributes(DARKVISION, FEY_ANCESTORY, TRANCE, PERCEPTION, COMMON, ELVISH);
         gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW);
         gen.addChoice(new AttributeChoice("Language",
             DWARVISH, GIANT, GNOMISH, HALFLING, GOBLIN, ORC));
@@ -50,11 +50,13 @@ public enum Race implements Attribute {
             WIZARD.getSpells().filter(Spell::isCantrip)));
     }),
     WOOD_ELF(0, 2, 0, 0, 1, 0, 35, 100, "4'6\"", "2d10", "100lb", "1d4", (gen, lgen) -> {
-        gen.addAttributes(DARKVISION, FEY_ANCESTORY, PERCEPTION, COMMON, ELVISH, MASK_OF_THE_WILD);
+        gen.addAttributes(DARKVISION, FEY_ANCESTORY, TRANCE, PERCEPTION,
+            COMMON, ELVISH, MASK_OF_THE_WILD);
         gen.addWeaponProficiencies(LONGSWORD, SHORTBOW, LONGBOW);
     }),
     DARK_ELF(0, 2, 0, 0, 0, 1, 30, 100, "4'6\"", "2d10", "100lb", "1d4", (igen, lgen) -> {
-        igen.addAttributes(SUPERIOR_DARKVISION, SUNLIGHT_SENSITIVITY);
+        igen.addAttributes(SUPERIOR_DARKVISION, PERCEPTION, FEY_ANCESTORY, TRANCE,
+            SUNLIGHT_SENSITIVITY);
         igen.addSpellAbility(Spell.DANCING_LIGHTS, CHARISMA);
         igen.addWeaponProficiencies(RAPIER, SHORTSWORD, HAND_CROSSBOW);
         lgen.level(3).addSpellAbility(Spell.FAERIE_FIRE, CHARISMA);

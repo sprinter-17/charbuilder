@@ -10,6 +10,8 @@ import java.util.stream.Stream;
 import org.w3c.dom.Element;
 
 public enum RacialTalent implements Attribute {
+    TRANCE(delegate()
+        .withDescription("Can gain benefits of long rest in 4 hours of meditation.")),
     DARKVISION(delegate()
         .withDescription("Darkness within 60' appears as dim colourless light.")),
     SUPERIOR_DARKVISION(delegate()
