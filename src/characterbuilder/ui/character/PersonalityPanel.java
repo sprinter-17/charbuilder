@@ -1,23 +1,20 @@
 package characterbuilder.ui.character;
 
-import characterbuilder.ui.character.CharacterUpdater;
-import characterbuilder.ui.character.CharacterSubPanel;
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacteristicGenerator;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.StringAttribute;
+import characterbuilder.utils.StringUtils;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 import static java.util.stream.Collectors.toList;
 import java.util.stream.Stream;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -31,12 +28,56 @@ public class PersonalityPanel extends CharacterSubPanel {
 
     private final CharacteristicGenerator GENERATOR = new CharacteristicGenerator(new Random());
     private final JToolBar toolBar = new JToolBar();
-    private final List<JButton> addButtons = new ArrayList<>();
+    private final List<AddButton> addButtons = new ArrayList<>();
     private final JButton deleteButton = new JButton("Delete");
     private final JButton generateButton = new JButton("Generate Random");
     private final JTable table = new JTable();
     private final TableModel empty = new DefaultTableModel();
-    private final AbstractTableModel model = new AbstractTableModel() {
+    private final PersonalityTable tableMode = new PersonalityTable();
+
+    private class AddButton extends JButton {
+
+        private final AttributeType type;
+
+        public AddButton(AttributeType type) {
+            super(type.toString());
+            this.type = type;
+            addActionListener(ev -> add());
+        }
+
+        private void add() {
+            getCharacter().addAttribute(new StringAttribute(type, ""));
+            tableMode.fireTableDataChanged();
+            table.editCellAt(tableMode.getRowCount() - 1, 1);
+            table.transferFocus();
+            table.scrollRectToVisible(table.getCellRect(tableMode.getRowCount() - 1, 1, false));
+            triggerUpdate(getCharacter());
+        }
+
+        public void setEnabled() {
+            setEnabled(getCharacter() != null
+                && getCharacter().getAttributes(type, StringAttribute.class)
+                    .noneMatch(attr -> attr.toString().isEmpty()));
+        }
+    }
+
+    private enum Column {
+        TYPE(attr -> attr.getType()),
+        DESCRIPTION(attr -> attr);
+
+        private final Function<StringAttribute, Object> reader;
+
+        private Column(Function<StringAttribute, Object> reader) {
+            this.reader = reader;
+        }
+
+        public static Column column(int column) {
+            return values()[column];
+        }
+
+    }
+
+    private class PersonalityTable extends AbstractTableModel {
 
         @Override
         public int getRowCount() {
@@ -45,49 +86,42 @@ public class PersonalityPanel extends CharacterSubPanel {
 
         @Override
         public int getColumnCount() {
-            return 2;
+            return Column.values().length;
         }
 
         @Override
         public String getColumnName(int column) {
-            switch (column) {
-                case 0:
-                    return "Type";
-                case 1:
-                    return "Description";
-                default:
-                    throw new AssertionError();
-            }
+            return StringUtils.capitaliseEnumName(Column.column(column).name());
         }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            Attribute attr = getPersonality().skip(rowIndex).findAny().get();
-            switch (columnIndex) {
-                case 0:
-                    return attr.getType();
-                case 1:
-                    return attr;
-                default:
-                    throw new AssertionError();
-            }
+            StringAttribute attr = getPersonality().skip(rowIndex).findAny().get();
+            return Column.column(columnIndex).reader.apply(attr);
         }
 
         @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return columnIndex == 1;
+            return Column.column(columnIndex) == Column.DESCRIPTION;
         }
 
         @Override
         public void setValueAt(Object value, int rowIndex, int columnIndex) {
-            if (columnIndex == 1) {
+            if (Column.column(columnIndex) == Column.DESCRIPTION) {
                 StringAttribute attr = getPersonality().skip(rowIndex).findFirst().get();
                 attr.setValue(value.toString());
                 triggerUpdate(getCharacter());
             }
         }
 
-    };
+        public void deleteRows(int[] rows) {
+            List<Attribute> personality = getPersonality().collect(toList());
+            for (int row : rows) {
+                getCharacter().removeAttribute(personality.get(row));
+            }
+            triggerUpdate(getCharacter());
+        }
+    }
 
     public PersonalityPanel(CharacterUpdater updater) {
         super("Personality", new BorderLayout(), updater);
@@ -97,15 +131,15 @@ public class PersonalityPanel extends CharacterSubPanel {
 
     private void addTools() {
         toolBar.add(deleteButton);
-        deleteButton.addActionListener(this::deleteCharacteristic);
+        deleteButton.addActionListener(ev -> tableMode.deleteRows(table.getSelectedRows()));
         AttributeType.PERSONALITY.stream()
-            .map(this::makeButtonForType).map(JButton::new)
+            .map(AddButton::new)
             .peek(addButtons::add)
             .forEach(toolBar::add);
         toolBar.add(generateButton);
         generateButton.addActionListener(ev -> {
             GENERATOR.generate(getCharacter());
-            model.fireTableDataChanged();
+            tableMode.fireTableDataChanged();
             triggerUpdate(getCharacter());
         });
         enableTools();
@@ -114,7 +148,7 @@ public class PersonalityPanel extends CharacterSubPanel {
 
     private void enableTools() {
         deleteButton.setEnabled(table.getSelectedRows().length > 0);
-        addButtons.forEach(button -> button.setEnabled(getCharacter() != null));
+        addButtons.forEach(AddButton::setEnabled);
         generateButton.setEnabled(getCharacter() != null
             && getCharacter().hasAttribute(AttributeType.BACKGROUND)
             && getCharacter().hasAttribute(AttributeType.ALIGNMENT));
@@ -138,39 +172,12 @@ public class PersonalityPanel extends CharacterSubPanel {
         });
     }
 
-    private void deleteCharacteristic(ActionEvent ev) {
-        int selected = table.getSelectedRow();
-        List<Attribute> personality = getPersonality().collect(toList());
-        for (int row : table.getSelectedRows()) {
-            getCharacter().removeAttribute(personality.get(row));
-        }
-        model.fireTableDataChanged();
-        selected = Math.min(selected, model.getRowCount() - 1);
-        if (selected >= 0)
-            table.addRowSelectionInterval(selected, selected);
-        triggerUpdate(getCharacter());
-    }
-
-    private Action makeButtonForType(AttributeType type) {
-        return new AbstractAction(type.toString()) {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getCharacter().addAttribute(new StringAttribute(type, ""));
-                model.fireTableDataChanged();
-                table.editCellAt(model.getRowCount() - 1, 1);
-                table.transferFocus();
-                table.scrollRectToVisible(table.getCellRect(model.getRowCount() - 1, 1, false));
-                triggerUpdate(getCharacter());
-            }
-        };
-    }
-
     @Override
     public void updateCharacter(Character character) {
         super.updateCharacter(character);
         enableTools();
         table.setEnabled(true);
-        table.setModel(model);
+        table.setModel(tableMode);
         table.getColumnModel().getColumn(0).setPreferredWidth(100);
         table.getColumnModel().getColumn(1).setPreferredWidth(1000);
         table.setShowHorizontalLines(true);
