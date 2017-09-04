@@ -17,7 +17,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-//TODO rituals
 public enum Spell implements Option {
     ACID_SPLASH(spell(MagicSchool.CONJURATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
@@ -31,12 +30,13 @@ public enum Spell implements Option {
     CHILL_TOUCH(spell(MagicSchool.NECROMANCY, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("120 feet").area("1 creature").duration("1 round")
-        .effect("Ranged spell attack [max($level 1:1,5:2,11:3,17:4)]d8 necrotic damage. No healing for "
-            + "1 turn. Undead have disadvantage for 1 turn.")),
+        .effect("Ranged spell attack [max($level 1:1,5:2,11:3,17:4)]d8 necrotic damage. ")
+        .effect("No healing for 1 turn. ")
+        .effect("Undead have disadvantage for 1 turn.")),
     DANCING_LIGHTS(spell(MagicSchool.EVOCATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("120 feet").area("up to 4 lights").duration("up to 1 minute")
-        .effect("Create lights. Move each up to 60 feet as bons action.")),
+        .effect("Create lights. Move each up to 60 feet as bonus action.")),
     DRUIDCRAFT(spell(MagicSchool.TRANSMUTATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("30 feet").duration("Instantaneous")
@@ -95,7 +95,8 @@ public enum Spell implements Option {
     RAY_OF_FROST(spell(MagicSchool.EVOCATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("60 feet").area("1 creature").duration("Instantaneous")
-        .effect("Ranged spell attack. [max($level 1:1d8,5:2d8,11:3d8,17:4d8)] damage. -10 Speed for 1 turn.")),
+        .effect("Ranged spell attack [max($level 1:1d8,5:2d8,11:3d8,17:4d8)] damage.")
+        .effect("-10 Speed for 1 turn.")),
     RESISTANCE(spell(MagicSchool.ABJURATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Touch").area("1 willing creature").duration("up to 1 minute")
@@ -937,64 +938,33 @@ public enum Spell implements Option {
     CONTROL_WATER(spell(MagicSchool.TRANSMUTATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("300 feet").area("cube of water up to 100-feet").duration("up to 10 minutes")
-        .effect("As an action each turn, cause the water to:<br>Rise 20 feet, causing a flood or "
-            + "wave.<br>Part the water to create a trench.<br>Cause the water to flow in a new "
-            + "direction, including over obstacles.<br>Create a whirlpool vortex 25 feet deep and 50 "
-            + "feet wide. 2d8 bludgeoning damage. Str. save for half.")),
+        .effect("As an action each turn, cause the water to:"
+            + "<br>Rise 20 feet, causing a flood or wave."
+            + "<br>Part the water to create a trench."
+            + "<br>Cause the water to flow in a new direction, including over obstacles."
+            + "<br>Create a whirlpool vortex 25 feet deep and 50 feet wide. 2d8 bludgeoning damage. "
+            + "Str. save for half.")),
     DEATH_WARD(spell(MagicSchool.ABJURATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("Touch").duration("8 hours")
-        .effect("You touch a creature and grant it a measure of protection from death. The first time "
-            + "the target would drop to 0 hit points as a result of taking damage, the target instead "
-            + "drops to 1 hit point, and the spell ends. If the spell is still in effect when the "
-            + "target is subjected to an effect that would kill it instantaneously without dealing "
-            + "damage, that effect is instead negated against the target, and the spell ends.")),
+        .range("Touch").area("1 ally").duration("8 hours")
+        .effect("First time target would drop to 0 HP, drops to 1 HP instead.")
+        .effect("Instantaneous kill effects negated.")),
     DIMENSION_DOOR(spell(MagicSchool.CONJURATION, 4)
         .castingTime("1 action").components(VERBAL)
-        .range("500 feet").duration("Instantaneous Y")
-        .effect("ou teleport yourself from your current location to any other spot within range. You "
-            + "arrive at exactly the spot desired. It can be a place you can see, one you can "
-            + "visualize, or one you can describe by stating distance and direction, such as '200 "
-            + "feet straight downward' or 'upward to the northwest at a 45- degree angle, 300 feet.' "
-            + "You can bring along objects as long as their weight doesn't exceed what you can carry. "
-            + "You can also bring one willing creature of your size or smaller who is carrying gear "
-            + "up to its carrying capacity. The creature must be within 5 feet of you when you cast "
-            + "this spell. If you would arrive in a place already occupied by an object or a "
-            + "creature, you and any creature traveling with you each take 4d6 force damage, and the "
-            + "spell fails to teleport you.")),
+        .range("500 feet").area("Self and 1 ally within 5 feet").duration("Instantaneous")
+        .effect("Teleport to any spont within range.")
+        .effect("If spot occupied, 4d6 force damage.")),
     DIVINATION(spell(MagicSchool.DIVINATION, 4).ritual()
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").duration("Instantaneous")
-        .effect("Your magic and an offering put you in contact with a god or a god's servants. You ask "
-            + "a single question concerning a specific goal, event, or activity to occur within 7 "
-            + "days. The GM offers a truthful reply. The reply might be a short phrase, a cryptic "
-            + "rhyme, or an omen. The spell doesn't take into account any possible circumstances that "
-            + "might change the outcome, such as the casting of additional spells or the loss or gain "
-            + "of a companion. If you cast the spell two or more times before finishing your next "
-            + "long rest, there is a cumulative 25 percent chance for each casting after the first "
-            + "that you get a random reading. The GM makes this roll in secret.")),
+        .effect("Gain answer to single question concerncing goal, event or activity within 7 days.")
+        .effect("Cumulative 25% chance of incorrect answer for each additional use before long rest.")),
     DOMINATE_BEAST(spell(MagicSchool.ENCHANTMENT, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("60 feet").duration("up to 1 minute")
-        .effect("You attempt to beguile a beast that you can see within range. It must succeed on a "
-            + "Wisdom saving throw or be charmed by you for the duration. If you or creatures that "
-            + "are friendly to you are fighting it, it has advantage on the saving throw. While the "
-            + "beast is charmed, you have a telepathic link with it as long as the two of you are on "
-            + "the same plane of existence. You can use this telepathic link to issue commands to the "
-            + "creature while you are conscious (no action required), which it does its best to obey. "
-            + "You can specify a simple and general course of action, such as 'Attack that creature,' "
-            + "'Run over there,' or 'Fetch that object.' If the creature completes the order and "
-            + "doesn't receive further direction from you, it defends and preserves itself to the "
-            + "best of its ability. You can use your action to take total and precise control of the "
-            + "target. Until the end of your next turn, the creature takes only the actions you "
-            + "choose, and doesn't do anything that you don't allow it to do. During this time, you "
-            + "can also cause the creature to use a reaction, but this requires you to use your own "
-            + "reaction as well. Each time the target takes damage, it makes a new Wisdom saving "
-            + "throw against the spell. If the saving throw succeeds, the spell ends. At Higher "
-            + "Levels. When you cast this spell with a 5th-level spell slot, the duration is "
-            + "concentration, up to 10 minutes. When you use a 6th-level spell slot, the duration is "
-            + "concentration, up to 1 hour. When you use a spell slot of 7th level or higher, the "
-            + "duration is concentration, up to 8 hours.")),
+        .range("60 feet").area("1 beast").duration("up to 1 minute")
+        .effect("Target charmed. Wis. save DC[$spell_dc].")
+        .effect("On damage to target, new Wis. save to end spell.")
+        .effect("Duration at 5th: 10 minutes; 6th: 1 hour; 7th+: 8 hours.")),
     EVARDS_BLACK_TENTACLES(spell(MagicSchool.CONJURATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("90 feet").area("20-foot square").duration("Concentration, up to 1 minute")
@@ -1002,83 +972,47 @@ public enum Spell implements Option {
             + "Dex. check to escape.")),
     FABRICATE(spell(MagicSchool.TRANSMUTATION, 4)
         .castingTime("10 minutes").components(VERBAL, SOMATIC)
-        .range("120 feet").duration("Instantaneous")
-        .effect("You convert raw materials into products of the same material. For example, you can "
-            + "fabricate a wooden bridge from a clump of trees, a rope from a patch of hemp, and "
-            + "clothes from flax or wool. Choose raw materials that you can see within range. You can "
-            + "fabricate a Large or smaller object (contained within a 10-foot cube, or eight "
-            + "connected 5-foot cubes), given a sufficient quantity of raw material. If you are "
-            + "working with metal, stone, or another mineral substance, however, the fabricated "
-            + "object can be no larger than Medium (contained within a single 5-foot cube). The "
-            + "quality of objects made by the spell is commensurate with the quality of the raw "
-            + "materials. Creatures or magic items can't be created or transmuted by this spell. You "
-            + "also can't use it to create items that ordinarily require a high degree of "
-            + "craftsmanship, such as jewelry, weapons, glass, or armor, unless you have proficiency "
-            + "with the type of artisan's tools used to craft such objects.")),
+        .range("120 feet").area("Raw materials").duration("Instantaneous")
+        .effect("Convert materials into products of the same material.")
+        .effect("10-foot cube or 8 connected 5-foot cubes for non-mineral material.")
+        .effect("1 5-foot-cube for mineral material.")),
     FAITHFUL_HOUND(spell(MagicSchool.CONJURATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("30 feet").duration("8 hours")
-        .effect("You conjure a phantom watchdog in an unoccupied space that you can see within range, "
-            + "where it remains for the duration, until you dismiss it as an action, or until you "
-            + "move more than 100 feet away from it. The hound is invisible to all creatures except "
-            + "you and can't be harmed. When a Small or larger creature comes within 30 feet of it "
-            + "without first speaking the password that you specify when you cast this spell, the "
-            + "hound starts barking loudly. The hound sees invisible creatures and can see into the "
-            + "Ethereal Plane. It ignores illusions. At the start of each of your turns, the hound "
-            + "attempts to bite one creature within 5 feet of it that is hostile to you. The hound's "
-            + "attack bonus is equal to your spellcasting ability modifier + your proficiency bonus. "
-            + "On a hit, it deals 4d8 piercing damage.")),
+        .range("30 feet").area("Unoccupied space").duration("8 hours")
+        .effect("Conjure a invisible watchdog that barks when enemy approaches within 30 feet.")
+        .effect("Bite attack +[$spell_mod + $prof] 4d8 piercing damage.")),
     FIRE_SHIELD(spell(MagicSchool.EVOCATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").duration("10 minutes")
-        .effect("Thin and wispy flames wreathe your body for the duration, shedding bright light in a "
-            + "10-foot radius and dim light for an additional 10 feet. You can end the spell early by "
-            + "using an action to dismiss it. The flames provide you with a warm shield or a chill "
-            + "shield, as you choose. The warm shield grants you resistance to cold damage, and the "
-            + "chill shield grants you resistance to fire damage. In addition, whenever a creature "
-            + "within 5 feet of you hits you with a melee attack, the shield erupts with flame. The "
-            + "attacker takes 2d8 fire damage from a warm shield, or 2d8 cold damage from a cold shield.")),
+        .effect("Choose resistance to cold or fire damage.")
+        .effect("2d8 damage to creature withing 5 feet hitting.")
+        .effect("Bright light in a 10-foot radius.")),
     FREEDOM_OF_MOVEMENT(spell(MagicSchool.ABJURATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("1 hour")
-        .effect("You touch a willing creature. For the duration, the target's movement is unaffected by "
-            + "difficult terrain, and spells and other magical effects can neither reduce the "
-            + "target's speed nor cause the target to be paralyzed or restrained. The target can also "
-            + "spend 5 feet of movement to automatically escape from nonmagical restraints, such as "
-            + "manacles or a creature that has it grappled. Finally, being underwater imposes no "
-            + "penalties on the target's movement or attacks.")),
+        .range("Touch").area("1 ally").duration("1 hour")
+        .effect("Target's movement unaffected by difficult terrain and spells.")
+        .effect("Target can spend 5 feet of movement to escape from nonmagical restraints.")
+        .effect("Target has no penalties to movement or attack underwater.")),
     GIANT_INSECT(spell(MagicSchool.TRANSMUTATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("30 feet").duration("up to 10 minutes")
-        .effect("You transform up to ten centipedes, three spiders, five wasps, or one scorpion within "
-            + "range into giant versions of their natural forms for the duration. A centipede becomes "
-            + "a giant centipede, a spider becomes a giant spider, a wasp becomes a giant wasp, and a "
-            + "scorpion becomes a giant scorpion. Each creature obeys your verbal commands, and in "
-            + "combat, they act on your turn each round. The GM has the statistics for these "
-            + "creatures and resolves their actions and movement. A creature remains in its giant "
-            + "size for the duration, until it drops to 0 hit points, or until you use an action to "
-            + "dismiss the effect on it. The GM might allow you to choose different targets. For "
-            + "example, if you transform a bee, its giant version might have the same statistics as a "
-            + "giant wasp.")),
+        .range("30 feet").area("Up to 10 centipedes, 3 spiders, 5 wasps, or 1 scorpion")
+        .duration("up to 10 minutes")
+        .effect("Transform targets into giant versions of their natural forms.")
+        .effect("Targets obey verbal commands.")),
     GRASPING_VINE(spell(MagicSchool.CONJURATION, 4)
         .castingTime("1 bonus action").components(VERBAL, SOMATIC)
         .range("30 feet").area("unoccupied space").duration("Concentration, up to 1 minute")
         .effect("Dex. save or be pulled 20 feet towards vine.")),
     GREATER_INVISIBILITY(spell(MagicSchool.ILLUSION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("Touch").duration("up to 1 minute")
-        .effect("You or a creature you touch becomes invisible until the spell ends. Anything the "
-            + "target is wearing or carrying is invisible as long as it is on the target's person.")),
+        .range("Touch").area("1 creature").duration("up to 1 minute")
+        .effect("Target becomes invisible for duration.")),
     GUARDIAN_OF_FAITH(spell(MagicSchool.CONJURATION, 4)
         .castingTime("1 action").components(VERBAL)
-        .range("30 feet").duration("8 hours")
-        .effect("A Large spectral guardian appears and hovers for the duration in an unoccupied space "
-            + "of your choice that you can see within range. The guardian occupies that space and is "
-            + "indistinct except for a gleaming sword and shield emblazoned with the symbol of your "
-            + "deity. Any creature hostile to you that moves to a space within 10 feet of the "
-            + "guardian for the first time on a turn must succeed on a Dexterity saving throw. The "
-            + "creature takes 20 radiant damage on a failed save, or half as much damage on a "
-            + "successful one. The guardian vanishes when it has dealt a total of 60 damage.")),
+        .range("30 feet").area("Unoccupied space").duration("8 hours")
+        .effect("Summon large spectral guardian.")
+        .effect("Enemies within 10 feet take 20 radiant damage. Dex. save DC[$spell_dc] for half.")
+        .effect("Guardian vanishes when it has dealt a total of 60 damage.")),
     HALLUCINATORY_TERRAIN(spell(MagicSchool.ILLUSION, 4)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
         .range("300 feet").duration("24 hours")
