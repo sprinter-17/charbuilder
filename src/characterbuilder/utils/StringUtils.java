@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static java.util.stream.Collectors.joining;
@@ -78,5 +80,45 @@ public class StringUtils {
         }
         expressionMatcher.appendTail(result);
         return result.toString();
+    }
+
+    public static class Row {
+
+        private final boolean header;
+        private final List<String> values = new ArrayList<>();
+
+        public Row(boolean header) {
+            this.header = header;
+        }
+
+        @Override
+        public String toString() {
+            return element("tr", values.stream().map(val -> element(header ? "th" : "td", val))
+                .collect(joining()));
+        }
+    }
+
+    public static Row row(String... values) {
+        Row row = new Row(false);
+        Arrays.stream(values).forEach(row.values::add);
+        return row;
+    }
+
+    public static Row header(String... values) {
+        Row row = new Row(true);
+        Arrays.stream(values).forEach(row.values::add);
+        return row;
+    }
+
+    public static String table(Row... rows) {
+        return element("table", Arrays.stream(rows).map(Row::toString).collect(joining()));
+    }
+
+    public static String ol(String... items) {
+        return element("ol", Arrays.stream(items).map(it -> element("li", it)).collect(joining()));
+    }
+
+    public static String element(String tag, String value) {
+        return "<" + tag + ">" + value + "</" + tag + ">";
     }
 }

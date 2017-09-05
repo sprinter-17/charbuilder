@@ -10,6 +10,10 @@ import static characterbuilder.character.spell.SpellComponent.SOMATIC;
 import static characterbuilder.character.spell.SpellComponent.VERBAL;
 import static characterbuilder.character.spell.SpellDelegate.spell;
 import characterbuilder.utils.StringUtils;
+import static characterbuilder.utils.StringUtils.header;
+import static characterbuilder.utils.StringUtils.ol;
+import static characterbuilder.utils.StringUtils.row;
+import static characterbuilder.utils.StringUtils.table;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.stream.Stream;
@@ -214,7 +218,7 @@ public enum Spell implements Option {
     DISGUISE_SELF(spell(MagicSchool.ILLUSION, 1)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("Self").duration("1 hour")
-        .effect("Change appearance. Invesigation check against DC[$spell_dc].")),
+        .effect("Change appearance. Invesigation check to reveal.")),
     DISSONANT_WHISPERS(spell(MagicSchool.ENCHANTMENT, 1)
         .castingTime("1 action").components(VERBAL)
         .range("60 feet").area("1 creature").duration("Instantaneous")
@@ -300,7 +304,7 @@ public enum Spell implements Option {
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("30 feet").area("1 creature with Int. over 4")
         .duration("Concentration, up to 1 minute")
-        .effect("Target incapacitated. Wis. save DC[$spell_dc]. "
+        .effect("Target incapacitated. Wis. save. "
             + "Save each turn and on damage to end.")),
     HUNTERS_MARK(spell(MagicSchool.DIVINATION, 1)
         .castingTime("1 bonus action").components(VERBAL)
@@ -370,7 +374,7 @@ public enum Spell implements Option {
     SILENT_IMAGE(spell(MagicSchool.ILLUSION, 1)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("60 feet").area("15-foot cube").duration("up to 10 minutes")
-        .effect("Create a visual image. Investigation check DC[$spell_dc].")),
+        .effect("Create a visual image. Investigation check to reveal.")),
     SLEEP(spell(MagicSchool.ENCHANTMENT, 1)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("90 feet").area("20 feet").duration("1 minute")
@@ -627,8 +631,8 @@ public enum Spell implements Option {
     SPIKE_GROWTH(spell(MagicSchool.TRANSMUTATION, 2)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("150 feet").area("20-foot radius").duration("up to 10 minutes")
-        .effect("Difficult terrain. 2d4 piercing damage for each 5 feet of travel.\nPerception check "
-            + "DC[$spell_dc] to recognize.")),
+        .effect("Difficult terrain. 2d4 piercing damage for each 5 feet of travel. "
+            + "Perception check to recognize.")),
     SPIRITUAL_WEAPON(spell(MagicSchool.EVOCATION, 2)
         .castingTime("1 bonus action").components(VERBAL, SOMATIC)
         .range("60 feet").duration("1 minute")
@@ -645,7 +649,7 @@ public enum Spell implements Option {
     WEB(spell(MagicSchool.CONJURATION, 2)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("60 feet").area("20-foot cube").duration("up to 1 hour")
-        .effect("Restrain creatures. Dex. save. Str. check DC[$spell_dc] to break free.")),
+        .effect("Restrain creatures. Dex. save. Str. check to break free.")),
     ZONE_OF_TRUTH(spell(MagicSchool.ENCHANTMENT, 2)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("60 feet").area("15-foot-radius sphere").duration("10 minutes")
@@ -944,7 +948,7 @@ public enum Spell implements Option {
     DOMINATE_BEAST(spell(MagicSchool.ENCHANTMENT, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("60 feet").area("1 beast").duration("up to 1 minute")
-        .effect("Target charmed. Wis. save DC[$spell_dc].")
+        .effect("Target charmed. Wis. save.")
         .effect("On damage to target, new Wis. save to end spell.")
         .effect("Duration at 5th: 10 minutes; 6th: 1 hour; 7th+: 8 hours.")),
     FABRICATE(spell(MagicSchool.TRANSMUTATION, 4)
@@ -988,18 +992,18 @@ public enum Spell implements Option {
         .castingTime("1 action").components(VERBAL)
         .range("30 feet").area("Unoccupied space").duration("8 hours")
         .effect("Summon large spectral guardian.")
-        .effect("Enemies within 10 feet take 20 radiant damage. Dex. save DC[$spell_dc] for half.")
+        .effect("Enemies within 10 feet take 20 radiant damage. Dex. save for half.")
         .effect("Guardian vanishes when it has dealt a total of 60 damage.")),
     HALLUCINATORY_TERRAIN(spell(MagicSchool.ILLUSION, 4)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
         .range("300 feet").area("Terrain in 150-foot cube").duration("24 hours")
         .effect("Area looks, sounds, and smells like a chosen natural terrain.")
-        .effect("Investigation check DC[$spell_dc] to disbelieve on examination.")),
+        .effect("Investigation check to disbelieve on examination.")),
     ICE_STORM(spell(MagicSchool.EVOCATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("300 feet").area("20-foot-radius, 40-foot-high cylinder").duration("Instantaneous")
         .effect("Creatures in area take 2d8 bludgeoning and 4d6 cold damage. "
-            + "Dex. save DC[$spell_dc] for half. Area become difficult terrain for 1 turn.")
+            + "Dex. save for half. Area become difficult terrain for 1 turn.")
         .effect("+1d8 bludgeoning damage / extra level.")),
     LOCATE_CREATURE(spell(MagicSchool.DIVINATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
@@ -1009,14 +1013,14 @@ public enum Spell implements Option {
     PHANTASMAL_KILLER(spell(MagicSchool.ILLUSION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("120 feet").area("1 creature").duration("up to 1 minute")
-        .effect("Target becomes frightened. Wis. save DC[$spell_dc]. "
+        .effect("Target becomes frightened. Wis. save. "
             + "Each turn saves to end spell or takes 4d10 psychic damage.")
         .effect("+1d10 damage / extra level.")),
     POLYMORPH(spell(MagicSchool.TRANSMUTATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("60 feet").area("1 creature").duration("up to 1 hour")
         .effect("Transforms target into a new form with same or less CR. "
-            + "Wis. save DC[$spell_dc] if target unwilling.")),
+            + "Wis. save if target unwilling.")),
     PRIVATE_SANCTUM(spell(MagicSchool.ABJURATION, 4)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
         .range("120 feet").area("Up to 100-foot-cube").duration("24 hours")
@@ -1031,7 +1035,7 @@ public enum Spell implements Option {
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("30 feet").area("1 creature or object").duration("Concentration, up to 1 minute")
         .effect("Sphere of shimmering force encloses target. "
-            + "Dex. save DC[$spell_dc] for unwilling targets.")
+            + "Dex. save for unwilling targets.")
         .effect("Nothing can pass through barrier. Can be move up to half speed by target.")),
     SECRET_CHEST(spell(MagicSchool.CONJURATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
@@ -1044,95 +1048,56 @@ public enum Spell implements Option {
             + "and no reactions for 1 turn.")),
     STONESKIN(spell(MagicSchool.ABJURATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("up to 1 hour")
-        .effect("This spell turns the flesh of a willing creature you touch as hard as stone. Until the "
-            + "spell ends, the target has resistance to nonmagical bludgeoning, piercing, and "
-            + "slashing damage.")),
+        .range("Touch").area("1 willing creature").duration("up to 1 hour")
+        .effect("Makes flesh of target as hard as stone. "
+            + "Target has resistance to nonmagical bludgeoning, piercing, and slashing damage.")),
     STONE_SHAPE(spell(MagicSchool.TRANSMUTATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Instantaneous")
-        .effect("You touch a stone object of Medium size or smaller or a section of stone no more than "
-            + "5 feet in any dimension and form it into any shape that suits your purpose. So, for "
-            + "example, you could shape a large rock into a weapon, idol, or coffer, or make a small "
-            + "passage through a wall, as long as the wall is less than 5 feet thick. You could also "
-            + "shape a stone door or its frame to seal the door shut. The object you create can have "
-            + "up to two hinges and a latch, but finer mechanical detail isn't possible.")),
+        .range("Touch").area("Stone object or section of stone up to 5 feet in any dimension")
+        .duration("Instantaneous")
+        .effect("Form stone into any shape with up to two hinges and a latch.")),
     WALL_OF_FIRE(spell(MagicSchool.EVOCATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("120 feet").duration("up to 1 minute")
-        .effect("You create a wall of fire on a solid surface within range. You can make the wall up to "
-            + "60 feet long, 20 feet high, and 1 foot thick, or a ringed wall up to 20 feet in "
-            + "diameter, 20 feet high, and 1 foot thick. The wall is opaque and lasts for the "
-            + "duration. When the wall appears, each creature within its area must make a Dexterity "
-            + "saving throw. On a failed save, a creature takes 5d8 fire damage, or half as much "
-            + "damage on a successful save. One side of the wall, selected by you when you cast this "
-            + "spell, deals 5d8 fire damage to each creature that ends its turn within 10 feet of "
-            + "that side or inside the wall. A creature takes the same damage when it enters the wall "
-            + "for the first time on a turn or ends its turn there. The other side of the wall deals "
-            + "no damage. At Higher Levels. When you cast this spell using a spell slot of 5th level "
-            + "or higher, the damage increases by 1d8 for each slot level above 4th.")),
+        .range("120 feet")
+        .area("Up to 60 feet long or 20 feet in diameter, 20 feet high and 1 foot thick ")
+        .duration("up to 1 minute")
+        .effect("Each creature within areaor 10 feet from one side takes 5d8 fire damage. "
+            + "Dex. save for half. ")
+        .effect("+1d8 damage / extra slot level.")),
     ANIMATE_OBJECTS(spell(MagicSchool.TRANSMUTATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("120 feet").duration("up to 1 minute")
-        .effect("Objects come to life at your command. Choose up to ten nonmagical objects within range "
-            + "that are not being worn or carried. Medium targets count as two objects, Large targets "
-            + "count as four objects, Huge targets count as eight objects. You can't animate any "
-            + "object larger than Huge. Each target animates and becomes a creature under your "
-            + "control until the spell ends or until reduced to 0 hit points. As a bonus action, you "
-            + "can mentally command any creature you made with this spell if the creature is within "
-            + "500 feet of you (if you control multiple creatures, you can command any or all of them "
-            + "at the same time, issuing the same command to each one). You decide what action the "
-            + "creature will take and where it will move during its next turn, or you can issue a "
-            + "general command, such as to guard a particular chamber or corridor. If you issue no "
-            + "commands, the creature only defends itself against hostile creatures. Once given an "
-            + "order, the creature continues to follow it until its task is complete. Animated Object "
-            + "Statistics Size HP AC Str Dex Attack Tiny 20 18 4 18 +8 to hit, 1d4 + 4 damage Small "
-            + "25 16 6 14 +6 to hit, 1d8 + 2 damage Medium 40 13 10 12 +5 to hit, 2d6 + 1 damage "
-            + "Large 50 10 14 10 +6 to hit, 2d10 + 2 damage Huge 80 10 18 6 +8 to hit, 2d12 + 4 "
-            + "damage An animated object is a construct with AC, hit points, attacks, Strength, and "
-            + "Dexterity determined by its size. Its Constitution is 10 and its Intelligence and "
-            + "Wisdom are 3, and its Charisma is 1. Its speed is 30 feet; if the object lacks legs or "
-            + "other appendages it can use for locomotion, it instead has a flying speed of 30 feet "
-            + "and can hover. If the object is securely attached to a surface or a larger object, "
-            + "such as a chain bolted to a wall, its speed is 0. It has blindsight with a radius of "
-            + "30 feet and is blind beyond that distance. When the animated object drops to 0 hit "
-            + "points, it reverts to its original object form, and any remaining damage carries over "
-            + "to its original object form. If you command an object to attack, it can make a single "
-            + "melee attack against a creature within 5 feet of it. It makes a slam attack with an "
-            + "attack bonus and bludgeoning damage determined by its size. The GM might rule that a "
-            + "specific object inflicts slashing or piercing damage based on its form. At Higher "
-            + "Levels. If you cast this spell using a spell slot of 6th level or higher, you can "
-            + "animate two additional objects for each slot level above 5th.")),
+        .range("120 feet").area("Up to 10 nonmagical objects").duration("up to 1 minute")
+        .effect("Objects come to life and can be commanded as a bonus action. "
+            + "Medium or larger object count as a number of smaller object. "
+            + table(
+                header("Size", "Count", "HP", "AC", "Str", "Dex", "Attack", "Damage"),
+                row("Tiny", "1", "20", "18", "4", "18", "+8", "1d4+4"),
+                row("Small", "1", "25", "16", "6", "14", "+6", "1d8+2"),
+                row("Medium", "2", "40", "13", "10", "12", "+5", "2d6+1"),
+                row("Large", "4", "50", "10", "14", "10", "+6", "2d10+2"),
+                row("Huge", "8", "80", "10", "18", "6", "+8", "2d12+4"))
+            + "Con. 10, Int. 3, Wis. 3, Chr. 1, Speed 30. Blindsight to 30 feet. Bludgeoning damage. ")
+        .effect("+2 objects / extra spell level.")),
     ANTILIFE_SHELL(spell(MagicSchool.ABJURATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("Self (10-foot radius)").duration("up to 1 hour")
-        .effect("A shimmering barrier extends out from you in a 10- foot radius and moves with you, "
-            + "remaining centered on you and hedging out creatures other than undead and constructs. "
-            + "The barrier lasts for the duration. The barrier prevents an affected creature from "
-            + "passing or reaching through. An affected creature can cast spells or make attacks with "
-            + "ranged or reach weapons through the barrier. If you move so that an affected creature "
-            + "is forced to pass through the barrier, the spell ends.")),
+        .range("Self").area("10-foot radius").duration("up to 1 hour")
+        .effect("Shimmering barrier forms around caster preventing creatures from "
+            + "passing or reaching through. Spells and ranged attacks can pass through barrier.")),
     ARCANE_HAND(spell(MagicSchool.EVOCATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("120 feet").duration("up to 1 minute")
-        .effect("Create a hand of force. AC 20 HP [$hp] Str. 26 Dex. 10.\nBonus action move hand up to "
-            + "60 feet and attack using contested Str. Attack for 4d8 damage, push target "
-            + "[5+5*$spell_mod] feet, grapple target and then crush for 2d6+[$spell_mod] or provide "
-            + "half cover and prevent movement towards caster.\nAttack +2d8 and crush +2d6 / extra level.")),
+        .effect("Create a hand of force. AC 20 HP [$hp] Str. 26 Dex. 10.")
+        .effect("As bonus action move hand up to 60 feet and:"
+            + "<br>attack using contested Str. Attack for 4d8 damage"
+            + "<br>push target [5+5*$spell_mod] feet"
+            + "<br>grapple target and then crush for 2d6+[$spell_mod]"
+            + "<br>provide half cover and prevent movement towards caster. ")
+        .effect("Attack +2d8 and crush +2d6 / extra level.")),
     AWAKEN(spell(MagicSchool.TRANSMUTATION, 5)
         .castingTime("8 hours").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Instantaneous")
-        .effect("After spending the casting time tracing magical pathways within a precious gemstone, "
-            + "you touch a Huge or smaller beast or plant. The target must have either no "
-            + "Intelligence score or an Intelligence of 3 or less. The target gains an Intelligence "
-            + "of 10. The target also gains the ability to speak one language you know. If the target "
-            + "is a plant, it gains the ability to move its limbs, roots, vines, creepers, and so "
-            + "forth, and it gains senses similar to a human's. Your GM chooses statistics "
-            + "appropriate for the awakened plant, such as the statistics for the awakened shrub or "
-            + "the awakened tree. The awakened beast or plant is charmed by you for 30 days or until "
-            + "you or your companions do anything harmful to it. When the charmed condition ends, the "
-            + "awakened creature chooses whether to remain friendly to you, based on how you treated "
-            + "it while it was charmed.")),
+        .range("Touch").area("1 beast or plant with Int. of 3 or less").duration("Instantaneous")
+        .effect("Target gains Int. 10 and ability to speak 1 language, move and sense. "
+            + "Target is charmed for 30 days.")),
     BANISHING_SMITE(spell(MagicSchool.ABJURATION, 5)
         .castingTime("1 bonus action").components(VERBAL)
         .range("Self").duration("Concentration, up to 1 minute")
@@ -1143,31 +1108,15 @@ public enum Spell implements Option {
         .effect("Allies in area have advantage on Save vs. spells. Half damage becomes no damage.")),
     CLOUDKILL(spell(MagicSchool.CONJURATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("120 feet").duration("up to 10 minutes")
-        .effect("You create a 20-foot-radius sphere of poisonous, yellow-green fog centered on a point "
-            + "you choose within range. The fog spreads around corners. It lasts for the duration or "
-            + "until strong wind disperses the fog, ending the spell. Its area is heavily obscured. "
-            + "When a creature enters the spell's area for the first time on a turn or starts its "
-            + "turn there, that creature must make a Constitution saving throw. The creature takes "
-            + "5d8 poison damage on a failed save, or half as much damage on a successful one. "
-            + "Creatures are affected even if they hold their breath or don't need to breathe. The "
-            + "fog moves 10 feet away from you at the start of each of your turns, rolling along the "
-            + "surface of the ground. The vapors, being heavier than air, sink to the lowest level of "
-            + "the land, even pouring down openings. At Higher Levels. When you cast this spell using "
-            + "a spell slot of 6th level or higher, the damage increases by 1d8 for each slot level "
-            + "above 5th.")),
+        .range("120 feet").area("20-foot-radius sphere").duration("up to 10 minutes")
+        .effect("Area is heavily obscured. Creatures in area take 5d8 poison damage. "
+            + "Con. save for half damage. Fog moves 10 feet away each turn.")
+        .effect("+1d8 damage / extra level.")),
     COMMUNE(spell(MagicSchool.DIVINATION, 5).ritual()
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").duration("1 minute")
-        .effect("You contact your deity or a divine proxy and ask up to three questions that can be "
-            + "answered with a yes or no. You must ask your questions before the spell ends. You "
-            + "receive a correct answer for each question. Divine beings aren't necessarily "
-            + "omniscient, so you might receive 'unclear' as an answer if a question pertains to "
-            + "information that lies beyond the deity's knowledge. In a case where a one-word answer "
-            + "could be misleading or contrary to the deity's interests, the GM might offer a short "
-            + "phrase as an answer instead. If you cast the spell two or more times before finishing "
-            + "your next long rest, there is a cumulative 25 percent chance for each casting after "
-            + "the first that you get no answer. The GM makes this roll in secret.")),
+        .effect("Up to three questions answered with yes or no.")
+        .effect("Cumulative 25% of no answer for each extra casting before long rest.")),
     COMMUNE_WITH_NATURE(spell(MagicSchool.DIVINATION, 5).ritual()
         .castingTime("1 minute").components(VERBAL, SOMATIC)
         .range("Self").duration("Instantaneous")
@@ -2077,44 +2026,21 @@ public enum Spell implements Option {
             + "level above 6th.")),
     WALL_OF_THORNS(spell(MagicSchool.CONJURATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("120 feet").duration("up to 10 minutes")
-        .effect("You create a wall of tough, pliable, tangled brush bristling with needle-sharp thorns. "
-            + "The wall appears within range on a solid surface and lasts for the duration. You "
-            + "choose to make the wall up to 60 feet long, 10 feet high, and 5 feet thick or a circle "
-            + "that has a 20-foot diameter and is up to 20 feet high and 5 feet thick. The wall "
-            + "blocks line of sight. When the wall appears, each creature within its area must make a "
-            + "Dexterity saving throw. On a failed save, a creature takes 7d8 piercing damage, or "
-            + "half as much damage on a successful save. A creature can move through the wall, albeit "
-            + "slowly and painfully. For every 1 foot a creature moves through the wall, it must "
-            + "spend 4 feet of movement. Furthermore, the first time a creature enters the wall on a "
-            + "turn or ends its turn there, the creature must make a Dexterity saving throw. It takes "
-            + "7d8 slashing damage on a failed save, or half as much damage on a successful one. At "
-            + "Higher Levels. When you cast this spell using a spell slot of 7th level or higher, "
-            + "both types of damage increase by 1d8 for each slot level above 6th.")),
+        .range("120 feet").area("60-foot long, 10-foot high, 5-foot thick "
+        + "or 20-foot diameter, 20-foot high, 5-foot thick").duration("up to 10 minutes")
+        .effect("Blocks line of sight. 7d8 piercing damage. Dex. save for half damage. "
+            + "Each 1 foot through wall takes 4 feet of movement. "
+            + "7d8 slashing damage to move through wall. Dex. save for half damage."
+            + "+1d8 damage / extra spell slot level.")),
     WIND_WALK(spell(MagicSchool.TRANSMUTATION, 6)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
-        .range("30 feet").duration("8 hours")
-        .effect("You and up to ten willing creatures you can see within range assume a gaseous form for "
-            + "the duration, appearing as wisps of cloud. While in this cloud form, a creature has a "
-            + "flying speed of 300 feet and has resistance to damage from nonmagical weapons. The "
-            + "only actions a creature can take in this form are the Dash action or to revert to its "
-            + "normal form. Reverting takes 1 minute, during which time a creature is incapacitated "
-            + "and can't move. Until the spell ends, a creature can revert to cloud form, which also "
-            + "requires the 1-minute transformation. If a creature is in cloud form and flying when "
-            + "the effect ends, the creature descends 60 feet per round for 1 minute until it lands, "
-            + "which it does safely. If it can't land after 1 minute, the creature falls the "
-            + "remaining distance.")),
+        .range("30 feet").area("Caster and up to 10 allies").duration("8 hours")
+        .effect("Assume gaseous form. Flying speed of 300 feet. "
+            + "Resistance to damage from nonmagical weapons. Reverting takes 1 minute.")),
     WORD_OF_RECALL(spell(MagicSchool.CONJURATION, 6)
         .castingTime("1 action").components(VERBAL)
-        .range("5 feet").duration("Instantaneous")
-        .effect("You and up to five willing creatures within 5 feet of you instantly teleport to a "
-            + "previously designated sanctuary. You and any creatures that teleport with you appear "
-            + "in the nearest unoccupied space to the spot you designated when you prepared your "
-            + "sanctuary (see below). If you cast this spell without first preparing a sanctuary, the "
-            + "spell has no effect. You must designate a sanctuary by casting this spell within a "
-            + "location, such as a temple, dedicated to or strongly linked to your deity. If you "
-            + "attempt to cast the spell in this manner in an area that isn't dedicated to your "
-            + "deity, the spell has no effect.")),
+        .range("5 feet").area("Caster and up to 5 allies within 5 feet").duration("Instantaneous")
+        .effect("Teleport to a previously designated sanctuary linked to caster's deity. ")),
     ARCANE_SWORD(spell(MagicSchool.EVOCATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("60 feet").area("Unoccupied Space").duration("up to 1 minute")
@@ -2122,35 +2048,14 @@ public enum Spell implements Option {
             + "As bonus action, move up to 20 feet and attack.")),
     CONJURE_CELESTIAL(spell(MagicSchool.CONJURATION, 7)
         .castingTime("1 minute").components(VERBAL, SOMATIC)
-        .range("90 feet").duration("up to 1 hour")
-        .effect("You summon a celestial of challenge rating 4 or lower, which appears in an unoccupied "
-            + "space that you can see within range. The celestial disappears when it drops to 0 hit "
-            + "points or when the spell ends. The celestial is friendly to you and your companions "
-            + "for the duration. Roll initiative for the celestial, which has its own turns. It obeys "
-            + "any verbal commands that you issue to it (no action required by you), as long as they "
-            + "don't violate its alignment. If you don't issue any commands to the celestial, it "
-            + "defends itself from hostile creatures but otherwise takes no actions. The GM has the "
-            + "celestial's statistics. At Higher Levels. When you cast this spell using a 9th-level "
-            + "spell slot, you summon a celestial of challenge rating 5 or lower.")),
+        .range("90 feet").area("Unoccupied space").duration("up to 1 hour")
+        .effect("Summon friendly celestial of CR4 or lower. CR5 at 9th-level spell slot.")),
     DELAYED_BLAST_FIREBALL(spell(MagicSchool.EVOCATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("150 feet").duration("up to 1 minute")
-        .effect("A beam of yellow light flashes from your pointing finger, then condenses to linger at "
-            + "a chosen point within range as a glowing bead for the duration. When the spell ends, "
-            + "either because your concentration is broken or because you decide to end it, the bead "
-            + "blossoms with a low roar into an explosion of flame that spreads around corners. Each "
-            + "creature in a 20-foot-radius sphere centered on that point must make a Dexterity "
-            + "saving throw. A creature takes fire damage equal to the total accumulated damage on a "
-            + "failed save, or half as much damage on a successful one. The spell's base damage is "
-            + "12d6. If at the end of your turn the bead has not yet detonated, the damage increases "
-            + "by 1d6. If the glowing bead is touched before the interval has expired, the creature "
-            + "touching it must make a Dexterity saving throw. On a failed save, the spell ends "
-            + "immediately, causing the bead to erupt in flame. On a successful save, the creature "
-            + "can throw the bead up to 40 feet. When it strikes a creature or a solid object, the "
-            + "spell ends, and the bead explodes. The fire damages objects in the area and ignites "
-            + "flammable objects that aren't being worn or carried. At Higher Levels. When you cast "
-            + "this spell using a spell slot of 8th level or higher, the base damage increases by 1d6 "
-            + "for each slot level above 7th.")),
+        .range("150 feet").area("20-foot-radius sphere").duration("up to 1 minute")
+        .effect("12d6 damage +1d6 each turn before detonation. Dex. save for half damage. "
+            + "Creature touching bead Dex. save to throw up to 40 feet.")
+        .effect("+1d6 / extra spell slot level.")),
     DIVINE_WORD(spell(MagicSchool.EVOCATION, 7)
         .castingTime("1 bonus action").components(VERBAL)
         .range("30 feet").duration("Instantaneous")
@@ -2508,155 +2413,76 @@ public enum Spell implements Option {
             + "since the creature's soul is elsewhere.")),
     CONTROL_WEATHER(spell(MagicSchool.TRANSMUTATION, 8)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Self (5-mile radius)").duration("up to 8 hours")
-        .effect("You take control of the weather within 5 miles of you for the duration. You must be "
-            + "outdoors to cast this spell. Moving to a place where you don't have a clear path to "
-            + "the sky ends the spell early. When you cast the spell, you change the current weather "
-            + "conditions, which are determined by the GM based on the climate and season. You can "
-            + "change precipitation, temperature, and wind. It takes 1d4 × 10 minutes for the new "
-            + "conditions to take effect. Once they do so, you can change the conditions again. When "
-            + "the spell ends, the weather gradually returns to normal. When you change the weather "
-            + "conditions, find a current condition on the following tables and change its stage by "
-            + "one, up or down. When changing the wind, you can change its direction. Precipitation "
-            + "Stage Condition 1 Clear 2 Light clouds 3 Overcast or ground fog 4 Rain, hail or snow 5 "
-            + "Torrential rain, driving hail, or blizzard Temperature Stage Condition 1 Unbearable "
-            + "heat 2 Hot 3 Warm 4 Cool 5 Cold 6 Arctic cold Wind Stage Condition 1 Calm 2 Moderate "
-            + "wind 3 Strong wind 4 Gale 5 Storm")),
+        .range("Self").area("5-mile radius").duration("up to 8 hours")
+        .effect("Can only be cast outdoors. Change the current precipitation, temperature and wind. "
+            + "1d4×10 minutes for the new conditions to take effect. Can be changed again.")
+        .effect("Can change by one stage in either direction.")
+        .effect(table(
+            header("Precipitation", "Temperature", "Wind"),
+            row(ol("Clear", "Light clouds", "Overcast", "Rain", "Torrential"),
+                ol("Unbearable heat", "Hot", "Warm", "Cool", "Cold", "Arctic cold"),
+                ol("Calm", "Moderate wind", "Strong wind", "Gale", "Storm"))))),
     DEMIPLANE(spell(MagicSchool.CONJURATION, 8)
         .castingTime("1 action").components(SOMATIC)
-        .range("60 feet").duration("1 hour")
-        .effect("You create a shadowy door on a flat solid surface that you can see within range. The "
-            + "door is large enough to allow Medium creatures to pass through unhindered. When "
-            + "opened, the door leads to a demiplane that appears to be an empty room 30 feet in each "
-            + "dimension, made of wood or stone. When the spell ends, the door disappears, and any "
-            + "creatures or objects inside the demiplane remain trapped there, as the door also "
-            + "disappears from the other side. Each time you cast this spell, you can create a new "
-            + "demiplane, or have the shadowy door connect to a demiplane you created with a previous "
-            + "casting of this spell. Additionally, if you know the nature and contents of a "
-            + "demiplane created by a casting of this spell by another creature, you can have the "
-            + "shadowy door connect to its demiplane instead.")),
+        .range("60 feet").area("flat solid surface").duration("1 hour")
+        .effect("Create a shadowy door to an empty 30-foot cubic room.")),
     DOMINATE_MONSTER(spell(MagicSchool.ENCHANTMENT, 8)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("60 feet").duration("up to 1 hour")
-        .effect("You attempt to beguile a creature that you can see within range. It must succeed on a "
-            + "Wisdom saving throw or be charmed by you for the duration. If you or creatures that "
-            + "are friendly to you are fighting it, it has advantage on the saving throw. While the "
-            + "creature is charmed, you have a telepathic link with it as long as the two of you are "
-            + "on the same plane of existence. You can use this telepathic link to issue commands to "
-            + "the creature while you are conscious (no action required), which it does its best to "
-            + "obey. You can specify a simple and general course of action, such as 'Attack that "
-            + "creature,' 'Run over there,' or 'Fetch that object.' If the creature completes the "
-            + "order and doesn't receive further direction from you, it defends and preserves itself "
-            + "to the best of its ability. You can use your action to take total and precise control "
-            + "of the target. Until the end of your next turn, the creature takes only the actions "
-            + "you choose, and doesn't do anything that you don't allow it to do. During this time, "
-            + "you can also cause the creature to use a reaction, but this requires you to use your "
-            + "own reaction as well. Each time the target takes damage, it makes a new Wisdom saving "
-            + "throw against the spell. If the saving throw succeeds, the spell ends. At Higher "
-            + "Levels. When you cast this spell with a 9th-level spell slot, the duration is "
-            + "concentration, up to 8 hours.")),
+        .range("60 feet").area("1 creature").duration("up to 1 hour")
+        .effect("Charmed. Wis. save. Advantage if in combat with caster. "
+            + "Wis. save each time target takes damage to end. ")
+        .effect("Duration up to 8 hours with 9th-level spell slot.")),
     EARTHQUAKE(spell(MagicSchool.EVOCATION, 8)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("500 feet").duration("up to 1 minute")
-        .effect("You create a seismic disturbance at a point on the ground that you can see within "
-            + "range. For the duration, an intense tremor rips through the ground in a "
-            + "100-foot-radius circle centered on that point and shakes creatures and structures in "
-            + "contact with the ground in that area. The ground in the area becomes difficult "
-            + "terrain. Each creature on the ground that is concentrating must make a Constitution "
-            + "saving throw. On a failed save, the creature's concentration is broken. When you cast "
-            + "this spell and at the end of each turn you spend concentrating on it, each creature on "
-            + "the ground in the area must make a Dexterity saving throw. On a failed save, the "
-            + "creature is knocked prone. This spell can have additional effects depending on the "
-            + "terrain in the area, as determined by the GM. Fissures. Fissures open throughout the "
-            + "spell's area at the start of your next turn after you cast the spell. A total of 1d6 "
-            + "such fissures open in locations chosen by the GM. Each is 1d10 × 10 feet deep, 10 feet "
-            + "wide, and extends from one edge of the spell's area to the opposite side. A creature "
-            + "standing on a spot where a fissure opens must succeed on a Dexterity saving throw or "
-            + "fall in. A creature that successfully saves moves with the fissure's edge as it opens. "
-            + "A fissure that opens beneath a structure causes it to automatically collapse (see "
-            + "below). Structures. The tremor deals 50 bludgeoning damage to any structure in contact "
-            + "with the ground in the area when you cast the spell and at the start of each of your "
-            + "turns until the spell ends. If a structure drops to 0 hit points, it collapses and "
-            + "potentially damages nearby creatures. A creature within half the distance of a "
-            + "structure's height must make a Dexterity saving throw. On a failed save, the creature "
-            + "takes 5d6 bludgeoning damage, is knocked prone, and is buried in the rubble, requiring "
-            + "a DC 20 Strength (Athletics) check as an action to escape. The GM can adjust the DC "
-            + "higher or lower, depending on the nature of the rubble. On a successful save, the "
-            + "creature takes half as much damage and doesn't fall prone or become buried.")),
+        .range("500 feet").area("100-foot-radius circle").duration("up to 1 minute")
+        .effect("Ground becomes difficult terrain. Concentration broken unless Con. save. "
+            + "Each turn knocked prone unless Dex. save. ")
+        .effect(table(
+            row("Fissures", "1d6 fissures each 1d10x10 feet deep, 10 feet wide",
+                "Creature on fissure falls in. Dex. save."),
+            row("Structures", "50 bludgeoning damage to any structure each turn",
+                "Creature near structure at 0 HP takes 5d6 bludgeoning damage and is buried. "
+                + "Dex. save.")))),
     FEEBLEMIND(spell(MagicSchool.ENCHANTMENT, 8)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("150 feet").duration("Instantaneous")
-        .effect("You blast the mind of a creature that you can see within range, attempting to shatter "
-            + "its intellect and personality. The target takes 4d6 psychic damage and must make an "
-            + "Intelligence saving throw. On a failed save, the creature's Intelligence and Charisma "
-            + "scores become 1. The creature can't cast spells, activate magic items, understand "
-            + "language, or communicate in any intelligible way. The creature can, however, identify "
-            + "its friends, follow them, and even protect them. At the end of every 30 days, the "
-            + "creature can repeat its saving throw against this spell. If it succeeds on its saving "
-            + "throw, the spell ends. The spell can also be ended by greater restoration, heal, or wish.")),
+        .range("150 feet").area("1 creature").duration("Instantaneous")
+        .effect("4d6 psychic damage. Int. and Chr. become 1 unless Int. save. "
+            + "Target cannot cast spells, activate magic items, understand language or communicate. "
+            + "Repeat save every 30 days.")),
     GLIBNESS(spell(MagicSchool.TRANSMUTATION, 8)
         .castingTime("1 action").components(VERBAL)
         .range("Self").duration("1 hour")
-        .effect("Until the spell ends, when you make a Charisma check, you can replace the number you "
-            + "roll with a 15. Additionally, no matter what you say, magic that would determine if "
-            + "you are telling the truth indicates that you are being truthful.")),
+        .effect("Can choose to replace Chr. check rolls with 15.")
+        .effect("Lie detecting magic against caster indicates truth.")),
     HOLY_AURA(spell(MagicSchool.ABJURATION, 8)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Self").duration("up to 1 minute")
-        .effect("Divine light washes out from you and coalesces in a soft radiance in a 30-foot radius "
-            + "around you. Creatures of your choice in that radius when you cast this spell shed dim "
-            + "light in a 5-foot radius and have advantage on all saving throws, and other creatures "
-            + "have disadvantage on attack rolls against them until the spell ends. In addition, when "
-            + "a fiend or an undead hits an affected creature with a melee attack, the aura flashes "
-            + "with brilliant light. The attacker must succeed on a Constitution saving throw or be "
-            + "blinded until the spell ends.")),
+        .range("Self").area("30-foot radius").duration("up to 1 minute")
+        .effect("Allies have advantage on saves and impose disadvantage on attacks against them. "
+            + "Fiends or undead hitting affected creatures with melee attack blinded. Con. save. ")),
     INCENDIARY_CLOUD(spell(MagicSchool.CONJURATION, 8)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("150 feet").duration("up to 1 minute")
-        .effect("A swirling cloud of smoke shot through with white- hot embers appears in a "
-            + "20-foot-radius sphere centered on a point within range. The cloud spreads around "
-            + "corners and is heavily obscured. It lasts for the duration or until a wind of moderate "
-            + "or greater speed (at least 10 miles per hour) disperses it. When the cloud appears, "
-            + "each creature in it must make a Dexterity saving throw. A creature takes 10d8 fire "
-            + "damage on a failed save, or half as much damage on a successful one. A creature must "
-            + "also make this saving throw when it enters the spell's area for the first time on a "
-            + "turn or ends its turn there. The cloud moves 10 feet directly away from you in a "
-            + "direction that you choose at the start of each of your turns.")),
+        .range("150 feet").area("20-foot-radius sphere").duration("up to 1 minute")
+        .effect("Each creature in area takes 10d8 fire damage. Dex. save for half damage. "
+            + "Cloud move 10 feet away in a chosen direction at the start of each turn.")),
     MAZE(spell(MagicSchool.CONJURATION, 8)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("60 feet").duration("up to 10 minutes")
-        .effect("You banish a creature that you can see within range into a labyrinthine demiplane. The "
-            + "target remains there for the duration or until it escapes the maze. The target can use "
-            + "its action to attempt to escape. When it does so, it makes a DC 20 Intelligence check. "
-            + "If it succeeds, it escapes, and the spell ends (a minotaur or goristro demon "
-            + "automatically succeeds). When the spell ends, the target reappears in the space it "
-            + "left or, if that space is occupied, in the nearest unoccupied space.")),
+        .range("60 feet").area("1 creature").duration("up to 10 minutes")
+        .effect("Banish target. As action each turn, target make Int. check DC20 to reappear.")),
     MIND_BLANK(spell(MagicSchool.ABJURATION, 8)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("Touch").duration("24 hours")
-        .effect("Until the spell ends, one willing creature you touch is immune to psychic damage, any "
-            + "effect that would sense its emotions or read its thoughts, divination spells, and the "
-            + "charmed condition. The spell even foils wish spells and spells or effects of similar "
-            + "power used to affect the target's mind or to gain information about the target.")),
+        .range("Touch").area("1 willing creature").duration("24 hours")
+        .effect("Immune to psychic damage, mind reading, divination, charm.")),
     POWER_WORD_STUN(spell(MagicSchool.ENCHANTMENT, 8)
         .castingTime("1 action").components(VERBAL)
-        .range("60 feet").duration("Instantaneous")
-        .effect("You speak a word of power that can overwhelm the mind of one creature you can see "
-            + "within range, leaving it dumbfounded. If the target has 150 hit points or fewer, it is "
-            + "stunned. Otherwise, the spell has no effect. The stunned target must make a "
-            + "Constitution saving throw at the end of each of its turns. On a successful save, this "
-            + "stunning effect ends.")),
+        .range("60 feet").area("1 creature").duration("Instantaneous")
+        .effect("Target stunned if it has 150 hit points or fewer. "
+            + "Con. save at end of each turn to end effect. ")),
     SUNBURST(spell(MagicSchool.EVOCATION, 8)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("150 feet").duration("Instantaneous")
-        .effect("Brilliant sunlight flashes in a 60-foot radius centered on a point you choose within "
-            + "range. Each creature in that light must make a Constitution saving throw. On a failed "
-            + "save, a creature takes 12d6 radiant damage and is blinded for 1 minute. On a "
-            + "successful save, it takes half as much damage and isn't blinded by this spell. Undead "
-            + "and oozes have disadvantage on this saving throw. A creature blinded by this spell "
-            + "makes another Constitution saving throw at the end of each of its turns. On a "
-            + "successful save, it is no longer blinded. This spell dispels any darkness in its area "
-            + "that was created by a spell.")),
+        .range("150 feet").area("60-foot radius").duration("Instantaneous")
+        .effect("Each creature in area takes 12d6 radiant damage and blinded for 1 minute. "
+            + "Con. save for half damage and not blinded. Undead and ozzes have disadvantage on save. "
+            + "Blinded creatures save at end of each turn. ")),
     TELEPATHY(spell(MagicSchool.EVOCATION, 8)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Unlimited").area("1 willing creature").duration("24 hours")
@@ -2683,7 +2509,7 @@ public enum Spell implements Option {
     IMPRISONMENT(spell(MagicSchool.ABJURATION, 9)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
         .range("30 feet").area("1 creature").duration("Until dispelled")
-        .effect("Imprison creature. Wis. save DC[$spell_dc].")),
+        .effect("Imprison creature. Wis. save.")),
     MASS_HEAL(spell(MagicSchool.EVOCATION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("60 feet").area("Any number of creatures").duration("Instantaneous")
@@ -2691,7 +2517,7 @@ public enum Spell implements Option {
     METEOR_SWARM(spell(MagicSchool.EVOCATION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("1 mile").area("4 40-foot-radius spheres").duration("Instantaneous")
-        .effect("20d6 fire damage. 20d6 bludgeoning damage. Dex. save DC[$spell_dc] for half.")),
+        .effect("20d6 fire damage. 20d6 bludgeoning damage. Dex. save for half.")),
     POWER_WORD_HEAL(spell(MagicSchool.EVOCATION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("Touch").area("1 creature").duration("Instantaneous")
@@ -2705,19 +2531,21 @@ public enum Spell implements Option {
         .area("Up to 90 feet long, 30 feet high, 1 inch thick or 30-foot diameter sphere")
         .duration("10 minutes")
         .effect("Create a seven layered wall that sheds bright light to 100 feet.")
-        .effect("Enemies within 20 feet blinded for 1 minutes. Con. save DC[$spell_dc].")
+        .effect("Enemies within 20 feet blinded for 1 minutes. Con. save.")
         .effect("Dex. save to avoid effect of each layer.")
-        .effect("1. Red. 10d6 fire damage. Save for half. Prevents nonmagical ranged attacks. "
-            + "Destroyed by 25 cold damage.")
-        .effect("2. Orange. 10d6 acid damage. Save for half. Destroyed by strong wind")
-        .effect("3. Yellow. 10d6 lightning damage. Save for half. Destroyed by 60 force damage.")
-        .effect("4. Green. 10d6 poison damage. Save for half. Destroyed by <em>Passwall</em> spell.")
-        .effect("5. Blue. 10d6 cold damage. Save for half. Destroyed by 25 fire damage.")
-        .effect("6. Indigo. Restrains creature. Con. save each turn. 3 success ends spell. "
-            + "3 failures petrifies creature. Destroyed by <em>Daylight</em> spell. "
-            + "Prevents spells passing through wall.")
-        .effect("7. Violet. Blinds creature. Wis. save or be transported to another plane. "
-            + "Destroyed by <em>Dispel Magic</em> spell.")),
+        .effect(table(
+            header("Layer", "Colour", "Effect", "Save", "Destroy"),
+            row("1", "Red", "10d6 fire damage and prevents nonmagical ranged attacks", "Half",
+                "25 cold damage"),
+            row("2", "Orange", "10d6 acid damage", "Half", "Strong wind"),
+            row("3", "Yellow", "10d6 lightning damage", "Half", "60 force damage."),
+            row("4", "Green", "10d6 poison damage", "Half", "<em>Passwall</em> spell."),
+            row("5", "Blue", "10d6 cold damage", "Half", "25 fire damage."),
+            row("6", "Indigo", "Restrains creature. Prevents Spells.",
+                "Con. save each turn. 3 success ends spell. "
+                + "3 failures petrifies creature", "<em>Daylight</em> spell. "),
+            row("7", "Violet", "Blinds creature", "Wis. save or be transported to another plane",
+                "<em>Dispel Magic</em> spell.")))),
     SHAPECHANGE(spell(MagicSchool.TRANSMUTATION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").duration("up to 1 hour")
@@ -2727,7 +2555,7 @@ public enum Spell implements Option {
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("Sight").area("360-feet radius").duration("up to 1 minute")
         .effect("Forms storm cloud. Each creature under storm takes 2d6 thunder damage "
-            + "and becomes defeaned for 5 minutes. Con. save DC[$spell_dc].")
+            + "and becomes defeaned for 5 minutes. Con. save.")
         .effect("Each round produces an additional effect:"
             + "<br>Round 2: acidic rain. 1d6 acid damage."
             + "<br>Round 3: six bolts of lightning 10d6 lightning damage. Dex. save for half."
@@ -2741,7 +2569,7 @@ public enum Spell implements Option {
     TRUE_POLYMORPH(spell(MagicSchool.TRANSMUTATION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("30 feet").area("1 creature or nonmagical object").duration("up to 1 hour")
-        .effect("Transform target into different creature or object. Wis. save DC[$spell_dc].")
+        .effect("Transform target into different creature or object. Wis. save.")
         .effect("Take all statistics of new form. Ends at 0 HP.")),
     TRUE_RESURRECTION(spell(MagicSchool.NECROMANCY, 9)
         .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
@@ -2752,7 +2580,7 @@ public enum Spell implements Option {
         .range("120 feet").area("Each creature in a 30-foot-radius sphere")
         .duration("up to one minute")
         .effect("Targets become frightened takes 4d10 phychic damage. "
-            + "Wis. save DC[$spell_dc] each turn.")),
+            + "Wis. save each turn.")),
     WISH(spell(MagicSchool.CONJURATION, 9)
         .castingTime("1 action").components(VERBAL)
         .range("Self").duration("Instantaneous")
