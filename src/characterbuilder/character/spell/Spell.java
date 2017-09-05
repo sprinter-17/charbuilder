@@ -175,10 +175,6 @@ public enum Spell implements Option {
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("90 feet").duration("Instantaneous")
         .effect("Ranged spell attack [$spell_mod]. 3d8 damage (choose type). +1d8 damage / extra level.")),
-    COLOR_SPRAY(spell(MagicSchool.ILLUSION, 1)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Self").area("15-foot cone").duration("1 round")
-        .effect("Blinds 6d10 HP of creatures, lowest first.\n+2d10 HP / extra level.")),
     COLOUR_SPRAY(spell(MagicSchool.ILLUSION, 1)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").area("15-foot cone").duration("1 round")
@@ -224,10 +220,6 @@ public enum Spell implements Option {
         .range("60 feet").area("1 creature").duration("Instantaneous")
         .effect("3d6 psychic damage and use reaction to move away. Wis. save for half damage only. +1d6 "
             + "damage / extra level.")),
-    DIVINE_FAVOR(spell(MagicSchool.EVOCATION, 1)
-        .castingTime("1 bonus action").components(VERBAL, SOMATIC)
-        .range("Self").area("weapon").duration("up to 1 minute")
-        .effect("+1d4 radiant damage on hit.")),
     DIVINE_FAVOUR(spell(MagicSchool.EVOCATION, 1)
         .castingTime("1 bonus action").components(VERBAL, SOMATIC)
         .range("Self").area("1 weapon").duration("Concentration, up to 1 minute")
@@ -306,8 +298,10 @@ public enum Spell implements Option {
             + "checks with chosen ability. 3rd level 8 hours, 5th level 24 hours.")),
     HIDEOUS_LAUGHTER(spell(MagicSchool.ENCHANTMENT, 1)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("30 feet").area("1 creature").duration("up to 1 minute")
-        .effect("Fall prone. Int. of 4 or less immune. Wis. save.")),
+        .range("30 feet").area("1 creature with Int. over 4")
+        .duration("Concentration, up to 1 minute")
+        .effect("Target incapacitated. Wis. save DC[$spell_dc]. "
+            + "Save each turn and on damage to end.")),
     HUNTERS_MARK(spell(MagicSchool.DIVINATION, 1)
         .castingTime("1 bonus action").components(VERBAL)
         .range("90 feet").area("1 creature").duration("up to 1 hour")
@@ -385,14 +379,6 @@ public enum Spell implements Option {
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("Self").duration("10 minutes")
         .effect("Communicate with beasts.")),
-    TASHAS_HIDEOUS_LAGHTER(spell(MagicSchool.ENCHANTMENT, 1)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("30 feet").area("1 creature").duration("Concentration, up to 1 minute")
-        .effect("Target incapacitated. Wis. save. Save each turn and on damage to end.")),
-    TENSERS_FLOATING_DISK(spell(MagicSchool.CONJURATION, 1).ritual()
-        .castingTime("1 action").components()
-        .range("30 feet").duration("V, S, M")
-        .effect("Create a floating disk. Holds 500lbs. Remains within 20 feet of caster.")),
     THUNDEROUS_SMITE(spell(MagicSchool.EVOCATION, 1)
         .castingTime("1 bonus action").components(VERBAL)
         .range("Self").area("1 weapon").duration("Concentration, up to 1 minute")
@@ -417,9 +403,10 @@ public enum Spell implements Option {
         .effect("On next hit +1d6 psychic damage. Wis. save DC [$spell_dc] or be frightened of caster.")),
     ACID_ARROW(spell(MagicSchool.EVOCATION, 2)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("90 feet").area("1 target").duration("Instantaneous")
-        .effect("Hit: 4d4 acid damage, 2d2 end of next turn.\nMiss:half damage, none following.\n+1d4 "
-            + "damage / level above 2nd")),
+        .range("90 feet").area("1 creature").duration("Instantaneous")
+        .effect("Ranged spell attack 4d4 acid damage +2d4 end of next turn. "
+            + "On miss, half damage on hit only. "
+            + "+1d4 damage / extra level.")),
     AID(spell(MagicSchool.ABJURATION, 2)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("30 feet").area("Up to 3 allies").duration("8 hours")
@@ -578,11 +565,6 @@ public enum Spell implements Option {
         .castingTime("1 bonus action").components(VERBAL, SOMATIC)
         .range("Touch").area("1 nonmagical weapon").duration("up to 1 hour")
         .effect("+1 bonus to attack rolls and damage. +2 at 4th level. +3 at 6th level.")),
-    MELFS_ACID_ARROW(spell(MagicSchool.EVOCATION, 2)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("90 feet").area("1 creature").duration("Instantaneous")
-        .effect("Ranged spell attack 4d4 acid damage +2d4 end of next turn. On miss, 2d4 acid damage. "
-            + "+1d4 damage / extra level.")),
     MIRROR_IMAGE(spell(MagicSchool.ILLUSION, 2)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("Self").area("3 duplicates").duration("1 minute")
@@ -905,9 +887,9 @@ public enum Spell implements Option {
             + "spell level.")),
     BLACK_TENTACLES(spell(MagicSchool.CONJURATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("90 feet").area("20-foot square").duration("up to 1 minute")
-        .effect("Area becomes difficult terrain. Creature in affected area takes 3d6 bludgeoning damage "
-            + "and is restrained. Dex. save. Break free using Str. or Dex. check.")),
+        .range("90 feet").area("20-foot square").duration("Concentration, up to 1 minute")
+        .effect("Dex. save DC [$spell_dc] or be restrained. 3d6 bludgeoning damage each turn. "
+            + "Str. or Dex. check to escape.")),
     BLIGHT(spell(MagicSchool.NECROMANCY, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("30 feet").area("1 creature").duration("Instantaneous")
@@ -965,11 +947,6 @@ public enum Spell implements Option {
         .effect("Target charmed. Wis. save DC[$spell_dc].")
         .effect("On damage to target, new Wis. save to end spell.")
         .effect("Duration at 5th: 10 minutes; 6th: 1 hour; 7th+: 8 hours.")),
-    EVARDS_BLACK_TENTACLES(spell(MagicSchool.CONJURATION, 4)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("90 feet").area("20-foot square").duration("Concentration, up to 1 minute")
-        .effect("Dex. save DC [$spell_dc] or be restrained. 3d6 bludgeoning damage each turn. Str. or "
-            + "Dex. check to escape.")),
     FABRICATE(spell(MagicSchool.TRANSMUTATION, 4)
         .castingTime("10 minutes").components(VERBAL, SOMATIC)
         .range("120 feet").area("Raw materials").duration("Instantaneous")
@@ -1015,133 +992,51 @@ public enum Spell implements Option {
         .effect("Guardian vanishes when it has dealt a total of 60 damage.")),
     HALLUCINATORY_TERRAIN(spell(MagicSchool.ILLUSION, 4)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
-        .range("300 feet").duration("24 hours")
-        .effect("You make natural terrain in a 150-foot cube in range look, sound, and smell like some "
-            + "other sort of natural terrain. Thus, open fields or a road can be made to resemble a "
-            + "swamp, hill, crevasse, or some other difficult or impassable terrain. A pond can be "
-            + "made to seem like a grassy meadow, a precipice like a gentle slope, or a rock-strewn "
-            + "gully like a wide and smooth road. Manufactured structures, equipment, and creatures "
-            + "within the area aren't changed in appearance. The tactile characteristics of the "
-            + "terrain are unchanged, so creatures entering the area are likely to see through the "
-            + "illusion. If the difference isn't obvious by touch, a creature carefully examining the "
-            + "illusion can attempt an Intelligence (Investigation) check against your spell save DC "
-            + "to disbelieve it. A creature who discerns the illusion for what it is, sees it as a "
-            + "vague image superimposed on the terrain.")),
+        .range("300 feet").area("Terrain in 150-foot cube").duration("24 hours")
+        .effect("Area looks, sounds, and smells like a chosen natural terrain.")
+        .effect("Investigation check DC[$spell_dc] to disbelieve on examination.")),
     ICE_STORM(spell(MagicSchool.EVOCATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("300 feet").duration("Instantaneous")
-        .effect("A hail of rock-hard ice pounds to the ground in a 20- foot-radius, 40-foot-high "
-            + "cylinder centered on a point within range. Each creature in the cylinder must make a "
-            + "Dexterity saving throw. A creature takes 2d8 bludgeoning damage and 4d6 cold damage on "
-            + "a failed save, or half as much damage on a successful one. Hailstones turn the storm's "
-            + "area of effect into difficult terrain until the end of your next turn. At Higher "
-            + "Levels. When you cast this spell using a spell slot of 5th level or higher, the "
-            + "bludgeoning damage increases by 1d8 for each slot level above 4th.")),
-    LEOMUNDS_SECRET_CHEST(spell(MagicSchool.CONJURATION, 4)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").area("1 chest").duration("Instantaneous")
-        .effect("Hide chest on ethereal plane.")),
+        .range("300 feet").area("20-foot-radius, 40-foot-high cylinder").duration("Instantaneous")
+        .effect("Creatures in area take 2d8 bludgeoning and 4d6 cold damage. "
+            + "Dex. save DC[$spell_dc] for half. Area become difficult terrain for 1 turn.")
+        .effect("+1d8 bludgeoning damage / extra level.")),
     LOCATE_CREATURE(spell(MagicSchool.DIVINATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").duration("up to 1 hour")
-        .effect("Describe or name a creature that is familiar to you. You sense the direction to the "
-            + "creature's location, as long as that creature is within 1,000 feet of you. If the "
-            + "creature is moving, you know the direction of its movement. The spell can locate a "
-            + "specific creature known to you, or the nearest creature of a specific kind (such as a "
-            + "human or a unicorn), so long as you have seen such a creature up close--within 30 "
-            + "feet--at least once. If the creature you described or named is in a different form, "
-            + "such as being under the effects of a polymorph spell, this spell doesn't locate the "
-            + "creature. This spell can't locate a creature if running water at least 10 feet wide "
-            + "blocks a direct path between you and the creature.")),
-    MORDENKAINENS_FAITHFUL_HOUND(spell(MagicSchool.CONJURATION, 4)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("30 feet").area("unoccupied space").duration("8 hours")
-        .effect("Conjures watchdog. Barks if hostile creature approaches 30 feet. Bite "
-            + "+[$spell_mod+$prof] 4d8 piercing damage.")),
-    MORDENKAINENS_PRIVATE_SANCTUM(spell(MagicSchool.ABJURATION, 4)
-        .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
-        .range("120 feet").area("up to 100 feet cube").duration("24 hours")
-        .effect("Provides area protected from observation. +100 feet area / extra level.")),
-    OTILUKES_RESILIENT_SPHERE(spell(MagicSchool.EVOCATION, 4)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("30 feet").area("1 creature or object").duration("Concentration, up to 1 minute")
-        .effect("Target enclosed in inpenetrable sphere. Dex. save.")),
+        .effect("Sense direction to a specific creature or type of creature within 1,000 feet.")
+        .effect("Blocked by running water at least 10 feet wide.")),
     PHANTASMAL_KILLER(spell(MagicSchool.ILLUSION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("120 feet").duration("up to 1 minute")
-        .effect("You tap into the nightmares of a creature you can see within range and create an "
-            + "illusory manifestation of its deepest fears, visible only to that creature. The target "
-            + "must make a Wisdom saving throw. On a failed save, the target becomes frightened for "
-            + "the duration. At the end of each of the target's turns before the spell ends, the "
-            + "target must succeed on a Wisdom saving throw or take 4d10 psychic damage. On a "
-            + "successful save, the spell ends. At Higher Levels. When you cast this spell using a "
-            + "spell slot of 5th level or higher, the damage increases by 1d10 for each slot level "
-            + "above 4th.")),
+        .range("120 feet").area("1 creature").duration("up to 1 minute")
+        .effect("Target becomes frightened. Wis. save DC[$spell_dc]. "
+            + "Each turn saves to end spell or takes 4d10 psychic damage.")
+        .effect("+1d10 damage / extra level.")),
     POLYMORPH(spell(MagicSchool.TRANSMUTATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("60 feet").duration("up to 1 hour")
-        .effect("This spell transforms a creature that you can see within range into a new form. An "
-            + "unwilling creature must make a Wisdom saving throw to avoid the effect. The spell has "
-            + "no effect on a shapechanger or a creature with 0 hit points. The transformation lasts "
-            + "for the duration, or until the target drops to 0 hit points or dies. The new form can "
-            + "be any beast whose challenge rating is equal to or less than the target's (or the "
-            + "target's level, if it doesn't have a challenge rating). The target's game statistics, "
-            + "including mental ability scores, are replaced by the statistics of the chosen beast. "
-            + "It retains its alignment and personality. The target assumes the hit points of its new "
-            + "form. When it reverts to its normal form, the creature returns to the number of hit "
-            + "points it had before it transformed. If it reverts as a result of dropping to 0 hit "
-            + "points, any excess damage carries over to its normal form. As long as the excess "
-            + "damage doesn't reduce the creature's normal form to 0 hit points, it isn't knocked "
-            + "unconscious. The creature is limited in the actions it can perform by the nature of "
-            + "its new form, and it can't speak, cast spells, or take any other action that requires "
-            + "hands or speech. The target's gear melds into the new form. The creature can't "
-            + "activate, use, wield, or otherwise benefit from any of its equipment.")),
+        .range("60 feet").area("1 creature").duration("up to 1 hour")
+        .effect("Transforms target into a new form with same or less CR. "
+            + "Wis. save DC[$spell_dc] if target unwilling.")),
     PRIVATE_SANCTUM(spell(MagicSchool.ABJURATION, 4)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
-        .range("120 feet").duration("24 hours")
-        .effect("You make an area within range magically secure. The area is a cube that can be as "
-            + "small as 5 feet to as large as 100 feet on each side. The spell lasts for the duration "
-            + "or until you use an action to dismiss it. When you cast the spell, you decide what "
-            + "sort of security the spell provides, choosing any or all of the following properties: "
-            + "Sound can't pass through the barrier at the edge of the warded area. The barrier of "
-            + "the warded area appears dark and foggy, preventing vision (including darkvision) "
-            + "through it. Sensors created by divination spells can't appear inside the protected "
-            + "area or pass through the barrier at its perimeter. Creatures in the area can't be "
-            + "targeted by divination spells. Nothing can teleport into or out of the warded area. "
-            + "Planar travel is blocked within the warded area. Casting this spell on the same spot "
-            + "every day for a year makes this effect permanent. At Higher Levels. When you cast this "
-            + "spell using a spell slot of 5th level or higher, you can increase the size of the cube "
-            + "by 100 feet for each slot level beyond 4th. Thus you could protect a cube that can be "
-            + "up to 200 feet on one side by using a spell slot of 5th level.")),
+        .range("120 feet").area("Up to 100-foot-cube").duration("24 hours")
+        .effect("Area becomes magically secure. Choose any number of following:"
+            + "<br>Sound cannot pass through barrier"
+            + "<br>Vision is prevented through barrier"
+            + "<br>Divination spells cannot target creatures inside area"
+            + "<br>Planar travel is prevented"
+            + "<br>Teleportation through barrier is impossible")
+        .effect("+100 feet area / extra level.")),
     RESILIENT_SPHERE(spell(MagicSchool.EVOCATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("30 feet").duration("up to 1 minute")
-        .effect("A sphere of shimmering force encloses a creature or object of Large size or smaller "
-            + "within range. An unwilling creature must make a Dexterity saving throw. On a failed "
-            + "save, the creature is enclosed for the duration. Nothing--not physical objects, "
-            + "energy, or other spell effects--can pass through the barrier, in or out, though a "
-            + "creature in the sphere can breathe there. The sphere is immune to all damage, and a "
-            + "creature or object inside can't be damaged by attacks or effects originating from "
-            + "outside, nor can a creature inside the sphere damage anything outside it. The sphere "
-            + "is weightless and just large enough to contain the creature or object inside. An "
-            + "enclosed creature can use its action to push against the sphere's walls and thus roll "
-            + "the sphere at up to half the creature's speed. Similarly, the globe can be picked up "
-            + "and moved by other creatures. A disintegrate spell targeting the globe destroys it "
-            + "without harming anything inside it.")),
+        .range("30 feet").area("1 creature or object").duration("Concentration, up to 1 minute")
+        .effect("Sphere of shimmering force encloses target. "
+            + "Dex. save DC[$spell_dc] for unwilling targets.")
+        .effect("Nothing can pass through barrier. Can be move up to half speed by target.")),
     SECRET_CHEST(spell(MagicSchool.CONJURATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Instantaneous")
-        .effect("You hide a chest, and all its contents, on the Ethereal Plane. You must touch the "
-            + "chest and the miniature replica that serves as a material component for the spell. The "
-            + "chest can contain up to 12 cubic feet of nonliving material (3 feet by 2 feet by 2 "
-            + "feet). While the chest remains on the Ethereal Plane, you can use an action and touch "
-            + "the replica to recall the chest. It appears in an unoccupied space on the ground "
-            + "within 5 feet of you. You can send the chest back to the Ethereal Plane by using an "
-            + "action and touching both the chest and the replica. After 60 days, there is a "
-            + "cumulative 5 percent chance per day that the spell's effect ends. This effect ends if "
-            + "you cast this spell again, if the smaller replica chest is destroyed, or if you choose "
-            + "to end the spell as an action. If the spell ends and the larger chest is on the "
-            + "Ethereal Plane, it is irretrievably lost.")),
+        .range("Touch").area("1 chest").duration("Instantaneous")
+        .effect("Hide chest on ethereal plane.")),
     STAGGERING_SMITE(spell(MagicSchool.EVOCATION, 4)
         .castingTime("1 bonus action").components(VERBAL)
         .range("Self").duration("Concentration, up to 1 minute")
@@ -1625,10 +1520,6 @@ public enum Spell implements Option {
             + "target takes a −4 penalty to all attack rolls, saving throws, and ability checks. "
             + "Every time the target finishes a long rest, the penalty is reduced by 1 until it "
             + "disappears.")),
-    RARYS_TELEPATHIC_BOND(spell(MagicSchool.DIVINATION, 5).ritual()
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("30 feet").area("8 willing creatures").duration("1 hour")
-        .effect("Communicate telepathically between targets.")),
     REINCARNATE(spell(MagicSchool.TRANSMUTATION, 5)
         .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
         .range("Touch").duration("Instantaneous")
@@ -1711,13 +1602,8 @@ public enum Spell implements Option {
             + "contents from a vial.")),
     TELEPATHIC_BOND(spell(MagicSchool.DIVINATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("30 feet").duration("1 hour")
-        .effect("You forge a telepathic link among up to eight willing creatures of your choice within "
-            + "range, psychically linking each creature to all the others for the duration. Creatures "
-            + "with Intelligence scores of 2 or less aren't affected by this spell. Until the spell "
-            + "ends, the targets can communicate telepathically through the bond whether or not they "
-            + "have a common language. The communication is possible over any distance, though it "
-            + "can't extend to other planes of existence.")),
+        .range("30 feet").area("8 willing creatures").duration("1 hour")
+        .effect("Communicate telepathically between targets.")),
     TELEPORTATION_CIRCLE(spell(MagicSchool.CONJURATION, 5)
         .castingTime("1 minute").components(VERBAL, MATERIAL)
         .range("10 feet").duration("1 round")
@@ -1885,10 +1771,6 @@ public enum Spell implements Option {
             + "of it. A magic item is unaffected by this spell. At Higher Levels. When you cast this "
             + "spell using a spell slot of 7th level or higher, the damage increases by 3d6 for each "
             + "slot level above 6th.")),
-    DRAWMIJS_INSTANT_SUMMONS(spell(MagicSchool.CONJURATION, 6).ritual()
-        .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").area("1 object up to 10lb").duration("Until dispelled")
-        .effect("Learn who and where holder is.")),
     EYEBITE(spell(MagicSchool.NECROMANCY, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("Self").duration("up to 1 minute")
@@ -2042,19 +1924,10 @@ public enum Spell implements Option {
             + "cured of all diseases and poison, becomes immune to poison and being frightened, and "
             + "makes all Wisdom saving throws with advantage. Its hit point maximum also increases by "
             + "2d10, and it gains the same number of hit points. These benefits last for 24 hours.")),
-    INSTANT_SUMMONS(spell(MagicSchool.CONJURATION, 6)
+    INSTANT_SUMMONS(spell(MagicSchool.CONJURATION, 6).ritual()
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Until dispelled")
-        .effect("You touch an object weighing 10 pounds or less whose longest dimension is 6 feet or "
-            + "less. The spell leaves an invisible mark on its surface and invisibly inscribes the "
-            + "name of the item on the sapphire you use as the material component. Each time you cast "
-            + "this spell, you must use a different sapphire. At any time thereafter, you can use "
-            + "your action to speak the item's name and crush the sapphire. The item instantly "
-            + "appears in your hand regardless of physical or planar distances, and the spell ends. "
-            + "If another creature is holding or carrying the item, crushing the sapphire doesn't "
-            + "transport the item to you, but instead you learn who the creature possessing the "
-            + "object is and roughly where that creature is located at that moment. Dispel magic or a "
-            + "similar effect successfully applied to the sapphire ends this spell's effect.")),
+        .range("Touch").area("1 object up to 10lb").duration("Until dispelled")
+        .effect("Transports object or learn who and where holder is.")),
     IRRESISTIBLE_DANCE(spell(MagicSchool.ENCHANTMENT, 6)
         .castingTime("1 action").components(VERBAL)
         .range("30 feet").duration("up to 1 minute")
@@ -2245,8 +2118,8 @@ public enum Spell implements Option {
     ARCANE_SWORD(spell(MagicSchool.EVOCATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("60 feet").area("Unoccupied Space").duration("up to 1 minute")
-        .effect("Melee spell attack +[$spell_mod]. 3d10 force damage. Use bonus action to move up to 20 "
-            + "feet and attack.")),
+        .effect("Melee spell attack +[$spell_mod]. 3d10 force damage. "
+            + "As bonus action, move up to 20 feet and attack.")),
     CONJURE_CELESTIAL(spell(MagicSchool.CONJURATION, 7)
         .castingTime("1 minute").components(VERBAL, SOMATIC)
         .range("90 feet").duration("up to 1 hour")
@@ -2389,10 +2262,6 @@ public enum Spell implements Option {
             + "illusion to the terrain's true form; however, all other elements of the illusion "
             + "remain, so while the creature is aware of the illusion's presence, the creature can "
             + "still physically interact with the illusion.")),
-    MORDENKAINENS_SWORD(spell(MagicSchool.EVOCATION, 7)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("60 feet").duration("Concentration, up to 1 minute.")
-        .effect("Melee spell attack 3d10 force damage. As bonus action move 20 feet and attack.")),
     PLANE_SHIFT(spell(MagicSchool.CONJURATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Touch").area("Up to 8 allies or 1 enemy").duration("Instantaneous")
@@ -2799,293 +2668,102 @@ public enum Spell implements Option {
         .effect("6d10 bludgeoning damage. Str. save for half. -1d10 each round.")),
     ASTRAL_PROJECTION(spell(MagicSchool.NECROMANCY, 9)
         .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL).cost(Value.gp(1100))
-        .range("10 feet").duration("Special")
-        .effect("You and up to eight willing creatures within range project your astral bodies into the "
-            + "Astral Plane (the spell fails and the casting is wasted if you are already on that "
-            + "plane). The material body you leave behind is unconscious and in a state of suspended "
-            + "animation; it doesn't need food or air and doesn't age. Your astral body resembles "
-            + "your mortal form in almost every way, replicating your game statistics and "
-            + "possessions. The principal difference is the addition of a silvery cord that extends "
-            + "from between your shoulder blades and trails behind you, fading to invisibility after "
-            + "1 foot. This cord is your tether to your material body. As long as the tether remains "
-            + "intact, you can find your way home. If the cord is cut--something that can happen only "
-            + "when an effect specifically states that it does--your soul and body are separated, "
-            + "killing you instantly. Your astral form can freely travel through the Astral Plane and "
-            + "can pass through portals there leading to any other plane. If you enter a new plane or "
-            + "return to the plane you were on when casting this spell, your body and possessions are "
-            + "transported along the silver cord, allowing you to re-enter your body as you enter the "
-            + "new plane. Your astral form is a separate incarnation. Any damage or other effects "
-            + "that apply to it have no effect on your physical body, nor do they persist when you "
-            + "return to it. The spell ends for you and your companions when you use your action to "
-            + "dismiss it. When the spell ends, the affected creature returns to its physical body, "
-            + "and it awakens. The spell might also end early for you or one of your companions. A "
-            + "successful dispel magic spell used against an astral or physical body ends the spell "
-            + "for that creature. If a creature's original body or its astral form drops to 0 hit "
-            + "points, the spell ends for that creature. If the spell ends and the silver cord is "
-            + "intact, the cord pulls the creature's astral form back to its body, ending its state "
-            + "of suspended animation. If you are returned to your body prematurely, your companions "
-            + "remain in their astral forms and must find their own way back to their bodies, usually "
-            + "by dropping to 0 hit points.")),
+        .range("10 feet").area("Self and up to 8 allies").duration("Special")
+        .effect("Project astral bodies into the Astral Plane. Ends when astral body has 0 HP.")),
     FORESIGHT(spell(MagicSchool.DIVINATION, 9)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("8 hours")
-        .effect("You touch a willing creature and bestow a limited ability to see into the immediate "
-            + "future. For the duration, the target can't be surprised and has advantage on attack "
-            + "rolls, ability checks, and saving throws. Additionally, other creatures have "
-            + "disadvantage on attack rolls against the target for the duration. This spell "
-            + "immediately ends if you cast it again before its duration ends.")),
+        .range("Touch").area("1 willing creature").duration("8 hours")
+        .effect("Cannot be surprised. Advantage on attack rolls, ability checks, and saving throws.")
+        .effect("Disadvantage on attack rolls against the target.")),
     GATE(spell(MagicSchool.CONJURATION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("60 feet").duration("up to 1 minute")
-        .effect("You conjure a portal linking an unoccupied space you can see within range to a precise "
-            + "location on a different plane of existence. The portal is a circular opening, which "
-            + "you can make 5 to 20 feet in diameter. You can orient the portal in any direction you "
-            + "choose. The portal lasts for the duration. The portal has a front and a back on each "
-            + "plane where it appears. Travel through the portal is possible only by moving through "
-            + "its front. Anything that does so is instantly transported to the other plane, "
-            + "appearing in the unoccupied space nearest to the portal. Deities and other planar "
-            + "rulers can prevent portals created by this spell from opening in their presence or "
-            + "anywhere within their domains. When you cast this spell, you can speak the name of a "
-            + "specific creature (a pseudonym, title, or nickname doesn't work). If that creature is "
-            + "on a plane other than the one you are on, the portal opens in the named creature's "
-            + "immediate vicinity and draws the creature through it to the nearest unoccupied space "
-            + "on your side of the portal. You gain no special power over the creature, and it is "
-            + "free to act as the GM deems appropriate. It might leave, attack you, or help you.")),
+        .range("60 feet").area("5 to 20 feet diameter.").duration("up to 1 minute")
+        .effect("Links space to a different plane of existence. ")
+        .effect("Can speak real name of a specific creature to draw it through the gate.")),
     IMPRISONMENT(spell(MagicSchool.ABJURATION, 9)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
         .range("30 feet").area("1 creature").duration("Until dispelled")
-        .effect("Imprison creature.\nWis. save.")),
+        .effect("Imprison creature. Wis. save DC[$spell_dc].")),
     MASS_HEAL(spell(MagicSchool.EVOCATION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("60 feet").duration("Instantaneous")
-        .effect("A flood of healing energy flows from you into injured creatures around you. You "
-            + "restore up to 700 hit points, divided as you choose among any number of creatures that "
-            + "you can see within range. Creatures healed by this spell are also cured of all "
-            + "diseases and any effect making them blinded or deafened. This spell has no effect on "
-            + "undead or constructs.")),
+        .range("60 feet").area("Any number of creatures").duration("Instantaneous")
+        .effect("Restore up to 700 HP, curing all diseases, blindness and deafness.")),
     METEOR_SWARM(spell(MagicSchool.EVOCATION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("1 mile").duration("Instantaneous")
-        .effect("Blazing orbs of fire plummet to the ground at four different points you can see within "
-            + "range. Each creature in a 40-foot-radius sphere centered on each point you choose must "
-            + "make a Dexterity saving throw. The sphere spreads around corners. A creature takes "
-            + "20d6 fire damage and 20d6 bludgeoning damage on a failed save, or half as much damage "
-            + "on a successful one. A creature in the area of more than one fiery burst is affected "
-            + "only once. The spell damages objects in the area and ignites flammable objects that "
-            + "aren't being worn or carried.")),
+        .range("1 mile").area("4 40-foot-radius spheres").duration("Instantaneous")
+        .effect("20d6 fire damage. 20d6 bludgeoning damage. Dex. save DC[$spell_dc] for half.")),
     POWER_WORD_HEAL(spell(MagicSchool.EVOCATION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("Touch").area("1 creature").duration("Instantaneous")
         .effect("Regain all HP. End all conditions.")),
     POWER_WORD_KILL(spell(MagicSchool.ENCHANTMENT, 9)
         .castingTime("1 action").components(VERBAL)
-        .range("60 feet").duration("Instantaneous")
-        .effect("You utter a word of power that can compel one creature you can see within range to die "
-            + "instantly. If the creature you choose has 100 hit points or fewer, it dies. Otherwise, "
-            + "the spell has no effect.")),
+        .range("60 feet").area("1 creature").duration("Instantaneous")
+        .effect("Kills target if it has 100 HP or fewer.")),
     PRISMATIC_WALL(spell(MagicSchool.ABJURATION, 9)
-        .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("60 feet").duration("10 minutes")
-        .effect("A shimmering, multicolored plane of light forms a vertical opaque wall--up to 90 feet "
-            + "long, 30 feet high, and 1 inch thick--centered on a point you can see within range. "
-            + "Alternatively, you can shape the wall into a sphere up to 30 feet in diameter centered "
-            + "on a point you choose within range. The wall remains in place for the duration. If you "
-            + "position the wall so that it passes through a space occupied by a creature, the spell "
-            + "fails, and your action and the spell slot are wasted. The wall sheds bright light out "
-            + "to a range of 100 feet and dim light for an additional 100 feet. You and creatures you "
-            + "designate at the time you cast the spell can pass through and remain near the wall "
-            + "without harm. If another creature that can see the wall moves to within 20 feet of it "
-            + "or starts its turn there, the creature must succeed on a Constitution saving throw or "
-            + "become blinded for 1 minute. The wall consists of seven layers, each with a different "
-            + "color. When a creature attempts to reach into or pass through the wall, it does so one "
-            + "layer at a time through all the wall's layers. As it passes or reaches through each "
-            + "layer, the creature must make a Dexterity saving throw or be affected by that layer's "
-            + "properties as described below. The wall can be destroyed, also one layer at a time, in "
-            + "order from red to violet, by means specific to each layer. Once a layer is destroyed, "
-            + "it remains so for the duration of the spell. A rod of cancellation destroys a "
-            + "prismatic wall, but an antimagic field has no effect on it. 1. Red. The creature takes "
-            + "10d6 fire damage on a failed save, or half as much damage on a successful one. While "
-            + "this layer is in place, nonmagical ranged attacks can't pass through the wall. The "
-            + "layer can be destroyed by dealing at least 25 cold damage to it. 2. Orange. The "
-            + "creature takes 10d6 acid damage on a failed save, or half as much damage on a "
-            + "successful one. While this layer is in place, magical ranged attacks can't pass "
-            + "through the wall. The layer is destroyed by a strong wind. 3. Yellow. The creature "
-            + "takes 10d6 lightning damage on a failed save, or half as much damage on a successful "
-            + "one. This layer can be destroyed by dealing at least 60 force damage to it. 4. Green. "
-            + "The creature takes 10d6 poison damage on a failed save, or half as much damage on a "
-            + "successful one. A passwall spell, or another spell of equal or greater level that can "
-            + "open a portal on a solid surface, destroys this layer. 5. Blue. The creature takes "
-            + "10d6 cold damage on a failed save, or half as much damage on a successful one. This "
-            + "layer can be destroyed by dealing at least 25 fire damage to it. 6. Indigo. On a "
-            + "failed save, the creature is restrained. It must then make a Constitution saving throw "
-            + "at the end of each of its turns. If it successfully saves three times, the spell ends. "
-            + "If it fails its save three times, it permanently turns to stone and is subjected to "
-            + "the petrified condition. The successes and failures don't need to be consecutive; keep "
-            + "track of both until the creature collects three of a kind. While this layer is in "
-            + "place, spells can't be cast through the wall. The layer is destroyed by bright light "
-            + "shed by a daylight spell or a similar spell of equal or higher level. 7. Violet. On a "
-            + "failed save, the creature is blinded. It must then make a Wisdom saving throw at the "
-            + "start of your next turn. A successful save ends the blindness. If it fails that save, "
-            + "the creature is transported to another plane of the GM's choosing and is no longer "
-            + "blinded. (Typically, a creature that is on a plane that isn't its home plane is "
-            + "banished home, while other creatures are usually cast into the Astral or Ethereal "
-            + "planes.) This layer is destroyed by a dispel magic spell or a similar spell of equal "
-            + "or higher level that can end spells and magical effects.")),
+        .castingTime("1 action").components(VERBAL, SOMATIC).range("60 feet")
+        .area("Up to 90 feet long, 30 feet high, 1 inch thick or 30-foot diameter sphere")
+        .duration("10 minutes")
+        .effect("Create a seven layered wall that sheds bright light to 100 feet.")
+        .effect("Enemies within 20 feet blinded for 1 minutes. Con. save DC[$spell_dc].")
+        .effect("Dex. save to avoid effect of each layer.")
+        .effect("1. Red. 10d6 fire damage. Save for half. Prevents nonmagical ranged attacks. "
+            + "Destroyed by 25 cold damage.")
+        .effect("2. Orange. 10d6 acid damage. Save for half. Destroyed by strong wind")
+        .effect("3. Yellow. 10d6 lightning damage. Save for half. Destroyed by 60 force damage.")
+        .effect("4. Green. 10d6 poison damage. Save for half. Destroyed by <em>Passwall</em> spell.")
+        .effect("5. Blue. 10d6 cold damage. Save for half. Destroyed by 25 fire damage.")
+        .effect("6. Indigo. Restrains creature. Con. save each turn. 3 success ends spell. "
+            + "3 failures petrifies creature. Destroyed by <em>Daylight</em> spell. "
+            + "Prevents spells passing through wall.")
+        .effect("7. Violet. Blinds creature. Wis. save or be transported to another plane. "
+            + "Destroyed by <em>Dispel Magic</em> spell.")),
     SHAPECHANGE(spell(MagicSchool.TRANSMUTATION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").duration("up to 1 hour")
-        .effect("You assume the form of a different creature for the duration. The new form can be of "
-            + "any creature with a challenge rating equal to your level or lower. The creature can't "
-            + "be a construct or an undead, and you must have seen the sort of creature at least "
-            + "once. You transform into an average example of that creature, one without any class "
-            + "levels or the Spellcasting trait. Your game statistics are replaced by the statistics "
-            + "of the chosen creature, though you retain your alignment and Intelligence, Wisdom, and "
-            + "Charisma scores. You also retain all of your skill and saving throw proficiencies, in "
-            + "addition to gaining those of the creature. If the creature has the same proficiency as "
-            + "you and the bonus listed in its statistics is higher than yours, use the creature's "
-            + "bonus in place of yours. You can't use any legendary actions or lair actions of the "
-            + "new form. You assume the hit points and Hit Dice of the new form. When you revert to "
-            + "your normal form, you return to the number of hit points you had before you "
-            + "transformed. If you revert as a result of dropping to 0 hit points, any excess damage "
-            + "carries over to your normal form. As long as the excess damage doesn't reduce your "
-            + "normal form to 0 hit points, you aren't knocked unconscious. You retain the benefit of "
-            + "any features from your class, race, or other source and can use them, provided that "
-            + "your new form is physically capable of doing so. You can't use any special senses you "
-            + "have (for example, darkvision) unless your new form also has that sense. You can only "
-            + "speak if the creature can normally speak. When you transform, you choose whether your "
-            + "equipment falls to the ground, merges into the new form, or is worn by it. Worn "
-            + "equipment functions as normal. The GM determines whether it is practical for the new "
-            + "form to wear a piece of equipment, based on the creature's shape and size. Your "
-            + "equipment doesn't change shape or size to match the new form, and any equipment that "
-            + "the new form can't wear must either fall to the ground or merge into your new form. "
-            + "Equipment that merges has no effect in that state. During this spell's duration, you "
-            + "can use your action to assume a different form following the same restrictions and "
-            + "rules for the original form, with one exception: if your new form has more hit points "
-            + "than your current one, your hit points remain at their current value.")),
+        .effect("Assume the form of a different creature with CR up to [$level].")
+        .effect("Retain alignment, Int., Wis., Chr., skill and saving throw proficiencies.")),
     STORM_OF_VENGEANCE(spell(MagicSchool.CONJURATION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("Sight").duration("up to 1 minute")
-        .effect("A churning storm cloud forms, centered on a point you can see and spreading to a "
-            + "radius of 360 feet. Lightning flashes in the area, thunder booms, and strong winds "
-            + "roar. Each creature under the cloud (no more than 5,000 feet beneath the cloud) when "
-            + "it appears must make a Constitution saving throw. On a failed save, a creature takes "
-            + "2d6 thunder damage and becomes deafened for 5 minutes. Each round you maintain "
-            + "concentration on this spell, the storm produces additional effects on your turn. Round "
-            + "2. Acidic rain falls from the cloud. Each creature and object under the cloud takes "
-            + "1d6 acid damage. Round 3. You call six bolts of lightning from the cloud to strike six "
-            + "creatures or objects of your choice beneath the cloud. A given creature or object "
-            + "can't be struck by more than one bolt. A struck creature must make a Dexterity saving "
-            + "throw. The creature takes 10d6 lightning damage on a failed save, or half as much "
-            + "damage on a successful one. Round 4. Hailstones rain down from the cloud. Each "
-            + "creature under the cloud takes 2d6 bludgeoning damage. Round 5–10. Gusts and freezing "
-            + "rain assail the area under the cloud. The area becomes difficult terrain and is "
-            + "heavily obscured. Each creature there takes 1d6 cold damage. Ranged weapon attacks in "
-            + "the area are impossible. The wind and rain count as a severe distraction for the "
-            + "purposes of maintaining concentration on spells. Finally, gusts of strong wind "
-            + "(ranging from 20 to 50 miles per hour) automatically disperse fog, mists, and similar "
-            + "phenomena in the area, whether mundane or magical.")),
+        .range("Sight").area("360-feet radius").duration("up to 1 minute")
+        .effect("Forms storm cloud. Each creature under storm takes 2d6 thunder damage "
+            + "and becomes defeaned for 5 minutes. Con. save DC[$spell_dc].")
+        .effect("Each round produces an additional effect:"
+            + "<br>Round 2: acidic rain. 1d6 acid damage."
+            + "<br>Round 3: six bolts of lightning 10d6 lightning damage. Dex. save for half."
+            + "<br>Round 4: hailstones. 2d6 bludgeoning damage."
+            + "<br>Round 5-10: gust and freezing rain. Difficult terrain and 1d6 cold damage. "
+            + "Range weapon attacks impossible. Severe distraction for concentration. ")),
     TIME_STOP(spell(MagicSchool.TRANSMUTATION, 9)
         .castingTime("1 action").components(VERBAL)
-        .range("Self").duration("Instantaneous")
-        .effect("You briefly stop the flow of time for everyone but yourself. No time passes for other "
-            + "creatures, while you take 1d4 + 1 turns in a row, during which you can use actions and "
-            + "move as normal. This spell ends if one of the actions you use during this period, or "
-            + "any effects that you create during this period, affects a creature other than you or "
-            + "an object being worn or carried by someone other than you. In addition, the spell ends "
-            + "if you move to a place more than 1,000 feet from the location where you cast it.")),
+        .range("Self").area("All other creatures").duration("Instantaneous")
+        .effect("Take 1d4 + 1 turns. Ends if action effects other creature.")),
     TRUE_POLYMORPH(spell(MagicSchool.TRANSMUTATION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("30 feet").duration("up to 1 hour")
-        .effect("Choose one creature or nonmagical object that you can see within range. You transform "
-            + "the creature into a different creature, the creature into an object, or the object "
-            + "into a creature (the object must be neither worn nor carried by another creature). The "
-            + "transformation lasts for the duration, or until the target drops to 0 hit points or "
-            + "dies. If you concentrate on this spell for the full duration, the transformation lasts "
-            + "until it is dispelled. This spell has no effect on a shapechanger or a creature with 0 "
-            + "hit points. An unwilling creature can make a Wisdom saving throw, and if it succeeds, "
-            + "it isn't affected by this spell. Creature into Creature. If you turn a creature into "
-            + "another kind of creature, the new form can be any kind you choose whose challenge "
-            + "rating is equal to or less than the target's (or its level, if the target doesn't have "
-            + "a challenge rating). The target's game statistics, including mental ability scores, "
-            + "are replaced by the statistics of the new form. It retains its alignment and "
-            + "personality. The target assumes the hit points of its new form, and when it reverts to "
-            + "its normal form, the creature returns to the number of hit points it had before it "
-            + "transformed. If it reverts as a result of dropping to 0 hit points, any excess damage "
-            + "carries over to its normal form. As long as the excess damage doesn't reduce the "
-            + "creature's normal form to 0 hit points, it isn't knocked unconscious. The creature is "
-            + "limited in the actions it can perform by the nature of its new form, and it can't "
-            + "speak, cast spells, or take any other action that requires hands or speech, unless its "
-            + "new form is capable of such actions. The target's gear melds into the new form. The "
-            + "creature can't activate, use, wield, or otherwise benefit from any of its equipment. "
-            + "Object into Creature. You can turn an object into any kind of creature, as long as the "
-            + "creature's size is no larger than the object's size and the creature's challenge "
-            + "rating is 9 or lower. The creature is friendly to you and your companions. It acts on "
-            + "each of your turns. You decide what action it takes and how it moves. The GM has the "
-            + "creature's statistics and resolves all of its actions and movement. If the spell "
-            + "becomes permanent, you no longer control the creature. It might remain friendly to "
-            + "you, depending on how you have treated it. Creature into Object. If you turn a "
-            + "creature into an object, it transforms along with whatever it is wearing and carrying "
-            + "into that form. The creature's statistics become those of the object, and the creature "
-            + "has no memory of time spent in this form, after the spell ends and it returns to its "
-            + "normal form.")),
+        .range("30 feet").area("1 creature or nonmagical object").duration("up to 1 hour")
+        .effect("Transform target into different creature or object. Wis. save DC[$spell_dc].")
+        .effect("Take all statistics of new form. Ends at 0 HP.")),
     TRUE_RESURRECTION(spell(MagicSchool.NECROMANCY, 9)
         .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Instantaneous")
-        .effect("You touch a creature that has been dead for no longer than 200 years and that died for "
-            + "any reason except old age. If the creature's soul is free and willing, the creature is "
-            + "restored to life with all its hit points. This spell closes all wounds, neutralizes "
-            + "any poison, cures all diseases, and lifts any curses affecting the creature when it "
-            + "died. The spell replaces damaged or missing organs and limbs. The spell can even "
-            + "provide a new body if the original no longer exists, in which case you must speak the "
-            + "creature's name. The creature then appears in an unoccupied space you choose within 10 "
-            + "feet of you.")),
+        .range("Touch").area("1 body").duration("Instantaneous")
+        .effect("Target restored to life with all HP.")),
     WEIRD(spell(MagicSchool.ILLUSION, 9)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("120 feet").duration("up to one minute")
-        .effect("Drawing on the deepest fears of a group of creatures, you create illusory creatures in "
-            + "their minds, visible only to them. Each creature in a 30-foot-radius sphere centered "
-            + "on a point of your choice within range must make a Wisdom saving throw. On a failed "
-            + "save, a creature becomes frightened for the duration. The illusion calls on the "
-            + "creature's deepest fears, manifesting its worst nightmares as an implacable threat. At "
-            + "the end of each of the frightened creature's turns, it must succeed on a Wisdom saving "
-            + "throw or take 4d10 psychic damage. On a successful save, the spell ends for that creature.")),
+        .range("120 feet").area("Each creature in a 30-foot-radius sphere")
+        .duration("up to one minute")
+        .effect("Targets become frightened takes 4d10 phychic damage. "
+            + "Wis. save DC[$spell_dc] each turn.")),
     WISH(spell(MagicSchool.CONJURATION, 9)
         .castingTime("1 action").components(VERBAL)
         .range("Self").duration("Instantaneous")
-        .effect("Wish is the mightiest spell a mortal creature can cast. By simply speaking aloud, you "
-            + "can alter the very foundations of reality in accord with your desires. The basic use "
-            + "of this spell is to duplicate any other spell of 8th level or lower. You don't need to "
-            + "meet any requirements in that spell, including costly components. The spell simply "
-            + "takes effect. Alternatively, you can create one of the following effects of your "
-            + "choice: You create one object of up to 25,000 gp in value that isn't a magic item. The "
-            + "object can be no more than 300 feet in any dimension, and it appears in an unoccupied "
-            + "space you can see on the ground. You allow up to twenty creatures that you can see to "
-            + "regain all hit points, and you end all effects on them described in the greater "
-            + "restoration spell. You grant up to ten creatures that you can see resistance to a "
-            + "damage type you choose. You grant up to ten creatures you can see immunity to a single "
-            + "spell or other magical effect for 8 hours. For instance, you could make yourself and "
-            + "all your companions immune to a lich's life drain attack. * You undo a single recent "
-            + "event by forcing a reroll of any roll made within the last round (including your last "
-            + "turn). Reality reshapes itself to accommodate the new result. For example, a wish "
-            + "spell could undo an opponent's successful save, a foe's critical hit, or a friend's "
-            + "failed save. You can force the reroll to be made with advantage or disadvantage, and "
-            + "you can choose whether to use the reroll or the original roll. You might be able to "
-            + "achieve something beyond the scope of the above examples. State your wish to the GM as "
-            + "precisely as possible. The GM has great latitude in ruling what occurs in such an "
-            + "instance; the greater the wish, the greater the likelihood that something goes wrong. "
-            + "This spell might simply fail, the effect you desire might only be partly achieved, or "
-            + "you might suffer some unforeseen consequence as a result of how you worded the wish. "
-            + "For example, wishing that a villain were dead might propel you forward in time to a "
-            + "period when that villain is no longer alive, effectively removing you from the game. "
-            + "Similarly, wishing for a legendary magic item or artifact might instantly transport "
-            + "you to the presence of the item's current owner. The stress of casting this spell to "
-            + "produce any effect other than duplicating another spell weakens you. After enduring "
-            + "that stress, each time you cast a spell until you finish a long rest, you take 1d10 "
-            + "necrotic damage per level of that spell. This damage can't be reduced or prevented in "
-            + "any way. In addition, your Strength drops to 3, if it isn't 3 or lower already, for "
-            + "2d4 days. For each of those days that you spend resting and doing nothing more than "
-            + "light activity, your remaining recovery time decreases by 2 days. Finally, there is a "
-            + "33 percent chance that you are unable to cast wish ever again if you suffer this stress.")),;
+        .effect("Duplicate any other spell of 8th level or lower.")
+        .effect("Create one object of up to 25,000 gp in value that isn't a magic item.")
+        .effect("Up to 20 creatures regain all HP and end all effects.")
+        .effect("Up to 10 creatures gain resistance to a chosen damage type for 8 hours.")
+        .effect("Up to 10 creatures gain immunity to a spell or magical effect for 8 hours.")
+        .effect("Force a reroll of any role within the last round with advantage or disadvantage.")
+        .effect("More than 1 use between a long rest causes 1d10 / spell level, "
+            + "Str. 3 for 2d4 days, 33% chance of inability to cast <em>Wish</em> again.")),;
 
     private final SpellDelegate delegate;
 

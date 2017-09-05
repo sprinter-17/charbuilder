@@ -13,6 +13,7 @@ public class SpellClassMap {
     private final Map<Spell, EnumSet<CharacterClass>> map = new HashMap<>();
 
     public SpellClassMap() {
+        map.put(ACID_ARROW, EnumSet.of(WIZARD));
         map.put(ACID_SPLASH, EnumSet.of(SORCERER, WIZARD));
         map.put(AID, EnumSet.of(CLERIC, PALADIN));
         map.put(ALARM, EnumSet.of(RANGER, WIZARD));
@@ -29,6 +30,7 @@ public class SpellClassMap {
         map.put(ARCANE_GATE, EnumSet.of(WARLOCK, SORCERER, WIZARD));
         map.put(ARCANE_HAND, EnumSet.of(WIZARD));
         map.put(ARCANE_LOCK, EnumSet.of(WIZARD));
+        map.put(ARCANE_SWORD, EnumSet.of(BARD, WIZARD));
         map.put(ARCANISTS_MAGIC_AURA, EnumSet.of(WIZARD));
         map.put(ARMOUR_OF_AGATHYS, EnumSet.of(WARLOCK));
         map.put(ARMS_OF_HADAR, EnumSet.of(WARLOCK));
@@ -45,6 +47,7 @@ public class SpellClassMap {
         map.put(BEACON_OF_HOPE, EnumSet.of(CLERIC));
         map.put(BEAST_SENSE, EnumSet.of(RANGER, DRUID));
         map.put(BESTOW_CURSE, EnumSet.of(CLERIC, BARD, WIZARD));
+        map.put(BLACK_TENTACLES, EnumSet.of(WIZARD));
         map.put(BLADE_BARRIER, EnumSet.of(CLERIC));
         map.put(BLADE_WARD, EnumSet.of(WARLOCK, SORCERER, BARD, WIZARD));
         map.put(BLESS, EnumSet.of(CLERIC, PALADIN));
@@ -123,7 +126,6 @@ public class SpellClassMap {
         map.put(DOMINATE_BEAST, EnumSet.of(DRUID, SORCERER));
         map.put(DOMINATE_MONSTER, EnumSet.of(WARLOCK, SORCERER, BARD, WIZARD));
         map.put(DOMINATE_PERSON, EnumSet.of(SORCERER, BARD, WIZARD));
-        map.put(DRAWMIJS_INSTANT_SUMMONS, EnumSet.of(WIZARD));
         map.put(DREAM, EnumSet.of(WARLOCK, BARD, WIZARD));
         map.put(DRUIDCRAFT, EnumSet.of(DRUID));
         map.put(EARTHQUAKE, EnumSet.of(CLERIC, DRUID, SORCERER));
@@ -135,11 +137,11 @@ public class SpellClassMap {
         map.put(ENTANGLE, EnumSet.of(DRUID));
         map.put(ENTHRALL, EnumSet.of(WARLOCK, BARD));
         map.put(ETHEREALNESS, EnumSet.of(WARLOCK, CLERIC, SORCERER, BARD, WIZARD));
-        map.put(EVARDS_BLACK_TENTACLES, EnumSet.of(WIZARD));
         map.put(EXPEDITIOUS_RETREAT, EnumSet.of(WARLOCK, SORCERER, WIZARD));
         map.put(EYEBITE, EnumSet.of(WARLOCK, SORCERER, BARD, WIZARD));
         map.put(FABRICATE, EnumSet.of(WIZARD));
         map.put(FAERIE_FIRE, EnumSet.of(DRUID, BARD));
+        map.put(FAITHFUL_HOUND, EnumSet.of(WIZARD));
         map.put(FALSE_LIFE, EnumSet.of(SORCERER, WIZARD));
         map.put(FEAR, EnumSet.of(WARLOCK, SORCERER, BARD, WIZARD));
         map.put(FEATHER_FALL, EnumSet.of(SORCERER, BARD, WIZARD));
@@ -158,6 +160,7 @@ public class SpellClassMap {
         map.put(FLAME_STRIKE, EnumSet.of(CLERIC));
         map.put(FLAMING_SPHERE, EnumSet.of(DRUID, WIZARD));
         map.put(FLESH_TO_STONE, EnumSet.of(WARLOCK, WIZARD));
+        map.put(FLOATING_DISK, EnumSet.of(WIZARD));
         map.put(FLY, EnumSet.of(WARLOCK, SORCERER, WIZARD));
         map.put(FOG_CLOUD, EnumSet.of(RANGER, DRUID, SORCERER, WIZARD));
         map.put(FORBIDDANCE, EnumSet.of(CLERIC));
@@ -196,6 +199,7 @@ public class SpellClassMap {
         map.put(HEROES_FEAST, EnumSet.of(CLERIC, DRUID));
         map.put(HEROISM, EnumSet.of(PALADIN, BARD));
         map.put(HEX, EnumSet.of(WARLOCK));
+        map.put(HIDEOUS_LAUGHTER, EnumSet.of(BARD, WIZARD));
         map.put(HOLD_MONSTER, EnumSet.of(WARLOCK, SORCERER, BARD, WIZARD));
         map.put(HOLD_PERSON, EnumSet.of(WARLOCK, CLERIC, DRUID, SORCERER, BARD, WIZARD));
         map.put(HOLY_AURA, EnumSet.of(CLERIC));
@@ -209,12 +213,12 @@ public class SpellClassMap {
         map.put(INCENDIARY_CLOUD, EnumSet.of(SORCERER, WIZARD));
         map.put(INFLICT_WOUNDS, EnumSet.of(CLERIC));
         map.put(INSECT_PLAGUE, EnumSet.of(CLERIC, DRUID, SORCERER));
+        map.put(INSTANT_SUMMONS, EnumSet.of(WIZARD));
         map.put(INVISIBILITY, EnumSet.of(WARLOCK, SORCERER, BARD, WIZARD));
         map.put(IRRESISTIBLE_DANCE, EnumSet.of(BARD, WIZARD));
         map.put(JUMP, EnumSet.of(RANGER, DRUID, SORCERER, WIZARD));
         map.put(KNOCK, EnumSet.of(SORCERER, BARD, WIZARD));
         map.put(LEGEND_LORE, EnumSet.of(CLERIC, BARD, WIZARD));
-        map.put(LEOMUNDS_SECRET_CHEST, EnumSet.of(WIZARD));
         map.put(LESSER_RESTORATION, EnumSet.of(RANGER, CLERIC, DRUID, PALADIN, BARD));
         map.put(LEVITATE, EnumSet.of(SORCERER, WIZARD));
         map.put(LIGHT, EnumSet.of(CLERIC, SORCERER, BARD, WIZARD));
@@ -239,7 +243,6 @@ public class SpellClassMap {
         map.put(MASS_SUGGESTION, EnumSet.of(WARLOCK, SORCERER, BARD, WIZARD));
         map.put(MAZE, EnumSet.of(WIZARD));
         map.put(MELD_INTO_STONE, EnumSet.of(CLERIC, DRUID));
-        map.put(MELFS_ACID_ARROW, EnumSet.of(WIZARD));
         map.put(MENDING, EnumSet.of(CLERIC, DRUID, SORCERER, BARD, WIZARD));
         map.put(MESSAGE, EnumSet.of(SORCERER, BARD, WIZARD));
         map.put(METEOR_SWARM, EnumSet.of(SORCERER, WIZARD));
@@ -251,9 +254,6 @@ public class SpellClassMap {
         map.put(MISTY_STEP, EnumSet.of(WARLOCK, SORCERER, WIZARD));
         map.put(MODIFY_MEMORY, EnumSet.of(BARD, WIZARD));
         map.put(MOONBEAM, EnumSet.of(DRUID));
-        map.put(MORDENKAINENS_FAITHFUL_HOUND, EnumSet.of(WIZARD));
-        map.put(MORDENKAINENS_PRIVATE_SANCTUM, EnumSet.of(WIZARD));
-        map.put(MORDENKAINENS_SWORD, EnumSet.of(BARD, WIZARD));
         map.put(MOVE_EARTH, EnumSet.of(DRUID, SORCERER, WIZARD));
         map.put(NONDETECTION, EnumSet.of(RANGER, BARD, WIZARD));
         map.put(PASSWALL, EnumSet.of(WIZARD));
@@ -274,6 +274,7 @@ public class SpellClassMap {
         map.put(PRESTIDIGITATION, EnumSet.of(WARLOCK, SORCERER, BARD, WIZARD));
         map.put(PRISMATIC_SPRAY, EnumSet.of(SORCERER, WIZARD));
         map.put(PRISMATIC_WALL, EnumSet.of(WIZARD));
+        map.put(PRIVATE_SANCTUM, EnumSet.of(WIZARD));
         map.put(PRODUCE_FLAME, EnumSet.of(DRUID));
         map.put(PROGRAMMED_ILLUSION, EnumSet.of(BARD, WIZARD));
         map.put(PROJECT_IMAGE, EnumSet.of(BARD, WIZARD));
@@ -282,13 +283,13 @@ public class SpellClassMap {
         map.put(PROTECTION_FROM_POISON, EnumSet.of(RANGER, CLERIC, DRUID, PALADIN));
         map.put(PURIFY_FOOD_AND_DRINK, EnumSet.of(CLERIC, DRUID, PALADIN));
         map.put(RAISE_DEAD, EnumSet.of(CLERIC, PALADIN, BARD));
-        map.put(RARYS_TELEPATHIC_BOND, EnumSet.of(WIZARD));
         map.put(RAY_OF_ENFEEBLEMENT, EnumSet.of(WARLOCK, WIZARD));
         map.put(RAY_OF_FROST, EnumSet.of(SORCERER, WIZARD));
         map.put(RAY_OF_SICKNESS, EnumSet.of(SORCERER, WIZARD));
         map.put(REGENERATE, EnumSet.of(CLERIC, DRUID, BARD));
         map.put(REINCARNATE, EnumSet.of(DRUID));
         map.put(REMOVE_CURSE, EnumSet.of(WARLOCK, CLERIC, PALADIN, WIZARD));
+        map.put(RESILIENT_SPHERE, EnumSet.of(WIZARD));
         map.put(RESISTANCE, EnumSet.of(CLERIC, DRUID));
         map.put(RESURRECTION, EnumSet.of(CLERIC, BARD));
         map.put(REVERSE_GRAVITY, EnumSet.of(DRUID, SORCERER, WIZARD));
@@ -299,6 +300,7 @@ public class SpellClassMap {
         map.put(SCORCHING_RAY, EnumSet.of(SORCERER, WIZARD));
         map.put(SCRYING, EnumSet.of(WARLOCK, CLERIC, DRUID, BARD, WIZARD));
         map.put(SEARING_SMITE, EnumSet.of(PALADIN));
+        map.put(SECRET_CHEST, EnumSet.of(WIZARD));
         map.put(SEEMING, EnumSet.of(SORCERER, BARD, WIZARD));
         map.put(SEE_INVISIBILITY, EnumSet.of(SORCERER, BARD, WIZARD));
         map.put(SENDING, EnumSet.of(CLERIC, BARD, WIZARD, WIZARD));
@@ -333,12 +335,11 @@ public class SpellClassMap {
         map.put(SUNBURST, EnumSet.of(DRUID, SORCERER, WIZARD));
         map.put(SWIFT_QUIVER, EnumSet.of(RANGER));
         map.put(SYMBOL, EnumSet.of(CLERIC, BARD, WIZARD));
-        map.put(TASHAS_HIDEOUS_LAGHTER, EnumSet.of(BARD, WIZARD));
         map.put(TELEKINESIS, EnumSet.of(SORCERER, WIZARD));
+        map.put(TELEPATHIC_BOND, EnumSet.of(WIZARD));
         map.put(TELEPATHY, EnumSet.of(WIZARD));
         map.put(TELEPORT, EnumSet.of(SORCERER, BARD, WIZARD));
         map.put(TELEPORTATION_CIRCLE, EnumSet.of(SORCERER, BARD, WIZARD));
-        map.put(TENSERS_FLOATING_DISK, EnumSet.of(WIZARD));
         map.put(THAUMATURGY, EnumSet.of(CLERIC));
         map.put(THORN_WHIP, EnumSet.of(DRUID));
         map.put(THUNDEROUS_SMITE, EnumSet.of(PALADIN));
@@ -379,6 +380,10 @@ public class SpellClassMap {
         return map.entrySet().stream()
             .filter(e -> e.getValue().contains(characterClass))
             .map(Map.Entry::getKey);
+    }
+
+    public Stream<Spell> allSpells() {
+        return map.keySet().stream();
     }
 
 }

@@ -96,7 +96,7 @@ public enum DivineDomain implements Attribute {
         gen.level(9).addLearntSpells("Cleric", Spell.DOMINATE_PERSON, Spell.MODIFY_MEMORY);
     }),
     WAR(gen -> {
-        gen.level(1).addLearntSpells("Cleric", Spell.DIVINE_FAVOR, Spell.SHIELD_OF_FAITH);
+        gen.level(1).addLearntSpells("Cleric", Spell.DIVINE_FAVOUR, Spell.SHIELD_OF_FAITH);
         gen.level(1).addAttributes(Proficiency.HEAVY_ARMOUR, Proficiency.ALL_MARTIAL_WEAPONS);
         gen.level(1).addAttributes(WAR_PRIEST);
         gen.level(2).addAttributes(GUIDED_STRIKE);

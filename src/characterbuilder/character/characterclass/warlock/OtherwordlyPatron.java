@@ -1,9 +1,9 @@
 package characterbuilder.character.characterclass.warlock;
 
 import characterbuilder.character.Character;
-import static characterbuilder.character.characterclass.warlock.WarlockAbility.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.characterclass.warlock.WarlockAbility.*;
 import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.character.spell.SpellCasting;
@@ -31,8 +31,8 @@ public enum OtherwordlyPatron implements Attribute {
             BURNING_HANDS, COMMAND, BLINDNESS_DEAFNESS, SCORCHING_RAY, FIREBALL,
             STINKING_CLOUD, FIRE_SHIELD, WALL_OF_FIRE, FLAME_STRIKE, HALLOW));
         EXPANDED_SPELL_MAP.put(THE_GREAT_OLD_ONE, Arrays.asList(
-            DISSONANT_WHISPERS, TASHAS_HIDEOUS_LAGHTER, DETECT_THOUGHTS, PHANTASMAL_FORCE,
-            CLAIRVOYANCE, SENDING, DOMINATE_BEAST, EVARDS_BLACK_TENTACLES, DOMINATE_PERSON,
+            DISSONANT_WHISPERS, HIDEOUS_LAUGHTER, DETECT_THOUGHTS, PHANTASMAL_FORCE,
+            CLAIRVOYANCE, SENDING, DOMINATE_BEAST, BLACK_TENTACLES, DOMINATE_PERSON,
             TELEKINESIS));
     }
 

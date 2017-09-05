@@ -153,7 +153,7 @@ public enum DruidCircle implements Attribute {
         addCircleSpells(MOUNTAIN, 5, Spell.LIGHTNING_BOLT, Spell.MELD_INTO_STONE);
         addCircleSpells(MOUNTAIN, 7, Spell.STONE_SHAPE, Spell.STONESKIN);
         addCircleSpells(MOUNTAIN, 9, Spell.PASSWALL, Spell.WALL_OF_STONE);
-        addCircleSpells(SWAMP, 3, Spell.DARKNESS, Spell.MELFS_ACID_ARROW);
+        addCircleSpells(SWAMP, 3, Spell.DARKNESS, Spell.ACID_ARROW);
         addCircleSpells(SWAMP, 5, Spell.WATER_WALK, Spell.STINKING_CLOUD);
         addCircleSpells(SWAMP, 7, Spell.FREEDOM_OF_MOVEMENT, Spell.LOCATE_CREATURE);
         addCircleSpells(SWAMP, 9, Spell.INSECT_PLAGUE, Spell.SCRYING);
