@@ -5,9 +5,7 @@ import characterbuilder.character.attribute.Value;
 import static characterbuilder.character.attribute.Value.gp;
 import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.choice.Option;
-import static characterbuilder.character.spell.SpellComponent.MATERIAL;
-import static characterbuilder.character.spell.SpellComponent.SOMATIC;
-import static characterbuilder.character.spell.SpellComponent.VERBAL;
+import static characterbuilder.character.spell.SpellComponent.*;
 import static characterbuilder.character.spell.SpellDelegate.spell;
 import characterbuilder.utils.StringUtils;
 import static characterbuilder.utils.StringUtils.header;
@@ -1119,81 +1117,42 @@ public enum Spell implements Option {
         .effect("Cumulative 25% of no answer for each extra casting before long rest.")),
     COMMUNE_WITH_NATURE(spell(MagicSchool.DIVINATION, 5).ritual()
         .castingTime("1 minute").components(VERBAL, SOMATIC)
-        .range("Self").duration("Instantaneous")
-        .effect("You briefly become one with nature and gain knowledge of the surrounding territory. In "
-            + "the outdoors, the spell gives you knowledge of the land within 3 miles of you. In "
-            + "caves and other natural underground settings, the radius is limited to 300 feet. The "
-            + "spell doesn't function where nature has been replaced by construction, such as in "
-            + "dungeons and towns. You instantly gain knowledge of up to three facts of your choice "
-            + "about any of the following subjects as they relate to the area: terrain and bodies of "
-            + "water prevalent plants, minerals, animals, or peoples powerful celestials, fey, "
-            + "fiends, elementals, or undead influence from other planes of existence buildings For "
-            + "example, you could determine the location of powerful undead in the area, the location "
-            + "of major sources of safe drinking water, and the location of any nearby towns.")),
+        .range("Self").area("3 miles outdoors, 300 feet underground").duration("Instantaneous")
+        .effect("Gain knowledge of three facts about the surrounding territory: terrain, bodies of "
+            + "water, prevalent plants, minerals, animals, people, powerful celestials, fey, fiends, "
+            + "elementals or undead. ")),
     CONE_OF_COLD(spell(MagicSchool.EVOCATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").area("60-foot cone").duration("Instantaneous")
         .effect("8d8 cold damage. Con. save for half.")),
     CONJURE_ELEMENTAL(spell(MagicSchool.CONJURATION, 5)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
-        .range("90 feet").duration("up to 1 hour")
-        .effect("You call forth an elemental servant. Choose an area of air, earth, fire, or water that "
-            + "fills a 10-foot cube within range. An elemental of challenge rating 5 or lower "
-            + "appropriate to the area you chose appears in an unoccupied space within 10 feet of it. "
-            + "For example, a fire elemental emerges from a bonfire, and an earth elemental rises up "
-            + "from the ground. The elemental disappears when it drops to 0 hit points or when the "
-            + "spell ends. The elemental is friendly to you and your companions for the duration. "
-            + "Roll initiative for the elemental, which has its own turns. It obeys any verbal "
-            + "commands that you issue to it (no action required by you). If you don't issue any "
-            + "commands to the elemental, it defends itself from hostile creatures but otherwise "
-            + "takes no actions. If your concentration is broken, the elemental doesn't disappear. "
-            + "Instead, you lose control of the elemental, it becomes hostile toward you and your "
-            + "companions, and it might attack. An uncontrolled elemental can't be dismissed by you, "
-            + "and it disappears 1 hour after you summoned it. The GM has the elemental's statistics. "
-            + "At Higher Levels. When you cast this spell using a spell slot of 6th level or higher, "
-            + "the challenge rating increases by 1 for each slot level above 5th.")),
+        .range("90 feet").area("10-foot cube of air, earth, fire or water").duration("up to 1 hour")
+        .effect("Matching friendly elemental of CR5 or lower appears within 10 feet of area.")
+        .effect("+1 CR / extra spell slot level")),
     CONJURE_VOLLEY(spell(MagicSchool.CONJURATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("150 feet").area("40-foot radius, 20-foot high cylinder").duration("Instantaneous")
         .effect("8d8 damage. Dex. save for half.")),
     CONTACT_OTHER_PLANE(spell(MagicSchool.DIVINATION, 5).ritual()
         .castingTime("1 minute").components(VERBAL)
-        .range("Self").duration("1 minute")
-        .effect("You mentally contact a demigod, the spirit of a long- dead sage, or some other "
-            + "mysterious entity from another plane. Contacting this extraplanar intelligence can "
-            + "strain or even break your mind. When you cast this spell, make a DC 15 Intelligence "
-            + "saving throw. On a failure, you take 6d6 psychic damage and are insane until you "
-            + "finish a long rest. While insane, you can't take actions, can't understand what other "
-            + "creatures say, can't read, and speak only in gibberish. A greater restoration spell "
-            + "cast on you ends this effect. On a successful save, you can ask the entity up to five "
-            + "questions. You must ask your questions before the spell ends. The GM answers each "
-            + "question with one word, such as 'yes,' 'no,' 'maybe,' 'never,' 'irrelevant,' or "
-            + "'unclear' (if the entity doesn't know the answer to the question). If a one-word "
-            + "answer would be misleading, the GM might instead offer a short phrase as an answer.")),
+        .range("Self").area("Demigod or spirit").duration("1 minute")
+        .effect("Caster makes Int. save DC15 or takes 6d6 psychic damage and insane until long rest. "
+            + "On successful save, ask up to five questions answered with "
+            + "'yes,' 'no,' 'maybe,' 'never,' 'irrelevant,' or 'unclear'.")),
     CONTAGION(spell(MagicSchool.NECROMANCY, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("Touch").duration("7 days")
-        .effect("Your touch inflicts disease. Make a melee spell attack against a creature within your "
-            + "reach. On a hit, you afflict the creature with a disease of your choice from any of "
-            + "the ones described below. At the end of each of the target's turns, it must make a "
-            + "Constitution saving throw. After failing three of these saving throws, the disease's "
-            + "effects last for the duration, and the creature stops making these saves. After "
-            + "succeeding on three of these saving throws, the creature recovers from the disease, "
-            + "and the spell ends. Since this spell induces a natural disease in its target, any "
-            + "effect that removes a disease or otherwise ameliorates a disease's effects apply to "
-            + "it. Blinding Sickness. Pain grips the creature's mind, and its eyes turn milky white. "
-            + "The creature has disadvantage on Wisdom checks and Wisdom saving throws and is "
-            + "blinded. Filth Fever. A raging fever sweeps through the creature's body. The creature "
-            + "has disadvantage on Strength checks, Strength saving throws, and attack rolls that use "
-            + "Strength. Flesh Rot. The creature's flesh decays. The creature has disadvantage on "
-            + "Charisma checks and vulnerability to all damage. Mindfire. The creature's mind becomes "
-            + "feverish. The creature has disadvantage on Intelligence checks and Intelligence saving "
-            + "throws, and the creature behaves as if under the effects of the confusion spell during "
-            + "combat. Seizure. The creature is overcome with shaking. The creature has disadvantage "
-            + "on Dexterity checks, Dexterity saving throws, and attack rolls that use Dexterity. "
-            + "Slimy Doom. The creature begins to bleed uncontrollably. The creature has disadvantage "
-            + "on Constitution checks and Constitution saving throws. In addition, whenever the "
-            + "creature takes damage, it is stunned until the end of its next turn.")),
+        .range("Touch").area("1 creature").duration("7 days")
+        .effect("Melee spell attack. Inflict disease. Con. save each turn. After 3 fails, disease "
+            + "takes effect. After 3 successes, disease is cured. ")
+        .effect(table(
+            header("Disease", "Effect"),
+            row("Blinding Sickness", "Blinded. Disadvantage on Wis. saves."),
+            row("Filth Fever", "Disadvantage on Str. saves and attacks."),
+            row("Flesh Rot", "Disadvantage on Chr. checks and vulnerability to all damage."),
+            row("Mindfire", "Disadvantage on Int. checks and saves and behaves as <em>Confusion</em>."),
+            row("Seizure", "Disadvantage on Dex. checks and saves and Dex. attacks."),
+            row("Slimy Doom", "Disadvantage on Con. checks and saves and stunned on taking damage.")))),
     CREATION(spell(MagicSchool.ILLUSION, 5)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
         .range("30 feet").duration("Special")
@@ -2198,87 +2157,37 @@ public enum Spell implements Option {
     PROJECT_IMAGE(spell(MagicSchool.ILLUSION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("500 miles").duration("up to 1 day")
-        .effect("You create an illusory copy of yourself that lasts for the duration. The copy can "
-            + "appear at any location within range that you have seen before, regardless of "
-            + "intervening obstacles. The illusion looks and sounds like you but is intangible. If "
-            + "the illusion takes any damage, it disappears, and the spell ends. You can use your "
-            + "action to move this illusion up to twice your speed, and make it gesture, speak, and "
-            + "behave in whatever way you choose. It mimics your mannerisms perfectly. You can see "
-            + "through its eyes and hear through its ears as if you were in its space. On your turn "
-            + "as a bonus action, you can switch from using its senses to using your own, or back "
-            + "again. While you are using its senses, you are blinded and deafened in regard to your "
-            + "own surroundings. Physical interaction with the image reveals it to be an illusion, "
-            + "because things can pass through it. A creature that uses its action to examine the "
-            + "image can determine that it is an illusion with a successful Intelligence "
-            + "(Investigation) check against your spell save DC. If a creature discerns the illusion "
-            + "for what it is, the creature can see through the image, and any noise it makes sounds "
-            + "hollow to the creature.")),
+        .effect("Create illusory copy. Caster can use illusion's senses. "
+            + "As an action, move illusion up to twice speed. "
+            + "Investigation check to discover illusion.")),
     REGENERATE(spell(MagicSchool.TRANSMUTATION, 7)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("1 hour")
-        .effect("You touch a creature and stimulate its natural healing ability. The target regains 4d8 "
-            + "+ 15 hit points. For the duration of the spell, the target regains 1 hit point at the "
-            + "start of each of its turns (10 hit points each minute). The target's severed body "
-            + "members (fingers, legs, tails, and so on), if any, are restored after 2 minutes. If "
-            + "you have the severed part and hold it to the stump, the spell instantaneously causes "
-            + "the limb to knit to the stump.")),
+        .range("Touch").area("1 creature").duration("1 hour")
+        .effect("Regain 4d8+15 HP. Regain 1 HP at the start of each turn. "
+            + "Restore severed limbs after 2 minutes.")),
     RESURRECTION(spell(MagicSchool.NECROMANCY, 7)
         .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Instantaneous")
-        .effect("You touch a dead creature that has been dead for no more than a century, that didn't "
-            + "die of old age, and that isn't undead. If its soul is free and willing, the target "
-            + "returns to life with all its hit points. This spell neutralizes any poisons and cures "
-            + "normal diseases afflicting the creature when it died. It doesn't, however, remove "
-            + "magical diseases, curses, and the like; if such effects aren't removed prior to "
-            + "casting the spell, they afflict the target on its return to life. This spell closes "
-            + "all mortal wounds and restores any missing body parts. Coming back from the dead is an "
-            + "ordeal. The target takes a −4 penalty to all attack rolls, saving throws, and ability "
-            + "checks. Every time the target finishes a long rest, the penalty is reduced by 1 until "
-            + "it disappears. Casting this spell to restore life to a creature that has been dead for "
-            + "one year or longer taxes you greatly. Until you finish a long rest, you can't cast "
-            + "spells again, and you have disadvantage on all attack rolls, ability checks, and "
-            + "saving throws.")),
+        .range("Touch").area("1 dead creature").duration("Instantaneous")
+        .effect("Target returns to life with full HP. Neutralises poison. Cures nonmagical diseases. "
+            + "Target takes a −4 penalty to all attack rolls, saves and ability checks. "
+            + "Penalty reduces by 1 after a long rest.")),
     REVERSE_GRAVITY(spell(MagicSchool.TRANSMUTATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("100 feet").duration("up to 1 minute")
-        .effect("This spell reverses gravity in a 50-foot-radius, 100- foot high cylinder centered on a "
-            + "point within range. All creatures and objects that aren't somehow anchored to the "
-            + "ground in the area fall upward and reach the top of the area when you cast this spell. "
-            + "A creature can make a Dexterity saving throw to grab onto a fixed object it can reach, "
-            + "thus avoiding the fall. If some solid object (such as a ceiling) is encountered in "
-            + "this fall, falling objects and creatures strike it just as they would during a normal "
-            + "downward fall. If an object or creature reaches the top of the area without striking "
-            + "anything, it remains there, oscillating slightly, for the duration. At the end of the "
-            + "duration, affected objects and creatures fall back down.")),
+        .range("100 feet").area("50-foot-radius, 100-foot-high cylinder").duration("up to 1 minute")
+        .effect("All creatures and objects fall upward to top of the area. "
+            + "Dex. save to grab fixed object within reach.")),
     SEQUESTER(spell(MagicSchool.TRANSMUTATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Until dispelled")
-        .effect("By means of this spell, a willing creature or an object can be hidden away, safe from "
-            + "detection for the duration. When you cast the spell and touch the target, it becomes "
-            + "invisible and can't be targeted by divination spells or perceived through scrying "
-            + "sensors created by divination spells. If the target is a creature, it falls into a "
-            + "state of suspended animation. Time ceases to flow for it, and it doesn't grow older. "
-            + "You can set a condition for the spell to end early. The condition can be anything you "
-            + "choose, but it must occur or be visible within 1 mile of the target. Examples include "
-            + "'after 1,000 years' or 'when the tarrasque awakens.' This spell also ends if the "
-            + "target takes any damage.")),
+        .range("Touch").area("1 willing creature or object").duration("Until dispelled")
+        .effect("Target becomes invisible and cannot be detected by divination. "
+            + "Creatures enter suspended animation. "
+            + "Spell ends on chosen condition or if target takes damage.")),
     SIMULACRUM(spell(MagicSchool.ILLUSION, 7)
         .castingTime("12 hours").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Until dispelled")
-        .effect("You shape an illusory duplicate of one beast or humanoid that is within range for the "
-            + "entire casting time of the spell. The duplicate is a creature, partially real and "
-            + "formed from ice or snow, and it can take actions and otherwise be affected as a normal "
-            + "creature. It appears to be the same as the original, but it has half the creature's "
-            + "hit point maximum and is formed without any equipment. Otherwise, the illusion uses "
-            + "all the statistics of the creature it duplicates. The simulacrum is friendly to you "
-            + "and creatures you designate. It obeys your spoken commands, moving and acting in "
-            + "accordance with your wishes and acting on your turn in combat. The simulacrum lacks "
-            + "the ability to learn or become more powerful, so it never increases its level or other "
-            + "abilities, nor can it regain expended spell slots. If the simulacrum is damaged, you "
-            + "can repair it in an alchemical laboratory, using rare herbs and minerals worth 100 gp "
-            + "per hit point it regains. The simulacrum lasts until it drops to 0 hit points, at "
-            + "which point it reverts to snow and melts instantly. If you cast this spell again, any "
-            + "currently active duplicates you created with this spell are instantly destroyed.")),
+        .range("Touch").area("1 beast or humanoid").duration("Until dispelled")
+        .effect("Create illusory duplicate of target with half target's HP and no equipment. "
+            + "Duplicate is under caster's control. "
+            + "Spell ends when duplicate drops to 0 HP.")),
     SYMBOL(spell(MagicSchool.ABJURATION, 7)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
         .range("Touch").duration("Until dispelled or triggered")
@@ -2326,7 +2235,8 @@ public enum Spell implements Option {
             + "minute on a failed save.")),
     TELEPORT(spell(MagicSchool.CONJURATION, 7)
         .castingTime("1 action").components(VERBAL)
-        .range("10 feet").area("Self and up to 8 creatures or 1 object").duration("Instantaneous")
+        .range("10 feet").area("Self and up to 8 creatures or 1 object")
+        .duration("Instantaneous")
         .effect("Transport targets to chosen destination. Special chance of miss.")),
     ANIMAL_SHAPES(spell(MagicSchool.TRANSMUTATION, 8)
         .castingTime("1 action").components(VERBAL, SOMATIC)
