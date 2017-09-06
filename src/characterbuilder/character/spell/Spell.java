@@ -1170,7 +1170,8 @@ public enum Spell implements Option {
     DESTRUCTIVE_WAVE(spell(MagicSchool.EVOCATION, 5)
         .castingTime("1 action").components(VERBAL)
         .range("Self").area("30-foot radius").duration("Instantaneous")
-        .effect("5d6 thunder damage +5d6 radiant or necrotic damage and knocked prone. Con. save for half.")),
+        .effect("5d6 thunder damage +5d6 radiant or necrotic damage and knocked prone. "
+            + "Con. save for half.")),
     DISPEL_EVIL_AND_GOOD(spell(MagicSchool.ABJURATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").duration("up to 1 minute")
@@ -2017,143 +2018,68 @@ public enum Spell implements Option {
         .effect("+1d6 / extra spell slot level.")),
     DIVINE_WORD(spell(MagicSchool.EVOCATION, 7)
         .castingTime("1 bonus action").components(VERBAL)
-        .range("30 feet").duration("Instantaneous")
-        .effect("You utter a divine word, imbued with the power that shaped the world at the dawn of "
-            + "creation. Choose any number of creatures you can see within range. Each creature that "
-            + "can hear you must make a Charisma saving throw. On a failed save, a creature suffers "
-            + "an effect based on its current hit points: 50 hit points or fewer: deafened for 1 "
-            + "minute 40 hit points or fewer: deafened and blinded for 10 minutes 30 hit points or "
-            + "fewer: blinded, deafened, and stunned for 1 hour 20 hit points or fewer: killed "
-            + "instantly Regardless of its current hit points, a celestial, an elemental, a fey, or a "
-            + "fiend that fails its save is forced back to its plane of origin (if it isn't there "
-            + "already) and can't return to your current plane for 24 hours by any means short of a "
-            + "wish spell.")),
+        .range("30 feet").area("Any number of creatures").duration("Instantaneous")
+        .effect("Chr. save for no effect. ")
+        .effect(table(header("HP", "Effect"),
+            row("20 or fewer", "Killed"),
+            row("30 or fewer", "Deafened, blinded and stunned for 1 hour"),
+            row("40 or fewer", "Deafened and blinded for 10 minutes"),
+            row("50 or fewer", "Deafened for 1 minute")))
+        .effect("Celestials, elementals, feys and fiends return to plane "
+            + "of origin and cannot return for 24 hours. ")),
     ETHEREALNESS(spell(MagicSchool.TRANSMUTATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("Self").duration("Up to 8 hours")
-        .effect("You step into the border regions of the Ethereal Plane, in the area where it overlaps "
-            + "with your current plane. You remain in the Border Ethereal for the duration or until "
-            + "you use your action to dismiss the spell. During this time, you can move in any "
-            + "direction. If you move up or down, every foot of movement costs an extra foot. You can "
-            + "see and hear the plane you originated from, but everything there looks gray, and you "
-            + "can't see anything more than 60 feet away. While on the Ethereal Plane, you can only "
-            + "affect and be affected by other creatures on that plane. Creatures that aren't on the "
-            + "Ethereal Plane can't perceive you and can't interact with you, unless a special "
-            + "ability or magic has given them the ability to do so. You ignore all objects and "
-            + "effects that aren't on the Ethereal Plane, allowing you to move through objects you "
-            + "perceive on the plane you originated from. When the spell ends, you immediately return "
-            + "to the plane you originated from in the spot you currently occupy. If you occupy the "
-            + "same spot as a solid object or creature when this happens, you are immediately shunted "
-            + "to the nearest unoccupied space that you can occupy and take force damage equal to "
-            + "twice the number of feet you are moved. This spell has no effect if you cast it while "
-            + "you are on the Ethereal Plane or a plane that doesn't border it, such as one of the "
-            + "Outer Planes. At Higher Levels. When you cast this spell using a spell slot of 8th "
-            + "level or higher, you can target up to three willing creatures (including you) for each "
-            + "slot level above 7th. The creatures must be within 10 feet of you when you cast the spell.")),
+        .effect("Step into Ethereal Plane. "
+            + "Double movement costs. Return to original position. ")
+        .effect("+3 willing creatures within 10 feet / extra spell slot level.")),
     FINGER_OF_DEATH(spell(MagicSchool.NECROMANCY, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("60 feet").duration("Instantaneous")
-        .effect("You send negative energy coursing through a creature that you can see within range, "
-            + "causing it searing pain. The target must make a Constitution saving throw. It takes "
-            + "7d8 + 30 necrotic damage on a failed save, or half as much damage on a successful one. "
-            + "A humanoid killed by this spell rises at the start of your next turn as a zombie that "
-            + "is permanently under your command, following your verbal orders to the best of its "
-            + "ability.")),
+        .range("60 feet").area("1 creature").duration("Instantaneous")
+        .effect("7d8+30 necrotic damage. Con. save for half damage. "
+            + "Humanoids killed by spell become zombies under caster's control. ")),
     FIRE_STORM(spell(MagicSchool.EVOCATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("150 feet").duration("Instantaneous")
-        .effect("A storm made up of sheets of roaring flame appears in a location you choose within "
-            + "range. The area of the storm consists of up to ten 10-foot cubes, which you can "
-            + "arrange as you wish. Each cube must have at least one face adjacent to the face of "
-            + "another cube. Each creature in the area must make a Dexterity saving throw. It takes "
-            + "7d10 fire damage on a failed save, or half as much damage on a successful one. The "
-            + "fire damages objects in the area and ignites flammable objects that aren't being worn "
-            + "or carried. If you choose, plant life in the area is unaffected by this spell.")),
+        .range("150 feet").area("10 connected 10-foot-cubes").duration("Instantaneous")
+        .effect("7d10 fire damage. Dex. save for half damage. "
+            + "Caster can choose to make plants unaffected. ")),
     FORCECAGE(spell(MagicSchool.EVOCATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("100 feet").duration("1 hour")
-        .effect("An immobile, invisible, cube-shaped prison composed of magical force springs into "
-            + "existence around an area you choose within range. The prison can be a cage or a solid "
-            + "box, as you choose. A prison in the shape of a cage can be up to 20 feet on a side and "
-            + "is made from 1/2-inch diameter bars spaced 1/2 inch apart. A prison in the shape of a "
-            + "box can be up to 10 feet on a side, creating a solid barrier that prevents any matter "
-            + "from passing through it and blocking any spells cast into or out from the area. When "
-            + "you cast the spell, any creature that is completely inside the cage's area is trapped. "
-            + "Creatures only partially within the area, or those too large to fit inside the area, "
-            + "are pushed away from the center of the area until they are completely outside the "
-            + "area. A creature inside the cage can't leave it by nonmagical means. If the creature "
-            + "tries to use teleportation or interplanar travel to leave the cage, it must first make "
-            + "a Charisma saving throw. On a success, the creature can use that magic to exit the "
-            + "cage. On a failure, the creature can't exit the cage and wastes the use of the spell "
-            + "or effect. The cage also extends into the Ethereal Plane, blocking ethereal travel. "
-            + "This spell can't be dispelled by dispel magic.")),
+        .range("100 feet").area("Up to 20-foot-cube").duration("1 hour")
+        .effect("Create invisible prison around area. "
+            + "Can be cage (20-foot-side) with bars "
+            + "or box (10-foot-side) preventing matter and spells. "
+            + "Creature within area cannot leave.")
+        .effect("Immune to <em>Dispel Magic</em>.")
+        .effect("Chr. save to use teleportation or interplanar travel to leave cage.")),
     MAGNIFICENT_MANSION(spell(MagicSchool.CONJURATION, 7)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
-        .range("300 feet").duration("24 hours")
-        .effect("You conjure an extradimensional dwelling in range that lasts for the duration. You "
-            + "choose where its one entrance is located. The entrance shimmers faintly and is 5 feet "
-            + "wide and 10 feet tall. You and any creature you designate when you cast the spell can "
-            + "enter the extradimensional dwelling as long as the portal remains open. You can open "
-            + "or close the portal if you are within 30 feet of it. While closed, the portal is "
-            + "invisible. Beyond the portal is a magnificent foyer with numerous chambers beyond. The "
-            + "atmosphere is clean, fresh, and warm. You can create any floor plan you like, but the "
-            + "space can't exceed 50 cubes, each cube being 10 feet on each side. The place is "
-            + "furnished and decorated as you choose. It contains sufficient food to serve a "
-            + "nine-course banquet for up to 100 people. A staff of 100 near-transparent servants "
-            + "attends all who enter. You decide the visual appearance of these servants and their "
-            + "attire. They are completely obedient to your orders. Each servant can perform any task "
-            + "a normal human servant could perform, but they can't attack or take any action that "
-            + "would directly harm another creature. Thus the servants can fetch things, clean, mend, "
-            + "fold clothes, light fires, serve food, pour wine, and so on. The servants can go "
-            + "anywhere in the mansion but can't leave it. Furnishings and other objects created by "
-            + "this spell dissipate into smoke if removed from the mansion. When the spell ends, any "
-            + "creatures inside the extradimensional space are expelled into the open spaces nearest "
-            + "to the entrance.")),
+        .range("300 feet").area("5-feet wide, 10-feet tall").duration("24 hours")
+        .effect("Create extradimensional dwelling. Contains food and furniture for 100 people.")),
     MIRAGE_ARCANE(spell(MagicSchool.ILLUSION, 7)
         .castingTime("10 minutes").components(VERBAL, SOMATIC)
-        .range("Sight").duration("10 days")
-        .effect("You make terrain in an area up to 1 mile square look, sound, smell, and even feel like "
-            + "some other sort of terrain. The terrain's general shape remains the same, however. "
-            + "Open fields or a road could be made to resemble a swamp, hill, crevasse, or some other "
-            + "difficult or impassable terrain. A pond can be made to seem like a grassy meadow, a "
-            + "precipice like a gentle slope, or a rock-strewn gully like a wide and smooth road. "
-            + "Similarly, you can alter the appearance of structures, or add them where none are "
-            + "present. The spell doesn't disguise, conceal, or add creatures. The illusion includes "
-            + "audible, visual, tactile, and olfactory elements, so it can turn clear ground into "
-            + "difficult terrain (or vice versa) or otherwise impede movement through the area. Any "
-            + "piece of the illusory terrain (such as a rock or stick) that is removed from the "
-            + "spell's area disappears immediately. Creatures with truesight can see through the "
-            + "illusion to the terrain's true form; however, all other elements of the illusion "
-            + "remain, so while the creature is aware of the illusion's presence, the creature can "
-            + "still physically interact with the illusion.")),
+        .range("Sight").area("Terrain 1-mile-square").duration("10 days")
+        .effect("Area looks, sounds, smells, and feels like another sort of terrain.")),
     PLANE_SHIFT(spell(MagicSchool.CONJURATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Touch").area("Up to 8 allies or 1 enemy").duration("Instantaneous")
         .effect("Targets transported to different plane.")),
     PRISMATIC_SPRAY(spell(MagicSchool.EVOCATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("Self (60-foot cone)").duration("Instantaneous")
-        .effect("Eight multicolored rays of light flash from your hand. Each ray is a different color "
-            + "and has a different power and purpose. Each creature in a 60-foot cone must make a "
-            + "Dexterity saving throw. For each target, roll a d8 to determine which color ray "
-            + "affects it. 1. Red. The target takes 10d6 fire damage on a failed save, or half as "
-            + "much damage on a successful one. 2. Orange. The target takes 10d6 acid damage on a "
-            + "failed save, or half as much damage on a successful one. 3. Yellow. The target takes "
-            + "10d6 lightning damage on a failed save, or half as much damage on a successful one. 4. "
-            + "Green. The target takes 10d6 poison damage on a failed save, or half as much damage on "
-            + "a successful one. 5. Blue. The target takes 10d6 cold damage on a failed save, or half "
-            + "as much damage on a successful one. 6. Indigo. On a failed save, the target is "
-            + "restrained. It must then make a Constitution saving throw at the end of each of its "
-            + "turns. If it successfully saves three times, the spell ends. If it fails its save "
-            + "three times, it permanently turns to stone and is subjected to the petrified "
-            + "condition. The successes and failures don't need to be consecutive; keep track of both "
-            + "until the target collects three of a kind. 7. Violet. On a failed save, the target is "
-            + "blinded. It must then make a Wisdom saving throw at the start of your next turn. A "
-            + "successful save ends the blindness. If it fails that save, the creature is transported "
-            + "to another plane of existence of the GM's choosing and is no longer blinded. "
-            + "(Typically, a creature that is on a plane that isn't its home plane is banished home, "
-            + "while other creatures are usually cast into the Astral or Ethereal planes.) 8. "
-            + "Special. The target is struck by two rays. Roll twice more, rerolling any 8.")),
+        .range("Self").area("60-foot cone").duration("Instantaneous")
+        .effect("Each creature in area Dex. save. d8 for effect:")
+        .effect(table(
+            header("Roll", "Colour", "Effect", "Save"),
+            row("1", "Red", "10d6 fire damage", "Half damage"),
+            row("2", "Orange", "10d6 acid damage", "Half damage"),
+            row("3", "Yellow", "10d6 lightning damage", "Half damage"),
+            row("4", "Green", "10d6 poison damage", "Half damage"),
+            row("5", "Blue", "10d6 cold damage", "Half damage"),
+            row("6", "Indigo", "Restrained. Con. save. 3 successes: effect ends. "
+                + "3 failures: petrified", "No effect"),
+            row("7", "Violet", "Blinded. Tranported to another plane on next turn. Wis. save",
+                "No effect"),
+            row("8", "Special", "Roll twice more", "-")))),
     PROJECT_IMAGE(spell(MagicSchool.ILLUSION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("500 miles").duration("up to 1 day")
@@ -2173,7 +2099,8 @@ public enum Spell implements Option {
             + "Penalty reduces by 1 after a long rest.")),
     REVERSE_GRAVITY(spell(MagicSchool.TRANSMUTATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("100 feet").area("50-foot-radius, 100-foot-high cylinder").duration("up to 1 minute")
+        .range("100 feet").area("50-foot-radius, 100-foot-high cylinder")
+        .duration("up to 1 minute")
         .effect("All creatures and objects fall upward to top of the area. "
             + "Dex. save to grab fixed object within reach.")),
     SEQUESTER(spell(MagicSchool.TRANSMUTATION, 7)
@@ -2190,49 +2117,21 @@ public enum Spell implements Option {
             + "Spell ends when duplicate drops to 0 HP.")),
     SYMBOL(spell(MagicSchool.ABJURATION, 7)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Until dispelled or triggered")
-        .effect("When you cast this spell, you inscribe a harmful glyph either on a surface (such as a "
-            + "section of floor, a wall, or a table) or within an object that can be closed to "
-            + "conceal the glyph (such as a book, a scroll, or a treasure chest). If you choose a "
-            + "surface, the glyph can cover an area of the surface no larger than 10 feet in "
-            + "diameter. If you choose an object, that object must remain in its place; if the object "
-            + "is moved more than 10 feet from where you cast this spell, the glyph is broken, and "
-            + "the spell ends without being triggered. The glyph is nearly invisible, requiring an "
-            + "Intelligence (Investigation) check against your spell save DC to find it. You decide "
-            + "what triggers the glyph when you cast the spell. For glyphs inscribed on a surface, "
-            + "the most typical triggers include touching or stepping on the glyph, removing another "
-            + "object covering it, approaching within a certain distance of it, or manipulating the "
-            + "object that holds it. For glyphs inscribed within an object, the most common triggers "
-            + "are opening the object, approaching within a certain distance of it, or seeing or "
-            + "reading the glyph. You can further refine the trigger so the spell is activated only "
-            + "under certain circumstances or according to a creature's physical characteristics "
-            + "(such as height or weight), or physical kind (for example, the ward could be set to "
-            + "affect hags or shapechangers). You can also specify creatures that don't trigger the "
-            + "glyph, such as those who say a certain password. When you inscribe the glyph, choose "
-            + "one of the options below for its effect. Once triggered, the glyph glows, filling a "
-            + "60-foot-radius sphere with dim light for 10 minutes, after which time the spell ends. "
-            + "Each creature in the sphere when the glyph activates is targeted by its effect, as is "
-            + "a creature that enters the sphere for the first time on a turn or ends its turn there. "
-            + "Death. Each target must make a Constitution saving throw, taking 10d10 necrotic damage "
-            + "on a failed save, or half as much damage on a successful save. Discord. Each target "
-            + "must make a Constitution saving throw. On a failed save, a target bickers and argues "
-            + "with other creatures for 1 minute. During this time, it is incapable of meaningful "
-            + "communication and has disadvantage on attack rolls and ability checks. Fear. Each "
-            + "target must make a Wisdom saving throw and becomes frightened for 1 minute on a failed "
-            + "save. While frightened, the target drops whatever it is holding and must move at least "
-            + "30 feet away from the glyph on each of its turns, if able. Hopelessness. Each target "
-            + "must make a Charisma saving throw. On a failed save, the target is overwhelmed with "
-            + "despair for 1 minute. During this time, it can't attack or target any creature with "
-            + "harmful abilities, spells, or other magical effects. Insanity. Each target must make "
-            + "an Intelligence saving throw. On a failed save, the target is driven insane for 1 "
-            + "minute. An insane creature can't take actions, can't understand what other creatures "
-            + "say, can't read, and speaks only in gibberish. The GM controls its movement, which is "
-            + "erratic. Pain. Each target must make a Constitution saving throw and becomes "
-            + "incapacitated with excruciating pain for 1 minute on a failed save. Sleep. Each target "
-            + "must make a Wisdom saving throw and falls unconscious for 10 minutes on a failed save. "
-            + "A creature awakens if it takes damage or if someone uses an action to shake or slap it "
-            + "awake. Stunning. Each target must make a Wisdom saving throw and becomes stunned for 1 "
-            + "minute on a failed save.")),
+        .range("Touch").area("Surface no larger than 10-feet-diameter or closable object")
+        .duration("Until dispelled or triggered")
+        .effect("Incribe a glyph on target. Investigation check to find. "
+            + "Target object must remain in place. On chosen trigger, glyph glows with dim light "
+            + "in 60-foot-radius sphere for 10 minutes. Creatures within spher suffer chosen effect:")
+        .effect(table(header("Option", "Effect", "Save"),
+            row("Death", "10d10 necrotic damage", "Con. save for half damage"),
+            row("Discord", "Argues with other creature for 1 minute; "
+                + "disadvantage on attack and ability", "Con. save"),
+            row("Fear", "Move 30 feet away from glyph on each turn for 1 minute", "Wis. save"),
+            row("Hopelessness", "Cannot attack for 1 minute", "Chr. save"),
+            row("Insanity", "Cannot take voluntary actions for 1 minute", "Int. save"),
+            row("Pain", "Incapacitated for 1 minute", "Con. save"),
+            row("Sleep", "Falls unconscious for 10 minutes or until woken", "Wis. save"),
+            row("Stunning", "Stunned for 1 minute", "Wis. save")))),
     TELEPORT(spell(MagicSchool.CONJURATION, 7)
         .castingTime("1 action").components(VERBAL)
         .range("10 feet").area("Self and up to 8 creatures or 1 object")
@@ -2244,83 +2143,28 @@ public enum Spell implements Option {
         .effect("Transform into beasts with CR of 4 or lower.")),
     ANTIMAGIC_FIELD(spell(MagicSchool.ABJURATION, 8)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Self (10-foot-radius sphere)").duration("up to 1 hour")
-        .effect("A 10-foot-radius invisible sphere of antimagic surrounds you. This area is divorced "
-            + "from the magical energy that suffuses the multiverse. Within the sphere, spells canft "
-            + "be cast, summoned creatures disappear, and even magic items become mundane. Until the "
-            + "spell ends, the sphere moves with you, centered on you. Spells and other magical "
-            + "effects, except those created by an artifact or a deity, are suppressed in the sphere "
-            + "and can't protrude into it. A slot expended to cast a suppressed spell is consumed. "
-            + "While an effect is suppressed, it doesn't function, but the time it spends suppressed "
-            + "counts against its duration. Targeted Effects. Spells and other magical effects, such "
-            + "as magic missile and charm person, that target a creature or an object in the sphere "
-            + "have no effect on that target. Areas of Magic. The area of another spell or magical "
-            + "effect, such as fireball, can't extend into the sphere. If the sphere overlaps an area "
-            + "of magic, the part of the area that is covered by the sphere is suppressed. For "
-            + "example, the flames created by a wall of fire are suppressed within the sphere, "
-            + "creating a gap in the wall if the overlap is large enough. Spells. Any active spell or "
-            + "other magical effect on a creature or an object in the sphere is suppressed while the "
-            + "creature or object is in it. Magic Items. The properties and powers of magic items are "
-            + "suppressed in the sphere. For example, a +1 longsword in the sphere functions as a "
-            + "nonmagical longsword. A magic weapon's properties and powers are suppressed if it is "
-            + "used against a target in the sphere or wielded by an attacker in the sphere. If a "
-            + "magic weapon or a piece of magic ammunition fully leaves the sphere (for example, if "
-            + "you fire a magic arrow or throw a magic spear at a target outside the sphere), the "
-            + "magic of the item ceases to be suppressed as soon as it exits. Magical Travel. "
-            + "Teleportation and planar travel fail to work in the sphere, whether the sphere is the "
-            + "destination or the departure point for such magical travel. A portal to another "
-            + "location, world, or plane of existence, as well as an opening to an extradimensional "
-            + "space such as that created by the rope trick spell, temporarily closes while in the "
-            + "sphere. Creatures and Objects. A creature or object summoned or created by magic "
-            + "temporarily winks out of existence in the sphere. Such a creature instantly reappears "
-            + "once the space the creature occupied is no longer within the sphere. Dispel Magic. "
-            + "Spells and magical effects such as dispel magic have no effect on the sphere. "
-            + "Likewise, the spheres created by different antimagic field spells don't nullify each "
-            + "other.")),
+        .range("Self").area("10-foot-radius sphere").duration("up to 1 hour")
+        .effect("Spells and magical effects suppressed within area. Magic items act as equivalent "
+            + "nonmagical items within area. Summoned or created creatures temporarily become "
+            + "non-existent. ")),
     ANTIPATHY_SYMPATHY(spell(MagicSchool.ENCHANTMENT, 8)
         .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
-        .range("60 feet").duration("10 days")
-        .effect("This spell attracts or repels creatures of your choice. You target something within "
-            + "range, either a Huge or smaller object or creature or an area that is no larger than a "
-            + "200-foot cube. Then specify a kind of intelligent creature, such as red dragons, "
-            + "goblins, or vampires. You invest the target with an aura that either attracts or "
-            + "repels the specified creatures for the duration. Choose antipathy or sympathy as the "
-            + "aura's effect. Antipathy. The enchantment causes creatures of the kind you designated "
-            + "to feel an intense urge to leave the area and avoid the target. When such a creature "
-            + "can see the target or comes within 60 feet of it, the creature must succeed on a "
-            + "Wisdom saving throw or become frightened. The creature remains frightened while it can "
-            + "see the target or is within 60 feet of it. While frightened by the target, the "
-            + "creature must use its movement to move to the nearest safe spot from which it can't "
-            + "see the target. If the creature moves more than 60 feet from the target and can't see "
-            + "it, the creature is no longer frightened, but the creature becomes frightened again if "
-            + "it regains sight of the target or moves within 60 feet of it. Sympathy. The "
-            + "enchantment causes the specified creatures to feel an intense urge to approach the "
-            + "target while within 60 feet of it or able to see it. When such a creature can see the "
-            + "target or comes within 60 feet of it, the creature must succeed on a Wisdom saving "
-            + "throw or use its movement on each of its turns to enter the area or move within reach "
-            + "of the target. When the creature has done so, it can't willingly move away from the "
-            + "target. If the target damages or otherwise harms an affected creature, the affected "
-            + "creature can make a Wisdom saving throw to end the effect, as described below. Ending "
-            + "the Effect. If an affected creature ends its turn while not within 60 feet of the "
-            + "target or able to see it, the creature makes a Wisdom saving throw. On a successful "
-            + "save, the creature is no longer affected by the target and recognizes the feeling of "
-            + "repugnance or attraction as magical. In addition, a creature affected by the spell is "
-            + "allowed another Wisdom saving throw every 24 hours while the spell persists. A "
-            + "creature that successfully saves against this effect is immune to it for 1 minute, "
-            + "after which time it can be affected again.")),
+        .range("60 feet").area("1 object, creature or area no larger than 200-foot-cube")
+        .duration("10 days")
+        .effect("Target attracks or repels a chosen kind of intelligent creature. ")
+        .effect("<b>Antipathy</b> Creatures of chosen kind become frightened "
+            + "while within 60 feet of target. Wis. save. "
+            + "Effected creatures move to a spot where they cannot see target. ")
+        .effect("<b>Sympathy</b> Creatures of chosen kind feel intense urge to approach while "
+            + "within 60 feet of target. Wis. save. "
+            + "Effected creatures move to within reach of target. ")
+        .effect("Effected creatures Wis. save every 24 hours. Successful save grants immunity for "
+            + "1 minute.")),
     CLONE(spell(MagicSchool.NECROMANCY, 8)
         .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Instantaneous")
-        .effect("This spell grows an inert duplicate of a living creature as a safeguard against death. "
-            + "This clone forms inside a sealed vessel and grows to full size and maturity after 120 "
-            + "days; you can also choose to have the clone be a younger version of the same creature. "
-            + "It remains inert and endures indefinitely, as long as its vessel remains undisturbed. "
-            + "At any time after the clone matures, if the original creature dies, its soul transfers "
-            + "to the clone, provided that the soul is free and willing to return. The clone is "
-            + "physically identical to the original and has the same personality, memories, and "
-            + "abilities, but none of the original's equipment. The original creature's physical "
-            + "remains, if they still exist, become inert and can't thereafter be restored to life, "
-            + "since the creature's soul is elsewhere.")),
+        .range("Touch").area("1 creature").duration("Instantaneous")
+        .effect("Grows an inert duplicate of target to full size and maturity after 120 days. "
+            + "Soul transfers to clone if target dies. Equipment is not transferred.")),
     CONTROL_WEATHER(spell(MagicSchool.TRANSMUTATION, 8)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").area("5-mile radius").duration("up to 8 hours")
