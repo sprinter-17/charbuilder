@@ -4,6 +4,7 @@ import characterbuilder.utils.StringUtils.UnitBuilder;
 import static characterbuilder.utils.StringUtils.capitaliseEnumName;
 import static characterbuilder.utils.StringUtils.element;
 import static characterbuilder.utils.StringUtils.header;
+import static characterbuilder.utils.StringUtils.namedRow;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
@@ -34,5 +35,6 @@ public class StringUtilsTest {
     public void testHTML() {
         assertThat(element("foo", "bar"), is("<foo>bar</foo>"));
         assertThat(header("foo", "bar").toString(), is("<tr><th>foo</th><th>bar</th></tr>"));
+        assertThat(namedRow("foo", "bar").toString(), is("<tr><th>foo</th><td>bar</td></tr>"));
     }
 }

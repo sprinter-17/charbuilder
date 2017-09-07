@@ -9,6 +9,7 @@ import static characterbuilder.character.spell.SpellComponent.*;
 import static characterbuilder.character.spell.SpellDelegate.spell;
 import characterbuilder.utils.StringUtils;
 import static characterbuilder.utils.StringUtils.header;
+import static characterbuilder.utils.StringUtils.namedRow;
 import static characterbuilder.utils.StringUtils.ol;
 import static characterbuilder.utils.StringUtils.row;
 import static characterbuilder.utils.StringUtils.table;
@@ -1156,17 +1157,14 @@ public enum Spell implements Option {
     CREATION(spell(MagicSchool.ILLUSION, 5)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
         .range("30 feet").duration("Special")
-        .effect("You pull wisps of shadow material from the Shadowfell to create a nonliving object of "
-            + "vegetable matter within range: soft goods, rope, wood, or something similar. You can "
-            + "also use this spell to create mineral objects such as stone, crystal, or metal. The "
-            + "object created must be no larger than a 5-foot cube, and the object must be of a form "
-            + "and material that you have seen before. The duration depends on the object's material. "
-            + "If the object is composed of multiple materials, use the shortest duration. Material "
-            + "Duration Vegetable matter 1 day Stone or crystal 12 hours Precious metals 1 hour Gems "
-            + "10 minutes Adamantine or mithral 1 minute Using any material created by this spell as "
-            + "another spell's material component causes that spell to fail. At Higher Levels. When "
-            + "you cast this spell using a spell slot of 6th level or higher, the cube increases by 5 "
-            + "feet for each slot level above 5th.")),
+        .effect("Create object of vgetable or mineral matter no larger than 5-foot cube.")
+        .effect(table(header("Material", "Duration"),
+            row("Vegetable", "1 day"),
+            row("Stone or crystal", "12 hours"),
+            row("Precious metals", "1 hour"),
+            row("Gems", "10 minutes"),
+            row("Adamantine or mithral", "1 minute")))
+        .effect("Area +5-feet / extra spell slot level.")),
     DESTRUCTIVE_WAVE(spell(MagicSchool.EVOCATION, 5)
         .castingTime("1 action").components(VERBAL)
         .range("Self").area("30-foot radius").duration("Instantaneous")
@@ -1175,129 +1173,63 @@ public enum Spell implements Option {
     DISPEL_EVIL_AND_GOOD(spell(MagicSchool.ABJURATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").duration("up to 1 minute")
-        .effect("Shimmering energy surrounds and protects you from fey, undead, and creatures "
-            + "originating from beyond the Material Plane. For the duration, celestials, elementals, "
-            + "fey, fiends, and undead have disadvantage on attack rolls against you. You can end the "
-            + "spell early by using either of the following special functions. Break Enchantment. As "
-            + "your action, you touch a creature you can reach that is charmed, frightened, or "
-            + "possessed by a celestial, an elemental, a fey, a fiend, or an undead. The creature you "
-            + "touch is no longer charmed, frightened, or possessed by such creatures. Dismissal. As "
-            + "your action, make a melee spell attack against a celestial, an elemental, a fey, a "
-            + "fiend, or an undead you can reach. On a hit, you attempt to drive the creature back to "
-            + "its home plane. The creature must succeed on a Charisma saving throw or be sent back "
-            + "to its home plane (if it isn't there already). If they aren't on their home plane, "
-            + "undead are sent to the Shadowfell, and fey are sent to the Feywild.")),
+        .effect("Celestials, elementals, fey, fiends, and undead have disadvantage "
+            + "on attacks against caster. Can end spell with following actions:")
+        .effect(table(header("Action", "Effect"),
+            row("Break enchantment", "As an action, touch ally to end charm, fear or possession"),
+            row("Dismissal", "As an action, on melee spell attack hit, "
+                + "sends creature back to home plane. Chr. save.")))),
     DOMINATE_PERSON(spell(MagicSchool.ENCHANTMENT, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("60 feet").duration("up to 1 minute")
-        .effect("You attempt to beguile a humanoid that you can see within range. It must succeed on a "
-            + "Wisdom saving throw or be charmed by you for the duration. If you or creatures that "
-            + "are friendly to you are fighting it, it has advantage on the saving throw. While the "
-            + "target is charmed, you have a telepathic link with it as long as the two of you are on "
-            + "the same plane of existence. You can use this telepathic link to issue commands to the "
-            + "creature while you are conscious (no action required), which it does its best to obey. "
-            + "You can specify a simple and general course of action, such as 'Attack that creature,' "
-            + "'Run over there,' or 'Fetch that object.' If the creature completes the order and "
-            + "doesn't receive further direction from you, it defends and preserves itself to the "
-            + "best of its ability. You can use your action to take total and precise control of the "
-            + "target. Until the end of your next turn, the creature takes only the actions you "
-            + "choose, and doesn't do anything that you don't allow it to do. During this time you "
-            + "can also cause the creature to use a reaction, but this requires you to use your own "
-            + "reaction as well. Each time the target takes damage, it makes a new Wisdom saving "
-            + "throw against the spell. If the saving throw succeeds, the spell ends. At Higher "
-            + "Levels. When you cast this spell using a 6th-level spell slot, the duration is "
-            + "concentration, up to 10 minutes. When you use a 7th-level spell slot, the duration is "
-            + "concentration, up to 1 hour. When you use a spell slot of 8th level or higher, the "
-            + "duration is concentration, up to 8 hours.")),
+        .range("60 feet").area("1 humanoid").duration("up to 1 minute")
+        .effect("Charm taget and control through telepathic link. "
+            + "Wis. save with advantage if in combat with caster. "
+            + "New save each type target takes damage. ")
+        .effect("Duration 10 minutes at 6th level, 1 hour at 7th level, 8 hours at 8th+ level.")),
     DREAM(spell(MagicSchool.ILLUSION, 5)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Special").duration("8 hours")
-        .effect("This spell shapes a creature's dreams. Choose a creature known to you as the target of "
-            + "this spell. The target must be on the same plane of existence as you. Creatures that "
-            + "don't sleep, such as elves, can't be contacted by this spell. You, or a willing "
-            + "creature you touch, enters a trance state, acting as a messenger. While in the trance, "
-            + "the messenger is aware of his or her surroundings, but can't take actions or move. If "
-            + "the target is asleep, the messenger appears in the target's dreams and can converse "
-            + "with the target as long as it remains asleep, through the duration of the spell. The "
-            + "messenger can also shape the environment of the dream, creating landscapes, objects, "
-            + "and other images. The messenger can emerge from the trance at any time, ending the "
-            + "effect of the spell early. The target recalls the dream perfectly upon waking. If the "
-            + "target is awake when you cast the spell, the messenger knows it, and can either end "
-            + "the trance (and the spell) or wait for the target to fall asleep, at which point the "
-            + "messenger appears in the target's dreams. You can make the messenger appear monstrous "
-            + "and terrifying to the target. If you do, the messenger can deliver a message of no "
-            + "more than ten words and then the target must make a Wisdom saving throw. On a failed "
-            + "save, echoes of the phantasmal monstrosity spawn a nightmare that lasts the duration "
-            + "of the target's sleep and prevents the target from gaining any benefit from that rest. "
-            + "In addition, when the target wakes up, it takes 3d6 psychic damage. If you have a body "
-            + "part, lock of hair, clipping from a nail, or similar portion of the target's body, the "
-            + "target makes its saving throw with disadvantage.")),
+        .range("Special").area("Any known creature").duration("8 hours")
+        .effect("Shapes target's dream. "
+            + "Messenger can be caster or ally. "
+            + "Messenger appears in target's dreams and converses. "
+            + "Nightmare causes 3d6 psychic damage and prevents benefit from rest. "
+            + "Wis. save has disadvantage if caster has portion of target's body.")),
     FLAME_STRIKE(spell(MagicSchool.EVOCATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("60 feet").duration("Instantaneous")
-        .effect("A vertical column of divine fire roars down from the heavens in a location you "
-            + "specify. Each creature in a 10-foot-radius, 40-foot-high cylinder centered on a point "
-            + "within range must make a Dexterity saving throw. A creature takes 4d6 fire damage and "
-            + "4d6 radiant damage on a failed save, or half as much damage on a successful one. At "
-            + "Higher Levels. When you cast this spell using a spell slot of 6th level or higher, the "
-            + "fire damage or the radiant damage (your choice) increases by 1d6 for each slot level "
-            + "above 5th.")),
+        .range("60 feet").area("10-foot-radius, 40-foot-high cylinder ").duration("Instantaneous")
+        .effect("4d6 fire damage and 4d6 radiant damage. Dex. save for half.")
+        .effect("+1d6 fire or radian damage / extra spell slot level.")),
     GEAS(spell(MagicSchool.ENCHANTMENT, 5)
         .castingTime("1 minute").components(VERBAL)
-        .range("60 feet").duration("30 days")
-        .effect("You place a magical command on a creature that you can see within range, forcing it to "
-            + "carry out some service or refrain from some action or course of activity as you "
-            + "decide. If the creature can understand you, it must succeed on a Wisdom saving throw "
-            + "or become charmed by you for the duration. While the creature is charmed by you, it "
-            + "takes 5d10 psychic damage each time it acts in a manner directly counter to your "
-            + "instructions, but no more than once each day. A creature that can't understand you is "
-            + "unaffected by the spell. You can issue any command you choose, short of an activity "
-            + "that would result in certain death. Should you issue a suicidal command, the spell "
-            + "ends. You can end the spell early by using an action to dismiss it. A remove curse, "
-            + "greater restoration, or wish spell also ends it. At Higher Levels. When you cast this "
-            + "spell using a spell slot of 7th or 8th level, the duration is 1 year. When you cast "
-            + "this spell using a spell slot of 9th level, the spell lasts until it is ended by one "
-            + "of the spells mentioned above.")),
+        .range("60 feet").area("1 creature").duration("30 days")
+        .effect("Force target to carry out service or action. "
+            + "Wis. save. 5d10 psychic damage once each day for contrary acts.")
+        .effect("Duration 1 year at 7th or 8th level, permanent at 9th level.")),
     GREATER_RESTORATION(spell(MagicSchool.ABJURATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Instantaneous")
-        .effect("You imbue a creature you touch with positive energy to undo a debilitating effect. You "
-            + "can reduce the target's exhaustion level by one, or end one of the following effects "
-            + "on the target: One effect that charmed or petrified the target One curse, including "
-            + "the target's attunement to a cursed magic item Any reduction to one of the target's "
-            + "ability scores One effect reducing the target's hit point maximum")),
+        .range("Touch").area("1 creature").duration("Instantaneous")
+        .effect("Reduce target's exhaustion level by one, or end one petrification, curse, ability "
+            + "score reduction or maximum HP reduction effect. ")),
     HALLOW(spell(MagicSchool.EVOCATION, 5)
         .castingTime("24 hours").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Until dispelled")
-        .effect("You touch a point and infuse an area around it with holy (or unholy) power. The area "
-            + "can have a radius up to 60 feet, and the spell fails if the radius includes an area "
-            + "already under the effect a hallow spell. The affected area is subject to the following "
-            + "effects. First, celestials, elementals, fey, fiends, and undead can't enter the area, "
-            + "nor can such creatures charm, frighten, or possess creatures within it. Any creature "
-            + "charmed, frightened, or possessed by such a creature is no longer charmed, frightened, "
-            + "or possessed upon entering the area. You can exclude one or more of those types of "
-            + "creatures from this effect. Second, you can bind an extra effect to the area. Choose "
-            + "the effect from the following list, or choose an effect offered by the GM. Some of "
-            + "these effects apply to creatures in the area; you can designate whether the effect "
-            + "applies to all creatures, creatures that follow a specific deity or leader, or "
-            + "creatures of a specific sort, such as orcs or trolls. When a creature that would be "
-            + "affected enters the spell's area for the first time on a turn or starts its turn "
-            + "there, it can make a Charisma saving throw. On a success, the creature ignores the "
-            + "extra effect until it leaves the area. Courage. Affected creatures can't be frightened "
-            + "while in the area. Darkness. Darkness fills the area. Normal light, as well as magical "
-            + "light created by spells of a lower level than the slot you used to cast this spell, "
-            + "can't illuminate the area. Daylight. Bright light fills the area. Magical darkness "
-            + "created by spells of a lower level than the slot you used to cast this spell can't "
-            + "extinguish the light. Energy Protection. Affected creatures in the area have "
-            + "resistance to one damage type of your choice, except for bludgeoning, piercing, or "
-            + "slashing. Energy Vulnerability. Affected creatures in the area have vulnerability to "
-            + "one damage type of your choice, except for bludgeoning, piercing, or slashing. "
-            + "Everlasting Rest. Dead bodies interred in the area can't be turned into undead. "
-            + "Extradimensional Interference. Affected creatures can't move or travel using "
-            + "teleportation or by extradimensional or interplanar means. Fear. Affected creatures "
-            + "are frightened while in the area. Silence. No sound can emanate from within the area, "
-            + "and no sound can reach into it. Tongues. Affected creatures can communicate with any "
-            + "other creature in the area, even if they don't share a common language.")),
+        .range("Touch").area("Up to 60-foot-radius").duration("Until dispelled")
+        .effect("Celestials, elementals, fey, fiends, and undead cannot enter or charm, frighten or "
+            + "possess creatures in area. "
+            + "Choose an effect for selected creatures in area. Chr. save. ")
+        .effect(table(
+            namedRow("Courage", "Creatures cannot be frightened."),
+            namedRow("Darkness", "Light cannot illuminate area."),
+            namedRow("Daylight", "Bright light fills area."),
+            namedRow("Energy Protection", "Resistance to one damage type except for "
+                + "bludgeoning, piercing or slashing."),
+            namedRow("Energy Vulnerability", "Vulnerability to one damage type except for "
+                + "bludgeoning, piercing or slashing."),
+            namedRow("Everlasting Rest", "Dead bodies cannot be turned into undead."),
+            namedRow("Extradimensional Interference", "Creatures cannot move or travel using "
+                + "teleportation or interplanar effects."),
+            namedRow("Fear", "Creatures are frightened while in area."),
+            namedRow("Silence", "No sound can enter into or emanate from area."),
+            namedRow("Tongues", "Creature can communicate with any other creatures in area.")))),
     HOLD_MONSTER(spell(MagicSchool.ENCHANTMENT, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("90 feet").duration("up to 1 minute")
@@ -1922,7 +1854,8 @@ public enum Spell implements Option {
     PROGRAMMED_ILLUSION(spell(MagicSchool.ILLUSION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("120 feet").duration("Until dispelled")
-        .effect("You create an illusion of an object, a creature, or some other visible phenomenon "
+        .effect("Create an illusion of object, creature, or other visible phenomenon. "
+            + "Activates when "
             + "within range that activates when a specific condition occurs. The illusion is "
             + "imperceptible until then. It must be no larger than a 30-foot cube, and you decide "
             + "when you cast the spell how the illusion behaves and what sounds it makes. This "
@@ -1999,7 +1932,8 @@ public enum Spell implements Option {
             + "Resistance to damage from nonmagical weapons. Reverting takes 1 minute.")),
     WORD_OF_RECALL(spell(MagicSchool.CONJURATION, 6)
         .castingTime("1 action").components(VERBAL)
-        .range("5 feet").area("Caster and up to 5 allies within 5 feet").duration("Instantaneous")
+        .range("5 feet").area("Caster and up to 5 allies within 5 feet")
+        .duration("Instantaneous")
         .effect("Teleport to a previously designated sanctuary linked to caster's deity. ")),
     ARCANE_SWORD(spell(MagicSchool.EVOCATION, 7)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
