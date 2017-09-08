@@ -1232,307 +1232,143 @@ public enum Spell implements Option {
             namedRow("Tongues", "Creature can communicate with any other creatures in area.")))),
     HOLD_MONSTER(spell(MagicSchool.ENCHANTMENT, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("90 feet").duration("up to 1 minute")
-        .effect("Choose a creature that you can see within range. The target must succeed on a Wisdom "
-            + "saving throw or be paralyzed for the duration. This spell has no effect on undead. At "
-            + "the end of each of its turns, the target can make another Wisdom saving throw. On a "
-            + "success, the spell ends on the target. At Higher Levels. When you cast this spell "
-            + "using a spell slot of 6th level or higher, you can target one additional creature for "
-            + "each slot level above 5th. The creatures must be within 30 feet of each other when you "
-            + "target them.")),
+        .range("90 feet").area("1 creature").duration("up to 1 minute")
+        .effect("Paralysed. Wis. save. Save each turn to end spell.")
+        .effect("+1 creature within 30 feet / extra spell slot level. ")),
     INSECT_PLAGUE(spell(MagicSchool.CONJURATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("300 feet").duration("up to 10 minutes")
-        .effect("Swarming, biting locusts fill a 20-foot-radius sphere centered on a point you choose "
-            + "within range. The sphere spreads around corners. The sphere remains for the duration, "
-            + "and its area is lightly obscured. The sphere's area is difficult terrain. When the "
-            + "area appears, each creature in it must make a Constitution saving throw. A creature "
-            + "takes 4d10 piercing damage on a failed save, or half as much damage on a successful "
-            + "one. A creature must also make this saving throw when it enters the spell's area for "
-            + "the first time on a turn or ends its turn there. At Higher Levels. When you cast this "
-            + "spell using a spell slot of 6th level or higher, the damage increases by 1d10 for each "
-            + "slot level above 5th.")),
+        .range("300 feet").area("20-foot-radius sphere ").duration("up to 10 minutes")
+        .effect("Swarming, biting locusts fill area. Lightly obscured and difficult terrain. "
+            + "4d10 piercing damage. Con. save for half damaage. ")
+        .effect("+1d10 damage / extra spell slot level.")),
     LEGEND_LORE(spell(MagicSchool.DIVINATION, 5)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").duration("Instantaneous")
-        .effect("Name or describe a person, place, or object. The spell brings to your mind a brief "
-            + "summary of the significant lore about the thing you named. The lore might consist of "
-            + "current tales, forgotten stories, or even secret lore that has never been widely "
-            + "known. If the thing you named isn't of legendary importance, you gain no information. "
-            + "The more information you already have about the thing, the more precise and detailed "
-            + "the information you receive is. The information you learn is accurate but might be "
-            + "couched in figurative language. For example, if you have a mysterious magic axe on "
-            + "hand, the spell might yield this information: “Woe to the evildoer whose hand touches "
-            + "the axe, for even the haft slices the hand of the evil ones. Only a true Child of "
-            + "Stone, lover and beloved of Moradin, may awaken the true powers of the axe, and only "
-            + "with the sacred word Rudnogg on the lips.'")),
+        .effect("Bring to mind a brief summary of the significant lore "
+            + "about a name, person, place or object. Name or describe a person, place, or object.")),
     MASS_CURE_WOUNDS(spell(MagicSchool.EVOCATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("60 feet").duration("Instantaneous")
-        .effect("A wave of healing energy washes out from a point of your choice within range. Choose "
-            + "up to six creatures in a 30-foot-radius sphere centered on that point. Each target "
-            + "regains hit points equal to 3d8 + your spellcasting ability modifier. This spell has "
-            + "no effect on undead or constructs. At Higher Levels. When you cast this spell using a "
-            + "spell slot of 6th level or higher, the healing increases by 1d8 for each slot level "
-            + "above 5th.")),
+        .range("60 feet").area("Up to 6 creatures in a 30-foot-radius sphere")
+        .duration("Instantaneous")
+        .effect("Regain 3d8+[spell_mod] HP.")
+        .effect("+1d8 / extra spell slot level.")),
     MISLEAD(spell(MagicSchool.ILLUSION, 5)
         .castingTime("1 action").components(SOMATIC)
         .range("Self").duration("up to 1 hour")
-        .effect("You become invisible at the same time that an illusory double of you appears where you "
-            + "are standing. The double lasts for the duration, but the invisibility ends if you "
-            + "attack or cast a spell. You can use your action to move your illusory double up to "
-            + "twice your speed and make it gesture, speak, and behave in whatever way you choose. "
-            + "You can see through its eyes and hear through its ears as if you were located where it "
-            + "is. On each of your turns as a bonus action, you can switch from using its senses to "
-            + "using your own, or back again. While you are using its senses, you are blinded and "
-            + "deafened in regard to your own surroundings.")),
+        .effect("Become invisible and create illusory double. As a bonus action, use its senses.")),
     MODIFY_MEMORY(spell(MagicSchool.ENCHANTMENT, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("30 feet").duration("up to 1 minute")
-        .effect("You attempt to reshape another creature's memories. One creature that you can see must "
-            + "make a Wisdom saving throw. If you are fighting the creature, it has advantage on the "
-            + "saving throw. On a failed save, the target becomes charmed by you for the duration. "
-            + "The charmed target is incapacitated and unaware of its surroundings, though it can "
-            + "still hear you. If it takes any damage or is targeted by another spell, this spell "
-            + "ends, and none of the target's memories are modified. While this charm lasts, you can "
-            + "affect the target's memory of an event that it experienced within the last 24 hours "
-            + "and that lasted no more than 10 minutes. You can permanently eliminate all memory of "
-            + "the event, allow the target to recall the event with perfect clarity and exacting "
-            + "detail, change its memory of the details of the event, or create a memory of some "
-            + "other event. You must speak to the target to describe how its memories are affected, "
-            + "and it must be able to understand your language for the modified memories to take "
-            + "root. Its mind fills in any gaps in the details of your description. If the spell ends "
-            + "before you have finished describing the modified memories, the creature's memory isn't "
-            + "altered. Otherwise, the modified memories take hold when the spell ends. A modified "
-            + "memory doesn't necessarily affect how a creature behaves, particularly if the memory "
-            + "contradicts the creature's natural inclinations, alignment, or beliefs. An illogical "
-            + "modified memory, such as implanting a memory of how much the creature enjoyed dousing "
-            + "itself in acid, is dismissed, perhaps as a bad dream. The GM might deem a modified "
-            + "memory too nonsensical to affect a creature in a significant manner. A remove curse or "
-            + "greater restoration spell cast on the target restores the creature's true memory. At "
-            + "Higher Levels. If you cast this spell using a spell slot of 6th level or higher, you "
-            + "can alter the target's memories of an event that took place up to 7 days ago (6th "
-            + "level), 30 days ago (7th level), 1 year ago (8th level), or any time in the creature's "
-            + "past (9th level).")),
+        .range("30 feet").area("1 creature").duration("up to 1 minute")
+        .effect("Charmed. Wis. save with advantage if in combat with caster. "
+            + "Change target's memory of an event within 24 hours. ")
+        .effect("Age of memory is up to 7 days at 6th level, 30 days at 7th level, "
+            + "1 year at 8th level, any time at 9th level. ")),
     PASSWALL(spell(MagicSchool.TRANSMUTATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("30 feet").duration("1 hour")
-        .effect("A passage appears at a point of your choice that you can see on a wooden, plaster, or "
-            + "stone surface (such as a wall, a ceiling, or a floor) within range, and lasts for the "
-            + "duration. You choose the opening's dimensions: up to 5 feet wide, 8 feet tall, and 20 "
-            + "feet deep. The passage creates no instability in a structure surrounding it. When the "
-            + "opening disappears, any creatures or objects still in the passage created by the spell "
-            + "are safely ejected to an unoccupied space nearest to the surface on which you cast the "
-            + "spell.")),
+        .range("30 feet").area("Solid wall up to 5 feet wide, 8 feet tall, 20 feet deep")
+        .duration("1 hour")
+        .effect("Passage appears allowing creatures to pass through.")),
     PLANAR_BINDING(spell(MagicSchool.ABJURATION, 5)
         .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
-        .range("60 feet").duration("24 hours")
-        .effect("With this spell, you attempt to bind a celestial, an elemental, a fey, or a fiend to "
-            + "your service. The creature must be within range for the entire casting of the spell. "
-            + "(Typically, the creature is first summoned into the center of an inverted magic circle "
-            + "in order to keep it trapped while this spell is cast.) At the completion of the "
-            + "casting, the target must make a Charisma saving throw. On a failed save, it is bound "
-            + "to serve you for the duration. If the creature was summoned or created by another "
-            + "spell, that spell's duration is extended to match the duration of this spell. A bound "
-            + "creature must follow your instructions to the best of its ability. You might command "
-            + "the creature to accompany you on an adventure, to guard a location, or to deliver a "
-            + "message. The creature obeys the letter of your instructions, but if the creature is "
-            + "hostile to you, it strives to twist your words to achieve its own objectives. If the "
-            + "creature carries out your instructions completely before the spell ends, it travels to "
-            + "you to report this fact if you are on the same plane of existence. If you are on a "
-            + "different plane of existence, it returns to the place where you bound it and remains "
-            + "there until the spell ends. At Higher Levels. When you cast this spell using a spell "
-            + "slot of a higher level, the duration increases to 10 days with a 6th-level slot, to 30 "
-            + "days with a 7th- level slot, to 180 days with an 8th-level slot, and to a year and a "
-            + "day with a 9th-level spell slot.")),
+        .range("60 feet").area("1 celestial, elemental, fey or fiend").duration("24 hours")
+        .effect("Bind target to service. Chr. save. Target follows instructions. Reports completion. ")
+        .effect("Duration 10 days (6th level), 30 days (7th level), 180 days (8th level), "
+            + "year and a day (9th level).")),
     RAISE_DEAD(spell(MagicSchool.NECROMANCY, 5)
         .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Instantaneous")
-        .effect("You return a dead creature you touch to life, provided that it has been dead no longer "
-            + "than 10 days. If the creature's soul is both willing and at liberty to rejoin the "
-            + "body, the creature returns to life with 1 hit point. This spell also neutralizes any "
-            + "poisons and cures nonmagical diseases that affected the creature at the time it died. "
-            + "This spell doesn't, however, remove magical diseases, curses, or similar effects; if "
-            + "these aren't first removed prior to casting the spell, they take effect when the "
-            + "creature returns to life. The spell can't return an undead creature to life. This "
-            + "spell closes all mortal wounds, but it doesn't restore missing body parts. If the "
-            + "creature is lacking body parts or organs integral for its survival--its head, for "
-            + "instance--the spell automatically fails. Coming back from the dead is an ordeal. The "
-            + "target takes a −4 penalty to all attack rolls, saving throws, and ability checks. "
-            + "Every time the target finishes a long rest, the penalty is reduced by 1 until it "
-            + "disappears.")),
+        .range("Touch").area("1 creature dead no longer than 10 days").duration("Instantaneous")
+        .effect("Return target to life with 1 HP. Neutralises poisons and cures nonmagical diseases. "
+            + "Target takes -4 penalty to attacks, saves, ability checks. Reduce by 1 each long rest.")),
     REINCARNATE(spell(MagicSchool.TRANSMUTATION, 5)
         .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("Instantaneous")
-        .effect("You touch a dead humanoid or a piece of a dead humanoid. Provided that the creature "
-            + "has been dead no longer than 10 days, the spell forms a new adult body for it and then "
-            + "calls the soul to enter that body. If the target's soul isn't free or willing to do "
-            + "so, the spell fails. The magic fashions a new body for the creature to inhabit, which "
-            + "likely causes the creature's race to change. The GM rolls a d100 and consults the "
-            + "following table to determine what form the creature takes when restored to life, or "
-            + "the GM chooses a form. d100 Race 01-04 Dragonborn 05-13 Dwarf, hill 14-21 Dwarf, "
-            + "mountain 22-25 Elf, dark 26-34 Elf, high 35-42 Elf, wood 43-46 Gnome, forest 47-52 "
-            + "Gnome, rock 53-56 Half-elf 57-60 Half-orc 61-68 Halfling, lightfoot 69-76 Halfling, "
-            + "stout 77-96 Human 97-100 Tiefling The reincarnated creature recalls its former life "
-            + "and experiences. It retains the capabilities it had in its original form, except it "
-            + "exchanges its original race for the new one and changes its racial traits accordingly.")),
+        .range("Touch").area("1 humanoid dead no longer than 10 days").duration("Instantaneous")
+        .effect("Returns target to life in a new body with new racial traits. Roll 1d100.")
+        .effect(table(
+            namedRow("01-04", "Dragonborn"),
+            namedRow("05-13", "Hill Dwarf"),
+            namedRow("14-21", "Mountain Dwarf"),
+            namedRow("22-25", "Dark Elf"),
+            namedRow("26-34", "High Elf"),
+            namedRow("35-42", "Wood Elf"),
+            namedRow("43-46", "Forest Gnome"),
+            namedRow("47-52", "Rock Gnome"),
+            namedRow("53-56", "Half-Elf"),
+            namedRow("57-60", "Half-Orc"),
+            namedRow("61-68", "Lightfoot Halfling"),
+            namedRow("69-76", "Stout Halfling"),
+            namedRow("77-96", "Human"),
+            namedRow("97-100", "Tiefling")))),
     SCRYING(spell(MagicSchool.DIVINATION, 5)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Self").duration("up to 10 minutes")
-        .effect("You can see and hear a particular creature you choose that is on the same plane of "
-            + "existence as you. The target must make a Wisdom saving throw, which is modified by how "
-            + "well you know the target and the sort of physical connection you have to it. If a "
-            + "target knows you're casting this spell, it can fail the saving throw voluntarily if it "
-            + "wants to be observed. Knowledge Save Modifier Secondhand (you have heard of the "
-            + "target) +5 Firsthand (you have met the target) 0 Familiar (you know the target well) "
-            + "-5 Connection Save Modifier Likeness or picture -2 Possession or garment -4 Body part, "
-            + "lock of hair, bit of nail, or the like -10 On a successful save, the target isn't "
-            + "affected, and you can't use this spell against it again for 24 hours. On a failed "
-            + "save, the spell creates an invisible sensor within 10 feet of the target. You can see "
-            + "and hear through the sensor as if you were there. The sensor moves with the target, "
-            + "remaining within 10 feet of it for the duration. A creature that can see invisible "
-            + "objects sees the sensor as a luminous orb about the size of your fist. Instead of "
-            + "targeting a creature, you can choose a location you have seen before as the target of "
-            + "this spell. When you do, the sensor appears at that location and doesn't move.")),
+        .range("Self").area("1 creature or location").duration("up to 10 minutes")
+        .effect("See and hear target. Wis. save. modified by knowledge of target. "
+            + "Secondhand +5, Firsthand 0, Familiar -5, Picture -2, Possession -4, Bodypart -10. "
+            + "Sensor moves with target and can be seen by creatures that can see invisible object.")),
     SEEMING(spell(MagicSchool.ILLUSION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("30 feet").duration("8 hours")
-        .effect("This spell allows you to change the appearance of any number of creatures that you can "
-            + "see within range. You give each target you choose a new, illusory appearance. An "
-            + "unwilling target can make a Charisma saving throw, and if it succeeds, it is "
-            + "unaffected by this spell. The spell disguises physical appearance as well as clothing, "
-            + "armor, weapons, and equipment. You can make each creature seem 1 foot shorter or "
-            + "taller and appear thin, fat, or in between. You can't change a target's body type, so "
-            + "you must choose a form that has the same basic arrangement of limbs. Otherwise, the "
-            + "extent of the illusion is up to you. The spell lasts for the duration, unless you use "
-            + "your action to dismiss it sooner. The changes wrought by this spell fail to hold up to "
-            + "physical inspection. For example, if you use this spell to add a hat to a creature's "
-            + "outfit, objects pass through the hat, and anyone who touches it would feel nothing or "
-            + "would feel the creature's head and hair. If you use this spell to appear thinner than "
-            + "you are, the hand of someone who reaches out to touch you would bump into you while it "
-            + "was seemingly still in midair. A creature can use its action to inspect a target and "
-            + "make an Intelligence (Investigation) check against your spell save DC. If it succeeds, "
-            + "it becomes aware that the target is disguised.")),
+        .range("30 feet").area("Any number of creatures").duration("8 hours")
+        .effect("Each target is given a chosen illusory appearance. Chr. save for unwilling targets. "
+            + "Can make creatures appear taller, shorter, disguise appearance and clothing. ")
+        .effect("Investigation check reveals illusion.")),
     SWIFT_QUIVER(spell(MagicSchool.TRANSMUTATION, 5)
         .castingTime("1 bonus action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").area("quiver").duration("Concentration, up to 1 minute")
-        .effect("As bonus action make two attacks with weapon using ammunition from quiver.")),
+        .range("Touch").area("Quiver").duration("Concentration, up to 1 minute")
+        .effect("As bonus action make two attacks with ranged weapon using ammunition from quiver.")),
     TELEKINESIS(spell(MagicSchool.TRANSMUTATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("60 feet").duration("up to 10 minutes")
-        .effect("You gain the ability to move or manipulate creatures or objects by thought. When you "
-            + "cast the spell, and as your action each round for the duration, you can exert your "
-            + "will on one creature or object that you can see within range, causing the appropriate "
-            + "effect below. You can affect the same target round after round, or choose a new one at "
-            + "any time. If you switch targets, the prior target is no longer affected by the spell. "
-            + "Creature. You can try to move a Huge or smaller creature. Make an ability check with "
-            + "your spellcasting ability contested by the creature's Strength check. If you win the "
-            + "contest, you move the creature up to 30 feet in any direction, including upward but "
-            + "not beyond the range of this spell. Until the end of your next turn, the creature is "
-            + "restrained in your telekinetic grip. A creature lifted upward is suspended in mid-air. "
-            + "On subsequent rounds, you can use your action to attempt to maintain your telekinetic "
-            + "grip on the creature by repeating the contest. Object. You can try to move an object "
-            + "that weighs up to 1,000 pounds. If the object isn't being worn or carried, you "
-            + "automatically move it up to 30 feet in any direction, but not beyond the range of this "
-            + "spell. If the object is worn or carried by a creature, you must make an ability check "
-            + "with your spellcasting ability contested by that creature's Strength check. If you "
-            + "succeed, you pull the object away from that creature and can move it up to 30 feet in "
-            + "any direction but not beyond the range of this spell. You can exert fine control on "
-            + "objects with your telekinetic grip, such as manipulating a simple tool, opening a door "
-            + "or a container, stowing or retrieving an item from an open container, or pouring the "
-            + "contents from a vial.")),
+        .effect("As an action each round, target a creature or object up to 1,000 pounds. ")
+        .effect(table(
+            namedRow("Creature", "Ability check contested by target's Str. "
+                + "Move target 30 feet in any direction."),
+            namedRow("Object", "If worn or carried, ability check contested by owner's Str. "
+                + "Move target 30 feet in any direction and control object.")))),
     TELEPATHIC_BOND(spell(MagicSchool.DIVINATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("30 feet").area("8 willing creatures").duration("1 hour")
         .effect("Communicate telepathically between targets.")),
     TELEPORTATION_CIRCLE(spell(MagicSchool.CONJURATION, 5)
         .castingTime("1 minute").components(VERBAL, MATERIAL)
-        .range("10 feet").duration("1 round")
-        .effect("As you cast the spell, you draw a 10-foot-diameter circle on the ground inscribed with "
-            + "sigils that link your location to a permanent teleportation circle of your choice "
-            + "whose sigil sequence you know and that is on the same plane of existence as you. A "
-            + "shimmering portal opens within the circle you drew and remains open until the end of "
-            + "your next turn. Any creature that enters the portal instantly appears within 5 feet of "
-            + "the destination circle or in the nearest unoccupied space if that space is occupied. "
-            + "Many major temples, guilds, and other important places have permanent teleportation "
-            + "circles inscribed somewhere within their confines. Each such circle includes a unique "
-            + "sigil sequence--a string of magical runes arranged in a particular pattern. When you "
-            + "first gain the ability to cast this spell, you learn the sigil sequences for two "
-            + "destinations on the Material Plane, determined by the GM. You can learn additional "
-            + "sigil sequences during your adventures. You can commit a new sigil sequence to memory "
-            + "after studying it for 1 minute. You can create a permanent teleportation circle by "
-            + "casting this spell in the same location every day for one year. You need not use the "
-            + "circle to teleport when you cast the spell in this way.")),
+        .range("10 feet").area("1-foot-diameter circle").duration("1 round")
+        .effect("Create portal to permanent teleportation circle on same plane. ")),
     TREE_STRIDE(spell(MagicSchool.CONJURATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("Self").duration("up to 1 minute")
-        .effect("You gain the ability to enter a tree and move from inside it to inside another tree of "
-            + "the same kind within 500 feet. Both trees must be living and at least the same size as "
-            + "you. You must use 5 feet of movement to enter a tree. You instantly know the location "
-            + "of all other trees of the same kind within 500 feet and, as part of the move used to "
-            + "enter the tree, can either pass into one of those trees or step out of the tree you're "
-            + "in. You appear in a spot of your choice within 5 feet of the destination tree, using "
-            + "another 5 feet of movement. If you have no movement left, you appear within 5 feet of "
-            + "the tree you entered. You can use this transportation ability once per round for the "
-            + "duration. You must end each turn outside a tree.")),
+        .range("Self").area("1 kind of tree").duration("up to 1 minute")
+        .effect("Each round, can enter trees of chosen kind as 5 feet of movement "
+            + "and teleport to tree of same kind within 500 feet. ")),
     WALL_OF_FORCE(spell(MagicSchool.EVOCATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("120 feet").duration("up to 10 minutes")
-        .effect("An invisible wall of force springs into existence at a point you choose within range. "
-            + "The wall appears in any orientation you choose, as a horizontal or vertical barrier or "
-            + "at an angle. It can be free floating or resting on a solid surface. You can form it "
-            + "into a hemispherical dome or a sphere with a radius of up to 10 feet, or you can shape "
-            + "a flat surface made up of ten 10-foot-by-10-foot panels. Each panel must be contiguous "
-            + "with another panel. In any form, the wall is 1/4 inch thick. It lasts for the "
-            + "duration. If the wall cuts through a creature's space when it appears, the creature is "
-            + "pushed to one side of the wall (your choice which side). Nothing can physically pass "
-            + "through the wall. It is immune to all damage and can't be dispelled by dispel magic. A "
-            + "disintegrate spell destroys the wall instantly, however. The wall also extends into "
-            + "the Ethereal Plane, blocking ethereal travel through the wall.")),
+        .range("120 feet")
+        .area("10-foot-radius sphere or hemisphere or 10 continuous 10-foot-squares")
+        .duration("up to 10 minutes")
+        .effect("Create invisible 1/4 inch wall. "
+            + "Nothing can pass through wall and it is immune to damage.")),
     WALL_OF_STONE(spell(MagicSchool.EVOCATION, 5)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("120 feet").duration("up to 10 minutes")
-        .effect("A nonmagical wall of solid stone springs into existence at a point you choose within "
-            + "range. The wall is 6 inches thick and is composed of ten 10-foot- by-10-foot panels. "
-            + "Each panel must be contiguous with at least one other panel. Alternatively, you can "
-            + "create 10-foot-by-20-foot panels that are only 3 inches thick. If the wall cuts "
-            + "through a creature's space when it appears, the creature is pushed to one side of the "
-            + "wall (your choice). If a creature would be surrounded on all sides by the wall (or the "
-            + "wall and another solid surface), that creature can make a Dexterity saving throw. On a "
-            + "success, it can use its reaction to move up to its speed so that it is no longer "
-            + "enclosed by the wall. The wall can have any shape you desire, though it can't occupy "
-            + "the same space as a creature or object. The wall doesn't need to be vertical or rest "
-            + "on any firm foundation. It must, however, merge with and be solidly supported by "
-            + "existing stone. Thus, you can use this spell to bridge a chasm or create a ramp. If "
-            + "you create a span greater than 20 feet in length, you must halve the size of each "
-            + "panel to create supports. You can crudely shape the wall to create crenellations, "
-            + "battlements, and so on. The wall is an object made of stone that can be damaged and "
-            + "thus breached. Each panel has AC 15 and 30 hit points per inch of thickness. Reducing "
-            + "a panel to 0 hit points destroys it and might cause connected panels to collapse at "
-            + "the GM's discretion. If you maintain your concentration on this spell for its whole "
-            + "duration, the wall becomes permanent and can't be dispelled. Otherwise, the wall "
-            + "disappears when the spell ends.")),
+        .range("120 feet")
+        .area("10 continuous 10-foot-by-20-foot-squares")
+        .duration("up to 10 minutes")
+        .effect("Create 6-inch-thick stone wall joined to existing stone. "
+            + "Spans greater than 20 feet halve area."
+            + "Surrounded creatures Dex. save to use reaction to move up to speed. "
+            + "Panels have AC 15 HP 30 per inch. "
+            + "Wall becomes permanent if concentration maintained through duration. ")),
     ARCANE_GATE(spell(MagicSchool.CONJURATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("500 feet").area("2 points").duration("Concentration, up to 10 minutes")
-        .effect("Create teleportation portals. As bonus action rotate portals.")),
+        .effect("Create teleportation portals between points. As bonus action rotate portals.")),
     BLADE_BARRIER(spell(MagicSchool.EVOCATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("90 feet").area("20' high x5' thick wall\n100' straight or 60' diameter ringed")
         .duration("up to 10 minutes")
-        .effect("Three-quarters cover. Difficult terrain. 6d10 slashing damage on entering. Dex. save "
-            + "for half")),
+        .effect("Three-quarters cover. Difficult terrain. 6d10 slashing damage on entering. "
+            + "Dex. save for half")),
     CHAIN_LIGHTNING(spell(MagicSchool.EVOCATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("150 feet").duration("Instantaneous")
-        .effect("You create a bolt of lightning that arcs toward a target of your choice that you can "
-            + "see within range. Three bolts then leap from that target to as many as three other "
-            + "targets, each of which must be within 30 feet of the first target. A target can be a "
-            + "creature or an object and can be targeted by only one of the bolts. A target must make "
-            + "a Dexterity saving throw. The target takes 10d8 lightning damage on a failed save, or "
-            + "half as much damage on a successful one. At Higher Levels. When you cast this spell "
-            + "using a spell slot of 7th level or higher, one additional bolt leaps from the first "
-            + "target to another target for each slot level above 6th.")),
+        .range("150 feet").area("1 creature or object").duration("Instantaneous")
+        .effect("Bolt of lightning arcs to target and up to three others within 30 feet. "
+            + "10d8 lightning damage. Dex. save for half.")
+        .effect("+1 target / extra spell slot level.")),
     CIRCLE_OF_DEATH(spell(MagicSchool.NECROMANCY, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("150 feet").duration("Instantaneous")
