@@ -1480,64 +1480,38 @@ public enum Spell implements Option {
             + "spells of one level higher for each slot level above 6th.")),
     GUARDS_AND_WARDS(spell(MagicSchool.ABJURATION, 6)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("24 hours")
-        .effect("You create a ward that protects up to 2,500 square feet of floor space (an area 50 "
-            + "feet square, or one hundred 5-foot squares or twenty-five 10-foot squares). The warded "
-            + "area can be up to 20 feet tall, and shaped as you desire. You can ward several stories "
-            + "of a stronghold by dividing the area among them, as long as you can walk into each "
-            + "contiguous area while you are casting the spell. When you cast this spell, you can "
-            + "specify individuals that are unaffected by any or all of the effects that you choose. "
-            + "You can also specify a password that, when spoken aloud, makes the speaker immune to "
-            + "these effects. Guards and wards creates the following effects within the warded area. "
-            + "Corridors. Fog fills all the warded corridors, making them heavily obscured. In "
-            + "addition, at each intersection or branching passage offering a choice of direction, "
-            + "there is a 50 percent chance that a creature other than you will believe it is going "
-            + "in the opposite direction from the one it chooses. Doors. All doors in the warded area "
-            + "are magically locked, as if sealed by an arcane lock spell. In addition, you can cover "
-            + "up to ten doors with an illusion (equivalent to the illusory object function of the "
-            + "minor illusion spell) to make them appear as plain sections of wall. Stairs. Webs fill "
-            + "all stairs in the warded area from top to bottom, as the web spell. These strands "
-            + "regrow in 10 minutes if they are burned or torn away while guards and wards lasts. "
-            + "Other Spell Effect. You can place your choice of one of the following magical effects "
-            + "within the warded area of the stronghold. Place dancing lights in four corridors. You "
-            + "can designate a simple program that the lights repeat as long as guards and wards "
-            + "lasts. Place magic mouth in two locations. Place stinking cloud in two locations. The "
-            + "vapors appear in the places you designate; they return within 10 minutes if dispersed "
-            + "by wind while guards and wards lasts. Place a constant gust of wind in one corridor or "
-            + "room. Place a suggestion in one location. You select an area of up to 5 feet square, "
-            + "and any creature that enters or passes through the area receives the suggestion "
-            + "mentally. The whole warded area radiates magic. A dispel magic cast on a specific "
-            + "effect, if successful, removes only that effect. You can create a permanently guarded "
-            + "and warded structure by casting this spell there every day for one year.")),
+        .range("Touch").area("Up to 2,500 square feet").duration("24 hours")
+        .effect("Creates following effects:")
+        .effect(table(
+            namedRow("Corridors", "Heavily obscured. At branches, 50% chance of thinking direction "
+                + "is opposite."),
+            namedRow("Doors", "Magically locked as per <em>Arcane Lock</em> spell. "
+                + "Up to 10 doors appear as plan sections of wall."),
+            namedRow("Stairs", "Filled with webs as per <em>Web</em> spell.")))
+        .effect("Can choose one of the following effects:")
+        .effect(table(
+            namedRow("Dancing Lights", "Place dancing lights in 4 corridors."),
+            namedRow("Magic Mouth", "Place magic mouths in 2 locations."),
+            namedRow("Stinking Cloud", "Place stinking cloud in 2 locations."),
+            namedRow("Wind", "Place a constant gust of wind in 1 corridor or room."),
+            namedRow("Suggestion", "Place a suggestion in one area of up to 5-foot sqqure.")))),
     HARM(spell(MagicSchool.NECROMANCY, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("60 feet").duration("Instantaneous")
-        .effect("You unleash a virulent disease on a creature that you can see within range. The target "
-            + "must make a Constitution saving throw. On a failed save, it takes 14d6 necrotic "
-            + "damage, or half as much damage on a successful save. The damage can't reduce the "
-            + "target's hit points below 1. If the target fails the saving throw, its hit point "
-            + "maximum is reduced for 1 hour by an amount equal to the necrotic damage it took. Any "
-            + "effect that removes a disease allows a creature's hit point maximum to return to "
-            + "normal before that time passes.")),
+        .range("60 feet").area("1 creature").duration("Instantaneous")
+        .effect("4d6 necrotic damage and reduce maximum HP. "
+            + "Con. save for half damage and avoid reduction. "
+            + "Cannot reduce HP below 1. Ended by remove disease.")),
     HEAL(spell(MagicSchool.EVOCATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("60 feet").duration("Instantaneous")
-        .effect("Choose a creature that you can see within range. A surge of positive energy washes "
-            + "through the creature, causing it to regain 70 hit points. This spell also ends "
-            + "blindness, deafness, and any diseases affecting the target. This spell has no effect "
-            + "on constructs or undead. At Higher Levels. When you cast this spell using a spell slot "
-            + "of 7th level or higher, the amount of healing increases by 10 for each slot level "
-            + "above 6th.")),
+        .range("60 feet").area("1 creature").duration("Instantaneous")
+        .effect("Regain 70 HP, ends blindness, deafness and any diseases.")
+        .effect("+10 HP / extra spell slot level. ")),
     HEROES_FEAST(spell(MagicSchool.CONJURATION, 6)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
         .range("30 feet").duration("Instantaneous")
-        .effect("You bring forth a great feast, including magnificent food and drink. The feast takes 1 "
-            + "hour to consume and disappears at the end of that time, and the beneficial effects "
-            + "don't set in until this hour is over. Up to twelve other creatures can partake of the "
-            + "feast. A creature that partakes of the feast gains several benefits. The creature is "
-            + "cured of all diseases and poison, becomes immune to poison and being frightened, and "
-            + "makes all Wisdom saving throws with advantage. Its hit point maximum also increases by "
-            + "2d10, and it gains the same number of hit points. These benefits last for 24 hours.")),
+        .effect("Create a feast for up to 12 creatures. Feast takes 1 hour to consume. "
+            + "Cured of diseases and poisons, immune to poison and fear, "
+            + "gain advantage on Wis. saves, +2d10 temporary HP. Effects last for 24 hours. ")),
     INSTANT_SUMMONS(spell(MagicSchool.CONJURATION, 6).ritual()
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
         .range("Touch").area("1 object up to 10lb").duration("Until dispelled")
