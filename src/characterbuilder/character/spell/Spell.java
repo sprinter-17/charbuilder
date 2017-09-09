@@ -253,7 +253,7 @@ public enum Spell implements Option {
         .range("60 feet").area("Up to 5 creatures").duration("1 minute")
         .effect("Take no damage from fall.")),
     FIND_FAMILIAR(spell(MagicSchool.CONJURATION, 1).ritual()
-        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL).cost(gp(10))
         .range("10 feet").duration("Instantaneous")
         .effect("Summon a familiar.")),
     FLOATING_DISK(spell(MagicSchool.CONJURATION, 1)
@@ -463,7 +463,7 @@ public enum Spell implements Option {
         .range("60 feet").area("5-foot cube").duration("Concentration, up to 1 minute")
         .effect("4d4 slashing damage. +2d4 / extra level.")),
     CONTINUAL_FLAME(spell(MagicSchool.EVOCATION, 2)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL).cost(gp(50))
         .range("Touch").area("1 object").duration("Until dispelled")
         .effect("Flame created on object")),
     CORDON_OF_ARROWS(spell(MagicSchool.TRANSMUTATION, 2)
@@ -561,7 +561,7 @@ public enum Spell implements Option {
         .range("Self").area("1 object").duration("up to 10 minutes")
         .effect("Sense direction to object if within 1,000 feet")),
     MAGIC_MOUTH(spell(MagicSchool.ILLUSION, 2).ritual()
-        .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL).cost(gp(10))
         .range("30 feet").area("1 object").duration("Until dispelled")
         .effect("Message on trigger.")),
     MAGIC_WEAPON(spell(MagicSchool.TRANSMUTATION, 2)
@@ -746,7 +746,7 @@ public enum Spell implements Option {
         .range("Touch").area("1 willing creature").duration("up to 1 hour")
         .effect("YTransform target into misty cloud. Fly speed 10.")),
     GLYPH_OF_WARDING(spell(MagicSchool.ABJURATION, 3)
-        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL).cost(gp(200))
         .range("Touch").area("surface or object").duration("Until dispelled or triggered")
         .effect("Hidden glyph. Investigation check to find.On trigger: explode in 20-foot-radius sphere "
             + "5d8 (+1d8 / extra level) damage Dex. save for half, or prepare spell of same level "
@@ -774,7 +774,7 @@ public enum Spell implements Option {
         .range("Self").area("100-foot line").duration("Instantaneous")
         .effect("8d6 lightning damage. Dex. save for half. +1d6 damage / extra level.")),
     MAGIC_CIRCLE(spell(MagicSchool.ABJURATION, 3)
-        .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL).cost(gp(100))
         .range("10 feet").area("10-foot-radius, 20-foot-tall cylinder").duration("1 hour")
         .effect("Specified type of creature cannot enter cylinder. +1 hour / extra level.")),
     MAJOR_IMAGE(spell(MagicSchool.ILLUSION, 3)
@@ -791,7 +791,7 @@ public enum Spell implements Option {
         .range("Touch").area("Stone object or surface").duration("8 hours")
         .effect("Meld body and equipment. Disadvantage on Perception checks.")),
     NONDETECTION(spell(MagicSchool.ABJURATION, 3)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL).cost(gp(25))
         .range("Touch").area("willing creature, place or object").duration("8 hours")
         .effect("Hide target from divination magic.")),
     PHANTOM_STEED(spell(MagicSchool.ILLUSION, 3).ritual()
@@ -811,7 +811,7 @@ public enum Spell implements Option {
         .range("Touch").area("1 creature or object").duration("Instantaneous")
         .effect("All curses on creature end. Breaks attunement to cursed object.")),
     REVIVIFY(spell(MagicSchool.NECROMANCY, 3)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL).cost(gp(300))
         .range("Touch").area("1 creature dead less than 1 minute").duration("Instantaneous")
         .effect("Creature returns to life with 1 HP.")),
     SENDING(spell(MagicSchool.EVOCATION, 3)
@@ -1037,7 +1037,7 @@ public enum Spell implements Option {
             + "Dex. save for unwilling targets.")
         .effect("Nothing can pass through barrier. Can be move up to half speed by target.")),
     SECRET_CHEST(spell(MagicSchool.CONJURATION, 4)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL).cost(gp(5000))
         .range("Touch").area("1 chest").duration("Instantaneous")
         .effect("Hide chest on ethereal plane.")),
     STAGGERING_SMITE(spell(MagicSchool.EVOCATION, 4)
@@ -1093,7 +1093,7 @@ public enum Spell implements Option {
             + "<br>provide half cover and prevent movement towards caster. ")
         .effect("Attack +2d8 and crush +2d6 / extra level.")),
     AWAKEN(spell(MagicSchool.TRANSMUTATION, 5)
-        .castingTime("8 hours").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("8 hours").components(VERBAL, SOMATIC, MATERIAL).cost(gp(1000))
         .range("Touch").area("1 beast or plant with Int. of 3 or less").duration("Instantaneous")
         .effect("Target gains Int. 10 and ability to speak 1 language, move and sense. "
             + "Target is charmed for 30 days.")),
@@ -1206,12 +1206,12 @@ public enum Spell implements Option {
             + "Wis. save. 5d10 psychic damage once each day for contrary acts.")
         .effect("Duration 1 year at 7th or 8th level, permanent at 9th level.")),
     GREATER_RESTORATION(spell(MagicSchool.ABJURATION, 5)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL).cost(gp(100))
         .range("Touch").area("1 creature").duration("Instantaneous")
         .effect("Reduce target's exhaustion level by one, or end one petrification, curse, ability "
             + "score reduction or maximum HP reduction effect. ")),
     HALLOW(spell(MagicSchool.EVOCATION, 5)
-        .castingTime("24 hours").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("24 hours").components(VERBAL, SOMATIC, MATERIAL).cost(gp(1000))
         .range("Touch").area("Up to 60-foot-radius").duration("Until dispelled")
         .effect("Celestials, elementals, fey, fiends, and undead cannot enter or charm, frighten or "
             + "possess creatures in area. "
@@ -1242,7 +1242,7 @@ public enum Spell implements Option {
             + "4d10 piercing damage. Con. save for half damaage. ")
         .effect("+1d10 damage / extra spell slot level.")),
     LEGEND_LORE(spell(MagicSchool.DIVINATION, 5)
-        .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL).cost(gp(250))
         .range("Self").duration("Instantaneous")
         .effect("Bring to mind a brief summary of the significant lore "
             + "about a name, person, place or object. Name or describe a person, place, or object.")),
@@ -1250,7 +1250,7 @@ public enum Spell implements Option {
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("60 feet").area("Up to 6 creatures in a 30-foot-radius sphere")
         .duration("Instantaneous")
-        .effect("Regain 3d8+[spell_mod] HP.")
+        .effect("Regain 3d8+[$spell_mod] HP.")
         .effect("+1d8 / extra spell slot level.")),
     MISLEAD(spell(MagicSchool.ILLUSION, 5)
         .castingTime("1 action").components(SOMATIC)
@@ -1269,18 +1269,18 @@ public enum Spell implements Option {
         .duration("1 hour")
         .effect("Passage appears allowing creatures to pass through.")),
     PLANAR_BINDING(spell(MagicSchool.ABJURATION, 5)
-        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL).cost(gp(1000))
         .range("60 feet").area("1 celestial, elemental, fey or fiend").duration("24 hours")
         .effect("Bind target to service. Chr. save. Target follows instructions. Reports completion. ")
         .effect("Duration 10 days (6th level), 30 days (7th level), 180 days (8th level), "
             + "year and a day (9th level).")),
     RAISE_DEAD(spell(MagicSchool.NECROMANCY, 5)
-        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL).cost(gp(500))
         .range("Touch").area("1 creature dead no longer than 10 days").duration("Instantaneous")
         .effect("Return target to life with 1 HP. Neutralises poisons and cures nonmagical diseases. "
             + "Target takes -4 penalty to attacks, saves, ability checks. Reduce by 1 each long rest.")),
     REINCARNATE(spell(MagicSchool.TRANSMUTATION, 5)
-        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL).cost(gp(1000))
         .range("Touch").area("1 humanoid dead no longer than 10 days").duration("Instantaneous")
         .effect("Returns target to life in a new body with new racial traits. Roll 1d100.")
         .effect(table(
@@ -1328,7 +1328,7 @@ public enum Spell implements Option {
         .range("30 feet").area("8 willing creatures").duration("1 hour")
         .effect("Communicate telepathically between targets.")),
     TELEPORTATION_CIRCLE(spell(MagicSchool.CONJURATION, 5)
-        .castingTime("1 minute").components(VERBAL, MATERIAL)
+        .castingTime("1 minute").components(VERBAL, MATERIAL).cost(gp(50))
         .range("10 feet").area("1-foot-diameter circle").duration("1 round")
         .effect("Create portal to permanent teleportation circle on same plane. ")),
     TREE_STRIDE(spell(MagicSchool.CONJURATION, 5)
@@ -1416,68 +1416,29 @@ public enum Spell implements Option {
             + "Can automatically choose shortest route to target.")),
     FLESH_TO_STONE(spell(MagicSchool.TRANSMUTATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("60 feet").duration("up to 1 minute")
-        .effect("You attempt to turn one creature that you can see within range into stone. If the "
-            + "target's body is made of flesh, the creature must make a Constitution saving throw. On "
-            + "a failed save, it is restrained as its flesh begins to harden. On a successful save, "
-            + "the creature isn't affected. A creature restrained by this spell must make another "
-            + "Constitution saving throw at the end of each of its turns. If it successfully saves "
-            + "against this spell three times, the spell ends. If it fails its saves three times, it "
-            + "is turned to stone and subjected to the petrified condition for the duration. The "
-            + "successes and failures don't need to be consecutive; keep track of both until the "
-            + "target collects three of a kind. If the creature is physically broken while petrified, "
-            + "it suffers from similar deformities if it reverts to its original state. If you "
-            + "maintain your concentration on this spell for the entire possible duration, the "
-            + "creature is turned to stone until the effect is removed.")),
+        .range("60 feet").area("1 creature").duration("up to 1 minute")
+        .effect("Target restrained. Con. save. 3 successes ends effect. "
+            + "3 failures turns creature to stone.")),
     FORBIDDANCE(spell(MagicSchool.ABJURATION, 6).ritual()
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("1 day")
-        .effect("You create a ward against magical travel that protects up to 40,000 square feet of "
-            + "floor space to a height of 30 feet above the floor. For the duration, creatures can't "
-            + "teleport into the area or use portals, such as those created by the gate spell, to "
-            + "enter the area. The spell proofs the area against planar travel, and therefore "
-            + "prevents creatures from accessing the area by way of the Astral Plane, Ethereal Plane, "
-            + "Feywild, Shadowfell, or the plane shift spell. In addition, the spell damages types of "
-            + "creatures that you choose when you cast it. Choose one or more of the following: "
-            + "celestials, elementals, fey, fiends, and undead. When a chosen creature enters the "
-            + "spell's area for the first time on a turn or starts its turn there, the creature takes "
-            + "5d10 radiant or necrotic damage (your choice when you cast this spell). When you cast "
-            + "this spell, you can designate a password. A creature that speaks the password as it "
-            + "enters the area takes no damage from the spell. The spell's area can't overlap with "
-            + "the area of another ddance spell. If you cast forbiddance every day for 30 days "
-            + "in the same location, the spell lasts until it is dispelled, and the material "
-            + "components are consumed on the last casting.")),
+        .range("Touch").area("Up to 40,000 square feet").duration("1 day")
+        .effect("Cannot teleport into area or use planar travel. "
+            + "Choose one more more of celestials, elementals, fey, fiends and undead. "
+            + "Creature of chosen type take 5d10 radiant or necrotic damage in area. "
+            + "Can create password to avoid damage.")),
     FREEZING_SPHERE(spell(MagicSchool.EVOCATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("300 feet").duration("Instantaneous")
-        .effect("A frigid globe of cold energy streaks from your fingertips to a point of your choice "
-            + "within range, where it explodes in a 60-foot-radius sphere. Each creature within the "
-            + "area must make a Constitution saving throw. On a failed save, a creature takes 10d6 "
-            + "cold damage. On a successful save, it takes half as much damage. If the globe strikes "
-            + "a body of water or a liquid that is principally water (not including water-based "
-            + "creatures), it freezes the liquid to a depth of 6 inches over an area 30 feet square. "
-            + "This ice lasts for 1 minute. Creatures that were swimming on the surface of frozen "
-            + "water are trapped in the ice. A trapped creature can use an action to make a Strength "
-            + "check against your spell save DC to break free. You can refrain from firing the globe "
-            + "after completing the spell, if you wish. A small globe about the size of a sling "
-            + "stone, cool to the touch, appears in your hand. At any time, you or a creature you "
-            + "give the globe to can throw the globe (to a range of 40 feet) or hurl it with a sling "
-            + "(to the sling's normal range). It shatters on impact, with the same effect as the "
-            + "normal casting of the spell. You can also set the globe down without shattering it. "
-            + "After 1 minute, if the globe hasn't already shattered, it explodes. At Higher Levels. "
-            + "When you cast this spell using a spell slot of 7th level or higher, the damage "
-            + "increases by 1d6 for each slot level above 6th.")),
+        .range("300 feet").area("60-foot-radius sphere").duration("Instantaneous")
+        .effect("10d6 cold damage. Con. save for half damage. "
+            + "Freezes water in 30-foot-square area for 1 minute. "
+            + "Can be held after casting for up to 1 minutes "
+            + "to be thrown up to 40 feet or hurled with a sling. "
+            + "+1d6 damage / extra spell slot level.")),
     GLOBE_OF_INVULNERABILITY(spell(MagicSchool.ABJURATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Self (10-foot radius)").duration("up to 1 minute")
-        .effect("An immobile, faintly shimmering barrier springs into existence in a 10-foot radius "
-            + "around you and remains for the duration. Any spell of 5th level or lower cast from "
-            + "outside the barrier can't affect creatures or objects within it, even if the spell is "
-            + "cast using a higher level spell slot. Such a spell can target creatures and objects "
-            + "within the barrier, but the spell has no effect on them. Similarly, the area within "
-            + "the barrier is excluded from the areas affected by such spells. At Higher Levels. When "
-            + "you cast this spell using a spell slot of 7th level or higher, the barrier blocks "
-            + "spells of one level higher for each slot level above 6th.")),
+        .range("Self").area("10-foot radius").duration("up to 1 minute")
+        .effect("Create immobile barrier. Spells of 5th level or lower cannot be cast through. "
+            + "+1 spell level protection / extra spell slot level.")),
     GUARDS_AND_WARDS(spell(MagicSchool.ABJURATION, 6)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
         .range("Touch").area("Up to 2,500 square feet").duration("24 hours")
@@ -1507,7 +1468,7 @@ public enum Spell implements Option {
         .effect("Regain 70 HP, ends blindness, deafness and any diseases.")
         .effect("+10 HP / extra spell slot level. ")),
     HEROES_FEAST(spell(MagicSchool.CONJURATION, 6)
-        .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL).cost(gp(1000))
         .range("30 feet").duration("Instantaneous")
         .effect("Create a feast for up to 12 creatures. Feast takes 1 hour to consume. "
             + "Cured of diseases and poisons, immune to poison and fear, "
@@ -1523,7 +1484,7 @@ public enum Spell implements Option {
             + "Dex. saves. Other creatures have advantage on attacks at target. "
             + "As an action, target can make Wis. save to end spell.")),
     MAGIC_JAR(spell(MagicSchool.NECROMANCY, 6)
-        .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL).cost(gp(500))
         .range("Self").duration("Until dispelled")
         .effect("Caster's soul enters container. Can project soul up to 100 feet to return to "
             + "body or possess a humanoid's body.  Chr. save. On possession, retain alignment,"
@@ -1563,7 +1524,7 @@ public enum Spell implements Option {
         .effect("Creates link between target plant and any other plant on same plane. "
             + "Any creature can teleport to destination plan using 5 feet of movement.")),
     TRUE_SEEING(spell(MagicSchool.DIVINATION, 6)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL).cost(gp(25))
         .range("Touch").area("1 ally").duration("1 hour")
         .effect("Target has true sight, notices secret doors hidden by magic, see into Ethereal plane "
             + "to range of 120 feet.")),
@@ -1687,7 +1648,7 @@ public enum Spell implements Option {
         .effect("Regain 4d8+15 HP. Regain 1 HP at the start of each turn. "
             + "Restore severed limbs after 2 minutes.")),
     RESURRECTION(spell(MagicSchool.NECROMANCY, 7)
-        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL).cost(gp(1000))
         .range("Touch").area("1 dead creature").duration("Instantaneous")
         .effect("Target returns to life with full HP. Neutralises poison. Cures nonmagical diseases. "
             + "Target takes a −4 penalty to all attack rolls, saves and ability checks. "
@@ -1699,19 +1660,19 @@ public enum Spell implements Option {
         .effect("All creatures and objects fall upward to top of the area. "
             + "Dex. save to grab fixed object within reach.")),
     SEQUESTER(spell(MagicSchool.TRANSMUTATION, 7)
-        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL).cost(gp(5000))
         .range("Touch").area("1 willing creature or object").duration("Until dispelled")
         .effect("Target becomes invisible and cannot be detected by divination. "
             + "Creatures enter suspended animation. "
             + "Spell ends on chosen condition or if target takes damage.")),
     SIMULACRUM(spell(MagicSchool.ILLUSION, 7)
-        .castingTime("12 hours").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("12 hours").components(VERBAL, SOMATIC, MATERIAL).cost(gp(1500))
         .range("Touch").area("1 beast or humanoid").duration("Until dispelled")
         .effect("Create illusory duplicate of target with half target's HP and no equipment. "
             + "Duplicate is under caster's control. "
             + "Spell ends when duplicate drops to 0 HP.")),
     SYMBOL(spell(MagicSchool.ABJURATION, 7)
-        .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL).cost(gp(1000))
         .range("Touch").area("Surface no larger than 10-feet-diameter or closable object")
         .duration("Until dispelled or triggered")
         .effect("Incribe a glyph on target. Investigation check to find. "
@@ -1756,7 +1717,7 @@ public enum Spell implements Option {
         .effect("Effected creatures Wis. save every 24 hours. Successful save grants immunity for "
             + "1 minute.")),
     CLONE(spell(MagicSchool.NECROMANCY, 8)
-        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL).cost(gp(1000))
         .range("Touch").area("1 creature").duration("Instantaneous")
         .effect("Grows an inert duplicate of target to full size and maturity after 120 days. "
             + "Soul transfers to clone if target dies. Equipment is not transferred.")),
@@ -1921,7 +1882,7 @@ public enum Spell implements Option {
         .effect("Transform target into different creature or object. Wis. save.")
         .effect("Take all statistics of new form. Ends at 0 HP.")),
     TRUE_RESURRECTION(spell(MagicSchool.NECROMANCY, 9)
-        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL)
+        .castingTime("1 hour").components(VERBAL, SOMATIC, MATERIAL).cost(gp(25000))
         .range("Touch").area("1 body").duration("Instantaneous")
         .effect("Target restored to life with all HP.")),
     WEIRD(spell(MagicSchool.ILLUSION, 9)
