@@ -1371,112 +1371,49 @@ public enum Spell implements Option {
         .effect("+1 target / extra spell slot level.")),
     CIRCLE_OF_DEATH(spell(MagicSchool.NECROMANCY, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("150 feet").duration("Instantaneous")
-        .effect("A sphere of negative energy ripples out in a 60-foot- radius sphere from a point "
-            + "within range. Each creature in that area must make a Constitution saving throw. A "
-            + "target takes 8d6 necrotic damage on a failed save, or half as much damage on a "
-            + "successful one. At Higher Levels. When you cast this spell using a spell slot of 7th "
-            + "level or higher, the damage increases by 2d6 for each slot level above 6th.")),
+        .range("150 feet").area("60-foot-radius sphere").duration("Instantaneous")
+        .effect("8d6 necrotic damage. Con. save for half damage.")
+        .effect("+2d6 damage / extra spell slot level.")),
     CONJURE_FEY(spell(MagicSchool.CONJURATION, 6)
         .castingTime("1 minute").components(VERBAL, SOMATIC)
-        .range("90 feet").duration("up to 1 hour")
-        .effect("You summon a fey creature of challenge rating 6 or lower, or a fey spirit that takes "
-            + "the form of a beast of challenge rating 6 or lower. It appears in an unoccupied space "
-            + "that you can see within range. The fey creature disappears when it drops to 0 hit "
-            + "points or when the spell ends. The fey creature is friendly to you and your companions "
-            + "for the duration. Roll initiative for the creature, which has its own turns. It obeys "
-            + "any verbal commands that you issue to it (no action required by you), as long as they "
-            + "don't violate its alignment. If you don't issue any commands to the fey creature, it "
-            + "defends itself from hostile creatures but otherwise takes no actions. If your "
-            + "concentration is broken, the fey creature doesn't disappear. Instead, you lose control "
-            + "of the fey creature, it becomes hostile toward you and your companions, and it might "
-            + "attack. An uncontrolled fey creature can't be dismissed by you, and it disappears 1 "
-            + "hour after you summoned it. The GM has the fey creature's statistics. At Higher "
-            + "Levels. When you cast this spell using a spell slot of 7th level or higher, the "
-            + "challenge rating increases by 1 for each slot level above 6th.")),
+        .range("90 feet").area("Unoccupied space").duration("up to 1 hour")
+        .effect("Summon a fey creature or spirit in form of beast of CR 6 or lower,."
+            + "Friendly to caster. Becomes hostile if concentration broken.")
+        .effect("+1 CR / extra spell slot level.")),
     CONTINGENCY(spell(MagicSchool.EVOCATION, 6)
         .castingTime("10 minutes").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").duration("10 days")
-        .effect("Choose a spell of 5th level or lower that you can cast, that has a casting time of 1 "
-            + "action, and that can target you. You cast that spell--called the contingent spell--as "
-            + "part of casting contingency, expending spell slots for both, but the contingent spell "
-            + "doesn't come into effect. Instead, it takes effect when a certain circumstance occurs. "
-            + "You describe that circumstance when you cast the two spells. For example, a "
-            + "contingency cast with water breathing might stipulate that water breathing comes into "
-            + "effect when you are engulfed in water or a similar liquid. The contingent spell takes "
-            + "effect immediately after the circumstance is met for the first time, whether or not "
-            + "you want it to, and then contingency ends. The contingent spell takes effect only on "
-            + "you, even if it can normally target others. You can use only one contingency spell at "
-            + "a time. If you cast this spell again, the effect of another contingency spell on you "
-            + "ends. Also, contingency ends on you if its material component is ever not on your person.")),
+        .effect("Choose a spell of 5th level or lower, targeting self and casting time of 1 action. "
+            + "Choose condition under which the contingent spell comes into effect.")),
     CREATE_UNDEAD(spell(MagicSchool.NECROMANCY, 6)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
-        .range("10 feet").duration("Instantaneous")
-        .effect("You can cast this spell only at night. Choose up to three corpses of Medium or Small "
-            + "humanoids within range. Each corpse becomes a ghoul under your control. (The GM has "
-            + "game statistics for these creatures.) As a bonus action on each of your turns, you can "
-            + "mentally command any creature you animated with this spell if the creature is within "
-            + "120 feet of you (if you control multiple creatures, you can command any or all of them "
-            + "at the same time, issuing the same command to each one). You decide what action the "
-            + "creature will take and where it will move during its next turn, or you can issue a "
-            + "general command, such as to guard a particular chamber or corridor. If you issue no "
-            + "commands, the creature only defends itself against hostile creatures. Once given an "
-            + "order, the creature continues to follow it until its task is complete. The creature is "
-            + "under your control for 24 hours, after which it stops obeying any command you have "
-            + "given it. To maintain control of the creature for another 24 hours, you must cast this "
-            + "spell on the creature before the current 24-hour period ends. This use of the spell "
-            + "reasserts your control over up to three creatures you have animated with this spell, "
-            + "rather than animating new ones. At Higher Levels. When you cast this spell using a "
-            + "7th-level spell slot, you can animate or reassert control over four ghouls. When you "
-            + "cast this spell using an 8th-level spell slot, you can animate or reassert control "
-            + "over five ghouls or two ghasts or wights. When you cast this spell using a 9th-level "
-            + "spell slot, you can animate or reassert control over six ghouls, three ghasts or "
-            + "wights, or two mummies.")),
+        .range("10 feet").area("Up to 3 humanoid corpses").duration("Instantaneous")
+        .effect("Targets becomes ghouls under caster's control. "
+            + "Each turn, as a bonus action, control targets wihtin 120 feet. "
+            + "Ghouls under control for 24 hours.")
+        .effect("At 7th level, create 4 ghouls; at 8th level, create 4 ghouls or 2 ghasts or wights; "
+            + "at 9th level, creatue 6 ghouls, 3 ghasts or wights, or 2 mummies. ")),
     DISINTEGRATE(spell(MagicSchool.TRANSMUTATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("60 feet").duration("Instantaneous")
-        .effect("A thin green ray springs from your pointing finger to a target that you can see within "
-            + "range. The target can be a creature, an object, or a creation of magical force, such "
-            + "as the wall created by wall of force. A creature targeted by this spell must make a "
-            + "Dexterity saving throw. On a failed save, the target takes 10d6 + 40 force damage. If "
-            + "this damage reduces the target to 0 hit points, it is disintegrated. A disintegrated "
-            + "creature and everything it is wearing and carrying, except magic items, are reduced to "
-            + "a pile of fine gray dust. The creature can be restored to life only by means of a true "
-            + "resurrection or a wish spell. This spell automatically disintegrates a Large or "
-            + "smaller nonmagical object or a creation of magical force. If the target is a Huge or "
-            + "larger object or creation of force, this spell disintegrates a 10-foot- cube portion "
-            + "of it. A magic item is unaffected by this spell. At Higher Levels. When you cast this "
-            + "spell using a spell slot of 7th level or higher, the damage increases by 3d6 for each "
-            + "slot level above 6th.")),
+        .range("60 feet").area("1 creature, object or magical creation").duration("Instantaneous")
+        .effect("10d6+40 force damage to creatures. Dex. save. At 0 HP target disintegrates. "
+            + "Up to 10-foot-cube of objects and magical creations automatically destroyed. ")
+        .effect("+3d6 / extra spell slot level.")),
     EYEBITE(spell(MagicSchool.NECROMANCY, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("Self").duration("up to 1 minute")
-        .effect("For the spell's duration, your eyes become an inky void imbued with dread power. One "
-            + "creature of your choice within 60 feet of you that you can see must succeed on a "
-            + "Wisdom saving throw or be affected by one of the following effects of your choice for "
-            + "the duration. On each of your turns until the spell ends, you can use your action to "
-            + "target another creature but can't target a creature again if it has succeeded on a "
-            + "saving throw against this casting of eyebite. Asleep. The target falls unconscious. It "
-            + "wakes up if it takes any damage or if another creature uses its action to shake the "
-            + "sleeper awake. Panicked. The target is frightened of you. On each of its turns, the "
-            + "frightened creature must take the Dash action and move away from you by the safest and "
-            + "shortest available route, unless there is nowhere to move. If the target moves to a "
-            + "place at least 60 feet away from you where it can no longer see you, this effect ends. "
-            + "Sickened. The target has disadvantage on attack rolls and ability checks. At the end "
-            + "of each of its turns, it can make another Wisdom saving throw. If it succeeds, the "
-            + "effect ends.")),
+        .range("Self").area("1 creature within 60 feet").duration("up to 1 minute")
+        .effect("Target a new creature each turn. Wis. save. Choose effect:")
+        .effect(table(
+            namedRow("Asleep", "Target falls unconscious until awoken."),
+            namedRow("Panicked", "Target is afraid and moves away each turn until "
+                + "it is 60 feet from caster."),
+            namedRow("Sickened", "Target has disadvantage on attack and ability checks. "
+                + "Makes a Wis. save at end of each turn.")))),
     FIND_THE_PATH(spell(MagicSchool.DIVINATION, 6)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Self").duration("up to 1 day")
-        .effect("This spell allows you to find the shortest, most direct physical route to a specific "
-            + "fixed location that you are familiar with on the same plane of existence. If you name "
-            + "a destination on another plane of existence, a destination that moves (such as a "
-            + "mobile fortress), or a destination that isn't specific (such as 'a green dragon's "
-            + "lair'), the spell fails. For the duration, as long as you are on the same plane of "
-            + "existence as the destination, you know how far it is and in what direction it lies. "
-            + "While you are traveling there, whenever you are presented with a choice of paths along "
-            + "the way, you automatically determine which path is the shortest and most direct route "
-            + "(but not necessarily the safest route) to the destination.")),
+        .range("Self").area("Familiar location").duration("up to 1 day")
+        .effect("Know distance and direction to target. "
+            + "Can automatically choose shortest route to target.")),
     FLESH_TO_STONE(spell(MagicSchool.TRANSMUTATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("60 feet").duration("up to 1 minute")
@@ -1607,152 +1544,66 @@ public enum Spell implements Option {
         .effect("Transports object or learn who and where holder is.")),
     IRRESISTIBLE_DANCE(spell(MagicSchool.ENCHANTMENT, 6)
         .castingTime("1 action").components(VERBAL)
-        .range("30 feet").duration("up to 1 minute")
-        .effect("Choose one creature that you can see within range. The target begins a comic dance in "
-            + "place: shuffling, tapping its feet, and capering for the duration. Creatures that "
-            + "can't be charmed are immune to this spell. A dancing creature must use all its "
-            + "movement to dance without leaving its space and has disadvantage on Dexterity saving "
-            + "throws and attack rolls. While the target is affected by this spell, other creatures "
-            + "have advantage on attack rolls against it. As an action, a dancing creature makes a "
-            + "Wisdom saving throw to regain control of itself. On a successful save, the spell ends.")),
+        .range("30 feet").area("1 creature").duration("up to 1 minute")
+        .effect("Target begins a comic dance. Remains in place and has disadvantage on attacks and "
+            + "Dex. saves. Other creatures have advantage on attacks at target. "
+            + "As an action, target can make Wis. save to end spell.")),
     MAGIC_JAR(spell(MagicSchool.NECROMANCY, 6)
         .castingTime("1 minute").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").duration("Until dispelled")
-        .effect("Your body falls into a catatonic state as your soul leaves it and enters the container "
-            + "you used for the spell's material component. While your soul inhabits the container, "
-            + "you are aware of your surroundings as if you were in the container's space. You can't "
-            + "move or use reactions. The only action you can take is to project your soul up to 100 "
-            + "feet out of the container, either returning to your living body (and ending the spell) "
-            + "or attempting to possess a humanoids body. You can attempt to possess any humanoid "
-            + "within 100 feet of you that you can see (creatures warded by a protection from evil "
-            + "and good or magic circle spell can't be possessed). The target must make a Charisma "
-            + "saving throw. On a failure, your soul moves into the target's body, and the target's "
-            + "soul becomes trapped in the container. On a success, the target resists your efforts "
-            + "to possess it, and you can't attempt to possess it again for 24 hours. Once you "
-            + "possess a creature's body, you control it. Your game statistics are replaced by the "
-            + "statistics of the creature, though you retain your alignment and your Intelligence, "
-            + "Wisdom, and Charisma scores. You retain the benefit of your own class features. If the "
-            + "target has any class levels, you can't use any of its class features. Meanwhile, the "
-            + "possessed creature's soul can perceive from the container using its own senses, but it "
-            + "can't move or take actions at all. While possessing a body, you can use your action to "
-            + "return from the host body to the container if it is within 100 feet of you, returning "
-            + "the host creature's soul to its body. If the host body dies while you're in it, the "
-            + "creature dies, and you must make a Charisma saving throw against your own spellcasting "
-            + "DC. On a success, you return to the container if it is within 100 feet of you. "
-            + "Otherwise, you die. If the container is destroyed or the spell ends, your soul "
-            + "immediately returns to your body. If your body is more than 100 feet away from you or "
-            + "if your body is dead when you attempt to return to it, you die. If another creature's "
-            + "soul is in the container when it is destroyed, the creature's soul returns to its body "
-            + "if the body is alive and within 100 feet. Otherwise, that creature dies. When the "
-            + "spell ends, the container is destroyed.")),
+        .effect("Caster's soul enters container. Can project soul up to 100 feet to return to "
+            + "body or possess a humanoid's body.  Chr. save. On possession, retain alignment,"
+            + "Int. Wis. and Chr. scores and class features. "
+            + "If host dies, Chr. save to return to container.")),
     MASS_SUGGESTION(spell(MagicSchool.ENCHANTMENT, 6)
         .castingTime("1 action").components(VERBAL, MATERIAL)
-        .range("60 feet").duration("24 hours")
-        .effect("You suggest a course of activity (limited to a sentence or two) and magically "
-            + "influence up to twelve creatures of your choice that you can see within range and that "
-            + "can hear and understand you. Creatures that can't be charmed are immune to this "
-            + "effect. The suggestion must be worded in such a manner as to make the course of action "
-            + "sound reasonable. Asking the creature to stab itself, throw itself onto a spear, "
-            + "immolate itself, or do some other obviously harmful act automatically negates the "
-            + "effect of the spell. Each target must make a Wisdom saving throw. On a failed save, it "
-            + "pursues the course of action you described to the best of its ability. The suggested "
-            + "course of action can continue for the entire duration. If the suggested activity can "
-            + "be completed in a shorter time, the spell ends when the subject finishes what it was "
-            + "asked to do. You can also specify conditions that will trigger a special activity "
-            + "during the duration. For example, you might suggest that a group of soldiers give all "
-            + "their money to the first beggar they meet. If the condition isn't met before the spell "
-            + "ends, the activity isn't performed. If you or any of your companions damage a creature "
-            + "affected by this spell, the spell ends for that creature. At Higher Levels. When you "
-            + "cast this spell using a 7th-level spell slot, the duration is 10 days. When you use an "
-            + "8th-level spell slot, the duration is 30 days. When you use a 9th-level spell slot, "
-            + "the duration is a year and a day.")),
+        .range("60 feet").area("Up to 12 creatures").duration("24 hours")
+        .effect("Magically influence targets through a simple suggestion. Wis. save. "
+            + "Ends when command has been completed or caster or ally damages target. ")
+        .effect("Duration 10 days at 7th level, 30 days at 8th level, year and a day at 9th level.")),
     MOVE_EARTH(spell(MagicSchool.TRANSMUTATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("120 feet").duration("up to 2 hours")
-        .effect("Choose an area of terrain no larger than 40 feet on a side within range. You can "
-            + "reshape dirt, sand, or clay in the area in any manner you choose for the duration. You "
-            + "can raise or lower the area's elevation, create or fill in a trench, erect or flatten "
-            + "a wall, or form a pillar. The extent of any such changes can't exceed half the area's "
-            + "largest dimension. So, if you affect a 40-foot square, you can create a pillar up to "
-            + "20 feet high, raise or lower the square's elevation by up to 20 feet, dig a trench up "
-            + "to 20 feet deep, and so on. It takes 10 minutes for these changes to complete. At the "
-            + "end of every 10 minutes you spend concentrating on the spell, you can choose a new "
-            + "area of terrain to affect. Because the terrain's transformation occurs slowly, "
-            + "creatures in the area can't usually be trapped or injured by the ground's movement. "
-            + "This spell can't manipulate natural stone or stone construction. Rocks and structures "
-            + "shift to accommodate the new terrain. If the way you shape the terrain would make a "
-            + "structure unstable, it might collapse. Similarly, this spell doesn't directly affect "
-            + "plant growth. The moved earth carries any plants along with it.")),
+        .range("120 feet").area("Terrain up to 40-foot square").duration("up to 2 hours")
+        .effect("Reshape dirt, sand, or clay in the area up to half the area's largest dimension. "
+            + "Change takes 10 minutes.")),
     PLANAR_ALLY(spell(MagicSchool.CONJURATION, 6)
         .castingTime("10 minutes").components(VERBAL, SOMATIC)
         .range("60 feet").area("Otherworldly entity").duration("Instantaneous")
         .effect("Summon creature to request service.")),
     PROGRAMMED_ILLUSION(spell(MagicSchool.ILLUSION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("120 feet").duration("Until dispelled")
+        .range("120 feet").area("Up to 30-foot cube").duration("Until dispelled")
         .effect("Create an illusion of object, creature, or other visible phenomenon. "
-            + "Activates when "
-            + "within range that activates when a specific condition occurs. The illusion is "
-            + "imperceptible until then. It must be no larger than a 30-foot cube, and you decide "
-            + "when you cast the spell how the illusion behaves and what sounds it makes. This "
-            + "scripted performance can last up to 5 minutes. When the condition you specify occurs, "
-            + "the illusion springs into existence and performs in the manner you described. Once the "
-            + "illusion finishes performing, it disappears and remains dormant for 10 minutes. After "
-            + "this time, the illusion can be activated again. The triggering condition can be as "
-            + "general or as detailed as you like, though it must be based on visual or audible "
-            + "conditions that occur within 30 feet of the area. For example, you could create an "
-            + "illusion of yourself to appear and warn off others who attempt to open a trapped door, "
-            + "or you could set the illusion to trigger only when a creature says the correct word or "
-            + "phrase. Physical interaction with the image reveals it to be an illusion, because "
-            + "things can pass through it. A creature that uses its action to examine the image can "
-            + "determine that it is an illusion with a successful Intelligence (Investigation) check "
-            + "against your spell save DC. If a creature discerns the illusion for what it is, the "
-            + "creature can see through the image, and any noise it makes sounds hollow to the creature.")),
+            + "Activates when chosen visual or audible condition occurs and performs a chosen "
+            + "set of actions for up to 5 minutes. After performance illusion is dormant for 10 minutes. "
+            + "As an action, Investigation check reveals illusion.")),
     SUNBEAM(spell(MagicSchool.EVOCATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Self (60-foot line)").duration("up to 1 minute")
-        .effect("A beam of brilliant light flashes out from your hand in a 5-foot-wide, 60-foot-long "
-            + "line. Each creature in the line must make a Constitution saving throw. On a failed "
-            + "save, a creature takes 6d8 radiant damage and is blinded until your next turn. On a "
-            + "successful save, it takes half as much damage and isn't blinded by this spell. Undead "
-            + "and oozes have disadvantage on this saving throw. You can create a new line of "
-            + "radiance as your action on any turn until the spell ends. For the duration, a mote of "
-            + "brilliant radiance shines in your hand. It sheds bright light in a 30-foot radius and "
-            + "dim light for an additional 30 feet. This light is sunlight.")),
+        .range("Self").area("60-foot line").duration("up to 1 minute")
+        .effect("6d8 radiant damage and blinded for 1 turn. Con. save for half damage. "
+            + "Undead and oozes have disadvantage on save. As an action each turn create a new line. "
+            + "Shed bright light in 30-foot radius.")),
     TRANSPORT_VIA_PLANTS(spell(MagicSchool.CONJURATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC)
-        .range("10 feet").duration("1 round")
-        .effect("This spell creates a magical link between a Large or larger inanimate plant within "
-            + "range and another plant, at any distance, on the same plane of existence. You must "
-            + "have seen or touched the destination plant at least once before. For the duration, any "
-            + "creature can step into the target plant and exit from the destination plant by using 5 "
-            + "feet of movement.")),
+        .range("10 feet").area("1 large plant").duration("1 round")
+        .effect("Creates link between target plant and any other plant on same plane. "
+            + "Any creature can teleport to destination plan using 5 feet of movement.")),
     TRUE_SEEING(spell(MagicSchool.DIVINATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("Touch").duration("1 hour")
-        .effect("This spell gives the willing creature you touch the ability to see things as they "
-            + "actually are. For the duration, the creature has truesight, notices secret doors "
-            + "hidden by magic, and can see into the Ethereal Plane, all out to a range of 120 feet.")),
+        .range("Touch").area("1 ally").duration("1 hour")
+        .effect("Target has true sight, notices secret doors hidden by magic, see into Ethereal plane "
+            + "to range of 120 feet.")),
     WALL_OF_ICE(spell(MagicSchool.EVOCATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
-        .range("120 feet").duration("up to 10 minutes")
-        .effect("You create a wall of ice on a solid surface within range. You can form it into a "
-            + "hemispherical dome or a sphere with a radius of up to 10 feet, or you can shape a flat "
-            + "surface made up of ten 10-foot-square panels. Each panel must be contiguous with "
-            + "another panel. In any form, the wall is 1 foot thick and lasts for the duration. If "
-            + "the wall cuts through a creature's space when it appears, the creature within its area "
-            + "is pushed to one side of the wall and must make a Dexterity saving throw. On a failed "
-            + "save, the creature takes 10d6 cold damage, or half as much damage on a successful "
-            + "save. The wall is an object that can be damaged and thus breached. It has AC 12 and 30 "
-            + "hit points per 10-foot section, and it is vulnerable to fire damage. Reducing a "
-            + "10-foot section of wall to 0 hit points destroys it and leaves behind a sheet of "
-            + "frigid air in the space the wall occupied. A creature moving through the sheet of "
-            + "frigid air for the first time on a turn must make a Constitution saving throw. That "
-            + "creature takes 5d6 cold damage on a failed save, or half as much damage on a "
-            + "successful one. At Higher Levels. When you cast this spell using a spell slot of 7th "
-            + "level or higher, the damage the wall deals when it appears increases by 2d6, and the "
-            + "damage from passing through the sheet of frigid air increases by 1d6, for each slot "
-            + "level above 6th.")),
+        .range("120 feet")
+        .area("Up to 10-foot-radius hemisphere or sphere or 10 connected 10-foot-square panels")
+        .duration("up to 10 minutes")
+        .effect("For 1-foot-thick wall of ice on a solid surface. "
+            + "If created on creature, 10d6 cold damage. Dex. save for half damage. "
+            + "Wall has AC 12 HP 30 per 10-foot section and vulnerable to fire. "
+            + "At 0 HP section is destroyed leaving frigid air. "
+            + "5d6 cold damage to creatures passing through. Con. save for half damage. ")
+        .effect("+2d6 damage on appearance and +1d6 passing through / extra spell slot level.")),
     WALL_OF_THORNS(spell(MagicSchool.CONJURATION, 6)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("120 feet").area("60-foot long, 10-foot high, 5-foot thick "
