@@ -3,7 +3,9 @@ package characterbuilder.character.spell;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.equipment.Attack;
 import static characterbuilder.character.saveload.Savable.text;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -70,5 +72,9 @@ public class SpellAbility implements Attribute {
     public void choose(Character character) {
         if (!character.hasAttribute(this))
             Attribute.super.choose(character);
+    }
+
+    public Optional<Attack> getAttack(Character character) {
+        return spell.getAttack(character, abilityScore);
     }
 }

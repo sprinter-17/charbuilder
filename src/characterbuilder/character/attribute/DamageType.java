@@ -4,9 +4,14 @@ import characterbuilder.utils.StringUtils;
 
 public enum DamageType {
     ACID,
+    BLUDGEONING,
+    PIERCING,
+    SLASHING,
     COLD,
     FIRE,
+    FORCE,
     LIGHTNING,
+    NECROTIC,
     POISON,
     THUNDER;
 

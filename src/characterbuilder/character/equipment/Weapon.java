@@ -7,6 +7,8 @@ import characterbuilder.character.ability.WeaponProficiency;
 import characterbuilder.character.attribute.Attribute;
 import static characterbuilder.character.attribute.AttributeType.DEXTERITY;
 import static characterbuilder.character.attribute.AttributeType.STRENGTH;
+import characterbuilder.character.attribute.DamageType;
+import static characterbuilder.character.attribute.DamageType.*;
 import characterbuilder.character.attribute.Value;
 import static characterbuilder.character.attribute.Value.cp;
 import characterbuilder.character.attribute.Weight;
@@ -26,57 +28,55 @@ import org.w3c.dom.Node;
 
 public enum Weapon implements Equipment {
 
-    CLUB(SIMPLE_MELEE, cp(10), lb(2),
-        attack("1d4", Weapon::melee)),
+    CLUB(SIMPLE_MELEE, cp(10), lb(2), attack("5", "1d4", BLUDGEONING, Weapon::melee)),
     DAGGER(SIMPLE_MELEE, cp(200), lb(1),
-        attack("1d4", Weapon::finessed, "20/60")),
-    GREATCLUB(SIMPLE_MELEE, cp(20), lb(10),
-        attack("1d8", Weapon::melee)),
-    HANDAXE(SIMPLE_MELEE, cp(500), lb(2), attack("1d6", Weapon::melee, "20/60")),
-    JAVELIN(SIMPLE_MELEE, cp(50), lb(2), attack("1d6", Weapon::melee, "30/120")),
-    LIGHT_HAMMER(SIMPLE_MELEE, cp(200), lb(2), attack("1d4", Weapon::melee, "20/60")),
-    MACE(SIMPLE_MELEE, cp(500), lb(4), attack("1d6", Weapon::melee)),
+        attack("5", "1d4", PIERCING, Weapon::finessed),
+        attack("20/60", "1d4", PIERCING, Weapon::ranged, "Thrown")),
+    GREATCLUB(SIMPLE_MELEE, cp(20), lb(10), attack("5", "1d8", BLUDGEONING, Weapon::melee)),
+    HANDAXE(SIMPLE_MELEE, cp(500), lb(2), attack("20/60", "1d6", SLASHING, Weapon::melee)),
+    JAVELIN(SIMPLE_MELEE, cp(50), lb(2), attack("30/120", "1d6", PIERCING, Weapon::melee)),
+    LIGHT_HAMMER(SIMPLE_MELEE, cp(200), lb(2), attack("20/60", "1d4", BLUDGEONING, Weapon::melee)),
+    MACE(SIMPLE_MELEE, cp(500), lb(4), attack("5", "1d6", BLUDGEONING, Weapon::melee)),
     QUARTERSTAFF(SIMPLE_MELEE, cp(20), lb(4),
-        attack("1d6", Weapon::melee, "1H"),
-        attack("1d8", Weapon::melee, "2H")),
-    SICKLE(SIMPLE_MELEE, cp(100), lb(2),
-        attack("1d4", Weapon::melee)),
+        attack("5", "1d6", BLUDGEONING, Weapon::melee, "1H"),
+        attack("5", "1d8", BLUDGEONING, Weapon::melee, "2H")),
+    SICKLE(SIMPLE_MELEE, cp(100), lb(2), attack("5", "1d4", SLASHING, Weapon::melee)),
     SPEAR(SIMPLE_MELEE, cp(100), lb(3),
-        attack("1d6", Weapon::melee, "20/60"),
-        attack("1d8", Weapon::melee, "2H")),
+        attack("20/60", "1d6", PIERCING, Weapon::melee),
+        attack("5", "1d8", PIERCING, Weapon::melee, "2H")),
     BATTLEAXE(MARTIAL_MELEE, cp(1000), lb(4),
-        attack("1d8", Weapon::melee, "1H"),
-        attack("1d10", Weapon::melee, "2H")),
-    FLAIL(MARTIAL_MELEE, cp(1000), lb(2), attack("1d8", Weapon::melee)),
-    GLAIVE(MARTIAL_MELEE, cp(2000), lb(6), attack("1d10", Weapon::melee, "reach")),
-    GREATEAXE(MARTIAL_MELEE, cp(3000), lb(7), attack("1d12", Weapon::melee)),
-    GREATSWORD(MARTIAL_MELEE, cp(5000), lb(6), attack("2d6", Weapon::melee)),
-    HALBERD(MARTIAL_MELEE, cp(2000), lb(6), attack("1d10", Weapon::melee, "reach")),
-    LANCE(MARTIAL_MELEE, cp(1000), lb(6), attack("1d12", Weapon::melee, "reach")),
+        attack("5", "1d8", SLASHING, Weapon::melee, "1H"),
+        attack("5", "1d10", SLASHING, Weapon::melee, "2H")),
+    FLAIL(MARTIAL_MELEE, cp(1000), lb(2), attack("5", "1d8", BLUDGEONING, Weapon::melee)),
+    GLAIVE(MARTIAL_MELEE, cp(2000), lb(6), attack("10", "1d10", SLASHING, Weapon::melee)),
+    GREATEAXE(MARTIAL_MELEE, cp(3000), lb(7), attack("5", "1d12", SLASHING, Weapon::melee)),
+    GREATSWORD(MARTIAL_MELEE, cp(5000), lb(6), attack("5", "2d6", SLASHING, Weapon::melee)),
+    HALBERD(MARTIAL_MELEE, cp(2000), lb(6), attack("10", "1d10", SLASHING, Weapon::melee)),
+    LANCE(MARTIAL_MELEE, cp(1000), lb(6), attack("10", "1d12", PIERCING, Weapon::melee)),
     LONGSWORD(MARTIAL_MELEE, cp(1500), lb(3),
-        attack("1d8", Weapon::melee, "1H"),
-        attack("1d10", Weapon::melee, "2H")),
-    MAUL(MARTIAL_MELEE, cp(1000), lb(10), attack("2d6", Weapon::melee)),
-    MORNINGSTAR(MARTIAL_MELEE, cp(1500), lb(4), attack("1d8", Weapon::melee)),
-    PIKE(MARTIAL_MELEE, cp(500), lb(18), attack("1d10", Weapon::melee)),
-    RAPIER(MARTIAL_MELEE, cp(2500), lb(2), attack("1d8", Weapon::finessed)),
-    SCIMITAR(MARTIAL_MELEE, cp(2500), lb(3), attack("1d6", Weapon::finessed)),
-    SHORTSWORD(MARTIAL_MELEE, cp(1000), lb(2), attack("1d6", Weapon::finessed)),
-    TRIDENT(MARTIAL_MELEE, cp(500), lb(4), attack("1d6", Weapon::melee)),
-    WAR_PICK(MARTIAL_MELEE, cp(500), lb(2), attack("1d8", Weapon::melee)),
+        attack("5", "1d8", SLASHING, Weapon::melee, "1H"),
+        attack("5", "1d10", SLASHING, Weapon::melee, "2H")),
+    MAUL(MARTIAL_MELEE, cp(1000), lb(10), attack("5", "2d6", BLUDGEONING, Weapon::melee)),
+    MORNINGSTAR(MARTIAL_MELEE, cp(1500), lb(4), attack("5", "1d8", PIERCING, Weapon::melee)),
+    PIKE(MARTIAL_MELEE, cp(500), lb(18), attack("5", "1d10", PIERCING, Weapon::melee)),
+    RAPIER(MARTIAL_MELEE, cp(2500), lb(2), attack("5", "1d8", PIERCING, Weapon::finessed)),
+    SCIMITAR(MARTIAL_MELEE, cp(2500), lb(3), attack("5", "1d6", SLASHING, Weapon::finessed)),
+    SHORTSWORD(MARTIAL_MELEE, cp(1000), lb(2), attack("5", "1d6", PIERCING, Weapon::finessed)),
+    TRIDENT(MARTIAL_MELEE, cp(500), lb(4), attack("5", "1d6", PIERCING, Weapon::melee)),
+    WAR_PICK(MARTIAL_MELEE, cp(500), lb(2), attack("5", "1d8", PIERCING, Weapon::melee)),
     WARHAMMER(MARTIAL_MELEE, cp(1500), lb(2),
-        attack("1d8", Weapon::melee, "1H"),
-        attack("1d10", Weapon::melee, "2H")),
-    WHIP(MARTIAL_MELEE, cp(200), lb(3), attack("1d4", Weapon::finessed, "reach")),
-    LIGHT_CROSSBOW(SIMPLE_RANGED, cp(2500), lb(5), attack("1d8", Weapon::ranged, "80/320")),
-    DART(SIMPLE_RANGED, cp(5), OZ.times(4), attack("1d4", Weapon::finessed, "20/60")),
-    SHORTBOW(SIMPLE_RANGED, cp(2500), lb(2), attack("1d6", Weapon::ranged, "80/320")),
-    SLING(SIMPLE_RANGED, cp(10), Weight.ZERO, attack("1d4", Weapon::ranged, "30/120")),
-    BLOWGUN(MARTIAL_RANGED, cp(1000), lb(1), attack("1", Weapon::ranged, "25/100")),
-    HAND_CROSSBOW(MARTIAL_RANGED, cp(7500), lb(3), attack("1d6", Weapon::ranged, "30/120")),
-    HEAVY_CROSSBOW(MARTIAL_RANGED, cp(5000), lb(18), attack("1d10", Weapon::ranged, "100/400")),
-    LONGBOW(MARTIAL_RANGED, cp(5000), lb(2), attack("1d8", Weapon::ranged, "150/600")),
-    NET(MARTIAL_RANGED, cp(100), lb(3), attack("special", Weapon::ranged, "5/15"));
+        attack("5", "1d8", BLUDGEONING, Weapon::melee, "1H"),
+        attack("5", "1d10", BLUDGEONING, Weapon::melee, "2H")),
+    WHIP(MARTIAL_MELEE, cp(200), lb(3), attack("10", "1d4", SLASHING, Weapon::finessed)),
+    LIGHT_CROSSBOW(SIMPLE_RANGED, cp(2500), lb(5), attack("80/320", "1d8", PIERCING, Weapon::ranged)),
+    DART(SIMPLE_RANGED, cp(5), OZ.times(4), attack("20/60", "1d4", PIERCING, Weapon::finessed)),
+    SHORTBOW(SIMPLE_RANGED, cp(2500), lb(2), attack("80/320", "1d6", PIERCING, Weapon::ranged)),
+    SLING(SIMPLE_RANGED, cp(10), Weight.ZERO, attack("30/120", "1d4", BLUDGEONING, Weapon::ranged)),
+    BLOWGUN(MARTIAL_RANGED, cp(1000), lb(1), attack("25/100", "1", PIERCING, Weapon::ranged)),
+    HAND_CROSSBOW(MARTIAL_RANGED, cp(7500), lb(3), attack("30/120", "1d6", PIERCING, Weapon::ranged)),
+    HEAVY_CROSSBOW(MARTIAL_RANGED, cp(5000), lb(18), attack("100/400", "1d10", PIERCING, Weapon::ranged)),
+    LONGBOW(MARTIAL_RANGED, cp(5000), lb(2), attack("150/600", "1d8", PIERCING, Weapon::ranged)),
+    NET(MARTIAL_RANGED, cp(100), lb(3), attack("5/15", "special", SLASHING, Weapon::ranged));
 
     private final EquipmentCategory category;
     private final Value cost;
@@ -99,17 +99,20 @@ public enum Weapon implements Equipment {
         return Math.max(melee(character), ranged(character));
     }
 
-    private static BiFunction<Weapon, Character, Attack> attack(String damage,
+    private static BiFunction<Weapon, Character, Attack> attack(String range,
+        String damage, DamageType type,
         Function<Character, Integer> bonus) {
-        return attack(damage, bonus, Optional.empty());
+        return attack(range, damage, type, bonus, Optional.empty());
     }
 
-    private static BiFunction<Weapon, Character, Attack> attack(String damage,
+    private static BiFunction<Weapon, Character, Attack> attack(String range,
+        String damage, DamageType type,
         Function<Character, Integer> bonus, String description) {
-        return attack(damage, bonus, Optional.of(description));
+        return attack(range, damage, type, bonus, Optional.of(description));
     }
 
-    private static BiFunction<Weapon, Character, Attack> attack(String damage,
+    private static BiFunction<Weapon, Character, Attack> attack(String range,
+        String damage, DamageType type,
         Function<Character, Integer> bonus, Optional<String> description) {
         return (w, ch) -> {
             int mod = bonus.apply(ch);
@@ -121,7 +124,7 @@ public enum Weapon implements Equipment {
             if (ch.hasAttribute(w.getProficiency()))
                 hit += ch.getProficiencyBonus();
             String name = w.toString();
-            Attack attack = new Attack(name, hit, damageText(damage, mod));
+            Attack attack = new Attack(name, range, hit, damageText(damage, mod), type);
             description.ifPresent(attack::setDescription);
             return attack;
         };

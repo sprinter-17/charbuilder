@@ -3,10 +3,13 @@ package characterbuilder.character.spell;
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.attribute.DamageType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.equipment.Attack;
 import characterbuilder.character.saveload.TestDoc;
+import characterbuilder.utils.TestCharacter;
 import java.util.List;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -63,6 +66,17 @@ public class SpellTest {
         assertThat(Spell.SACRED_FLAME, hasEffectAtLevel("3d8 radiant damage.", 11));
         assertThat(Spell.SACRED_FLAME, hasEffectAtLevel("3d8 radiant damage.", 16));
         assertThat(Spell.SACRED_FLAME, hasEffectAtLevel("4d8 radiant damage.", 17));
+    }
+
+    @Test
+    public void testRangedSpellAttack() {
+        TestCharacter character = new TestCharacter();
+        character.setLevel(11);
+        Attack attack = Spell.CHILL_TOUCH.getAttack(character, AttributeType.CHARISMA).get();
+        assertThat(attack.getName(), is("Chill Touch"));
+        assertThat(attack.getRange(), is("120"));
+        assertThat(attack.getDamage(), is("3d8"));
+        assertThat(attack.getType(), is(DamageType.NECROTIC));
     }
 
     @Test

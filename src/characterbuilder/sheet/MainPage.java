@@ -7,6 +7,7 @@ import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
+import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Equipment;
@@ -164,35 +165,42 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component attacks() {
-        return builder.borderedSection(42, 46, 30, 29)
-            .with(builder.writing(attackText(), 1, 1, 28, 28))
-            .with(builder.caption("Attacks", 15, 27, BOTTOM_CENTRE));
+        return builder.borderedSection(42, 46, 58, 29)
+            .with(builder.writing(attackText(), 2, 2, 56, 27))
+            .with(builder.caption("Attacks", 29, 27, BOTTOM_CENTRE));
     }
 
     private String attackText() {
         List<String> rows = new ArrayList<>();
-        rows.add(row("th style='text-align:left; height:0px'", "Attack", "Hit", "Damage"));
-        character.getAttacks().map(at -> row("td style='height:0px'", at.getName()
+        rows
+            .add(row("th style='padding:0px;text-align:left'",
+                "Attack", "Range", "Hit", "Damage", "Type"));
+        character.getAttacks().map(at -> row("td style='padding:0px'", at.getName()
             + at.getDescription().map(d -> " " + d).orElse(""),
-            String.format("%+d", at.getBonus()), at.getDamage()))
+            at.getRange(),
+            String.format("%+d", at.getBonus()),
+            at.getDamage(), at.getType().toString()))
             .forEach(rows::add);
-        return table(rows);
+        return table(rows, 220);
     }
 
     private PageBuilder.Component personality() {
-        return builder.shadedSection(72, 9, 28, 66)
-            .with(builder.borderedSection(0, 0, 28, 17)
-                .with(builder.caption("Personality Traits", 14, 15, CENTRE))
-                .with(builder.writing(attrHTML(TRAIT), 2, 2, 24, 13)))
-            .with(builder.borderedSection(0, 17, 28, 16)
-                .with(builder.caption("Ideals", 14, 14, CENTRE))
-                .with(builder.writing(attrHTML(IDEAL), 2, 2, 24, 12)))
-            .with(builder.borderedSection(0, 33, 28, 16)
-                .with(builder.caption("Bonds", 14, 14, CENTRE))
-                .with(builder.writing(attrHTML(BOND), 2, 2, 24, 12)))
-            .with(builder.borderedSection(0, 49, 28, 17)
-                .with(builder.caption("Flaws", 14, 15, CENTRE))
-                .with(builder.writing(attrHTML(FLAW), 2, 2, 24, 13)));
+        return builder.borderedSection(72, 9, 28, 37)
+            .with(builder.caption("Personality", 14, 35, CENTRE))
+            .with(builder.writing(
+                html(PERSONALITY.stream().map(this::personalityElement)
+                    .collect(joining(" "))), 2, 2, 24, 33));
+    }
+
+    private String personalityElement(AttributeType type) {
+        if (character.hasAttribute(type)) {
+            return element("p", element("b", type.toString() + "s") + ": "
+                + character.getAttributes(type, StringAttribute.class)
+                    .map(StringAttribute::toString)
+                    .collect(joining(" ")));
+        } else {
+            return "";
+        }
     }
 
     private PageBuilder.Component proficiencies() {

@@ -6,6 +6,7 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeSet;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
+import characterbuilder.character.attribute.DamageType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.Value;
@@ -23,12 +24,15 @@ import characterbuilder.character.equipment.Attack;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Inventory;
+import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -317,7 +321,8 @@ public class Character {
     }
 
     public Stream<Attack> getAttacks() {
-        return Stream.concat(getUnarmouredAttacks(), getWeaponAttacks());
+        return Stream.of(getUnarmouredAttacks(), getWeaponAttacks(), getSpellAttacks())
+            .flatMap(Function.identity());
     }
 
     private Stream<Attack> getUnarmouredAttacks() {
@@ -329,11 +334,19 @@ public class Character {
             damage = StringUtils.expand("[max($level 1:1d4,5:1d6,11:1d8,17:1d10)"
                 + "bonus(max($str_mod,$dex_mod))]", this);
         }
-        return Stream.of(new Attack(name, getProficiencyBonus() + abilityBonus, damage));
+        return Stream.of(
+            new Attack(name, "5", getProficiencyBonus() + abilityBonus,
+                damage, DamageType.BLUDGEONING));
     }
 
     private Stream<Attack> getWeaponAttacks() {
         return inventory.getWeapons().flatMap(weapon -> weapon.getAttacks(this));
+    }
+
+    private Stream<Attack> getSpellAttacks() {
+        return getAttributes(SPELL_ABILITY, SpellAbility.class)
+            .map(sa -> sa.getAttack(this))
+            .filter(Optional::isPresent).map(Optional::get);
     }
 
     public Weight getInventoryWeight() {

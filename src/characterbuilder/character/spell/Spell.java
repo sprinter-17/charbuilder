@@ -1,10 +1,13 @@
 package characterbuilder.character.spell;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.attribute.DamageType;
 import characterbuilder.character.attribute.Value;
 import static characterbuilder.character.attribute.Value.gp;
 import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.choice.Option;
+import characterbuilder.character.equipment.Attack;
 import static characterbuilder.character.spell.SpellComponent.*;
 import static characterbuilder.character.spell.SpellDelegate.spell;
 import characterbuilder.utils.StringUtils;
@@ -15,6 +18,7 @@ import static characterbuilder.utils.StringUtils.row;
 import static characterbuilder.utils.StringUtils.table;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,7 +37,8 @@ public enum Spell implements Option {
     CHILL_TOUCH(spell(MagicSchool.NECROMANCY, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("120 feet").area("1 creature").duration("1 round")
-        .effect("Ranged spell attack [max($level 1:1,5:2,11:3,17:4)]d8 necrotic damage. ")
+        .attack("[max($level 1:1,5:2,11:3,17:4)]d8", DamageType.NECROTIC)
+        .effect("Ranged spell attack. ")
         .effect("No healing for 1 turn. ")
         .effect("Undead have disadvantage for 1 turn.")),
     DANCING_LIGHTS(spell(MagicSchool.EVOCATION, 0)
@@ -47,12 +52,13 @@ public enum Spell implements Option {
     ELDRITCH_BLAST(spell(MagicSchool.EVOCATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("120 feet").duration("Instantaneous")
-        .effect("[max($level 1:1,5:2,11:3,17:4)] ranged spell [plural(attack,attacks)]. ")
-        .effect("1d10 force damage.")),
+        .attack("1d10", DamageType.FORCE)
+        .effect("[max($level 1:1,5:2,11:3,17:4)] ranged spell [plural(attack,attacks)]. ")),
     FIRE_BOLT(spell(MagicSchool.EVOCATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("120 feet").area("1 creature or object").duration("Instantaneous")
-        .effect("Ranged spell attack. [max($level 1:1d10,5:2d10,11:3d10,17:4d10)] fire damage.")),
+        .attack("[max($level 1:1d10,5:2d10,11:3d10,17:4d10)]", DamageType.FIRE)
+        .effect("Ranged spell attack.")),
     FRIENDS(spell(MagicSchool.ENCHANTMENT, 0)
         .castingTime("1 action").components(SOMATIC, MATERIAL)
         .range("Self").area("1 non-hostile creature").duration("Concentration, up to 1 minute")
@@ -98,7 +104,8 @@ public enum Spell implements Option {
     RAY_OF_FROST(spell(MagicSchool.EVOCATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("60 feet").area("1 creature").duration("Instantaneous")
-        .effect("Ranged spell attack [max($level 1:1d8,5:2d8,11:3d8,17:4d8)] damage.")
+        .attack("[max($level 1:1d8,5:2d8,11:3d8,17:4d8)]", DamageType.COLD)
+        .effect("Ranged spell attack.")
         .effect("-10 Speed for 1 turn.")),
     RESISTANCE(spell(MagicSchool.ABJURATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
@@ -116,8 +123,9 @@ public enum Spell implements Option {
     SHOCKING_GRASP(spell(MagicSchool.EVOCATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("Touch").area("1 creature").duration("Instantaneous")
-        .effect("Melee spell attack. Advantage if target wearing metal armour. [max($level "
-            + "1:1d8,5:2d8,11:3d8,17:4d8)] lightning damage and no reactions until next turn.")),
+        .attack("[max($level 1:1d8,5:2d8,11:3d8,17:4d8)]", DamageType.LIGHTNING)
+        .effect("Melee spell attack. Advantage if target wearing metal armour. "
+            + "No reactions until next turn.")),
     SPARE_THE_DYING(spell(MagicSchool.NECROMANCY, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("Touch").area("1 creature with 0 HP").duration("Instantaneous")
@@ -130,8 +138,8 @@ public enum Spell implements Option {
     THORN_WHIP(spell(MagicSchool.TRANSMUTATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("30 feet").area("1 creature").duration("Instantaneous")
-        .effect("Melee spell attack +[$spell_mod] [max($level 1:1,5:2,11:3,17:4)]d6 piercing damage and "
-            + "pull target 10 feet.")),
+        .attack("[max($level 1:1,5:2,11:3,17:4)]d6", DamageType.PIERCING)
+        .effect("Melee spell attack and pull target 10 feet.")),
     TRUE_STRIKE(spell(MagicSchool.DIVINATION, 0)
         .castingTime("1 action").components(SOMATIC)
         .range("30 feet").area("1 creature").duration("up to 1 round")
@@ -156,8 +164,8 @@ public enum Spell implements Option {
     ARMS_OF_HADAR(spell(MagicSchool.CONJURATION, 1)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("Self").area("10-foot radius").duration("Instantaneous")
-        .effect("2d6 necrotic damage and no reactions for turn.\nStr save for half damage.\n+1d6 damage "
-            + "/ extra level")),
+        .effect("2d6 necrotic damage and no reactions for turn. Str save for half damage.")
+        .effect("+1d6 damage / extra spell slot level.")),
     BANE(spell(MagicSchool.ENCHANTMENT, 1)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("30 feet").area("Up to 3 creatures").duration("up to 1 minute")
@@ -177,7 +185,7 @@ public enum Spell implements Option {
     CHROMATIC_ORB(spell(MagicSchool.EVOCATION, 1)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("90 feet").duration("Instantaneous")
-        .effect("Ranged spell attack [$spell_mod]. 3d8 damage (choose type). +1d8 damage / extra level.")),
+        .effect("Ranged spell attack. 3d8 damage (choose type). +1d8 damage / extra level.")),
     COLOUR_SPRAY(spell(MagicSchool.ILLUSION, 1)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("Self").area("15-foot cone").duration("1 round")
@@ -1913,7 +1921,7 @@ public enum Spell implements Option {
     }
 
     private Spell(SpellDelegate delegate) {
-        this.delegate = delegate;
+        this.delegate = delegate.name(StringUtils.capitaliseEnumName(name()));
     }
 
     public String getSchoolAndRitual() {
@@ -1974,7 +1982,7 @@ public enum Spell implements Option {
     }
 
     public String toString() {
-        return StringUtils.capitaliseEnumName(name());
+        return delegate.getName();
     }
 
     public Stream<String> getDescription(Character character) {
@@ -1986,6 +1994,10 @@ public enum Spell implements Option {
                 "<b>Area of effect</b> " + getArea(),
                 "<b>Duration</b> " + getDuration()),
             getEffects(character));
+    }
+
+    public Optional<Attack> getAttack(Character character, AttributeType ability) {
+        return delegate.getAttack(character, ability);
     }
 
     @Override

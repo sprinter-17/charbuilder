@@ -21,7 +21,10 @@ import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
 import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.choice.TestOptionChoice;
 import characterbuilder.character.equipment.Armour;
+import characterbuilder.character.equipment.Attack;
 import characterbuilder.character.equipment.EquipmentSet;
+import characterbuilder.character.spell.Spell;
+import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.utils.TestCharacter;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -223,7 +226,7 @@ public class CharacterTest {
         setLevel(CharacterClass.FIGHTER, 1);
         for (int level = 0; level < 20; level++) {
             assertThat(character.getIntAttribute(EXPERIENCE_POINTS),
-                    is(Character.XP_LEVELS[level]));
+                is(Character.XP_LEVELS[level]));
             character.increaseLevel(random);
         }
     }
@@ -287,6 +290,14 @@ public class CharacterTest {
     }
 
     @Test
+    public void testAttacks() {
+        character.addAttribute(new SpellAbility(Spell.CHILL_TOUCH, CONSTITUTION));
+        Attack cantrip = character.getAttacks().filter(at -> at.getName().equals("Chill Touch"))
+            .findAny().get();
+        assertThat(cantrip.getRange(), is("120"));
+    }
+
+    @Test
     public void testErrors() {
         assertThat(character.getErrors(), containsString("Name"));
         character.addAttribute(new StringAttribute(NAME, "Fred"));
@@ -298,9 +309,9 @@ public class CharacterTest {
 
     private void setLevel(CharacterClass charClass, int level) {
         Stream.of(
-                charClass,
-                Race.HUMAN,
-                new IntAttribute(HIT_POINTS, charClass.getHitDie()),
-                new AbilityScore(CONSTITUTION, 10)).forEach(attr -> attr.choose(character));
+            charClass,
+            Race.HUMAN,
+            new IntAttribute(HIT_POINTS, charClass.getHitDie()),
+            new AbilityScore(CONSTITUTION, 10)).forEach(attr -> attr.choose(character));
     }
 }

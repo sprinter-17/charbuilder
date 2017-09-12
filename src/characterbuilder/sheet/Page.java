@@ -29,6 +29,14 @@ public abstract class Page {
         return "<html>" + value + "</html>";
     }
 
+    protected String table(List<String> rows, int width) {
+        StringBuilder text = new StringBuilder();
+        text.append("<html>").append(String.format("<table width='%dpx'>", width));
+        rows.forEach(text::append);
+        text.append("</table>").append("</html>");
+        return text.toString();
+    }
+
     protected String table(List<String> rows) {
         StringBuilder text = new StringBuilder();
         text.append("<html>").append("<table>");
