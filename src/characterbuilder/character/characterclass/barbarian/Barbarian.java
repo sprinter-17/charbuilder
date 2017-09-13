@@ -1,13 +1,10 @@
 package characterbuilder.character.characterclass.barbarian;
 
-import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_WEAPONS;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AbilityScore;
-import characterbuilder.character.attribute.Attribute;
-import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
@@ -16,12 +13,10 @@ import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.levels;
 import characterbuilder.character.equipment.EquipmentCategory;
 import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
-import characterbuilder.character.equipment.EquipmentSet;
 import static characterbuilder.character.equipment.Weapon.*;
 import java.util.stream.Stream;
 
 public class Barbarian extends AbstractCharacterClass {
-
 
     @Override
     public int getHitDie() {
@@ -47,11 +42,11 @@ public class Barbarian extends AbstractCharacterClass {
         gen.level(1).addEquipmentChoice("Primary Weapon")
             .with(GREATEAXE).with(EquipmentCategory.MARTIAL_MELEE);
         gen.level(1).addEquipmentChoice("Secondary Weapon")
-            .with(new EquipmentSet(HANDAXE, 2))
+            .with(HANDAXE.makeSet(2))
             .with(EquipmentCategory.SIMPLE_MELEE)
             .with(EquipmentCategory.SIMPLE_RANGED);
         gen.level(1).addEquipment(EXPLORER_PACK);
-        gen.level(1).addEquipment(JAVELIN, 4);
+        gen.level(1).addEquipment(JAVELIN.makeSet(4));
         gen.level(1).addAttributes(RAGE, UNARMORED_DEFENCE);
         gen.level(2).addAttributes(RECKLESS_ATTACK, DANGER_SENSE);
         gen.level(3).addAttributeChoice("Primal Path", PrimalPath.values());

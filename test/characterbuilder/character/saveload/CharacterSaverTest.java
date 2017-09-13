@@ -17,7 +17,6 @@ import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import characterbuilder.character.characterclass.cleric.DivineDomain;
 import static characterbuilder.character.equipment.AdventureGear.BASKET;
-import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Token;
 import static characterbuilder.character.equipment.Weapon.WHIP;
 import characterbuilder.character.spell.Spell;
@@ -123,14 +122,14 @@ public class CharacterSaverTest {
 
     @Test
     public void testWeapon() {
-        character.addEquipment(new EquipmentSet(WHIP));
+        character.addEquipment(WHIP.makeSet(1));
         saveAndLoad();
         assertTrue(character.hasEquipment(WHIP));
     }
 
     @Test
     public void testEquipmentSet() {
-        character.addEquipment(new EquipmentSet(WHIP, 5));
+        character.addEquipment(WHIP.makeSet(5));
         saveAndLoad();
         assertThat(character.getInventoryWeight(), is(WHIP.getWeight().times(5)));
     }

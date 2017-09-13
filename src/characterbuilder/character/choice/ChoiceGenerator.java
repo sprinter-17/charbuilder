@@ -8,7 +8,6 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
-import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Token;
 import characterbuilder.character.equipment.Weapon;
 import characterbuilder.character.spell.Spell;
@@ -88,10 +87,6 @@ public class ChoiceGenerator {
         Arrays.stream(equipment)
             .forEach(eq -> addAction(eq.toString(), ch -> ch.addEquipment(eq)));
         return this;
-    }
-
-    public ChoiceGenerator addEquipment(Equipment equipment, int count) {
-        return addEquipment(new EquipmentSet(equipment, count));
     }
 
     public ChoiceGenerator addTokens(String... names) {

@@ -121,13 +121,13 @@ public class CharacterTest {
 
     @Test
     public void testInventoryWeight() {
-        character.addEquipment(new EquipmentSet(Armour.LEATHER_ARMOUR));
+        character.addEquipment(Armour.LEATHER_ARMOUR.makeSet(1));
         assertThat(character.getInventoryWeight(), is(LB.times(10)));
-        character.addEquipment(new EquipmentSet(Armour.LEATHER_ARMOUR));
+        character.addEquipment(Armour.LEATHER_ARMOUR.makeSet(1));
         assertThat(character.getInventoryWeight(), is(LB.times(20)));
-        character.addEquipment(new EquipmentSet(Armour.STUDDED_LEATHER_ARMOUR));
+        character.addEquipment(Armour.STUDDED_LEATHER_ARMOUR.makeSet(1));
         assertThat(character.getInventoryWeight(), is(LB.times(33)));
-        character.removeEquipment(new EquipmentSet(Armour.LEATHER_ARMOUR));
+        character.removeEquipment(Armour.LEATHER_ARMOUR.makeSet(1));
         assertThat(character.getInventoryWeight(), is(LB.times(23)));
     }
 

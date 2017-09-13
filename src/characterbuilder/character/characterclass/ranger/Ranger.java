@@ -79,7 +79,7 @@ public class Ranger extends AbstractCharacterClass {
         gen.level(1).addChoice(2, new EquipmentChoice("Weapon")
             .with(SHORTSWORD).with(EquipmentCategory.SIMPLE_MELEE));
         gen.level(1).addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
-        gen.level(1).addEquipment(LONGBOW).addEquipment(ARROW, 20);
+        gen.level(1).addEquipment(LONGBOW).addEquipment(ARROW.makeSet(20));
     }
 
     private void addSpellCasting(ChoiceGenerator gen) {

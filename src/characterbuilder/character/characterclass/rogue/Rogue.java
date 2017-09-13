@@ -18,7 +18,6 @@ import static characterbuilder.character.equipment.Armour.LEATHER_ARMOUR;
 import static characterbuilder.character.equipment.EquipmentPack.BUGLAR_PACK;
 import static characterbuilder.character.equipment.EquipmentPack.DUNGEONEER_PACK;
 import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
-import characterbuilder.character.equipment.EquipmentSet;
 import static characterbuilder.character.equipment.Weapon.DAGGER;
 import static characterbuilder.character.equipment.Weapon.HAND_CROSSBOW;
 import static characterbuilder.character.equipment.Weapon.LONGSWORD;
@@ -80,11 +79,11 @@ public class Rogue extends AbstractCharacterClass {
 
     private void addEquipment(ChoiceGenerator gen) {
         gen.level(1).addEquipment(LEATHER_ARMOUR)
-            .addEquipment(DAGGER, 2)
+            .addEquipment(DAGGER.makeSet(2))
             .addEquipment(AdventureGear.THIEVES_TOOLS);
         gen.level(1).addEquipmentChoice("Primary Weapon", RAPIER, SHORTSWORD);
         gen.level(1).addEquipmentChoice("Secondard Weapon")
-            .with(SHORTBOW, QUIVER, new EquipmentSet(ARROW, 20)).with(SHORTSWORD);
+            .with(SHORTBOW, QUIVER, ARROW.makeSet(20)).with(SHORTSWORD);
         gen.level(1)
             .addEquipmentChoice("Adventure Pack", BUGLAR_PACK, DUNGEONEER_PACK, EXPLORER_PACK);
     }

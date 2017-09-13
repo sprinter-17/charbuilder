@@ -15,7 +15,6 @@ import characterbuilder.character.equipment.Armour;
 import static characterbuilder.character.equipment.Armour.*;
 import characterbuilder.character.equipment.EquipmentCategory;
 import static characterbuilder.character.equipment.EquipmentPack.*;
-import characterbuilder.character.equipment.EquipmentSet;
 import static characterbuilder.character.equipment.Weapon.*;
 import java.util.stream.Stream;
 
@@ -49,10 +48,10 @@ public class Fighter extends AbstractCharacterClass {
 
     private void addAbilities(ChoiceGenerator gen) {
         gen.level(1)
-                .addAttributes(ALL_ARMOUR, ALL_WEAPONS, SECOND_WIND)
-                .addAttributeChoice(2, "Skill", ACROBATICS, ANIMAL_HANDLING, ATHLETICS, HISTORY,
-                        INSIGHT, INTIMIDATION, PERCEPTION, SURVIVAL)
-                .addAttributeChoice("Fighting Style", FightingStyle.values());
+            .addAttributes(ALL_ARMOUR, ALL_WEAPONS, SECOND_WIND)
+            .addAttributeChoice(2, "Skill", ACROBATICS, ANIMAL_HANDLING, ATHLETICS, HISTORY,
+                INSIGHT, INTIMIDATION, PERCEPTION, SURVIVAL)
+            .addAttributeChoice("Fighting Style", FightingStyle.values());
         gen.level(2).addAttributes(ACTION_SURGE);
         gen.level(3).addAttributeChoice("Martial Archetype", MartialArchetype.values());
         gen.level(5).addAttributes(EXTRA_ATTACK);
@@ -62,13 +61,13 @@ public class Fighter extends AbstractCharacterClass {
 
     private void addEquipment(ChoiceGenerator gen) {
         gen.level(1).addEquipmentChoice("Armour")
-                .with(CHAIN_MAIL_ARMOUR).with(LEATHER_ARMOUR, LONGBOW, new EquipmentSet(ARROW, 20));
+            .with(CHAIN_MAIL_ARMOUR).with(LEATHER_ARMOUR, LONGBOW, ARROW.makeSet(20));
         gen.level(1).addEquipmentChoice("Primary Weapon").with(EquipmentCategory.MARTIAL_MELEE);
         gen.level(1).addEquipmentChoice("Secondary Weapon Or Shield")
-                .with(Armour.SHIELD).with(EquipmentCategory.MARTIAL_MELEE);
+            .with(Armour.SHIELD).with(EquipmentCategory.MARTIAL_MELEE);
         gen.level(1).addEquipmentChoice("Ranged Weapon")
-                .with(LIGHT_CROSSBOW, new EquipmentSet(CROSSBOW_BOLT, 20))
-                .with(new EquipmentSet(HANDAXE, 2));
+            .with(LIGHT_CROSSBOW, CROSSBOW_BOLT.makeSet(20))
+            .with(HANDAXE.makeSet(2));
         gen.level(1).addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
     }
 }

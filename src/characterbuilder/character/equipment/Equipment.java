@@ -22,6 +22,10 @@ public interface Equipment extends Option {
         return this;
     }
 
+    default EquipmentSet makeSet(int count) {
+        return new EquipmentSet(this, count);
+    }
+
     default int getCount() {
         return 1;
     }

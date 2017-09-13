@@ -24,9 +24,9 @@ public class InventoryTest {
 
     @Test
     public void testAddItem() {
-        inventory.addItem(new EquipmentSet(TRIDENT));
+        inventory.addItem(TRIDENT.makeSet(1));
         assertThat(inventory.getItemCount(), is(1));
-        inventory.addItem(new EquipmentSet(CLUB));
+        inventory.addItem(CLUB.makeSet(1));
         assertThat(inventory.getItemCount(), is(2));
         assertTrue(inventory.containsItem(TRIDENT));
         assertTrue(inventory.containsItem(CLUB));
@@ -52,8 +52,8 @@ public class InventoryTest {
 
     @Test
     public void testRemoveItem() {
-        inventory.addItem(new EquipmentSet(AMULET));
-        inventory.removeItem(new EquipmentSet(AMULET));
+        inventory.addItem(AMULET.makeSet(1));
+        inventory.removeItem(AMULET.makeSet(1));
         assertThat(inventory.getItemCount(), is(0));
         inventory.addItem(new EquipmentSet(AMULET, 0, 5));
         inventory.removeItem(new EquipmentSet(AMULET, 0, 2));
@@ -63,14 +63,14 @@ public class InventoryTest {
     @Test
     public void testContainsItem() {
         assertFalse(inventory.containsItem(BATTLEAXE));
-        inventory.addItem(new EquipmentSet(BATTLEAXE));
+        inventory.addItem(BATTLEAXE.makeSet(1));
         assertTrue(inventory.containsItem(BATTLEAXE));
     }
 
     @Test
     public void testGetValue() {
         assertThat(inventory.getValue(), is(Value.ZERO));
-        inventory.addItem(new EquipmentSet(COPPER_PIECE));
+        inventory.addItem(COPPER_PIECE.makeSet(1));
         assertThat(inventory.getValue(), is(Value.CP));
         inventory.addItem(new EquipmentSet(COPPER_PIECE, 0, 5));
         assertThat(inventory.getValue(), is(Value.CP.times(6)));
@@ -78,7 +78,7 @@ public class InventoryTest {
 
     @Test
     public void testOnlyTreasureHasValue() {
-        inventory.addItem(new EquipmentSet(GREATSWORD));
+        inventory.addItem(GREATSWORD.makeSet(1));
         assertThat(inventory.getValue(), is(Value.ZERO));
     }
 

@@ -75,7 +75,8 @@ public class Paladin extends AbstractCharacterClass {
         gen.level(1).addEquipmentChoice("Weapon").with(MARTIAL_MELEE).with(MARTIAL_RANGED);
         gen.level(1).addEquipmentChoice("Weapon or Shield", Armour.SHIELD)
             .with(MARTIAL_MELEE).with(MARTIAL_RANGED);
-        gen.level(1).addEquipmentChoice("Secondary Weapon").with(JAVELIN, 5).with(SIMPLE_MELEE);
+        gen.level(1).addEquipmentChoice("Secondary Weapon").with(JAVELIN.makeSet(5))
+            .with(SIMPLE_MELEE);
         gen.level(1).addEquipmentChoice("Adventure Pack", PRIEST_PACK, EXPLORER_PACK);
         gen.level(1).addEquipment(CHAIN_MAIL_ARMOUR);
         gen.level(1).addChoice(new EquipmentChoice(HOLY_SYMBOL));

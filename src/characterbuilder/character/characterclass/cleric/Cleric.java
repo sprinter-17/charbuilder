@@ -20,7 +20,6 @@ import static characterbuilder.character.equipment.Armour.CHAIN_MAIL_ARMOUR;
 import static characterbuilder.character.equipment.Armour.LEATHER_ARMOUR;
 import static characterbuilder.character.equipment.Armour.SCALE_MAIL_ARMOUR;
 import characterbuilder.character.equipment.EquipmentCategory;
-import characterbuilder.character.equipment.EquipmentSet;
 import static characterbuilder.character.equipment.Weapon.LIGHT_CROSSBOW;
 import static characterbuilder.character.equipment.Weapon.MACE;
 import static characterbuilder.character.equipment.Weapon.WARHAMMER;
@@ -75,7 +74,7 @@ public class Cleric extends AbstractCharacterClass {
         gen.level(1).addEquipmentChoice("Primary Weapon", MACE, WARHAMMER);
         gen.level(1).addEquipmentChoice("Secondary Weapon")
             .with(EquipmentCategory.SIMPLE_MELEE)
-            .with(LIGHT_CROSSBOW, new EquipmentSet(CROSSBOW_BOLT, 20));
+            .with(LIGHT_CROSSBOW, CROSSBOW_BOLT.makeSet(20));
         gen.level(1)
             .addEquipmentChoice("Armour", SCALE_MAIL_ARMOUR, LEATHER_ARMOUR, CHAIN_MAIL_ARMOUR);
         gen.level(1).addEquipmentChoice(EquipmentCategory.HOLY_SYMBOL);

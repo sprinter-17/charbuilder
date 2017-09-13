@@ -12,7 +12,6 @@ import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.equipment.AdventureGear;
 import static characterbuilder.character.equipment.AdventureGear.*;
 import characterbuilder.character.equipment.EquipmentCategory;
-import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Token;
 import characterbuilder.utils.StringUtils;
@@ -24,8 +23,8 @@ import org.w3c.dom.Node;
 public enum Background implements Attribute {
     ACOLYTE(gen
         -> gen.addAttributes(INSIGHT, RELIGION)
-            .addEquipment(GOLD_PIECE, 15)
-            .addEquipment(INCENSE_BLOCK, 5)
+            .addEquipment(GOLD_PIECE.makeSet(15))
+            .addEquipment(INCENSE_BLOCK.makeSet(5))
             .addChoice(new EquipmentChoice(EquipmentCategory.HOLY_SYMBOL))
             .addChoice(Language.choose(2))),
     CHARLATAN(gen
@@ -37,11 +36,11 @@ public enum Background implements Attribute {
                 new Token("Set of Weighted Dice"),
                 new Token("Deck of Marked Cards"),
                 new Token("Signet Ring of Imaginary Duke")))
-            .addEquipment(GOLD_PIECE, 15)
+            .addEquipment(GOLD_PIECE.makeSet(15))
             .addAttributes(Ability.FALSE_IDENTITY)),
     CRIMINAL(gen
         -> gen.addAttributes(DECEPTION, STEALTH, Proficiency.THIEVES_TOOLS)
-            .addEquipment(AdventureGear.GOLD_PIECE, 15)
+            .addEquipment(GOLD_PIECE.makeSet(15))
             .addEquipment(CROWBAR, COMMON_CLOTHES)
             .addChoice(Language.choose(1))),
     ENTERTAINER(gen
@@ -50,13 +49,13 @@ public enum Background implements Attribute {
             .addChoice(new AttributeChoice("Musical Instrument Proficiency",
                 MusicalInstrument.getAllProficiencies()))
             .addChoice(new EquipmentChoice(EquipmentCategory.MUSICAL_INSTRUMENT))
-            .addEquipment(GOLD_PIECE, 15)
+            .addEquipment(GOLD_PIECE.makeSet(15))
             .addTokens("the favour of an admirer.")
             .addEquipment(COSTUME)
             .addChoice(3, Proficiency.choose(ENTERTAINER_ROUTINE))),
     FOLK_HERO(gen
         -> gen.addAttributes(ANIMAL_HANDLING, SURVIVAL, LAND_VEHICLES)
-            .addEquipment(AdventureGear.GOLD_PIECE, 10)
+            .addEquipment(GOLD_PIECE.makeSet(10))
             .addChoice(Proficiency.choose(ARTISAN))),
     GUILD_ARTISAN(gen -> {
         gen.addAttributes(INSIGHT, PERSUASION);
@@ -65,14 +64,14 @@ public enum Background implements Attribute {
         gen.addChoice(new EquipmentChoice(EquipmentCategory.TOOL));
         gen.addTokens("Letter of introduction from guild");
         gen.addEquipment(TRAVELERS_CLOTHES);
-        gen.addEquipment(GOLD_PIECE, 15);
+        gen.addEquipment(GOLD_PIECE.makeSet(15));
         gen.addChoice(Proficiency.choose(GUILD_BUSINESS));
         gen.addAttributes(Ability.GUILD_MEMBERSHIP);
     }),
     HERMIT(gen -> {
         gen.addAttributes(MEDICINE, RELIGION, Proficiency.HERBALISM_KIT);
         gen.addChoice(Language.choose(1));
-        gen.addEquipment(GOLD_PIECE, 5);
+        gen.addEquipment(GOLD_PIECE.makeSet(5));
         gen.addEquipment(BLANKET, COMMON_CLOTHES, AdventureGear.HERBALISM_KIT);
         gen.addTokens("Notes of prayers");
         gen.addAttributes(Ability.DISCOVERY);
@@ -80,7 +79,7 @@ public enum Background implements Attribute {
     NOBLE(gen
         -> gen
             .addAttributes(PERSUASION, HISTORY)
-            .addEquipment(new EquipmentSet(AdventureGear.GOLD_PIECE, 25))
+            .addEquipment(AdventureGear.GOLD_PIECE.makeSet(25))
             .addChoice(Language.choose(1))
             .addChoice(new AttributeChoice("Gaming skill", CARDS, DICE))),
     OUTLANDER(gen -> {
@@ -90,12 +89,12 @@ public enum Background implements Attribute {
         gen.addChoice(Language.choose(1));
         gen.addEquipment(AdventureGear.STAFF, AdventureGear.TRAVELERS_CLOTHES);
         gen.addTokens("Hunting trap", "Trophy from animal");
-        gen.addEquipment(AdventureGear.GOLD_PIECE, 10);
+        gen.addEquipment(GOLD_PIECE.makeSet(10));
         gen.addAttributes(Ability.WANDERER);
     }),
     SAGE(gen -> {
         gen.addAttributes(ARCANA, HISTORY)
-            .addEquipment(AdventureGear.GOLD_PIECE, 10)
+            .addEquipment(GOLD_PIECE.makeSet(10))
             .addChoice(Language.choose(2));
         gen.addTokens("Bottle of black ink", "Quill", "Letter with unanswered question");
         gen.addEquipment(AdventureGear.COMMON_CLOTHES);
@@ -103,14 +102,14 @@ public enum Background implements Attribute {
     }),
     SAILOR(gen -> {
         gen.addAttributes(ATHLETICS, PERCEPTION, Proficiency.NAVIGATORS_TOOLS, WATER_VEHICLES);
-        gen.addEquipment(AdventureGear.GOLD_PIECE, 10);
+        gen.addEquipment(GOLD_PIECE.makeSet(10));
         gen.addEquipment(new Token("Belaying pin"), AdventureGear.ROPE_SILK,
             new Token("Luck charm"), AdventureGear.COMMON_CLOTHES);
         gen.addAttributes(Ability.SHIPS_PASSAGE);
     }),
     SOLDIER(gen -> {
         gen.addAttributes(ATHLETICS, INTIMIDATION, LAND_VEHICLES);
-        gen.addEquipment(AdventureGear.GOLD_PIECE, 10);
+        gen.addEquipment(GOLD_PIECE.makeSet(10));
         gen.addEquipment(new Token("Insignia of rank"), new Token("Trophy from fallen enemy"));
         gen.addEquipment(AdventureGear.COMMON_CLOTHES);
         gen.addChoice(new EquipmentChoice(
@@ -123,7 +122,7 @@ public enum Background implements Attribute {
         gen.addEquipment(AdventureGear.KNIFE_SMALL,
             new Token("Map of city"), new Token("Pet mouse"), new Token("Momento of parents"));
         gen.addEquipment(COMMON_CLOTHES);
-        gen.addEquipment(AdventureGear.GOLD_PIECE, 10);
+        gen.addEquipment(GOLD_PIECE.makeSet(10));
         gen.addAttributes(Ability.CITY_SECRETS);
     });
 

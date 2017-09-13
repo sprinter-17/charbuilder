@@ -15,11 +15,7 @@ public class EquipmentSet implements Equipment {
     private final int bonus;
     private final int count;
 
-    public EquipmentSet(Equipment equipment) {
-        this(equipment, 0, 1);
-    }
-
-    public EquipmentSet(Equipment equipment, int count) {
+    protected EquipmentSet(Equipment equipment, int count) {
         this(equipment, 0, count);
     }
 

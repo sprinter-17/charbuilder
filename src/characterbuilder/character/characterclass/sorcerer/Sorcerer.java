@@ -15,7 +15,6 @@ import static characterbuilder.character.equipment.EquipmentCategory.SIMPLE_MELE
 import static characterbuilder.character.equipment.EquipmentCategory.SIMPLE_RANGED;
 import static characterbuilder.character.equipment.EquipmentPack.DUNGEONEER_PACK;
 import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
-import characterbuilder.character.equipment.EquipmentSet;
 import static characterbuilder.character.equipment.Weapon.DAGGER;
 import static characterbuilder.character.equipment.Weapon.DART;
 import static characterbuilder.character.equipment.Weapon.LIGHT_CROSSBOW;
@@ -63,7 +62,7 @@ public class Sorcerer extends AbstractCharacterClass {
 
     private void addEquipment(ChoiceGenerator gen) {
         gen.level(1).addEquipmentChoice("Weapon")
-            .with(LIGHT_CROSSBOW, new EquipmentSet(CROSSBOW_BOLT, 20))
+            .with(LIGHT_CROSSBOW, CROSSBOW_BOLT.makeSet(20))
             .with(SIMPLE_MELEE).with(SIMPLE_RANGED);
         gen.level(1).addEquipmentChoice("Spell Equipment").with(COMPONENT_POUCH).with(ARCANE_FOCUS);
         gen.level(1).addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);

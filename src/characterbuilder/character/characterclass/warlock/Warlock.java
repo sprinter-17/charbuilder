@@ -20,7 +20,6 @@ import static characterbuilder.character.equipment.EquipmentCategory.ARCANE_FOCU
 import static characterbuilder.character.equipment.EquipmentCategory.SIMPLE_MELEE;
 import static characterbuilder.character.equipment.EquipmentCategory.SIMPLE_RANGED;
 import characterbuilder.character.equipment.EquipmentPack;
-import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Weapon;
 import static characterbuilder.character.equipment.Weapon.DAGGER;
 import java.util.stream.Stream;
@@ -77,7 +76,7 @@ public class Warlock extends AbstractCharacterClass {
 
     private void addEquipment(ChoiceGenerator gen) {
         gen.level(1).addChoice(new EquipmentChoice("Primary Weapon")
-            .with(Weapon.LIGHT_CROSSBOW, new EquipmentSet(ARROW, 20))
+            .with(Weapon.LIGHT_CROSSBOW, ARROW.makeSet(20))
             .with(SIMPLE_MELEE).with(SIMPLE_RANGED));
         gen.level(1).addChoice(new EquipmentChoice("Secondary Weapon")
             .with(SIMPLE_MELEE).with(SIMPLE_RANGED));
@@ -85,7 +84,7 @@ public class Warlock extends AbstractCharacterClass {
             .with(COMPONENT_POUCH).with(ARCANE_FOCUS));
         gen.level(1).addChoice(new EquipmentChoice("Adventurer's Pack",
             EquipmentPack.SCHOLAR_PACK, EquipmentPack.DUNGEONEER_PACK));
-        gen.level(1).addEquipment(LEATHER_ARMOUR, new EquipmentSet(DAGGER, 2));
+        gen.level(1).addEquipment(LEATHER_ARMOUR, DAGGER.makeSet(2));
     }
 
     private void addCantrips(ChoiceGenerator gen) {

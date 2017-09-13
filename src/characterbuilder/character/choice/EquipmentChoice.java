@@ -3,11 +3,10 @@ package characterbuilder.character.choice;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
+import characterbuilder.character.equipment.AdventureGear;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
-import characterbuilder.character.equipment.EquipmentSet;
-import characterbuilder.character.equipment.AdventureGear;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
 import java.util.ArrayList;
@@ -92,11 +91,6 @@ public class EquipmentChoice extends OptionChoice {
 
     public EquipmentChoice with(Equipment... equipment) {
         equipmentList.add(new MultiEquipment(equipment));
-        return this;
-    }
-
-    public EquipmentChoice with(Equipment equipment, int count) {
-        equipmentList.add(new EquipmentSet(equipment, count));
         return this;
     }
 

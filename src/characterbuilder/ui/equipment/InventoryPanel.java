@@ -145,7 +145,7 @@ public class InventoryPanel extends CharacterSubPanel {
         return new AbstractAction(treasure.toString() + "s") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editItem(new EquipmentSet(treasure, 100), false);
+                editItem(treasure.makeSet(100), false);
             }
         };
     }
@@ -198,14 +198,14 @@ public class InventoryPanel extends CharacterSubPanel {
     }
 
     private void removeSingleItem(Equipment equipment) {
-        getCharacter().removeEquipment(new EquipmentSet(equipment));
+        getCharacter().removeEquipment(equipment.makeSet(1));
         triggerUpdate(getCharacter());
     }
 
     private void removeMultipleItems(Equipment equipment) throws HeadlessException {
         EquipmentCountDialog dialog = new EquipmentCountDialog("Equipment Removal", equipment,
             count -> {
-            getCharacter().removeEquipment(new EquipmentSet(equipment, count));
+            getCharacter().removeEquipment(equipment.makeSet(count));
             triggerUpdate(getCharacter());
         });
         dialog.setLocationRelativeTo(this);
@@ -242,10 +242,10 @@ public class InventoryPanel extends CharacterSubPanel {
         });
         List<EquipmentSet> sets = new ArrayList<>();
         Arrays.stream(AdventureGear.values())
-            .map(et -> new EquipmentSet(et, et.getPreferredCount()))
+            .map(et -> et.makeSet(et.getPreferredCount()))
             .forEach(sets::add);
         Stream.of(Weapon.values(), MusicalInstrument.values(), Armour.values())
-            .flatMap(Arrays::stream).map(eq -> new EquipmentSet(eq))
+            .flatMap(Arrays::stream).map(eq -> eq.makeSet(1))
             .forEach(sets::add);
         sets.stream().map(Equipment::getCategory).distinct()
             .forEach(cat -> equipmentList.put(cat, new ArrayList<>()));

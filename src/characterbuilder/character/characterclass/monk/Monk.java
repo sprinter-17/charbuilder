@@ -52,7 +52,7 @@ public class Monk extends AbstractCharacterClass {
         gen.level(1).addEquipmentChoice("Weapon").with(SHORTSWORD)
             .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED);
         gen.level(1).addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
-        gen.level(1).addEquipment(DART, 10);
+        gen.level(1).addEquipment(DART.makeSet(10));
         gen.level(1).addAttributes(UNARMORED_DEFENCE, MARTIAL_ARTS);
         gen.level(2).addAttributes(KI, FLURRY_OF_BLOWS, PATIENT_DEFENCE, STEP_OF_THE_WIND,
             UNARMOURED_MOVEMENT);
