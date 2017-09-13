@@ -87,4 +87,10 @@ public class InventoryTest {
         inventory.addItem(new EquipmentSet(BATTLEAXE, 0, 4));
         assertThat(inventory.getWeight(), is(BATTLEAXE.getWeight().times(4)));
     }
+
+    @Test
+    public void testGetWeapons() {
+        inventory.addItem(new EquipmentSet(BATTLEAXE, 3, 1));
+        assertThat(inventory.getWeapons().count(), is(1L));
+    }
 }

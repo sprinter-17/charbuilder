@@ -81,8 +81,16 @@ public class WeaponTest {
     }
 
     @Test
-    public void testArchery() {
+    public void testFinessedWeaponsDoNotGetArcheryBonus() {
+        character.addAttribute(FightingStyle.ARCHERY);
+        assertThat(Weapon.SHORTSWORD.getAttacks(character).findAny().get().getBonus(), is(0));
+    }
 
+    @Test
+    public void testWeaponBonus() {
+        character.addEquipment(new EquipmentSet(MACE, 3, 1));
+        Attack attack = MACE.getAttacks(character).findAny().get();
+        assertThat(attack.getBonus(), is(3));
     }
 
     @Test

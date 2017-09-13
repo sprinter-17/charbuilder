@@ -96,7 +96,7 @@ public enum Weapon implements Equipment {
     }
 
     private static int finessed(Character character) {
-        return Math.max(melee(character), ranged(character));
+        return Math.max(character.getModifier(STRENGTH), character.getModifier(DEXTERITY));
     }
 
     private static BiFunction<Weapon, Character, Attack> attack(String range,
@@ -115,6 +115,7 @@ public enum Weapon implements Equipment {
         String damage, DamageType type,
         Function<Character, Integer> bonus, Optional<String> description) {
         return (w, ch) -> {
+            String name = w.toString();
             int mod = bonus.apply(ch);
             mod += ch.getInventory()
                 .filter(eq -> eq.getBaseEquipment().equals(w))
@@ -123,7 +124,6 @@ public enum Weapon implements Equipment {
             int hit = mod;
             if (ch.hasAttribute(w.getProficiency()))
                 hit += ch.getProficiencyBonus();
-            String name = w.toString();
             Attack attack = new Attack(name, range, hit, damageText(damage, mod), type);
             description.ifPresent(attack::setDescription);
             return attack;

@@ -23,6 +23,7 @@ import characterbuilder.character.choice.TestOptionChoice;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Attack;
 import characterbuilder.character.equipment.EquipmentSet;
+import characterbuilder.character.equipment.Weapon;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.utils.TestCharacter;
@@ -290,11 +291,20 @@ public class CharacterTest {
     }
 
     @Test
-    public void testAttacks() {
+    public void testSpellAttacks() {
         character.addAttribute(new SpellAbility(Spell.CHILL_TOUCH, CONSTITUTION));
         Attack cantrip = character.getAttacks().filter(at -> at.getName().equals("Chill Touch"))
             .findAny().get();
         assertThat(cantrip.getRange(), is("120"));
+    }
+
+    @Test
+    public void testMagicWeaponBonus() {
+        character.addEquipment(new EquipmentSet(Weapon.MACE, 3, 1));
+        Attack attack = character.getAttacks()
+            .filter(at -> at.getName().equals("Mace"))
+            .findAny().get();
+        assertThat(attack.getBonus(), is(3));
     }
 
     @Test
