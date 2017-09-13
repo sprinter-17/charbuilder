@@ -46,7 +46,7 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component classAndRace() {
-        return builder.borderedSection(30, 0, 70, 8)
+        return builder.borderedSection(28, 0, 72, 8)
             .with(builder.field("Class & Level",
                 attr(CHARACTER_CLASS) + "/" + character.getLevel(),
                 10, 1))
@@ -59,7 +59,7 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component abilityScores() {
-        PageBuilder.Container attributes = builder.shadedSection(1, 9, 14, 66);
+        PageBuilder.Container attributes = builder.shadedSection(1, 8, 14, 66);
         AbilityScore.SCORES.stream()
             .forEach(attr -> attributes.with(abilityScore(attr)));
         return attributes;
@@ -74,20 +74,20 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component inspiration() {
-        return builder.borderedSection(16, 9, 26, 4)
+        return builder.borderedSection(15, 8, 26, 4)
             .with(builder.circle(3, 2, 3))
             .with(builder.caption("Inspiration", 24, 2, CENTRE_RIGHT));
     }
 
     private PageBuilder.Component proficiencyBonus() {
-        return builder.borderedSection(16, 13, 26, 4)
+        return builder.borderedSection(15, 12, 26, 4)
             .with(builder.circle(3, 2, 3))
             .with(builder.caption("Proficiency Bonus", 24, 2, CENTRE_RIGHT))
             .with(builder.value(character.getProficiencyBonus(), 3, 2, CENTRE));
     }
 
     private PageBuilder.Component savingsThrows() {
-        PageBuilder.Container savingsThrows = builder.borderedSection(16, 17, 26, 17)
+        PageBuilder.Container savingsThrows = builder.borderedSection(15, 16, 26, 17)
             .with(builder.caption("Savings Throws", 13, 15, BOTTOM_CENTRE));
         AbilityScore.SCORES.forEach(attr -> savingsThrows.with(savingsThrow(attr)));
         return savingsThrows;
@@ -104,7 +104,7 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component skills() {
-        PageBuilder.Container skills = builder.borderedSection(16, 34, 26, 41)
+        PageBuilder.Container skills = builder.borderedSection(15, 33, 26, 41)
             .with(builder.caption("Skills", 13, 39, BOTTOM_CENTRE));
         List<Skill> characterSkills = Arrays.stream(Skill.values())
             .sorted(Comparator.comparing(p -> p.toString())).collect(Collectors.toList());
@@ -119,25 +119,25 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component armourClass() {
-        return builder.borderedSection(42, 9, 10, 8)
+        return builder.borderedSection(41, 8, 10, 8)
             .with(builder.value(Armour.getArmourClass(character), 5, 3, CENTRE))
             .with(builder.caption("Armour\nClass", 5, 7, BOTTOM_CENTRE));
     }
 
     private PageBuilder.Component initiative() {
-        return builder.borderedSection(52, 9, 10, 8)
+        return builder.borderedSection(51, 8, 10, 8)
             .with(builder.value(character.getModifier(DEXTERITY), 5, 3, CENTRE))
             .with(builder.caption("Initative", 5, 6, BOTTOM_CENTRE));
     }
 
     private PageBuilder.Component speed() {
-        return builder.borderedSection(62, 9, 10, 8)
+        return builder.borderedSection(61, 8, 10, 8)
             .with(builder.value(character.getSpeed(), 5, 3, CENTRE))
             .with(builder.caption("Speed", 5, 6, BOTTOM_CENTRE));
     }
 
     private PageBuilder.Component hitPoints() {
-        return builder.blank(42, 17).with(
+        return builder.blank(41, 16).with(
             builder.borderedSection(0, 10, 30, 10)
                 .with(builder.caption("Temporary Hit Points", 15, 8, BOTTOM_CENTRE)),
             builder.borderedSection(0, 0, 30, 14)
@@ -146,13 +146,13 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component hitDice() {
-        return builder.borderedSection(42, 37, 14, 9)
+        return builder.borderedSection(41, 36, 14, 9)
             .with(builder.caption(character.getHitDice(), 7, 1, TOP_CENTRE))
             .with(builder.caption("Hit Dice", 7, 7, BOTTOM_CENTRE));
     }
 
     private PageBuilder.Component deathSaves() {
-        return builder.borderedSection(56, 37, 16, 9)
+        return builder.borderedSection(55, 36, 16, 9)
             .with(builder.field("Success", "", 5, 1))
             .with(builder.circle(10, 2, 1))
             .with(builder.circle(12, 2, 1))
@@ -165,7 +165,7 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component attacks() {
-        return builder.borderedSection(42, 46, 58, 29)
+        return builder.borderedSection(41, 45, 59, 29)
             .with(builder.writing(attackText(), 2, 2, 56, 27))
             .with(builder.caption("Attacks", 29, 27, BOTTOM_CENTRE));
     }
@@ -185,7 +185,7 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component personality() {
-        return builder.borderedSection(72, 9, 28, 37)
+        return builder.borderedSection(71, 8, 29, 37)
             .with(builder.caption("Personality", 14, 35, CENTRE))
             .with(builder.writing(
                 html(PERSONALITY.stream().map(this::personalityElement)
@@ -204,7 +204,7 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component proficiencies() {
-        return builder.borderedSection(0, 75, 42, 25)
+        return builder.borderedSection(0, 74, 41, 26)
             .with(builder.writing(otherProficiencies(), 2, 1, 38, 24))
             .with(builder.caption("Proficiencies", 21, 23, BOTTOM_CENTRE));
     }
@@ -239,7 +239,7 @@ public class MainPage extends Page {
     }
 
     private PageBuilder.Component equipment() {
-        return builder.borderedSection(42, 75, 58, 25)
+        return builder.borderedSection(41, 74, 59, 26)
             .with(builder.writing(equipmentDescription(), 2, 1, 54, 20))
             .with(builder.field("Total Weight",
                 character.getInventoryWeight().toStringInPounds(), 8, 10))
