@@ -54,13 +54,12 @@ public class Inventory {
     }
 
     private Equipment add(Equipment eq1, Equipment eq2) {
-        return new EquipmentSet(eq1.getBaseEquipment(), eq1.getBonus(),
-            eq1.getCount() + eq2.getCount());
+        return new EquipmentSet(eq1.getBaseEquipment(), eq1.getCount() + eq2.getCount());
     }
 
     private Optional<Equipment> substract(Equipment eq1, Equipment eq2) {
         if (eq1.getCount() > eq2.getCount())
-            return Optional.of(new EquipmentSet(eq1.getBaseEquipment(), eq1.getBonus(),
+            return Optional.of(new EquipmentSet(eq1.getBaseEquipment(),
                 eq1.getCount() - eq2.getCount()));
         else
             return Optional.empty();

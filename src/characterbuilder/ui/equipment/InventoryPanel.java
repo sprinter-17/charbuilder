@@ -219,7 +219,7 @@ public class InventoryPanel extends CharacterSubPanel {
     private void editItem(Equipment item, boolean remove) {
         EquipmentEditDialog dialog = new EquipmentEditDialog(item, es -> {
             if (remove) {
-                EquipmentSet toRemove = new EquipmentSet(item, item.getBonus(), item.getCount());
+                EquipmentSet toRemove = item.makeSet(item.getCount());
                 getCharacter().removeEquipment(toRemove);
             }
             getCharacter().addEquipment(es);

@@ -71,7 +71,7 @@ public class EquipmentEditDialog extends JFrame {
     private void accept(ActionEvent ev) {
         int bonus = bonusModel.getNumber().intValue();
         int count = countModel.getNumber().intValue();
-        acceptAction.accept(new EquipmentSet(equipment, bonus, count));
+        acceptAction.accept(equipment.makeSet(count));
         close(ev);
     }
 

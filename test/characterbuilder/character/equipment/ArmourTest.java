@@ -6,7 +6,6 @@ import characterbuilder.character.ability.FightingStyle;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
-import characterbuilder.character.characterclass.barbarian.Barbarian;
 import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
@@ -111,13 +110,13 @@ public class ArmourTest {
 
     @Test
     public void testShieldBonus() {
-        character.addEquipment(new EquipmentSet(Armour.SHIELD, 2, 1));
+        character.addEquipment(new MagicItem(Armour.SHIELD, 2));
         assertThat(Armour.getArmourClass(character), is(14));
     }
 
     @Test
     public void testArmourBonus() {
-        character.addEquipment(new EquipmentSet(Armour.LEATHER_ARMOUR, 3, 1));
+        character.addEquipment(new MagicItem(Armour.LEATHER_ARMOUR, 3));
         assertThat(Armour.getArmourClass(character), is(14));
     }
 

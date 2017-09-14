@@ -12,29 +12,21 @@ import org.w3c.dom.Element;
 public class EquipmentSet implements Equipment {
 
     private final Equipment equipment;
-    private final int bonus;
     private final int count;
 
     protected EquipmentSet(Equipment equipment, int count) {
-        this(equipment, 0, count);
-    }
-
-    public EquipmentSet(Equipment equipment, int bonus, int count) {
         if (count <= 0)
             throw new IllegalArgumentException("Equipment must have count >= 1");
         this.equipment = equipment.getBaseEquipment();
-        this.bonus = bonus;
         this.count = count;
     }
 
+    @Override
     public int getCount() {
         return count;
     }
 
-    public int getBonus() {
-        return bonus;
-    }
-
+    @Override
     public EquipmentCategory getCategory() {
         return equipment.getCategory();
     }
@@ -50,14 +42,14 @@ public class EquipmentSet implements Equipment {
     }
 
     public boolean matches(EquipmentSet other) {
-        return this.equipment.equals(other.equipment) && this.bonus == other.bonus;
+        return this.equipment.equals(other.equipment);
     }
 
     public EquipmentSet add(EquipmentSet other) {
         if (!matches(other))
             throw new IllegalArgumentException("Attempt to add mismatched item");
         else
-            return new EquipmentSet(equipment, bonus, this.count + other.count);
+            return new EquipmentSet(equipment, this.count + other.count);
     }
 
     public Optional<EquipmentSet> substract(EquipmentSet other) {
@@ -68,7 +60,7 @@ public class EquipmentSet implements Equipment {
         else if (this.count == other.count)
             return Optional.empty();
         else
-            return Optional.of(new EquipmentSet(equipment, bonus, this.count - other.count));
+            return Optional.of(new EquipmentSet(equipment, this.count - other.count));
     }
 
     public Value getValue() {
@@ -82,21 +74,16 @@ public class EquipmentSet implements Equipment {
     @Override
     public Element save(Document doc) {
         Element element = equipment.save(doc);
-        if (bonus != 0)
-            element.setAttribute("bonus", String.valueOf(bonus));
         if (count != 1)
             element.setAttribute("count", String.valueOf(count));
         return element;
     }
 
     public static EquipmentSet load(Equipment equipment, Element element) {
-        int bonus = 0;
-        if (element.hasAttribute("bonus"))
-            bonus = Integer.valueOf(element.getAttribute("bonus"));
         int count = 1;
         if (element.hasAttribute("count"))
             count = Integer.valueOf(element.getAttribute("count"));
-        return new EquipmentSet(equipment, bonus, count);
+        return new EquipmentSet(equipment, count);
     }
 
     public static EquipmentSet decode(String code) {
@@ -106,7 +93,7 @@ public class EquipmentSet implements Equipment {
             AdventureGear type = AdventureGear.valueOf(matcher.group(2));
             int count = Integer.valueOf(matcher.group(1));
             int bonus = Integer.valueOf(matcher.group(3));
-            return new EquipmentSet(type, bonus, count);
+            return new EquipmentSet(type, count);
         } else {
             throw new IllegalStateException("Decoding illegal equipment code " + code);
         }
@@ -114,14 +101,13 @@ public class EquipmentSet implements Equipment {
 
     @Override
     public String toString() {
-        return equipment.toString(count, bonus);
+        return equipment.toString(count, getBonus());
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 71 * hash + Objects.hashCode(this.equipment);
-        hash = 71 * hash + this.bonus;
         hash = 71 * hash + this.count;
         return hash;
     }
@@ -131,8 +117,7 @@ public class EquipmentSet implements Equipment {
         if (obj == null || getClass() != obj.getClass())
             return false;
         final EquipmentSet other = (EquipmentSet) obj;
-        return this.bonus == other.bonus
-            && this.count == other.count
+        return this.count == other.count
             && this.equipment.equals(other.equipment);
     }
 

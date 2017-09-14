@@ -22,7 +22,7 @@ import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.choice.TestOptionChoice;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Attack;
-import characterbuilder.character.equipment.EquipmentSet;
+import characterbuilder.character.equipment.MagicItem;
 import characterbuilder.character.equipment.Weapon;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellAbility;
@@ -300,7 +300,7 @@ public class CharacterTest {
 
     @Test
     public void testMagicWeaponBonus() {
-        character.addEquipment(new EquipmentSet(Weapon.MACE, 3, 1));
+        character.addEquipment(new MagicItem(Weapon.MACE, 3));
         Attack attack = character.getAttacks()
             .filter(at -> at.getName().equals("Mace"))
             .findAny().get();

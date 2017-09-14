@@ -41,13 +41,13 @@ public class InventoryTest {
 
     @Test
     public void testAddItemWithCount() {
-        inventory.addItem(new EquipmentSet(ABACUS, 0, 7));
+        inventory.addItem(ABACUS.makeSet(7));
         assertThat(inventory.getItemCount(), is(7));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testRemoveNonExistentItem() {
-        inventory.removeItem(new EquipmentSet(TRIDENT, 0, 1));
+        inventory.removeItem(TRIDENT.makeSet(1));
     }
 
     @Test
@@ -55,8 +55,8 @@ public class InventoryTest {
         inventory.addItem(AMULET.makeSet(1));
         inventory.removeItem(AMULET.makeSet(1));
         assertThat(inventory.getItemCount(), is(0));
-        inventory.addItem(new EquipmentSet(AMULET, 0, 5));
-        inventory.removeItem(new EquipmentSet(AMULET, 0, 2));
+        inventory.addItem(AMULET.makeSet(5));
+        inventory.removeItem(AMULET.makeSet(2));
         assertThat(inventory.getItemCount(), is(3));
     }
 
@@ -72,7 +72,7 @@ public class InventoryTest {
         assertThat(inventory.getValue(), is(Value.ZERO));
         inventory.addItem(COPPER_PIECE.makeSet(1));
         assertThat(inventory.getValue(), is(Value.CP));
-        inventory.addItem(new EquipmentSet(COPPER_PIECE, 0, 5));
+        inventory.addItem(COPPER_PIECE.makeSet(5));
         assertThat(inventory.getValue(), is(Value.CP.times(6)));
     }
 
@@ -84,13 +84,13 @@ public class InventoryTest {
 
     @Test
     public void testGetWeight() {
-        inventory.addItem(new EquipmentSet(BATTLEAXE, 0, 4));
+        inventory.addItem(BATTLEAXE.makeSet(4));
         assertThat(inventory.getWeight(), is(BATTLEAXE.getWeight().times(4)));
     }
 
     @Test
     public void testGetWeapons() {
-        inventory.addItem(new EquipmentSet(BATTLEAXE, 3, 1));
+        inventory.addItem(BATTLEAXE.makeSet(1));
         assertThat(inventory.getWeapons().count(), is(1L));
     }
 }

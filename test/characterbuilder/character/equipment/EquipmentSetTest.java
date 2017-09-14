@@ -10,12 +10,11 @@ import org.junit.Test;
 public class EquipmentSetTest {
 
     private final int count = 7;
-    private final int bonus = 3;
     private EquipmentSet set;
 
     @Before
     public void setup() {
-        set = new EquipmentSet(AdventureGear.BARREL, bonus, count);
+        set = new EquipmentSet(AdventureGear.BARREL, count);
     }
 
     @Test
@@ -24,13 +23,8 @@ public class EquipmentSetTest {
     }
 
     @Test
-    public void testGetBonus() {
-        assertThat(set.getBonus(), is(bonus));
-    }
-
-    @Test
     public void testToString() {
-        assertThat(set.toString(), is("7 +3 Barrels"));
+        assertThat(set.toString(), is("7 Barrels"));
     }
 
     @Test
@@ -45,31 +39,30 @@ public class EquipmentSetTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddMismatchedEquipment() {
-        set.add(new EquipmentSet(AdventureGear.AMULET, 2, 17));
+        set.add(AdventureGear.AMULET.makeSet(2));
     }
 
     @Test
     public void testAdd() {
-        set = set.add(new EquipmentSet(AdventureGear.BARREL, bonus, 4));
+        set = set.add(AdventureGear.BARREL.makeSet(4));
         assertThat(set.getCount(), is(count + 4));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSubtractMismatchedEquipment() {
-        set.substract(new EquipmentSet(AdventureGear.BELL, 4, 6));
+        set.substract(AdventureGear.BELL.makeSet(6));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSubtractTooManyElements() {
-        set.substract(new EquipmentSet(AdventureGear.BARREL, bonus, count + 1)).get();
+        set.substract(AdventureGear.BARREL.makeSet(count + 1)).get();
     }
 
     @Test
     public void testSubstract() {
-        set = set.substract(new EquipmentSet(AdventureGear.BARREL, bonus, 3)).get();
+        set = set.substract(AdventureGear.BARREL.makeSet(3)).get();
         assertThat(set.getCount(), is(count - 3));
-        assertFalse(set.substract(
-            new EquipmentSet(AdventureGear.BARREL, bonus, count - 3)).isPresent());
+        assertFalse(set.substract(AdventureGear.BARREL.makeSet(count - 3)).isPresent());
     }
 
     @Test

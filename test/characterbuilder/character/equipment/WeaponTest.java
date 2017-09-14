@@ -51,7 +51,7 @@ public class WeaponTest {
 
     @Test
     public void testBonus() {
-        character.addEquipment(new EquipmentSet(MACE, 2, 1));
+        character.addEquipment(new MagicItem(MACE, 2));
         assertThat(MACE.getAttacks(character).findAny().get().getDamage(), is("1d6+2"));
     }
 
@@ -87,8 +87,8 @@ public class WeaponTest {
     }
 
     @Test
-    public void testWeaponBonus() {
-        character.addEquipment(new EquipmentSet(MACE, 3, 1));
+    public void testMagicWeaponBonus() {
+        character.addEquipment(new MagicItem(MACE, 3));
         Attack attack = MACE.getAttacks(character).findAny().get();
         assertThat(attack.getBonus(), is(3));
     }
