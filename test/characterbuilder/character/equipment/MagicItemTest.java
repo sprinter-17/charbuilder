@@ -20,6 +20,11 @@ public class MagicItemTest {
     }
 
     @Test
+    public void testAsMagicItem() {
+        assertThat(item.asMagicItem(), is(Optional.of(item)));
+    }
+
+    @Test
     public void testBaseEquipment() {
         assertThat(item.getBaseEquipment(), is(MACE));
     }
@@ -57,6 +62,12 @@ public class MagicItemTest {
     }
 
     @Test
+    public void testCustomName() {
+        item.setName("Foobar");
+        assertThat(item.toString(), is("+3 Foobar"));
+    }
+
+    @Test
     public void testAbilitiesWithExpressionInDescription() {
         item.setAbility("Foo [3*4]");
         assertTrue(item.getDescription(new TestCharacter()).anyMatch("Foo 12"::equals));
@@ -64,7 +75,8 @@ public class MagicItemTest {
 
     @Test
     public void testSaveAndLoad() {
-        item.setAbility("Foo");
+        item.setName("Foo");
+        item.setAbility("Bar");
         assertThat(EquipmentCategory.load(item.save(TestDoc.doc())), is(item));
     }
 }

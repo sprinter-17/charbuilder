@@ -13,11 +13,25 @@ public class MagicItem implements Equipment {
 
     private final Equipment baseItem;
     private final int bonus;
+    private Optional<String> name = Optional.empty();
     private Optional<String> ability = Optional.empty();
 
     public MagicItem(Equipment baseItem, int bonus) {
         this.baseItem = baseItem;
         this.bonus = bonus;
+    }
+
+    @Override
+    public Optional<MagicItem> asMagicItem() {
+        return Optional.of(this);
+    }
+
+    public void setName(String name) {
+        this.name = Optional.of(name);
+    }
+
+    public Optional<String> getName() {
+        return name;
     }
 
     public void setAbility(String ability) {
@@ -58,12 +72,17 @@ public class MagicItem implements Equipment {
         return ability.map(ab -> StringUtils.expand(ab, character));
     }
 
+    public Optional<String> getAbilityText() {
+        return ability;
+    }
+
     @Override
     public String toString() {
+        StringBuilder text = new StringBuilder();
         if (bonus != 0)
-            return String.format("%+d ", bonus) + baseItem.toString();
-        else
-            return baseItem.toString();
+            text.append(String.format("%+d ", bonus));
+        text.append(name.orElse(baseItem.toString()));
+        return text.toString();
     }
 
     @Override
@@ -78,6 +97,8 @@ public class MagicItem implements Equipment {
     public Element save(Document doc) {
         Element element = baseItem.save(doc);
         element.setAttribute("bonus", Integer.toString(bonus));
+        if (name.isPresent())
+            element.setAttribute("name", name.get());
         if (ability.isPresent())
             element.setAttribute("ability", ability.get());
         return element;
@@ -86,6 +107,8 @@ public class MagicItem implements Equipment {
     public static MagicItem load(Equipment baseItem, Element element) {
         int bonus = Integer.valueOf(element.getAttribute("bonus"));
         MagicItem item = new MagicItem(baseItem, bonus);
+        if (element.hasAttribute("name"))
+            item.setName(element.getAttribute("name"));
         if (element.hasAttribute("ability"))
             item.setAbility(element.getAttribute("ability"));
         return item;
@@ -102,6 +125,7 @@ public class MagicItem implements Equipment {
             return false;
         final MagicItem other = (MagicItem) obj;
         return this.baseItem.equals(other.baseItem)
+            && this.name.equals(other.name)
             && this.bonus == other.bonus
             && this.ability.equals(other.ability);
     }

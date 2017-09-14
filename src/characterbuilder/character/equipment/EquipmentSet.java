@@ -42,6 +42,11 @@ public class EquipmentSet implements Equipment {
     }
 
     @Override
+    public Optional<MagicItem> asMagicItem() {
+        return equipment.asMagicItem();
+    }
+
+    @Override
     public Optional<Weapon> asWeapon() {
         return equipment.asWeapon();
     }

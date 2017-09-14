@@ -3,6 +3,7 @@ package characterbuilder.sheet;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.Value;
+import characterbuilder.character.equipment.MagicItem;
 import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
 import static characterbuilder.sheet.Page.element;
@@ -69,8 +70,33 @@ public class TextSectionBuilder {
     private String abilityRow(Attribute ability, boolean even) {
         String colour = even ? "#f0f0f0" : "#ffffff";
         return element(String.format("tr style='background-color:%s'", colour),
-            element("th style='text-align:left'", nbsp(ability.toString()))
+            element("th width='25%' style='text-align:left'", nbsp(ability.toString()))
             + element("td", ability.getDescription(character).collect(joining("<br>"))));
+    }
+
+    public void addMagicItems(List<MagicItem> items) {
+        int count = 0;
+        while (count < items.size()
+            && builder.fits(html(content
+                + magicItemDescriptions(items.subList(0, count + 1))), wp - 4, hp - 4)) {
+            count++;
+        }
+        content += magicItemDescriptions(items.subList(0, count));
+        items.subList(0, count).clear();
+    }
+
+    private String magicItemDescriptions(List<MagicItem> items) {
+        return element("table style=\"width:385px; padding-left:10px; border-spacing:0px\"",
+            items.stream()
+                .map(ab -> magicItemRow(ab, items.indexOf(ab) % 2 == 0))
+                .collect(joining()));
+    }
+
+    private String magicItemRow(MagicItem item, boolean even) {
+        String colour = even ? "#f0f0f0" : "#ffffff";
+        return element(String.format("tr style='background-color:%s'", colour),
+            element("th width='25%' style='text-align:left'", nbsp(item.toString()))
+            + element("td", item.getAbility(character).get()));
     }
 
     public void addSpells(List<LearntSpell> spells) {

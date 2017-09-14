@@ -37,6 +37,10 @@ public interface Equipment extends Option {
         return Optional.empty();
     }
 
+    default Optional<MagicItem> asMagicItem() {
+        return Optional.empty();
+    }
+
     @Override
     public default void choose(Character character) {
         character.addEquipment(this);

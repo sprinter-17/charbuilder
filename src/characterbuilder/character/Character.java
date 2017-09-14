@@ -22,7 +22,6 @@ import characterbuilder.character.choice.UndoQueue;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Attack;
 import characterbuilder.character.equipment.Equipment;
-import characterbuilder.character.equipment.EquipmentSet;
 import characterbuilder.character.equipment.Inventory;
 import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
@@ -303,7 +302,7 @@ public class Character {
         setDirty();
     }
 
-    public void removeEquipment(EquipmentSet equipment) {
+    public void removeEquipment(Equipment equipment) {
         inventory.removeItem(equipment);
         setDirty();
     }

@@ -9,6 +9,7 @@ import static characterbuilder.character.attribute.AttributeType.PHYSICAL_DESCRI
 import static characterbuilder.character.attribute.AttributeType.WEIGHT;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
+import characterbuilder.character.equipment.MagicItem;
 import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellAbility;
@@ -18,6 +19,7 @@ import characterbuilder.ui.character.PicturePanel.ImagePicture;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import java.util.stream.Stream;
@@ -107,16 +109,22 @@ public class BackgroundPage extends Page {
 
     private void addAbilities(List<PageBuilder.Container> pages) {
         List<Attribute> abilities = new ArrayList<>(getAbilities().collect(toList()));
+        List<MagicItem> magicItems = new ArrayList<>(getMagicItems().collect(toList()));
         List<LearntSpell> spellAbilities = new ArrayList<>(getSpells().collect(toList()));
         TextSectionBuilder sectionBuilder = new TextSectionBuilder(character, "Abilities", 100, 56);
         sectionBuilder.addAbilities(abilities);
-        if (abilities.isEmpty())
-            sectionBuilder.addSpells(spellAbilities);
+        if (abilities.isEmpty()) {
+            sectionBuilder.addMagicItems(magicItems);
+            if (magicItems.isEmpty())
+                sectionBuilder.addSpells(spellAbilities);
+        }
         pages.get(0).with(sectionBuilder.getSection(0, 44));
-        while (!abilities.isEmpty() || !spellAbilities.isEmpty()) {
+        while (!abilities.isEmpty() || !magicItems.isEmpty() || !spellAbilities.isEmpty()) {
             sectionBuilder.createNewSection(100, 100);
             if (!abilities.isEmpty())
                 sectionBuilder.addAbilities(abilities);
+            if (!magicItems.isEmpty())
+                sectionBuilder.addMagicItems(magicItems);
             if (abilities.isEmpty())
                 sectionBuilder.addSpells(spellAbilities);
             pages.add(builder.page().with(sectionBuilder.getSection(0, 0)));
@@ -129,6 +137,13 @@ public class BackgroundPage extends Page {
             .sorted(Comparator.comparing(Attribute::getType));
     }
 
+    private Stream<MagicItem> getMagicItems() {
+        return character.getInventory()
+            .map(Equipment::asMagicItem)
+            .filter(Optional::isPresent).map(Optional::get)
+            .filter(mi -> mi.getAbility(character).isPresent());
+    }
+
     private Stream<LearntSpell> getSpells() {
         return character.getAllAttributes()
             .filter(attr -> attr.hasType(AttributeType.SPELL_ABILITY))
@@ -136,4 +151,5 @@ public class BackgroundPage extends Page {
             .sorted(Spell.ORDER)
             .map(sp -> new LearntSpell(sp, true));
     }
+
 }

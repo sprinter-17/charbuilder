@@ -5,6 +5,7 @@ import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,6 +42,12 @@ public class EquipmentSetTest {
     @Test
     public void testGetBaseEquipment() {
         assertThat(set.getBaseEquipment(), is(AdventureGear.BARREL));
+    }
+
+    @Test
+    public void testAsMagicItem() {
+        set = new MagicItem(AMULET, 2).makeSet(4);
+        assertTrue(set.asMagicItem().isPresent());
     }
 
     @Test
