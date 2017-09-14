@@ -81,10 +81,11 @@ public enum EquipmentCategory {
         assert category.loader != null : category.toString() + " does not have loader";
         Equipment equipment = category.loader.load(category, node);
         Element element = (Element) node;
-        if (element.hasAttribute("count") || element.hasAttribute("bonus"))
-            return EquipmentSet.load(equipment, element);
-        else
-            return equipment;
+        if (element.hasAttribute("bonus"))
+            equipment = MagicItem.load(equipment, element);
+        if (element.hasAttribute("count"))
+            equipment = EquipmentSet.load(equipment, element);
+        return equipment;
     }
 
     @Override

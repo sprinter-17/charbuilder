@@ -1,6 +1,7 @@
 package characterbuilder.character.equipment;
 
 import static characterbuilder.character.equipment.Weapon.MACE;
+import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.utils.TestCharacter;
 import java.util.Optional;
 import static org.hamcrest.CoreMatchers.is;
@@ -57,7 +58,13 @@ public class MagicItemTest {
 
     @Test
     public void testAbilitiesWithExpressionInDescription() {
-        item.addAbility("Foo [3*4]");
+        item.setAbility("Foo [3*4]");
         assertTrue(item.getDescription(new TestCharacter()).anyMatch("Foo 12"::equals));
+    }
+
+    @Test
+    public void testSaveAndLoad() {
+        item.setAbility("Foo");
+        assertThat(EquipmentCategory.load(item.save(TestDoc.doc())), is(item));
     }
 }
