@@ -2,6 +2,7 @@ package characterbuilder.ui.equipment;
 
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentSet;
+import characterbuilder.character.equipment.MagicItem;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -71,7 +72,7 @@ public class EquipmentEditDialog extends JFrame {
     private void accept(ActionEvent ev) {
         int bonus = bonusModel.getNumber().intValue();
         int count = countModel.getNumber().intValue();
-        acceptAction.accept(equipment.makeSet(count));
+        acceptAction.accept(new MagicItem(equipment, bonus).makeSet(count));
         close(ev);
     }
 

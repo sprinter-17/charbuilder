@@ -249,12 +249,6 @@ public enum AdventureGear implements Equipment {
     }
 
     @Override
-    public String toString(int count, int bonus) {
-        return namer.map(n -> n.toString(count, bonus))
-            .orElse(Equipment.super.toString(count, bonus));
-    }
-
-    @Override
     public String toString() {
         return namer.map(n -> n.toString(1, 0))
             .orElse(StringUtils.capitaliseEnumName(name()));

@@ -32,7 +32,7 @@ public class Inventory {
             items.remove(match.get());
             items.add(add(match.get(), equipment));
         } else {
-            items.add(equipment);
+            items.add(equipment.makeSet(1));
         }
     }
 

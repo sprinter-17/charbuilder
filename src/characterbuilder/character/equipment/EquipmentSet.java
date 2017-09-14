@@ -17,13 +17,23 @@ public class EquipmentSet implements Equipment {
     protected EquipmentSet(Equipment equipment, int count) {
         if (count <= 0)
             throw new IllegalArgumentException("Equipment must have count >= 1");
-        this.equipment = equipment.getBaseEquipment();
+        this.equipment = equipment;
         this.count = count;
+    }
+
+    @Override
+    public EquipmentSet makeSet(int count) {
+        return new EquipmentSet(equipment, count * this.count);
     }
 
     @Override
     public int getCount() {
         return count;
+    }
+
+    @Override
+    public int getBonus() {
+        return equipment.getBonus();
     }
 
     @Override
@@ -38,7 +48,7 @@ public class EquipmentSet implements Equipment {
 
     @Override
     public Equipment getBaseEquipment() {
-        return equipment;
+        return equipment.getBaseEquipment();
     }
 
     public boolean matches(EquipmentSet other) {
@@ -101,7 +111,10 @@ public class EquipmentSet implements Equipment {
 
     @Override
     public String toString() {
-        return equipment.toString(count, getBonus());
+        if (count > 1)
+            return count + " " + equipment.toString() + "s";
+        else
+            return equipment.toString();
     }
 
     @Override

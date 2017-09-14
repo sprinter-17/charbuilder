@@ -4,7 +4,6 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.choice.Option;
-import java.text.NumberFormat;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
@@ -47,18 +46,7 @@ public interface Equipment extends Option {
 
     Value getValue();
 
-    public default String toString(int count, int bonus) {
-        StringBuilder builder = new StringBuilder();
-        if (count > 1)
-            builder.append(NumberFormat.getInstance().format(count)).append(" ");
-        if (bonus != 0)
-            builder.append(String.format("%+d ", bonus));
-        builder.append(toString());
-        if (count > 1)
-            builder.append("s");
-        return builder.toString();
-    }
-
+    @Override
     public default Stream<String> getDescription(Character character) {
         return Stream.of("Cost " + getValue().toString() + " Weight " + getWeight().toString());
     }

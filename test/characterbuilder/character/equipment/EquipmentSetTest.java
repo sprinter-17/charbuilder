@@ -1,5 +1,6 @@
 package characterbuilder.character.equipment;
 
+import static characterbuilder.character.equipment.AdventureGear.AMULET;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -28,6 +29,11 @@ public class EquipmentSetTest {
     }
 
     @Test
+    public void testMakeSetMultipliesCount() {
+        assertThat(set.makeSet(2).getCount(), is(14));
+    }
+
+    @Test
     public void testGetCategory() {
         assertThat(set.getCategory(), is(EquipmentCategory.CONTAINER));
     }
@@ -37,9 +43,14 @@ public class EquipmentSetTest {
         assertThat(set.getBaseEquipment(), is(AdventureGear.BARREL));
     }
 
+    @Test
+    public void testGetBaseEquipmentForSetOfMagicItems() {
+        assertThat(new MagicItem(AMULET, 2).makeSet(15).getBaseEquipment(), is(AMULET));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testAddMismatchedEquipment() {
-        set.add(AdventureGear.AMULET.makeSet(2));
+        set.add(AMULET.makeSet(2));
     }
 
     @Test
@@ -68,6 +79,12 @@ public class EquipmentSetTest {
     @Test
     public void testGetValue() {
         assertThat(set.getValue(), is(AdventureGear.BARREL.getValue().times(7)));
+    }
+
+    @Test
+    public void testGetBonus() {
+        set = new MagicItem(AdventureGear.AMULET, 4).makeSet(3);
+        assertThat(set.getBonus(), is(4));
     }
 
     @Test

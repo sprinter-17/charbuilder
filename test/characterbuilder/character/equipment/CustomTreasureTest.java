@@ -39,7 +39,7 @@ public class CustomTreasureTest {
 
     @Test
     public void testCustomTreasureSet() {
-        EquipmentSet set = new EquipmentSet(treasure, 17);
+        EquipmentSet set = treasure.makeSet(17);
         assertThat(set.getBaseEquipment(), is(treasure));
         assertThat(set.getValue(), is(gp(1700)));
         assertThat(set.toString(), is("17 Large golden statues"));
