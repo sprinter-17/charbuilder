@@ -6,6 +6,7 @@ import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
 import characterbuilder.character.equipment.Token;
@@ -257,7 +258,8 @@ public class ChoiceGenerator {
             @Override
             public void select(Character character, ChoiceSelector selector) {
                 selector.chooseOption(character
-                    .getAttribute(AttributeType.CHARACTER_CLASS, CharacterClass.class)
+                    .getAttribute(AttributeType.CHARACTER_CLASS, CharacterClassLevel.class)
+                    .getCharacterClass()
                     .getSpells()
                     .filter(Spell::isCantrip)
                     .map(sp -> new SpellAbility(sp, abilityScore))

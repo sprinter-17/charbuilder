@@ -9,7 +9,7 @@ import characterbuilder.character.ability.Language;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.RacialTalent;
 import characterbuilder.character.ability.Skill;
-import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
 import characterbuilder.character.characterclass.barbarian.PrimalPath;
 import characterbuilder.character.characterclass.bard.BardAbility;
@@ -55,7 +55,7 @@ import org.xml.sax.SAXParseException;
 public enum AttributeType {
     NAME(true, StringAttribute::load),
     RACE(true, Race::load),
-    CHARACTER_CLASS(true, CharacterClass::load),
+    CHARACTER_CLASS(true, CharacterClassLevel::load),
     BACKGROUND(true, Background::load),
     STRENGTH(true, AbilityScore::load),
     DEXTERITY(true, AbilityScore::load),
@@ -65,7 +65,6 @@ public enum AttributeType {
     CHARISMA(true, AbilityScore::load),
     ALIGNMENT(true, Alignment::load),
     EXPERIENCE_POINTS(true, IntAttribute::load),
-    LEVEL(true, IntAttribute::load),
     HIT_POINTS(true, IntAttribute::load),
     SEX(true, Sex::load),
     AGE(true, IntAttribute::load),

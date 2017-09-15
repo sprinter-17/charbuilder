@@ -8,11 +8,13 @@ import characterbuilder.character.attribute.Background;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.Sex;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClassLevel;
+import java.util.Arrays;
 
 public class InitialChoiceGenerator extends ChoiceGenerator {
 
     public InitialChoiceGenerator() {
-        addChoice(new AttributeChoice("Class", CharacterClass.values()));
+        addChoice(chooseClass());
         addChoice(new OptionChoice("Race") {
             @Override
             public void select(Character character, ChoiceSelector selector) {
@@ -23,6 +25,17 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
         addChoice(generateAbilityScores());
         addChoice(new AttributeChoice("Background", Background.values()));
         addChoice(new AttributeChoice("Alignment", Alignment.values()));
+    }
+
+    private OptionChoice chooseClass() {
+        return new OptionChoice("Class") {
+            @Override
+            public void select(Character character, ChoiceSelector selector) {
+                selector.chooseOption(Arrays.stream(CharacterClass.values()), c -> {
+                    character.addAttribute(new CharacterClassLevel(c));
+                });
+            }
+        };
     }
 
     private OptionChoice generateAbilityScores() {
@@ -43,7 +56,7 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
 
             private void addAbilityScore(Character character, AbilityScore score) {
                 Race race = character.getAttribute(AttributeType.RACE);
-                if (character.getAttribute(AttributeType.CHARACTER_CLASS, CharacterClass.class)
+                if (character.getAttribute(AttributeType.CHARACTER_CLASS, CharacterClassLevel.class)
                     .hasSavingsThrow(score.getType()))
                     score.setProficientSaves();
                 score.addValue(race.getAttributeAdjustment(score.getType()));

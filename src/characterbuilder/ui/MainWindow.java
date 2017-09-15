@@ -3,6 +3,7 @@ package characterbuilder.ui;
 import characterbuilder.character.Character;
 import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.choice.InitialChoiceGenerator;
 import characterbuilder.character.choice.UndoQueue;
 import characterbuilder.character.saveload.CharacterSaver;
@@ -171,7 +172,7 @@ public class MainWindow {
 
     private void levelUpCharacter() {
         assert character.isPresent();
-        character.get().increaseLevel(new CharacterRandom());
+        character.get().increaseLevel(CharacterClass.CLERIC, new CharacterRandom());
         update();
     }
 

@@ -1,7 +1,10 @@
 package characterbuilder.character.characterclass;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class CharacterClassLevel implements Attribute {
 
@@ -29,4 +32,26 @@ public class CharacterClassLevel implements Attribute {
         return level;
     }
 
+    @Override
+    public void generateInitialChoices(Character character) {
+        generateLevelChoices(character);
+    }
+
+    public boolean hasSavingsThrow(AttributeType abilityScore) {
+        return characterClass.hasSavingsThrow(abilityScore);
+    }
+
+    @Override
+    public void generateLevelChoices(Character character) {
+        characterClass.getGenerator().generateChoices(character);
+    }
+
+    @Override
+    public Element save(Document doc) {
+        return Attribute.super.save(doc);
+    }
+
+    public static CharacterClassLevel load(Element element) {
+        return null;
+    }
 }

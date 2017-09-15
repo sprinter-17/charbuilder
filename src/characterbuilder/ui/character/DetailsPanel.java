@@ -66,7 +66,7 @@ public class DetailsPanel extends CharacterSubPanel {
         nameField.setEnabled(true);
         raceField.setText(attributeValue(RACE));
         classField.setText(attributeValue(CHARACTER_CLASS));
-        levelField.setText(attributeValue(LEVEL));
+//        levelField.setText(attributeValue(LEVEL));
         xpField.setText(attributeValue(EXPERIENCE_POINTS));
         backgroundField.setText(attributeValue(BACKGROUND));
         alignmentField.setText(attributeValue(ALIGNMENT));

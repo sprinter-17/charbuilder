@@ -12,6 +12,7 @@ import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
 import characterbuilder.character.characterclass.monk.MonkAbility;
 import characterbuilder.character.characterclass.sorcerer.SorcererAbility;
@@ -48,6 +49,10 @@ public class Character {
     private ChoiceList choices;
 
     private boolean dirty = true;
+
+    public Character() {
+        addAttribute(new IntAttribute(EXPERIENCE_POINTS, XP_LEVELS[0]));
+    }
 
     public void addChoiceList(ChoiceSelector selector) {
         this.choices = new ChoiceList(selector);
@@ -235,7 +240,8 @@ public class Character {
     }
 
     public int getLevel() {
-        return hasAttribute(LEVEL) ? getIntAttribute(LEVEL) : 0;
+        return getAttributes(CHARACTER_CLASS, CharacterClassLevel.class)
+            .mapToInt(CharacterClassLevel::getLevel).sum();
     }
 
     public void generateHitPoints() {
@@ -258,22 +264,21 @@ public class Character {
         return Math.max(1, hitPoints);
     }
 
-    public final void increaseLevel(CharacterRandom random) {
-        checkAttributes(CHARACTER_CLASS, LEVEL, EXPERIENCE_POINTS, CONSTITUTION, HIT_POINTS);
-        IntAttribute level = getAttribute(LEVEL);
+    public final void increaseLevel(CharacterClass characterClass, CharacterRandom random) {
+        checkAttributes(CHARACTER_CLASS, EXPERIENCE_POINTS, CONSTITUTION, HIT_POINTS);
+        CharacterClassLevel level = getAttributes(CHARACTER_CLASS, CharacterClassLevel.class)
+            .filter(ccl -> ccl.getCharacterClass() == characterClass)
+            .findAny().orElseThrow(IllegalStateException::new);
         IntAttribute xp = getAttribute(EXPERIENCE_POINTS);
-        CharacterClass characterClass = getAttribute(CHARACTER_CLASS);
         IntAttribute hp = getAttribute(HIT_POINTS);
-        if (level.getValue() < 20) {
-            xp.setValue(XP_LEVELS[level.getValue()]);
-            level.addValue(1);
-            int hpIncrease = random.nextHitPoints(characterClass.getHitDie());
-            hp.addValue(adjustHitPointIncrease(hpIncrease));
-            attributes.getAllAttributes()
-                .collect(toList())
-                .forEach(attr -> attr.generateLevelChoices(this));
-            setDirty();
-        }
+        level.increaseLevel();
+        xp.setValue(XP_LEVELS[getLevel()]);
+        int hpIncrease = random.nextHitPoints(characterClass.getHitDie());
+        hp.addValue(adjustHitPointIncrease(hpIncrease));
+        attributes.getAllAttributes()
+            .collect(toList())
+            .forEach(attr -> attr.generateLevelChoices(this));
+        setDirty();
     }
 
     private void checkAttributes(AttributeType... attributes) {

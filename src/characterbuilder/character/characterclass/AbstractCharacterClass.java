@@ -1,9 +1,7 @@
 package characterbuilder.character.characterclass;
 
-import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.choice.ChoiceGenerator;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -20,17 +18,6 @@ public abstract class AbstractCharacterClass {
 
     public boolean hasSavingsThrow(AttributeType type) {
         return getPrimaryAttributes().anyMatch(type::equals);
-    }
-
-    public void generateInitialChoices(Character character) {
-        character.addAttributes(
-            new IntAttribute(AttributeType.LEVEL, 1),
-            new IntAttribute(AttributeType.EXPERIENCE_POINTS, 0));
-        generateLevelChoices(character);
-    }
-
-    public void generateLevelChoices(Character character) {
-        getGenerator().generateChoices(character);
     }
 
     public ChoiceGenerator getGenerator() {

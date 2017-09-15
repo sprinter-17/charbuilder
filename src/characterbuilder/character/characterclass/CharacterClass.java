@@ -1,10 +1,7 @@
 package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import static characterbuilder.character.attribute.AttributeType.*;
-import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.characterclass.barbarian.Barbarian;
 import characterbuilder.character.characterclass.bard.Bard;
 import characterbuilder.character.characterclass.cleric.Cleric;
@@ -18,13 +15,16 @@ import characterbuilder.character.characterclass.sorcerer.Sorcerer;
 import characterbuilder.character.characterclass.warlock.Warlock;
 import characterbuilder.character.characterclass.wizard.Wizard;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.choice.Option;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellClassMap;
 import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public enum CharacterClass implements Attribute {
+public enum CharacterClass implements Option {
     BARBARIAN(new Barbarian()),
     BARD(new Bard()),
     CLERIC(new Cleric()),
@@ -48,11 +48,6 @@ public enum CharacterClass implements Attribute {
         return delegate.getClassAttribute();
     }
 
-    @Override
-    public AttributeType getType() {
-        return CHARACTER_CLASS;
-    }
-
     public int getHitDie() {
         return delegate.getHitDie();
     }
@@ -63,19 +58,6 @@ public enum CharacterClass implements Attribute {
 
     public boolean hasSavingsThrow(AttributeType type) {
         return delegate.hasSavingsThrow(type);
-    }
-
-    @Override
-    public void generateInitialChoices(Character character) {
-        character.addAttributes(
-            new IntAttribute(AttributeType.LEVEL, 1),
-            new IntAttribute(AttributeType.EXPERIENCE_POINTS, 0));
-        generateLevelChoices(character);
-    }
-
-    @Override
-    public void generateLevelChoices(Character character) {
-        delegate.generateLevelChoices(character);
     }
 
     public ChoiceGenerator getGenerator() {
@@ -94,5 +76,15 @@ public enum CharacterClass implements Attribute {
 
     public static CharacterClass load(Node node) {
         return CharacterClass.valueOf(node.getTextContent());
+    }
+
+    @Override
+    public void choose(Character character) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Element save(Document doc) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

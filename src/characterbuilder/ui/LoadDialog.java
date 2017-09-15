@@ -1,9 +1,9 @@
 package characterbuilder.ui;
 
 import characterbuilder.character.Character;
-import characterbuilder.character.saveload.CharacterSaver;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
+import characterbuilder.character.saveload.CharacterSaver;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -97,9 +97,7 @@ public class LoadDialog extends JDialog {
                 .append(": ");
             description.append(character.getStringAttribute(RACE))
                 .append(" ");
-            description.append(character.getStringAttribute(CHARACTER_CLASS))
-                .append("/")
-                .append(character.getStringAttribute(LEVEL));
+            description.append(character.getAttribute(CHARACTER_CLASS).toString());
             return description.toString();
         }
     }
