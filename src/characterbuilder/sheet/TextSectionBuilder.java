@@ -59,7 +59,7 @@ public class TextSectionBuilder {
     }
 
     private String abilityDescriptions(List<Attribute> abilities) {
-        return element("table style=\"width:385px; padding-left:10px; border-spacing:0px\"",
+        return element("table style=\"width:WIDTHpx; padding-left:10px; border-spacing:0px\"",
             abilities.stream()
                 .filter(AttributePlacement.DETAIL::isPlacementFor)
                 .sorted(Comparator.comparing(Attribute::getType))
@@ -86,7 +86,7 @@ public class TextSectionBuilder {
     }
 
     private String magicItemDescriptions(List<MagicItem> items) {
-        return element("table style=\"width:385px; padding-left:10px; border-spacing:0px\"",
+        return element("table style=\"width:WIDTHpx; padding-left:10px; border-spacing:0px\"",
             items.stream()
                 .map(ab -> magicItemRow(ab, items.indexOf(ab) % 2 == 0))
                 .collect(joining()));

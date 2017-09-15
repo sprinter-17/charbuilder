@@ -172,16 +172,15 @@ public class MainPage extends Page {
 
     private String attackText() {
         List<String> rows = new ArrayList<>();
-        rows
-            .add(row("th style='padding:0px;text-align:left'",
-                "Attack", "Range", "Hit", "Damage", "Type"));
+        rows.add(row("th style='padding:0px;text-align:left'",
+            "Attack", "Range", "Hit", "Damage", "Type"));
         character.getAttacks().map(at -> row("td style='padding:0px'", at.getName()
             + at.getDescription().map(d -> " " + d).orElse(""),
             at.getRange(),
             String.format("%+d", at.getBonus()),
             at.getDamage(), at.getType().toString()))
             .forEach(rows::add);
-        return table(rows, 220);
+        return table(rows);
     }
 
     private PageBuilder.Component personality() {

@@ -213,8 +213,9 @@ public class PageBuilder {
         return new Component() {
             @Override
             public void paint(Graphics2D g, int zoom) {
+                int width = 3 * horz(wp, zoom) / 4;
                 g.translate(x(zoom) + horz(xp, zoom), y(zoom) + vert(yp, zoom));
-                label(text, wp, zoom).print(g);
+                label(text.replace("WIDTH", Integer.toString(width)), wp, zoom).print(g);
                 g.translate(-x(zoom) - horz(xp, zoom), -y(zoom) - vert(yp, zoom));
             }
         };
