@@ -90,8 +90,9 @@ public class CharacterClassTest {
     public void testBarbarianPrimalChampion() {
         character.setScore(AttributeType.STRENGTH, 18);
         BARBARIAN.choose(character);
-        character.setLevel(20);
-        BARBARIAN.generateLevelChoices(character);
+        character.setLevel(BARBARIAN, 20);
+        character.getAttributes(AttributeType.CHARACTER_CLASS, CharacterClassLevel.class)
+            .forEach(cc -> cc.generateLevelChoices(character));
         AbilityScore strength = character.getAttribute(AttributeType.STRENGTH);
         assertThat(strength.getValue(), is(22));
     }
@@ -108,7 +109,10 @@ public class CharacterClassTest {
             init.generateChoices(character);
             exhaustChoices(i, character);
             while (character.getLevel() < 20) {
-                character.increaseLevel(new CharacterRandom());
+                CharacterClass characterClass = character
+                    .getAttributes(AttributeType.CHARACTER_CLASS, CharacterClassLevel.class)
+                    .map(cc -> cc.getCharacterClass()).findAny().get();
+                character.increaseLevel(characterClass, new CharacterRandom());
                 exhaustChoices(i, character);
             }
         }

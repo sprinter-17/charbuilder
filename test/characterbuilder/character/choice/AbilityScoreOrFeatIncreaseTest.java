@@ -4,6 +4,7 @@ import characterbuilder.character.ability.Feat;
 import characterbuilder.character.attribute.AbilityScore;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -52,7 +53,7 @@ public class AbilityScoreOrFeatIncreaseTest {
 
     @Test
     public void testAddProficiency() {
-        character.addAttribute(new IntAttribute(LEVEL, 9));
+        character.setLevel(CharacterClass.CLERIC, 9);
         character.withScores(13);
         selector.withChoice("+1 Wisdom");
         assertThat(character.getSavingsThrowBonus(WISDOM), is(1));
@@ -62,7 +63,7 @@ public class AbilityScoreOrFeatIncreaseTest {
 
     @Test
     public void testIncreaseConstitutionIncreaseHitPoints() {
-        character.addAttribute(new IntAttribute(LEVEL, 7));
+        character.setLevel(CharacterClass.CLERIC, 7);
         character.withScores(10);
         character.addAttribute(new IntAttribute(HIT_POINTS, 0));
         selector.withChoice("+1 Constitution");

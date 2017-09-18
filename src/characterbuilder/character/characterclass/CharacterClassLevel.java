@@ -3,6 +3,8 @@ package characterbuilder.character.characterclass;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.attribute.IntAttribute;
+import java.util.Objects;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -12,7 +14,12 @@ public class CharacterClassLevel implements Attribute {
     private int level = 1;
 
     public CharacterClassLevel(CharacterClass characterClass) {
+        this(characterClass, 1);
+    }
+
+    public CharacterClassLevel(CharacterClass characterClass, int level) {
         this.characterClass = characterClass;
+        this.level = level;
     }
 
     @Override
@@ -34,6 +41,8 @@ public class CharacterClassLevel implements Attribute {
 
     @Override
     public void generateInitialChoices(Character character) {
+        if (!character.hasAttribute(AttributeType.EXPERIENCE_POINTS))
+            character.addAttribute(new IntAttribute(AttributeType.EXPERIENCE_POINTS, 0));
         generateLevelChoices(character);
     }
 
@@ -47,11 +56,38 @@ public class CharacterClassLevel implements Attribute {
     }
 
     @Override
+    public String toString() {
+        return characterClass.toString() + "/" + level;
+    }
+
+    @Override
     public Element save(Document doc) {
-        return Attribute.super.save(doc);
+        Element element = getType().save(doc);
+        element.setAttribute("class", characterClass.name());
+        element.setAttribute("level", Integer.toString(level));
+        return element;
     }
 
     public static CharacterClassLevel load(Element element) {
-        return null;
+        CharacterClass characterClass = CharacterClass.valueOf(element.getAttribute("class"));
+        int level = Integer.valueOf(element.getAttribute("level"));
+        return new CharacterClassLevel(characterClass, level);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.characterClass);
+        hash = 97 * hash + this.level;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        final CharacterClassLevel other = (CharacterClassLevel) obj;
+        return this.characterClass == other.characterClass
+            && this.level == other.level;
     }
 }

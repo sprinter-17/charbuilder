@@ -1,6 +1,7 @@
 package characterbuilder.character.ability;
 
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
@@ -32,7 +33,7 @@ public class ExpertiseTest {
     @Test
     public void testDescription() {
         TestCharacter character = new TestCharacter();
-        character.setLevel(10);
+        character.setLevel(CharacterClass.FIGHTER, 10);
         assertThat(expertise.getDescription(character).findFirst().get(),
             is("+4 proficiency bonus."));
     }

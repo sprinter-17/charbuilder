@@ -80,7 +80,7 @@ public enum CharacterClass implements Option {
 
     @Override
     public void choose(Character character) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        new CharacterClassLevel(this).choose(character);
     }
 
     @Override

@@ -2,6 +2,7 @@ package characterbuilder.character.characterclass.wizard;
 
 import characterbuilder.character.CharacterRandom;
 import static characterbuilder.character.attribute.Race.HUMAN;
+import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
@@ -37,8 +38,8 @@ public class WizardTest {
 
     @Test
     public void testTotalSpellSlots() {
-        for (int level = 1; level < 20; level++) {
-            character.increaseLevel(new CharacterRandom());
+        while (character.getLevel() < 20) {
+            character.increaseLevel(CharacterClass.WIZARD, new CharacterRandom());
         }
         SpellCasting casting = character.getSpellCasting("Wizard");
         assertThat(casting.getSlotsAtLevel(1), is(4));

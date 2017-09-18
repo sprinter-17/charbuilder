@@ -5,7 +5,7 @@ import static characterbuilder.character.ability.Proficiency.*;
 import static characterbuilder.character.ability.RacialTalent.BRAVE;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -51,11 +51,10 @@ public class ChoiceGeneratorTest {
     public void testLevelCondition() {
         generator.level(4).addAttributes(BRAVE);
         generator.generateChoices(character);
-        IntAttribute level = new IntAttribute(AttributeType.LEVEL, 3);
-        character.addAttribute(level);
+        character.setLevel(CharacterClass.BARBARIAN, 3);
         generator.generateChoices(character);
         assertFalse(character.hasAttribute(BRAVE));
-        level.setValue(4);
+        character.setLevel(CharacterClass.BARBARIAN, 4);
         generator.generateChoices(character);
         assertTrue(character.hasAttribute(BRAVE));
     }

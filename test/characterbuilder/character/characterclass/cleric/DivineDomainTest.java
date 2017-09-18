@@ -41,7 +41,7 @@ public class DivineDomainTest {
 
     @Test
     public void testLevelUpDivineDomainSpells() {
-        character.setLevel(3);
+        character.setLevel(CharacterClass.CLERIC, 3);
         character.addAttribute(DivineDomain.LIFE);
         DivineDomain.LIFE.generateLevelChoices(character);
         assertTrue(casting.hasLearntSpell(Spell.LESSER_RESTORATION));
@@ -50,13 +50,13 @@ public class DivineDomainTest {
 
     @Test
     public void testChannelDivinityDescription() {
-        character.setLevel(2);
+        character.setLevel(CharacterClass.CLERIC, 2);
         assertThat(CHANNEL_DIVINITY.getDescription(character).collect(joining()),
             startsWith("Use one channel divinity power"));
-        character.setLevel(5);
+        character.setLevel(CharacterClass.CLERIC, 5);
         assertThat(CHANNEL_DIVINITY.getDescription(character).collect(joining()),
             startsWith("Use one channel divinity power"));
-        character.setLevel(6);
+        character.setLevel(CharacterClass.CLERIC, 6);
         assertThat(CHANNEL_DIVINITY.getDescription(character).collect(joining()),
             startsWith("Use two channel divinity powers"));
     }

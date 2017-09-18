@@ -22,7 +22,7 @@ public class EvalutationTest {
     @Before
     public void setup() {
         character = new TestCharacter();
-        character.setLevel(1);
+        character.setLevel(CharacterClass.CLERIC, 1);
         context = new EvaluationContext();
         context.setCharacter(character);
     }

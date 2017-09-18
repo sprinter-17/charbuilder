@@ -56,13 +56,13 @@ public class RaceTest {
         Race.TIEFLING.choose(character);
         character.withScores(10).generateHitPoints();
         assertThat(character, hasSpellAbility(Spell.THAUMATURGY));
-        character.increaseLevel(new CharacterRandom());
+        character.increaseLevel(CharacterClass.FIGHTER, new CharacterRandom());
         assertThat(character, not(hasSpellAbility(Spell.HELLISH_REBUKE)));
-        character.increaseLevel(new CharacterRandom());
+        character.increaseLevel(CharacterClass.FIGHTER, new CharacterRandom());
         assertThat(character, hasSpellAbility(Spell.HELLISH_REBUKE));
-        character.increaseLevel(new CharacterRandom());
+        character.increaseLevel(CharacterClass.FIGHTER, new CharacterRandom());
         assertThat(character, not(hasSpellAbility(Spell.DARKNESS)));
-        character.increaseLevel(new CharacterRandom());
+        character.increaseLevel(CharacterClass.FIGHTER, new CharacterRandom());
         assertThat(character, hasSpellAbility(Spell.DARKNESS));
     }
 }

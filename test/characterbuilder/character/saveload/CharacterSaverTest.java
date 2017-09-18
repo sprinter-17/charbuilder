@@ -15,6 +15,7 @@ import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
+import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.character.characterclass.cleric.DivineDomain;
 import static characterbuilder.character.equipment.AdventureGear.BASKET;
 import characterbuilder.character.equipment.Token;
@@ -47,7 +48,8 @@ public class CharacterSaverTest {
         try {
             saver = new CharacterSaver();
             character = new Character();
-            character.addAttributes(Race.HUMAN, CharacterClass.CLERIC, Background.ACOLYTE);
+            character.addAttributes(Race.HUMAN, Background.ACOLYTE);
+            character.addAttribute(new CharacterClassLevel(CharacterClass.CLERIC, 1));
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(CharacterSaverTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -63,7 +65,7 @@ public class CharacterSaverTest {
     public void testPrimaryAttributes() {
         saveAndLoad();
         assertThat(character.getAttribute(RACE), is(Race.HUMAN));
-        assertThat(character.getAttribute(CHARACTER_CLASS), is(CharacterClass.CLERIC));
+        assertThat(character.getAttribute(CHARACTER_CLASS), is(new CharacterClassLevel(CharacterClass.CLERIC)));
         assertThat(character.getAttribute(BACKGROUND), is(Background.ACOLYTE));
     }
 

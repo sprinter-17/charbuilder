@@ -5,6 +5,7 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Background;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClassLevel;
 import java.util.Random;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -31,27 +32,29 @@ public class CharacteristicGeneratorTest {
     @Test
     public void testGenerate() {
         Character character = new Character();
-        character.addAttributes(Race.HUMAN, CharacterClass.CLERIC, Background.ACOLYTE);
+        character.addAttributes(Race.HUMAN, Background.ACOLYTE);
+        character.addAttribute(new CharacterClassLevel(CharacterClass.CLERIC, 1));
         character.addAttribute(Alignment.LAWFUL_GOOD);
         generator.generate(character);
         assertThat(character.getAllAttributes()
-                .filter(attr -> AttributeType.PERSONALITY.contains(attr.getType()))
-                .count(), is(4L));
+            .filter(attr -> AttributeType.PERSONALITY.contains(attr.getType()))
+            .count(), is(4L));
     }
 
     @Test
     public void testConditions() {
         Character character = new Character();
-        character.addAttributes(Race.HUMAN, CharacterClass.CLERIC, Background.ACOLYTE);
+        character.addAttributes(Race.HUMAN, Background.ACOLYTE);
+        character.addAttribute(new CharacterClassLevel(CharacterClass.CLERIC, 1));
         character.addAttribute(Alignment.LAWFUL_GOOD);
         generator.generate(character);
         assertTrue(character.getAllAttributes().anyMatch(
-                ch -> ch.toString().startsWith("The ancient traditions")));
+            ch -> ch.toString().startsWith("The ancient traditions")));
         character.removeAttributesOfType(AttributeType.ALIGNMENT);
         character.addAttribute(Alignment.CHAOTIC_GOOD);
         generator.generate(character);
         assertTrue(character.getAllAttributes().anyMatch(
-                ch -> ch.toString().startsWith("I always try to help")));
+            ch -> ch.toString().startsWith("I always try to help")));
     }
 
 }

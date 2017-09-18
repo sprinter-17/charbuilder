@@ -306,9 +306,8 @@ public class ChoiceGenerator {
     }
 
     public static Predicate<Character> levels(int... levels) {
-        return ch -> ch.hasAttribute(AttributeType.LEVEL)
-            && Arrays.stream(levels)
-                .anyMatch(lev -> ch.getIntAttribute(AttributeType.LEVEL) == lev);
+        return ch -> Arrays.stream(levels)
+            .anyMatch(lev -> ch.getLevel() == lev);
     }
 
     public Stream<String> getDescription(Character character) {

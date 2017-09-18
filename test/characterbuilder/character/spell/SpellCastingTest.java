@@ -24,7 +24,7 @@ public class SpellCastingTest {
         Ability.values(); // avoids initialisation errors
         casting = new SpellCasting("Spellcasting", CHARISMA, CLERIC, "[$level * 2]");
         character = new TestCharacter();
-        character.setLevel(4);
+        character.setLevel(CLERIC, 4);
         score = new IntAttribute(AttributeType.CHARISMA, 16);
         character.addAttribute(score);
     }
@@ -42,7 +42,7 @@ public class SpellCastingTest {
     @Test
     public void testAttackModifier() {
         assertThat(casting.getModifier(character), is(2 + 3));
-        character.setLevel(8);
+        character.setLevel(CLERIC, 8);
         assertThat(casting.getModifier(character), is(3 + 3));
         character.setScore(AttributeType.CHARISMA, 20);
         assertThat(casting.getModifier(character), is(3 + 5));
@@ -124,7 +124,7 @@ public class SpellCastingTest {
     @Test
     public void testPreparedSpellText() {
         assertThat(casting.getPreparedSpellText(character), is("8"));
-        character.setLevel(10);
+        character.setLevel(CLERIC, 10);
         assertThat(casting.getPreparedSpellText(character), is("20"));
     }
 

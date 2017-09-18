@@ -1,6 +1,7 @@
 package characterbuilder.character.characterclass.fighter;
 
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.fighter.Maneuver.*;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
@@ -18,11 +19,11 @@ public class ManeuverTest {
     @Test
     public void testDescription() {
         TestCharacter character = new TestCharacter().withScores(10);
-        character.setLevel(3);
+        character.setLevel(CharacterClass.FIGHTER, 3);
         assertTrue(PARRY.getDescription(character).anyMatch(desc -> desc.contains("1d8.")));
-        character.setLevel(9);
+        character.setLevel(CharacterClass.FIGHTER, 9);
         assertTrue(PARRY.getDescription(character).anyMatch(desc -> desc.contains("1d8.")));
-        character.setLevel(10);
+        character.setLevel(CharacterClass.FIGHTER, 10);
         assertTrue(PARRY.getDescription(character).anyMatch(desc -> desc.contains("1d10.")));
         character.setScore(AttributeType.DEXTERITY, 15);
         assertTrue(PARRY.getDescription(character).anyMatch(desc -> desc.contains("1d10+2.")));

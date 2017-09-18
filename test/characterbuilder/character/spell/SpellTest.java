@@ -7,6 +7,7 @@ import characterbuilder.character.attribute.DamageType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.character.equipment.Attack;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.utils.TestCharacter;
@@ -71,7 +72,7 @@ public class SpellTest {
     @Test
     public void testRangedSpellAttack() {
         TestCharacter character = new TestCharacter();
-        character.setLevel(11);
+        character.setLevel(CharacterClass.WIZARD, 11);
         Attack attack = Spell.CHILL_TOUCH.getAttack(character, AttributeType.CHARISMA).get();
         assertThat(attack.getName(), is("Chill Touch"));
         assertThat(attack.getRange(), is("120"));
@@ -111,7 +112,7 @@ public class SpellTest {
 
     private Character level(int level) {
         Character character = new Character();
-        character.addAttribute(new IntAttribute(AttributeType.LEVEL, level));
+        character.addAttribute(new CharacterClassLevel(CharacterClass.WIZARD, level));
         character.addAttribute(new SpellCasting("SpellCasting", AttributeType.CONSTITUTION,
             CharacterClass.WIZARD, "All"));
         character.addAttribute(new IntAttribute(AttributeType.CONSTITUTION, 15));

@@ -19,7 +19,7 @@ public class SorcererTest {
     @Test
     public void testDraconicResilience() {
         TestCharacter character = new TestCharacter().withScores(14);
-        character.setLevel(4);
+        character.setLevel(CharacterClass.SORCERER, 4);
         character.addAttribute(new IntAttribute(AttributeType.HIT_POINTS, 20));
         DRACONIC_RESILIENCE.choose(character);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(24));

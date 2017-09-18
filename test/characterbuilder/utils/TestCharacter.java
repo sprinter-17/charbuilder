@@ -4,6 +4,8 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.character.choice.Option;
 import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.choice.TestChoiceSelector;
@@ -29,11 +31,9 @@ public class TestCharacter extends Character {
         getAttribute(score, IntAttribute.class).setValue(value);
     }
 
-    public void setLevel(int level) {
-        if (hasAttribute(AttributeType.LEVEL))
-            getAttribute(AttributeType.LEVEL, IntAttribute.class).setValue(level);
-        else
-            addAttribute(new IntAttribute(AttributeType.LEVEL, level));
+    public void setLevel(CharacterClass characterClass, int level) {
+        removeAttributesOfType(AttributeType.CHARACTER_CLASS);
+        addAttribute(new CharacterClassLevel(characterClass, level));
     }
 
     public void selectChoice(String choice, String option) {

@@ -44,12 +44,10 @@ public class InitialChoiceGeneratorTest {
     }
 
     @Test
-    public void testChooseClassesCreatesLevelAndXP() {
-        assertFalse(character.hasAttribute(AttributeType.LEVEL));
-        assertFalse(character.hasAttribute(AttributeType.EXPERIENCE_POINTS));
+    public void testChooseClassesCreatesLevel() {
+        assertThat(character.getLevel(), is(0));
         CharacterClass.BARD.choose(character);
-        assertThat(character.getIntAttribute(AttributeType.LEVEL), is(1));
-        assertThat(character.getIntAttribute(AttributeType.EXPERIENCE_POINTS), is(0));
+        assertThat(character.getLevel(), is(1));
     }
 
     @Test

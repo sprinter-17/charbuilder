@@ -14,12 +14,12 @@ public class IntAttributeTest {
 
     @Before
     public void setup() {
-        attr = new IntAttribute(AttributeType.LEVEL, 17);
+        attr = new IntAttribute(AttributeType.HIT_POINTS, 17);
     }
 
     @Test
     public void testGetType() {
-        assertThat(attr.getType(), is(AttributeType.LEVEL));
+        assertThat(attr.getType(), is(AttributeType.HIT_POINTS));
     }
 
     @Test

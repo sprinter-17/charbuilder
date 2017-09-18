@@ -7,7 +7,6 @@ import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CONSTITUTION;
 import static characterbuilder.character.attribute.AttributeType.EXPERIENCE_POINTS;
 import static characterbuilder.character.attribute.AttributeType.HIT_POINTS;
-import static characterbuilder.character.attribute.AttributeType.LEVEL;
 import static characterbuilder.character.attribute.AttributeType.NAME;
 import static characterbuilder.character.attribute.AttributeType.RACE;
 import characterbuilder.character.attribute.IntAttribute;
@@ -17,6 +16,7 @@ import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.LB;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
 import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.choice.TestOptionChoice;
@@ -72,7 +72,7 @@ public class CharacterTest {
 
     @Test(expected = IllegalStateException.class)
     public void testGenerateAbilityScoresBeforeRaceSet() {
-        character.addAttribute(CharacterClass.ROGUE);
+        character.addAttribute(new CharacterClassLevel(CharacterClass.ROGUE));
         character.generateAbilityScores(random);
     }
 
@@ -85,7 +85,7 @@ public class CharacterTest {
     @Test
     public void testGenerateAbilityScores() {
         character.addAttribute(Race.HILL_DWARF);
-        character.addAttribute(CharacterClass.WIZARD);
+        character.setLevel(CharacterClass.WIZARD, 1);
         assertTrue(AbilityScore.SCORES.stream().noneMatch(character::hasAttribute));
         character.generateAbilityScores(random);
         assertTrue(AbilityScore.SCORES.stream().allMatch(character::hasAttribute));
@@ -95,7 +95,7 @@ public class CharacterTest {
     public void testHuman() {
         character.addAttribute(Race.HUMAN);
         assertThat(character.getAttribute(AttributeType.RACE), is(Race.HUMAN));
-        character.addAttribute(CharacterClass.CLERIC);
+        character.setLevel(CharacterClass.CLERIC, 1);
         character.generateAbilityScores(random);
         assertThat(character.getIntAttribute(AttributeType.STRENGTH), is(11));
     }
@@ -103,7 +103,7 @@ public class CharacterTest {
     @Test
     public void testRaceBonus() {
         character.addAttribute(Race.WOOD_ELF);
-        character.addAttribute(CharacterClass.ROGUE);
+        character.setLevel(CharacterClass.ROGUE, 1);
         character.generateAbilityScores(random);
         assertThat(character.getIntAttribute(AttributeType.WISDOM), is(11));
         assertThat(character.getIntAttribute(AttributeType.DEXTERITY), is(12));
@@ -135,29 +135,29 @@ public class CharacterTest {
     public void testProficiencyBonus() {
         setLevel(CharacterClass.ROGUE, 1);
         assertThat(character.getProficiencyBonus(), is(2));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.ROGUE, random);
         assertThat(character.getProficiencyBonus(), is(2));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.ROGUE, random);
         assertThat(character.getProficiencyBonus(), is(2));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.ROGUE, random);
         assertThat(character.getProficiencyBonus(), is(2));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.ROGUE, random);
         assertThat(character.getProficiencyBonus(), is(3));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.ROGUE, random);
         assertThat(character.getProficiencyBonus(), is(3));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.ROGUE, random);
         assertThat(character.getProficiencyBonus(), is(3));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.ROGUE, random);
         assertThat(character.getProficiencyBonus(), is(3));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.ROGUE, random);
         assertThat(character.getProficiencyBonus(), is(4));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.ROGUE, random);
         assertThat(character.getProficiencyBonus(), is(4));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.ROGUE, random);
         assertThat(character.getProficiencyBonus(), is(4));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.ROGUE, random);
         assertThat(character.getProficiencyBonus(), is(4));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.ROGUE, random);
         assertThat(character.getProficiencyBonus(), is(5));
     }
 
@@ -166,7 +166,7 @@ public class CharacterTest {
         AbilityScore con = new AbilityScore(CONSTITUTION, 12);
         character.addAttribute(con);
         assertThat(character.getSavingsThrowBonus(CONSTITUTION), is(1));
-        character.addAttribute(new IntAttribute(LEVEL, 4));
+        character.setLevel(CharacterClass.ROGUE, 4);
         con.setProficientSaves();
         assertThat(character.getSavingsThrowBonus(CONSTITUTION), is(3));
     }
@@ -175,7 +175,7 @@ public class CharacterTest {
     public void testHitPointIncrease() {
         setLevel(CharacterClass.FIGHTER, 1);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(10));
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.FIGHTER, random);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(20));
     }
 
@@ -183,10 +183,10 @@ public class CharacterTest {
     public void testConstitutionBonus() {
         setLevel(CharacterClass.FIGHTER, 1);
         character.getAttribute(CONSTITUTION, IntAttribute.class).setValue(15);
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.FIGHTER, random);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(22));
         character.getAttribute(CONSTITUTION, IntAttribute.class).setValue(3);
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.FIGHTER, random);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(28));
     }
 
@@ -200,7 +200,7 @@ public class CharacterTest {
         };
         setLevel(CharacterClass.FIGHTER, 1);
         character.getAttribute(CONSTITUTION, IntAttribute.class).setValue(1);
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.FIGHTER, random);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(11));
     }
 
@@ -209,26 +209,26 @@ public class CharacterTest {
         setLevel(CharacterClass.FIGHTER, 1);
         character.removeAttributesOfType(RACE);
         character.addAttribute(Race.HILL_DWARF);
-        character.increaseLevel(random);
+        character.increaseLevel(CharacterClass.FIGHTER, random);
         assertThat(character.getIntAttribute(AttributeType.HIT_POINTS), is(21));
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void testMaxLevel() {
         setLevel(CharacterClass.CLERIC, 1);
         for (int i = 1; i < 40; i++) {
-            assertThat(character.getIntAttribute(AttributeType.LEVEL), is(Math.min(20, i)));
-            character.increaseLevel(random);
+            assertThat(character.getLevel(), is(Math.min(20, i)));
+            character.increaseLevel(CharacterClass.CLERIC, random);
         }
     }
 
     @Test
     public void testXP() {
         setLevel(CharacterClass.FIGHTER, 1);
-        for (int level = 0; level < 20; level++) {
+        for (int level = 1; level < 20; level++) {
+            character.increaseLevel(CharacterClass.FIGHTER, random);
             assertThat(character.getIntAttribute(EXPERIENCE_POINTS),
                 is(Character.XP_LEVELS[level]));
-            character.increaseLevel(random);
         }
     }
 

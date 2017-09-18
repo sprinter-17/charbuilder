@@ -1,9 +1,9 @@
 package characterbuilder.character.characterclass.warlock;
 
-import characterbuilder.character.characterclass.warlock.EldritchInvocation;
 import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.warlock.EldritchInvocation.*;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
@@ -28,9 +28,9 @@ public class EldritchInvocationTest {
 
     @Test
     public void testIsAllowed() {
-        character.setLevel(8);
+        character.setLevel(CharacterClass.WARLOCK, 8);
         assertFalse(ASCENDANT_STEP.isAllowed(character));
-        character.setLevel(9);
+        character.setLevel(CharacterClass.WARLOCK, 9);
         assertTrue(ASCENDANT_STEP.isAllowed(character));
     }
 

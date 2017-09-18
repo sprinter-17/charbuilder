@@ -31,8 +31,8 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
         return new OptionChoice("Class") {
             @Override
             public void select(Character character, ChoiceSelector selector) {
-                selector.chooseOption(Arrays.stream(CharacterClass.values()), c -> {
-                    character.addAttribute(new CharacterClassLevel(c));
+                selector.chooseOption(Arrays.stream(CharacterClass.values()), cls -> {
+                    cls.choose(character);
                 });
             }
         };

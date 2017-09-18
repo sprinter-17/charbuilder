@@ -50,10 +50,6 @@ public class Character {
 
     private boolean dirty = true;
 
-    public Character() {
-        addAttribute(new IntAttribute(EXPERIENCE_POINTS, XP_LEVELS[0]));
-    }
-
     public void addChoiceList(ChoiceSelector selector) {
         this.choices = new ChoiceList(selector);
     }
@@ -107,12 +103,12 @@ public class Character {
     public void generateAbilityScores(CharacterRandom random) {
         if (!hasAttribute(CHARACTER_CLASS) || !hasAttribute(RACE))
             throw new IllegalStateException("Generate ability score without class and race");
-        CharacterClass characterClass = getAttribute(CHARACTER_CLASS);
+        CharacterClassLevel classLevel = getAttribute(CHARACTER_CLASS);
         List<Integer> abilityScores = IntStream
             .generate(random::nextAbilityScore).limit(6L).boxed()
             .sorted(Comparator.reverseOrder())
             .collect(Collectors.toList());
-        characterClass.getPrimaryAttributes()
+        classLevel.getCharacterClass().getPrimaryAttributes()
             .forEach(attr -> addAttribute(new AbilityScore(attr, abilityScores.remove(0))));
         Collections.shuffle(abilityScores);
         AbilityScore.SCORES.stream()
@@ -246,8 +242,8 @@ public class Character {
 
     public void generateHitPoints() {
         if (getLevel() == 1) {
-            CharacterClass characterClass = getAttribute(CHARACTER_CLASS);
-            int hp = adjustHitPointIncrease(characterClass.getHitDie());
+            CharacterClassLevel classLevel = getAttribute(CHARACTER_CLASS);
+            int hp = adjustHitPointIncrease(classLevel.getCharacterClass().getHitDie());
             addAttribute(new IntAttribute(HIT_POINTS, hp));
             setDirty();
         }
@@ -269,10 +265,12 @@ public class Character {
         CharacterClassLevel level = getAttributes(CHARACTER_CLASS, CharacterClassLevel.class)
             .filter(ccl -> ccl.getCharacterClass() == characterClass)
             .findAny().orElseThrow(IllegalStateException::new);
+        if (level.getLevel() == 20)
+            throw new IllegalStateException("Attempt to increase level beyond 20");
         IntAttribute xp = getAttribute(EXPERIENCE_POINTS);
         IntAttribute hp = getAttribute(HIT_POINTS);
-        level.increaseLevel();
         xp.setValue(XP_LEVELS[getLevel()]);
+        level.increaseLevel();
         int hpIncrease = random.nextHitPoints(characterClass.getHitDie());
         hp.addValue(adjustHitPointIncrease(hpIncrease));
         attributes.getAllAttributes()

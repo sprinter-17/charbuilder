@@ -1,6 +1,7 @@
 package characterbuilder.character.ability;
 
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
@@ -16,7 +17,7 @@ public class SkillTest {
     @Before
     public void setup() {
         character = new TestCharacter().withScores(10);
-        character.setLevel(7);
+        character.setLevel(CharacterClass.WIZARD, 7);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package characterbuilder.character.ability;
 
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.characterclass.CharacterClass.FIGHTER;
 import characterbuilder.character.characterclass.fighter.FighterAbility;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.utils.TestCharacter;
@@ -18,7 +19,7 @@ public class AbilityTest {
     @Before
     public void setup() {
         character = new TestCharacter();
-        character.setLevel(1);
+        character.setLevel(FIGHTER, 1);
     }
 
     @Test
