@@ -1,11 +1,13 @@
 package characterbuilder.character.characterclass.rogue;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.ability.Ability;
 import characterbuilder.character.ability.Language;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_SIMPLE_WEAPONS;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.attribute.AttributeType.DEXTERITY;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import static characterbuilder.character.characterclass.rogue.RogueAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -24,6 +26,7 @@ import static characterbuilder.character.equipment.Weapon.LONGSWORD;
 import static characterbuilder.character.equipment.Weapon.RAPIER;
 import static characterbuilder.character.equipment.Weapon.SHORTBOW;
 import static characterbuilder.character.equipment.Weapon.SHORTSWORD;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Rogue extends AbstractCharacterClass {
@@ -41,6 +44,11 @@ public class Rogue extends AbstractCharacterClass {
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
         return Stream.of(AttributeType.DEXTERITY, AttributeType.INTELLIGENCE);
+    }
+
+    @Override
+    public Predicate<Character> getMulticlassPrerequisites() {
+        return ch -> ch.getScore(DEXTERITY).getValue() >= 13;
     }
 
     @Override

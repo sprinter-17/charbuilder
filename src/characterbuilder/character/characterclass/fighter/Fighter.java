@@ -1,10 +1,12 @@
 package characterbuilder.character.characterclass.fighter;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.ability.FightingStyle;
 import static characterbuilder.character.ability.Proficiency.ALL_ARMOUR;
 import static characterbuilder.character.ability.Proficiency.ALL_WEAPONS;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import static characterbuilder.character.characterclass.fighter.FighterAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -16,6 +18,7 @@ import static characterbuilder.character.equipment.Armour.*;
 import characterbuilder.character.equipment.EquipmentCategory;
 import static characterbuilder.character.equipment.EquipmentPack.*;
 import static characterbuilder.character.equipment.Weapon.*;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Fighter extends AbstractCharacterClass {
@@ -33,6 +36,12 @@ public class Fighter extends AbstractCharacterClass {
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
         return Stream.of(AttributeType.STRENGTH, AttributeType.CONSTITUTION);
+    }
+
+    @Override
+    public Predicate<Character> getMulticlassPrerequisites() {
+        return ch -> ch.getScore(STRENGTH).getValue() >= 13
+            || ch.getScore(DEXTERITY).getValue() >= 13;
     }
 
     @Override

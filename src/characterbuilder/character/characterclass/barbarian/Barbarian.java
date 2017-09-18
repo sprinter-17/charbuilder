@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass.barbarian;
 
+import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_WEAPONS;
@@ -14,6 +15,7 @@ import static characterbuilder.character.choice.ChoiceGenerator.levels;
 import characterbuilder.character.equipment.EquipmentCategory;
 import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
 import static characterbuilder.character.equipment.Weapon.*;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Barbarian extends AbstractCharacterClass {
@@ -31,6 +33,11 @@ public class Barbarian extends AbstractCharacterClass {
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
         return Stream.of(STRENGTH, CONSTITUTION);
+    }
+
+    @Override
+    public Predicate<Character> getMulticlassPrerequisites() {
+        return ch -> ch.getScore(STRENGTH).getValue() >= 13;
     }
 
     @Override

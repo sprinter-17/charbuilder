@@ -9,6 +9,7 @@ import static characterbuilder.character.attribute.AttributeType.DIVINE_DOMAIN;
 import static characterbuilder.character.characterclass.CharacterClass.BARBARIAN;
 import static characterbuilder.character.characterclass.CharacterClass.CLERIC;
 import static characterbuilder.character.characterclass.CharacterClass.FIGHTER;
+import static characterbuilder.character.characterclass.CharacterClass.PALADIN;
 import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.InitialChoiceGenerator;
@@ -27,7 +28,9 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import java.util.stream.Stream;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,6 +46,21 @@ public class CharacterClassTest {
         MagicSchool.values(); // avoid initialisation error
         Ability.values(); // avoid initialisation error
         character = new TestCharacter().withScores(10);
+    }
+
+    @Test
+    public void testMulticlassPrerequisites() {
+        assertFalse(CLERIC.hasMulticlassPrerequisites(character));
+        character.setScore(AttributeType.WISDOM, 12);
+        assertFalse(CLERIC.hasMulticlassPrerequisites(character));
+        character.setScore(AttributeType.WISDOM, 13);
+        assertTrue(CLERIC.hasMulticlassPrerequisites(character));
+        assertFalse(FIGHTER.hasMulticlassPrerequisites(character));
+        character.setScore(AttributeType.STRENGTH, 13);
+        assertTrue(FIGHTER.hasMulticlassPrerequisites(character));
+        assertFalse(PALADIN.hasMulticlassPrerequisites(character));
+        character.setScore(AttributeType.CHARISMA, 13);
+        assertTrue(PALADIN.hasMulticlassPrerequisites(character));
     }
 
     private class IterativeSelector implements ChoiceSelector {

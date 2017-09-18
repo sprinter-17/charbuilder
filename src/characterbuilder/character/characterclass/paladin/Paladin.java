@@ -1,12 +1,13 @@
 package characterbuilder.character.characterclass.paladin;
 
+import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.EXTRA_ATTACK;
 import characterbuilder.character.ability.FightingStyle;
 import static characterbuilder.character.ability.Proficiency.ALL_ARMOUR;
 import static characterbuilder.character.ability.Proficiency.ALL_WEAPONS;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
-import static characterbuilder.character.attribute.AttributeType.CHARISMA;
+import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.paladin.PaladinAbility.*;
@@ -14,13 +15,11 @@ import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.choice.EquipmentChoice;
 import characterbuilder.character.equipment.Armour;
 import static characterbuilder.character.equipment.Armour.CHAIN_MAIL_ARMOUR;
-import static characterbuilder.character.equipment.EquipmentCategory.HOLY_SYMBOL;
-import static characterbuilder.character.equipment.EquipmentCategory.MARTIAL_MELEE;
-import static characterbuilder.character.equipment.EquipmentCategory.MARTIAL_RANGED;
-import static characterbuilder.character.equipment.EquipmentCategory.SIMPLE_MELEE;
+import static characterbuilder.character.equipment.EquipmentCategory.*;
 import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
 import static characterbuilder.character.equipment.EquipmentPack.PRIEST_PACK;
 import static characterbuilder.character.equipment.Weapon.JAVELIN;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Paladin extends AbstractCharacterClass {
@@ -40,6 +39,12 @@ public class Paladin extends AbstractCharacterClass {
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
         return Stream.of(AttributeType.WISDOM, AttributeType.CHARISMA);
+    }
+
+    @Override
+    public Predicate<Character> getMulticlassPrerequisites() {
+        return ch -> ch.getScore(STRENGTH).getValue() >= 13
+            && ch.getScore(CHARISMA).getValue() >= 13;
     }
 
     @Override

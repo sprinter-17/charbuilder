@@ -1,14 +1,12 @@
 package characterbuilder.character.characterclass.cleric;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_SIMPLE_WEAPONS;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
-import static characterbuilder.character.attribute.AttributeType.CHARISMA;
-import static characterbuilder.character.attribute.AttributeType.CONSTITUTION;
-import static characterbuilder.character.attribute.AttributeType.STRENGTH;
-import static characterbuilder.character.attribute.AttributeType.WISDOM;
+import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import static characterbuilder.character.characterclass.CharacterClass.CLERIC;
 import static characterbuilder.character.characterclass.cleric.ClericAbility.*;
@@ -16,13 +14,10 @@ import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import static characterbuilder.character.equipment.AdventureGear.CROSSBOW_BOLT;
-import static characterbuilder.character.equipment.Armour.CHAIN_MAIL_ARMOUR;
-import static characterbuilder.character.equipment.Armour.LEATHER_ARMOUR;
-import static characterbuilder.character.equipment.Armour.SCALE_MAIL_ARMOUR;
+import static characterbuilder.character.equipment.Armour.*;
 import characterbuilder.character.equipment.EquipmentCategory;
-import static characterbuilder.character.equipment.Weapon.LIGHT_CROSSBOW;
-import static characterbuilder.character.equipment.Weapon.MACE;
-import static characterbuilder.character.equipment.Weapon.WARHAMMER;
+import static characterbuilder.character.equipment.Weapon.*;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Cleric extends AbstractCharacterClass {
@@ -42,6 +37,11 @@ public class Cleric extends AbstractCharacterClass {
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
         return Stream.of(WISDOM, CHARISMA);
+    }
+
+    @Override
+    public Predicate<Character> getMulticlassPrerequisites() {
+        return ch -> ch.getScore(WISDOM).getValue() >= 13;
     }
 
     @Override

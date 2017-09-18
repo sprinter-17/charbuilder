@@ -292,8 +292,8 @@ public class Character {
 
     public String getHitDice() {
         checkAttributes(CHARACTER_CLASS);
-        CharacterClass characterClass = getAttribute(CHARACTER_CLASS);
-        return getLevel() + "d" + characterClass.getHitDie();
+        CharacterClassLevel classLevel = getAttribute(CHARACTER_CLASS);
+        return getLevel() + "d" + classLevel.getCharacterClass().getHitDie();
     }
 
     public int getHitPoints() {

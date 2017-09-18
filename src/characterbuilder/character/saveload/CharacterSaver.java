@@ -82,8 +82,11 @@ public class CharacterSaver {
         if (characterElement.hasAttribute("format"))
             format = Integer.valueOf(characterElement.getAttribute("format"));
         Format fileFormat = new Format(format);
-        loadAttributes(character, Savable.child(characterElement, "attributes"));
-        loadEquipment(character, Savable.child(characterElement, "inventory"));
+        Element attributeElement = Savable.child(characterElement, "attributes");
+        Element inventoryElement = Savable.child(characterElement, "inventory");
+        fileFormat.preProcess(attributeElement, inventoryElement);
+        loadAttributes(character, attributeElement);
+        loadEquipment(character, inventoryElement);
         fileFormat.postProcess(character);
         character.clearDirty();
         return character;

@@ -4,6 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.saveload.Savable;
 import java.util.Objects;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -63,13 +64,13 @@ public class CharacterClassLevel implements Attribute {
     @Override
     public Element save(Document doc) {
         Element element = getType().save(doc);
-        element.setAttribute("class", characterClass.name());
         element.setAttribute("level", Integer.toString(level));
+        element.setTextContent(characterClass.name());
         return element;
     }
 
     public static CharacterClassLevel load(Element element) {
-        CharacterClass characterClass = CharacterClass.valueOf(element.getAttribute("class"));
+        CharacterClass characterClass = CharacterClass.valueOf(Savable.text(element));
         int level = Integer.valueOf(element.getAttribute("level"));
         return new CharacterClassLevel(characterClass, level);
     }

@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass.druid;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.Language;
 import characterbuilder.character.ability.Proficiency;
@@ -17,16 +18,8 @@ import characterbuilder.character.equipment.EquipmentCategory;
 import static characterbuilder.character.equipment.EquipmentCategory.DRUIDIC_FOCUS;
 import static characterbuilder.character.equipment.EquipmentCategory.SIMPLE_RANGED;
 import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
-import static characterbuilder.character.equipment.Weapon.CLUB;
-import static characterbuilder.character.equipment.Weapon.DAGGER;
-import static characterbuilder.character.equipment.Weapon.DART;
-import static characterbuilder.character.equipment.Weapon.JAVELIN;
-import static characterbuilder.character.equipment.Weapon.MACE;
-import static characterbuilder.character.equipment.Weapon.QUARTERSTAFF;
-import static characterbuilder.character.equipment.Weapon.SCIMITAR;
-import static characterbuilder.character.equipment.Weapon.SICKLE;
-import static characterbuilder.character.equipment.Weapon.SLING;
-import static characterbuilder.character.equipment.Weapon.SPEAR;
+import static characterbuilder.character.equipment.Weapon.*;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Druid extends AbstractCharacterClass {
@@ -44,6 +37,11 @@ public class Druid extends AbstractCharacterClass {
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
         return Stream.of(AttributeType.WISDOM, AttributeType.CONSTITUTION);
+    }
+
+    @Override
+    public Predicate<Character> getMulticlassPrerequisites() {
+        return ch -> ch.getScore(WISDOM).getValue() >= 13;
     }
 
     @Override

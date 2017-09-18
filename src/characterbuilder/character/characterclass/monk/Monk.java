@@ -1,11 +1,13 @@
 package characterbuilder.character.characterclass.monk;
 
+import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.EVASION;
 import static characterbuilder.character.ability.Ability.EXTRA_ATTACK;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_SIMPLE_WEAPONS;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import static characterbuilder.character.characterclass.monk.MonkAbility.*;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
@@ -16,6 +18,7 @@ import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
 import characterbuilder.character.equipment.MusicalInstrument;
 import static characterbuilder.character.equipment.Weapon.DART;
 import static characterbuilder.character.equipment.Weapon.SHORTSWORD;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Monk extends AbstractCharacterClass {
@@ -33,6 +36,12 @@ public class Monk extends AbstractCharacterClass {
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
         return Stream.of(AttributeType.STRENGTH, AttributeType.DEXTERITY);
+    }
+
+    @Override
+    public Predicate<Character> getMulticlassPrerequisites() {
+        return ch -> ch.getScore(DEXTERITY).getValue() >= 13
+            && ch.getScore(WISDOM).getValue() >= 13;
     }
 
     @Override

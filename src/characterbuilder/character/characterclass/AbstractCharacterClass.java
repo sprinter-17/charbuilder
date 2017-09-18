@@ -1,9 +1,11 @@
 package characterbuilder.character.characterclass;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.ChoiceGenerator;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public abstract class AbstractCharacterClass {
@@ -11,6 +13,8 @@ public abstract class AbstractCharacterClass {
     private Optional<ChoiceGenerator> generator = Optional.empty();
 
     public abstract int getHitDie();
+
+    public abstract Predicate<Character> getMulticlassPrerequisites();
 
     public abstract AttributeType getClassAttribute();
 
@@ -33,5 +37,4 @@ public abstract class AbstractCharacterClass {
     protected static AttributeDelegate ability() {
         return new AttributeDelegate();
     }
-
 }

@@ -19,5 +19,4 @@ public class FormatTest {
         assertTrue(character.hasAttribute(RacialTalent.FEY_ANCESTORY));
         assertTrue(character.hasAttribute(Skill.PERCEPTION));
     }
-
 }

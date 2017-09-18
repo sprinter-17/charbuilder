@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass.warlock;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.AttributeType;
@@ -22,6 +23,7 @@ import static characterbuilder.character.equipment.EquipmentCategory.SIMPLE_RANG
 import characterbuilder.character.equipment.EquipmentPack;
 import characterbuilder.character.equipment.Weapon;
 import static characterbuilder.character.equipment.Weapon.DAGGER;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Warlock extends AbstractCharacterClass {
@@ -41,6 +43,11 @@ public class Warlock extends AbstractCharacterClass {
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
         return Stream.of(AttributeType.WISDOM, AttributeType.CHARISMA);
+    }
+
+    @Override
+    public Predicate<Character> getMulticlassPrerequisites() {
+        return ch -> ch.getScore(CHARISMA).getValue() >= 13;
     }
 
     @Override

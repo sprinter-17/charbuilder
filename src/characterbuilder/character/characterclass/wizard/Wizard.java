@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass.wizard;
 
+import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Skill.ARCANA;
 import static characterbuilder.character.ability.Skill.HISTORY;
 import static characterbuilder.character.ability.Skill.INSIGHT;
@@ -30,6 +31,7 @@ import static characterbuilder.character.equipment.Weapon.LIGHT_CROSSBOW;
 import static characterbuilder.character.equipment.Weapon.QUARTERSTAFF;
 import static characterbuilder.character.equipment.Weapon.SLING;
 import characterbuilder.character.spell.SignatureSpell;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Wizard extends AbstractCharacterClass {
@@ -49,6 +51,11 @@ public class Wizard extends AbstractCharacterClass {
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
         return Stream.of(AttributeType.INTELLIGENCE, AttributeType.WISDOM);
+    }
+
+    @Override
+    public Predicate<Character> getMulticlassPrerequisites() {
+        return ch -> ch.getScore(INTELLIGENCE).getValue() >= 13;
     }
 
     @Override

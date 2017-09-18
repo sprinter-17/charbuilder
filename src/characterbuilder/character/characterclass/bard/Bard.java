@@ -28,6 +28,7 @@ import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import java.util.Arrays;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Bard extends AbstractCharacterClass {
@@ -69,6 +70,11 @@ public class Bard extends AbstractCharacterClass {
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
         return Stream.of(AttributeType.DEXTERITY, AttributeType.CHARISMA);
+    }
+
+    @Override
+    public Predicate<Character> getMulticlassPrerequisites() {
+        return ch -> ch.getScore(CHARISMA).getValue() >= 13;
     }
 
     @Override

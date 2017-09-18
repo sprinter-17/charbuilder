@@ -5,14 +5,25 @@ import characterbuilder.character.ability.RacialTalent;
 import characterbuilder.character.ability.Skill;
 import static characterbuilder.character.attribute.Race.*;
 import java.util.stream.Stream;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class Format {
 
-    public static final int CURRENT = 2;
+    public static final int CURRENT = 3;
     private final int fileFormat;
 
     public Format(int fileFormat) {
         this.fileFormat = fileFormat;
+    }
+
+    public void preProcess(Element attributeElement, Element inventoryElement) {
+        if (fileFormat < 3) {
+            Node levelElement = attributeElement.removeChild(
+                Savable.child(attributeElement, "level"));
+            Savable.child(attributeElement, "character_class")
+                .setAttribute("level", levelElement.getTextContent());
+        }
     }
 
     public void postProcess(Character character) {

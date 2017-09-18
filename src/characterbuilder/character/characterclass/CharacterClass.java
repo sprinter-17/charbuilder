@@ -78,6 +78,10 @@ public enum CharacterClass implements Option {
         return CharacterClass.valueOf(node.getTextContent());
     }
 
+    public boolean hasMulticlassPrerequisites(Character character) {
+        return delegate.getMulticlassPrerequisites().test(character);
+    }
+
     @Override
     public void choose(Character character) {
         new CharacterClassLevel(this).choose(character);

@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass.sorcerer;
 
+import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
@@ -20,6 +21,7 @@ import static characterbuilder.character.equipment.Weapon.DART;
 import static characterbuilder.character.equipment.Weapon.LIGHT_CROSSBOW;
 import static characterbuilder.character.equipment.Weapon.QUARTERSTAFF;
 import static characterbuilder.character.equipment.Weapon.SLING;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Sorcerer extends AbstractCharacterClass {
@@ -39,6 +41,11 @@ public class Sorcerer extends AbstractCharacterClass {
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
         return Stream.of(AttributeType.CONSTITUTION, AttributeType.CHARISMA);
+    }
+
+    @Override
+    public Predicate<Character> getMulticlassPrerequisites() {
+        return ch -> ch.getScore(CHARISMA).getValue() >= 13;
     }
 
     @Override

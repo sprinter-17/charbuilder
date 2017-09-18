@@ -6,6 +6,7 @@ import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClassLevel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -130,7 +131,9 @@ public class AbilityScoreChoice {
     public void showInPanel(DetailPanel detailPanel, Character character,
         Consumer<Stream<AbilityScore>> consumer) {
         this.race = character.getAttribute(AttributeType.RACE);
-        this.characterClass = character.getAttribute(AttributeType.CHARACTER_CLASS);
+        this.characterClass = character.getAttribute(AttributeType.CHARACTER_CLASS,
+            CharacterClassLevel.class)
+            .getCharacterClass();
         generateOrderedScores();
         detailPanel.removeAll();
         scorePanels.forEach(panel -> addScorePanel(panel, detailPanel));

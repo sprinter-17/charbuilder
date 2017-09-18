@@ -1,12 +1,13 @@
 package characterbuilder.character.characterclass.ranger;
 
+import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.EXTRA_ATTACK;
 import characterbuilder.character.ability.FightingStyle;
 import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_WEAPONS;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
-import static characterbuilder.character.attribute.AttributeType.WISDOM;
+import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.ranger.RangerAbility.*;
@@ -21,6 +22,7 @@ import static characterbuilder.character.equipment.EquipmentPack.DUNGEONEER_PACK
 import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
 import static characterbuilder.character.equipment.Weapon.LONGBOW;
 import static characterbuilder.character.equipment.Weapon.SHORTSWORD;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Ranger extends AbstractCharacterClass {
@@ -40,6 +42,12 @@ public class Ranger extends AbstractCharacterClass {
     @Override
     public Stream<AttributeType> getPrimaryAttributes() {
         return Stream.of(AttributeType.STRENGTH, AttributeType.DEXTERITY);
+    }
+
+    @Override
+    public Predicate<Character> getMulticlassPrerequisites() {
+        return ch -> ch.getScore(DEXTERITY).getValue() >= 13
+            && ch.getScore(WISDOM).getValue() >= 13;
     }
 
     @Override

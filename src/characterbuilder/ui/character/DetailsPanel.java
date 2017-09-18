@@ -3,7 +3,7 @@ package characterbuilder.ui.character;
 import characterbuilder.character.Character;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.StringAttribute;
-import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClassLevel;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
@@ -16,7 +16,6 @@ public class DetailsPanel extends CharacterSubPanel {
     private final JLabel classField = new JLabel();
     private final JLabel backgroundField = new JLabel();
     private final JLabel alignmentField = new JLabel();
-    private final JLabel levelField = new JLabel();
     private final JLabel hpField = new JLabel();
     private final JLabel xpField = new JLabel();
     private final JLabel classAttributeName = new JLabel();
@@ -26,8 +25,7 @@ public class DetailsPanel extends CharacterSubPanel {
         super("Personal Details", 2, updater);
         addInColumns("Name", nameField);
         addInColumns("Race", raceField);
-        addInColumns("Class", classField);
-        addInColumns("Level", levelField);
+        addInColumns("Classes", classField);
         addInColumns("Hit Points", hpField);
         addInColumns("Experience Points", xpField);
         addInColumns("Background", backgroundField);
@@ -66,7 +64,6 @@ public class DetailsPanel extends CharacterSubPanel {
         nameField.setEnabled(true);
         raceField.setText(attributeValue(RACE));
         classField.setText(attributeValue(CHARACTER_CLASS));
-//        levelField.setText(attributeValue(LEVEL));
         xpField.setText(attributeValue(EXPERIENCE_POINTS));
         backgroundField.setText(attributeValue(BACKGROUND));
         alignmentField.setText(attributeValue(ALIGNMENT));
@@ -74,10 +71,12 @@ public class DetailsPanel extends CharacterSubPanel {
         classAttributeName.setText(null);
         classAttributeValue.setText(null);
         if (character.hasAttribute(CHARACTER_CLASS)) {
-            CharacterClass charClass = character.getAttribute(CHARACTER_CLASS);
-            classAttributeName.setText(charClass.getClassAttribute().toString());
-            classAttributeValue.setText(character.getAttribute(charClass.getClassAttribute())
-                .toString());
+            CharacterClassLevel charClassLevel = character.getAttribute(CHARACTER_CLASS);
+            classAttributeName.setText(
+                charClassLevel.getCharacterClass().getClassAttribute().toString());
+            classAttributeValue.setText(
+                character.getAttribute(charClassLevel.getCharacterClass().getClassAttribute())
+                    .toString());
         }
         finishUpdate();
     }
