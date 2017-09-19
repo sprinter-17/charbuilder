@@ -11,7 +11,6 @@ import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import static characterbuilder.character.characterclass.barbarian.BarbarianAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
-import static characterbuilder.character.choice.ChoiceGenerator.levels;
 import characterbuilder.character.equipment.EquipmentCategory;
 import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
 import static characterbuilder.character.equipment.Weapon.*;
@@ -42,10 +41,11 @@ public class Barbarian extends AbstractCharacterClass {
 
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
-        gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
-            Proficiency.SHIELD, ALL_WEAPONS);
-        gen.level(1).addAttributeChoice(2, "Skill",
-            ANIMAL_HANDLING, ATHLETICS, INTIMIDATION, NATURE, PERCEPTION, SURVIVAL);
+        addEquipment(gen);
+        addAttributes(gen);
+    }
+
+    private void addEquipment(ChoiceGenerator gen) {
         gen.level(1).addEquipmentChoice("Primary Weapon")
             .with(GREATEAXE).with(EquipmentCategory.MARTIAL_MELEE);
         gen.level(1).addEquipmentChoice("Secondary Weapon")
@@ -54,10 +54,17 @@ public class Barbarian extends AbstractCharacterClass {
             .with(EquipmentCategory.SIMPLE_RANGED);
         gen.level(1).addEquipment(EXPLORER_PACK);
         gen.level(1).addEquipment(JAVELIN.makeSet(4));
+    }
+
+    private void addAttributes(ChoiceGenerator gen) {
+        gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
+            Proficiency.SHIELD, ALL_WEAPONS);
+        gen.level(1).addAttributeChoice(2, "Skill",
+            ANIMAL_HANDLING, ATHLETICS, INTIMIDATION, NATURE, PERCEPTION, SURVIVAL);
         gen.level(1).addAttributes(RAGE, UNARMORED_DEFENCE);
         gen.level(2).addAttributes(RECKLESS_ATTACK, DANGER_SENSE);
         gen.level(3).addAttributeChoice("Primal Path", PrimalPath.values());
-        gen.cond(levels(4, 8, 12, 16, 19)).addAbilityScoreOrFeatChoice();
+        gen.level(4, 8, 12, 16, 19).addAbilityScoreOrFeatChoice();
         gen.level(5).addAttributes(EXTRA_ATTACK, FAST_MOVEMENT);
         gen.level(7).addAttributes(FERAL_INSTINCTS);
         gen.level(9).addAttributes(BRUTAL_CRITICAL);

@@ -11,7 +11,6 @@ import static characterbuilder.character.attribute.AttributeType.DEXTERITY;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import static characterbuilder.character.characterclass.rogue.RogueAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
-import static characterbuilder.character.choice.ChoiceGenerator.levels;
 import characterbuilder.character.choice.ExpertiseChoice;
 import characterbuilder.character.equipment.AdventureGear;
 import static characterbuilder.character.equipment.AdventureGear.ARROW;
@@ -82,7 +81,7 @@ public class Rogue extends AbstractCharacterClass {
         gen.level(15).addAttributes(SLIPPERY_MIND);
         gen.level(18).addAttributes(ELUSIVE);
         gen.level(20).addAttributes(STROKE_OF_LUCK);
-        gen.cond(levels(4, 8, 10, 12, 16, 19)).addAbilityScoreOrFeatChoice();
+        gen.level(4, 8, 10, 12, 16, 19).addAbilityScoreOrFeatChoice();
     }
 
     private void addEquipment(ChoiceGenerator gen) {

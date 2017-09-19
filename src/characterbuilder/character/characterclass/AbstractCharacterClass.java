@@ -4,6 +4,7 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -24,9 +25,12 @@ public abstract class AbstractCharacterClass {
         return getPrimaryAttributes().anyMatch(type::equals);
     }
 
-    public ChoiceGenerator getGenerator() {
+    public void addInitialAttributes(Character character) {
+    }
+
+    public final ChoiceGenerator getGenerator(CharacterClass characterClass) {
         if (!generator.isPresent()) {
-            generator = Optional.of(new ChoiceGenerator());
+            generator = Optional.of(new ClassSpecificChoiceGenerator(characterClass));
             makeGenerator(generator.get());
         }
         return generator.get();

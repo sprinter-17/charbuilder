@@ -6,6 +6,7 @@ import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.characterclass.CharacterClassLevel;
 import java.awt.Color;
 import java.awt.Dimension;
+import static java.util.stream.Collectors.joining;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -63,7 +64,11 @@ public class DetailsPanel extends CharacterSubPanel {
             nameField.setBackground(Color.WHITE);
         nameField.setEnabled(true);
         raceField.setText(attributeValue(RACE));
-        classField.setText(attributeValue(CHARACTER_CLASS));
+        if (character.hasAttribute(CHARACTER_CLASS))
+            classField.setText(character.getCharacterClassLevels()
+                .map(CharacterClassLevel::toString).collect(joining("/")));
+        else
+            classField.setText(null);
         xpField.setText(attributeValue(EXPERIENCE_POINTS));
         backgroundField.setText(attributeValue(BACKGROUND));
         alignmentField.setText(attributeValue(ALIGNMENT));

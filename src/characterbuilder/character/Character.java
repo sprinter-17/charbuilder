@@ -28,15 +28,10 @@ import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Character {
@@ -98,25 +93,6 @@ public class Character {
     public boolean hasChoice(String name) {
         assert choices != null;
         return getAllChoices().map(Object::toString).anyMatch(name::equals);
-    }
-
-    public void generateAbilityScores(CharacterRandom random) {
-        if (!hasAttribute(CHARACTER_CLASS) || !hasAttribute(RACE))
-            throw new IllegalStateException("Generate ability score without class and race");
-        CharacterClassLevel classLevel = getAttribute(CHARACTER_CLASS);
-        List<Integer> abilityScores = IntStream
-            .generate(random::nextAbilityScore).limit(6L).boxed()
-            .sorted(Comparator.reverseOrder())
-            .collect(Collectors.toList());
-        classLevel.getCharacterClass().getPrimaryAttributes()
-            .forEach(attr -> addAttribute(new AbilityScore(attr, abilityScores.remove(0))));
-        Collections.shuffle(abilityScores);
-        AbilityScore.SCORES.stream()
-            .filter(as -> !hasAttribute(as))
-            .forEach(as -> addAttribute(new AbilityScore(as, abilityScores.remove(0))));
-        Race race = getAttribute(RACE);
-        AbilityScore.SCORES
-            .forEach(attr -> getScore(attr).addValue(race.getAttributeAdjustment(attr)));
     }
 
     public boolean isDirty() {
@@ -260,19 +236,37 @@ public class Character {
         return Math.max(1, hitPoints);
     }
 
+    public Stream<CharacterClassLevel> getCharacterClassLevels() {
+        return getAttributes(CHARACTER_CLASS, CharacterClassLevel.class);
+    }
+
+    public Stream<CharacterClass> getCharacterClasses() {
+        return getCharacterClassLevels().map(CharacterClassLevel::getCharacterClass);
+    }
+
+    public Stream<CharacterClass> allowedMultiClasses() {
+        return Arrays.stream(CharacterClass.values())
+            .filter(cc -> cc.hasMulticlassPrerequisites(this))
+            .filter(cc -> getCharacterClasses().noneMatch(cc::equals));
+    }
+
     public final void increaseLevel(CharacterClass characterClass, CharacterRandom random) {
         checkAttributes(CHARACTER_CLASS, EXPERIENCE_POINTS, CONSTITUTION, HIT_POINTS);
-        CharacterClassLevel level = getAttributes(CHARACTER_CLASS, CharacterClassLevel.class)
-            .filter(ccl -> ccl.getCharacterClass() == characterClass)
-            .findAny().orElseThrow(IllegalStateException::new);
-        if (level.getLevel() == 20)
+        if (getLevel() == 20)
             throw new IllegalStateException("Attempt to increase level beyond 20");
-        IntAttribute xp = getAttribute(EXPERIENCE_POINTS);
+        getAttribute(EXPERIENCE_POINTS, IntAttribute.class).setValue(XP_LEVELS[getLevel()]);
         IntAttribute hp = getAttribute(HIT_POINTS);
-        xp.setValue(XP_LEVELS[getLevel()]);
-        level.increaseLevel();
-        int hpIncrease = random.nextHitPoints(characterClass.getHitDie());
-        hp.addValue(adjustHitPointIncrease(hpIncrease));
+        if (getCharacterClasses().anyMatch(characterClass::equals)) {
+            getCharacterClassLevels().filter(ccl -> ccl.hasCharacterClass(characterClass))
+                .findAny().orElseThrow(IllegalStateException::new)
+                .increaseLevel(this);
+            int hpIncrease = random.nextHitPoints(characterClass.getHitDie());
+            hp.addValue(adjustHitPointIncrease(hpIncrease));
+        } else {
+            CharacterClassLevel level = new CharacterClassLevel(characterClass);
+            level.choose(this);
+            hp.addValue(characterClass.getHitDie());
+        }
         attributes.getAllAttributes()
             .collect(toList())
             .forEach(attr -> attr.generateLevelChoices(this));

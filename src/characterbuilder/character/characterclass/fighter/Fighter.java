@@ -10,7 +10,6 @@ import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import static characterbuilder.character.characterclass.fighter.FighterAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
-import static characterbuilder.character.choice.ChoiceGenerator.levels;
 import static characterbuilder.character.equipment.AdventureGear.ARROW;
 import static characterbuilder.character.equipment.AdventureGear.CROSSBOW_BOLT;
 import characterbuilder.character.equipment.Armour;
@@ -65,7 +64,7 @@ public class Fighter extends AbstractCharacterClass {
         gen.level(3).addAttributeChoice("Martial Archetype", MartialArchetype.values());
         gen.level(5).addAttributes(EXTRA_ATTACK);
         gen.level(9).addAttributes(INDOMITABLE);
-        gen.cond(levels(4, 6, 8, 12, 14, 16, 19)).addAbilityScoreOrFeatChoice();
+        gen.level(4, 6, 8, 12, 14, 16, 19).addAbilityScoreOrFeatChoice();
     }
 
     private void addEquipment(ChoiceGenerator gen) {

@@ -38,7 +38,7 @@ public class ChoiceGenerator {
     }
 
     public ChoiceGenerator level(int... levels) {
-        return cond(levels(levels));
+        return cond(ch -> Arrays.stream(levels).anyMatch(lev -> ch.getLevel() == lev));
     }
 
     public ChoiceGenerator cond(Predicate<Character> condition) {
@@ -303,11 +303,6 @@ public class ChoiceGenerator {
 
     public static Predicate<Character> always() {
         return ch -> true;
-    }
-
-    public static Predicate<Character> levels(int... levels) {
-        return ch -> Arrays.stream(levels)
-            .anyMatch(lev -> ch.getLevel() == lev);
     }
 
     public Stream<String> getDescription(Character character) {

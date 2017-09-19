@@ -16,9 +16,7 @@ import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.LB;
 import characterbuilder.character.characterclass.CharacterClass;
-import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
-import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.choice.TestOptionChoice;
 import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Attack;
@@ -67,46 +65,6 @@ public class CharacterTest {
             }
         };
         character = new TestCharacter();
-        character.addChoiceList(new TestChoiceSelector());
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void testGenerateAbilityScoresBeforeRaceSet() {
-        character.addAttribute(new CharacterClassLevel(CharacterClass.ROGUE));
-        character.generateAbilityScores(random);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void testGenerateAbilityScoresBeforeClassSet() {
-        character.addAttribute(Race.LIGHFOOT_HALFLING);
-        character.generateAbilityScores(random);
-    }
-
-    @Test
-    public void testGenerateAbilityScores() {
-        character.addAttribute(Race.HILL_DWARF);
-        character.setLevel(CharacterClass.WIZARD, 1);
-        assertTrue(AbilityScore.SCORES.stream().noneMatch(character::hasAttribute));
-        character.generateAbilityScores(random);
-        assertTrue(AbilityScore.SCORES.stream().allMatch(character::hasAttribute));
-    }
-
-    @Test
-    public void testHuman() {
-        character.addAttribute(Race.HUMAN);
-        assertThat(character.getAttribute(AttributeType.RACE), is(Race.HUMAN));
-        character.setLevel(CharacterClass.CLERIC, 1);
-        character.generateAbilityScores(random);
-        assertThat(character.getIntAttribute(AttributeType.STRENGTH), is(11));
-    }
-
-    @Test
-    public void testRaceBonus() {
-        character.addAttribute(Race.WOOD_ELF);
-        character.setLevel(CharacterClass.ROGUE, 1);
-        character.generateAbilityScores(random);
-        assertThat(character.getIntAttribute(AttributeType.WISDOM), is(11));
-        assertThat(character.getIntAttribute(AttributeType.DEXTERITY), is(12));
     }
 
     @Test
@@ -315,6 +273,16 @@ public class CharacterTest {
         assertThat(character.getErrors(), containsString("Trait"));
         character.addAttribute(new StringAttribute(AttributeType.TRAIT, "Funny"));
         assertThat(character.getErrors(), not(containsString("Trait")));
+    }
+
+    @Test
+    public void testAllowedMultiClasses() {
+        character.withScores(10);
+        assertThat(character.allowedMultiClasses().count(), is(0L));
+        character.setScore(AttributeType.CHARISMA, 13);
+        assertThat(character.allowedMultiClasses().count(), is(3L));
+        CharacterClass.WARLOCK.choose(character);
+        assertThat(character.allowedMultiClasses().count(), is(2L));
     }
 
     private void setLevel(CharacterClass charClass, int level) {

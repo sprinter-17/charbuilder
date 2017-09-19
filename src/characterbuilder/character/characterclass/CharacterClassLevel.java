@@ -28,12 +28,17 @@ public class CharacterClassLevel implements Attribute {
         return AttributeType.CHARACTER_CLASS;
     }
 
+    public boolean hasCharacterClass(CharacterClass characterClass) {
+        return this.characterClass == characterClass;
+    }
+
     public CharacterClass getCharacterClass() {
         return characterClass;
     }
 
-    public void increaseLevel() {
+    public void increaseLevel(Character character) {
         level++;
+        characterClass.getGenerator().generateChoices(character);
     }
 
     public int getLevel() {
@@ -44,7 +49,7 @@ public class CharacterClassLevel implements Attribute {
     public void generateInitialChoices(Character character) {
         if (!character.hasAttribute(AttributeType.EXPERIENCE_POINTS))
             character.addAttribute(new IntAttribute(AttributeType.EXPERIENCE_POINTS, 0));
-        generateLevelChoices(character);
+        characterClass.getGenerator().generateChoices(character);
     }
 
     public boolean hasSavingsThrow(AttributeType abilityScore) {
@@ -52,13 +57,8 @@ public class CharacterClassLevel implements Attribute {
     }
 
     @Override
-    public void generateLevelChoices(Character character) {
-        characterClass.getGenerator().generateChoices(character);
-    }
-
-    @Override
     public String toString() {
-        return characterClass.toString() + "/" + level;
+        return characterClass.toString() + " " + level;
     }
 
     @Override

@@ -50,8 +50,8 @@ public class CharacterPanel extends JPanel {
                 CharacterPanel.this.triggerChange();
             }
         };
-        this.levelPanel = new DetailsPanel(updater);
-        this.abilityScorePanel = new AbilityScorePanel(updater);
+        levelPanel = new DetailsPanel(updater);
+        abilityScorePanel = new AbilityScorePanel(updater);
         picturePanel = new PicturePanel(updater);
         appearancePanel = new AppearancePanel(updater);
         abilityPanel = new AbilityPanel(updater);

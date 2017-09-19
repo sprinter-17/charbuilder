@@ -61,7 +61,7 @@ public enum CharacterClass implements Option {
     }
 
     public ChoiceGenerator getGenerator() {
-        return delegate.getGenerator();
+        return delegate.getGenerator(this);
     }
 
     public Stream<Spell> getSpells() {

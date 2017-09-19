@@ -55,7 +55,7 @@ import org.xml.sax.SAXParseException;
 public enum AttributeType {
     NAME(true, StringAttribute::load),
     RACE(true, Race::load),
-    CHARACTER_CLASS(true, CharacterClassLevel::load),
+    CHARACTER_CLASS(false, CharacterClassLevel::load),
     BACKGROUND(true, Background::load),
     STRENGTH(true, AbilityScore::load),
     DEXTERITY(true, AbilityScore::load),

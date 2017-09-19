@@ -108,9 +108,8 @@ public class CharacterClassTest {
     public void testBarbarianPrimalChampion() {
         character.setScore(AttributeType.STRENGTH, 18);
         BARBARIAN.choose(character);
-        character.setLevel(BARBARIAN, 20);
-        character.getAttributes(AttributeType.CHARACTER_CLASS, CharacterClassLevel.class)
-            .forEach(cc -> cc.generateLevelChoices(character));
+        character.setLevel(BARBARIAN, 19);
+        character.getCharacterClassLevels().findAny().get().increaseLevel(character);
         AbilityScore strength = character.getAttribute(AttributeType.STRENGTH);
         assertThat(strength.getValue(), is(22));
     }

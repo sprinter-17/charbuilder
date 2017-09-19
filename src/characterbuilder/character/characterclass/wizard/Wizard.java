@@ -15,7 +15,6 @@ import static characterbuilder.character.characterclass.wizard.WizardAbility.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
-import static characterbuilder.character.choice.ChoiceGenerator.levels;
 import static characterbuilder.character.equipment.AdventureGear.COMPONENT_POUCH;
 import static characterbuilder.character.equipment.AdventureGear.CRYSTAL;
 import static characterbuilder.character.equipment.AdventureGear.ORB;
@@ -79,7 +78,7 @@ public class Wizard extends AbstractCharacterClass {
             ARCANA, HISTORY, INSIGHT, INVESTIGATION, MEDICINE, RELIGION);
         gen.level(1).addAttributes(ARCANE_RECOVERY);
         gen.level(2).addChoice(new AttributeChoice("Arcane Tradition", MagicSchool.values()));
-        gen.cond(levels(4, 8, 12, 16, 19)).addAbilityScoreOrFeatChoice();
+        gen.level(4, 8, 12, 16, 19).addAbilityScoreOrFeatChoice();
         gen.level(18).addAttributes(SPELL_MASTERY);
         gen.level(20).addAction("Signature Spell", ch -> ch.addAttribute(new SignatureSpell()));
     }

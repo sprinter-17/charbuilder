@@ -14,6 +14,8 @@ import characterbuilder.utils.StringUtils;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,11 +24,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.xml.parsers.ParserConfigurationException;
@@ -67,13 +72,24 @@ public class MainWindow {
             () -> character.get().isDirty(),
             () -> character.get().hasAttribute(AttributeType.NAME),
             () -> character.get().getChoiceCount() == 0);
-        addTool("Level Up", this::levelUpCharacter,
-            () -> character.isPresent(), () -> character.get().getChoiceCount() == 0,
+        addTool("Level Up", this::levelUp,
+            () -> character.isPresent(),
+            () -> character.get().getChoiceCount() == 0,
             () -> character.get().getLevel() < 20);
         addTool("Show Character Sheet", this::showCharacterSheet,
             () -> character.isPresent(), () -> character.get().getChoiceCount() == 0);
         addTool("Exit", this::exit);
         frame.add(tools, BorderLayout.NORTH);
+    }
+
+    private void addLevelUpAction(JPopupMenu menu, CharacterClass characterClass) {
+        menu.add(new AbstractAction(characterClass.toString()) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                character.get().increaseLevel(characterClass, new CharacterRandom());
+                update();
+            }
+        });
     }
 
     private void addTool(String name, Runnable runnable, Supplier<Boolean>... conditions) {
@@ -84,6 +100,21 @@ public class MainWindow {
                 update();
             }
         };
+        toolEnablers.add(() -> {
+            action.setEnabled(Arrays.stream(conditions).allMatch(Supplier::get));
+        });
+        tools.add(action);
+    }
+
+    private void addTool(String name, Consumer<MouseEvent> runnable, Supplier<Boolean>... conditions) {
+        JButton action = new JButton(name);
+        action.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (action.isEnabled())
+                    runnable.accept(e);
+            }
+        });
         toolEnablers.add(() -> {
             action.setEnabled(Arrays.stream(conditions).allMatch(Supplier::get));
         });
@@ -170,10 +201,12 @@ public class MainWindow {
         }
     }
 
-    private void levelUpCharacter() {
-        assert character.isPresent();
-        character.get().increaseLevel(CharacterClass.CLERIC, new CharacterRandom());
-        update();
+    private void levelUp(MouseEvent e) {
+        JPopupMenu menu = new JPopupMenu();
+        character.get().getCharacterClasses().forEach(cc -> addLevelUpAction(menu, cc));
+        menu.addSeparator();
+        character.get().allowedMultiClasses().forEach(cc -> addLevelUpAction(menu, cc));
+        menu.show(e.getComponent(), e.getX(), e.getY());
     }
 
     public void saveCharacter() {
