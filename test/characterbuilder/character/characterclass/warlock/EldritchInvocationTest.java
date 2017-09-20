@@ -55,7 +55,7 @@ public class EldritchInvocationTest {
     @Test
     public void testGetChoice() {
         character.addChoice(EldritchInvocation.getChoice(2));
-        assertTrue(character.hasChoice("Eldritch Invocation (x2)"));
+        assertTrue(character.hasChoice("Eldritch Invocation", 2));
         assertFalse(character.getAllAttributes()
             .anyMatch(attr -> attr.hasType(AttributeType.ELDRITCH_INVOCATION)));
         character.selectChoice("Eldritch Invocation", "Armour of Shadows");
@@ -78,7 +78,7 @@ public class EldritchInvocationTest {
         character.addChoice(EldritchInvocation.getChoice(1));
         character.addChoice(EldritchInvocation.getReplacement());
         character.selectChoice("Replace Eldritch Invocation", "Armour of Shadows");
-        assertTrue(character.hasChoice("Eldritch Invocation (x2)"));
+        assertTrue(character.hasChoice("Eldritch Invocation", 2));
     }
 
     @Test

@@ -51,7 +51,7 @@ public class Fighter extends AbstractCharacterClass {
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
         addAbilities(gen);
-        addEquipment(gen);
+        addEquipment(gen.initialClass());
     }
 
     private void addAbilities(ChoiceGenerator gen) {
@@ -68,14 +68,14 @@ public class Fighter extends AbstractCharacterClass {
     }
 
     private void addEquipment(ChoiceGenerator gen) {
-        gen.level(1).addEquipmentChoice("Armour")
+        gen.addEquipmentChoice("Armour")
             .with(CHAIN_MAIL_ARMOUR).with(LEATHER_ARMOUR, LONGBOW, ARROW.makeSet(20));
-        gen.level(1).addEquipmentChoice("Primary Weapon").with(EquipmentCategory.MARTIAL_MELEE);
-        gen.level(1).addEquipmentChoice("Secondary Weapon Or Shield")
+        gen.addEquipmentChoice("Primary Weapon").with(EquipmentCategory.MARTIAL_MELEE);
+        gen.addEquipmentChoice("Secondary Weapon Or Shield")
             .with(Armour.SHIELD).with(EquipmentCategory.MARTIAL_MELEE);
-        gen.level(1).addEquipmentChoice("Ranged Weapon")
+        gen.addEquipmentChoice("Ranged Weapon")
             .with(LIGHT_CROSSBOW, CROSSBOW_BOLT.makeSet(20))
             .with(HANDAXE.makeSet(2));
-        gen.level(1).addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
+        gen.addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
     }
 }

@@ -6,6 +6,7 @@ import static characterbuilder.character.ability.RacialTalent.BRAVE;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -55,6 +56,24 @@ public class ChoiceGeneratorTest {
         generator.generateChoices(character);
         assertFalse(character.hasAttribute(BRAVE));
         character.setLevel(CharacterClass.BARBARIAN, 4);
+        generator.generateChoices(character);
+        assertTrue(character.hasAttribute(BRAVE));
+    }
+
+    @Test
+    public void testInitialClass() {
+        generator.initialClass().addAttributes(BRAVE);
+        character.setLevel(CharacterClass.BARBARIAN, 2);
+        generator.generateChoices(character);
+        assertFalse(character.hasAttribute(BRAVE));
+        character.addAttribute(new CharacterClassLevel(CharacterClass.CLERIC, 1));
+        generator.generateChoices(character);
+        assertFalse(character.hasAttribute(BRAVE));
+        character.setLevel(CharacterClass.BARBARIAN, 1);
+        character.addAttribute(new CharacterClassLevel(CharacterClass.CLERIC, 1));
+        generator.generateChoices(character);
+        assertFalse(character.hasAttribute(BRAVE));
+        character.setLevel(CharacterClass.BARBARIAN, 1);
         generator.generateChoices(character);
         assertTrue(character.hasAttribute(BRAVE));
     }

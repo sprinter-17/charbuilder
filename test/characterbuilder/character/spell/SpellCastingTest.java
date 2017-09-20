@@ -118,7 +118,7 @@ public class SpellCastingTest {
         casting.addSlots(1, 3);
         assertFalse(character.hasChoice("Spellcasting Spell"));
         casting.addKnownSpells(4);
-        assertTrue(character.hasChoice("Spellcasting Spell (x4)"));
+        assertTrue(character.hasChoice("Spellcasting Spell", 4));
     }
 
     @Test
@@ -152,10 +152,10 @@ public class SpellCastingTest {
         casting.addSlots(1, 1);
         casting.addKnownSpells(4);
         casting.addPreparedSpell(Spell.ALARM);
-        assertTrue(character.hasChoice("Spellcasting Spell (x3)"));
+        assertTrue(character.hasChoice("Spellcasting Spell", 3));
         casting.replaceSpell(character);
         character.selectChoice("Replace Spellcasting Spell", "Alarm");
-        assertTrue(character.hasChoice("Spellcasting Spell (x4)"));
+        assertTrue(character.hasChoice("Spellcasting Spell", 4));
     }
 
     @Test

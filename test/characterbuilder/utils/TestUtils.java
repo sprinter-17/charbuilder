@@ -1,10 +1,8 @@
 package characterbuilder.utils;
 
 import characterbuilder.character.attribute.Attribute;
-import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.INTELLIGENCE;
 import characterbuilder.character.attribute.DraconicAncestry;
-import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import characterbuilder.character.spell.SpellCasting;
@@ -21,7 +19,6 @@ public class TestUtils {
         character.setLevel(WIZARD, 1);
         character.addAttribute(Race.HALF_ELF);
         character.addAttribute(DraconicAncestry.BLUE);
-        character.addAttribute(new IntAttribute(AttributeType.HIT_POINTS, 10));
         character.addAttribute(new SpellCasting("Casting", INTELLIGENCE, WIZARD, "All"));
         character.withScores(14);
         for (Attribute attribute : attributes) {

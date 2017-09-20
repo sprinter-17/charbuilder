@@ -3,7 +3,6 @@ package characterbuilder.character.characterclass;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.characterclass.CharacterClass.BARBARIAN;
 import characterbuilder.character.saveload.TestDoc;
-import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
@@ -32,7 +31,7 @@ public class CharacterClassLevelTest {
 
     @Test
     public void testIncreaseLevel() {
-        classLevel.increaseLevel(new TestCharacter());
+        classLevel.increaseLevel();
         assertThat(classLevel.getLevel(), is(8));
     }
 

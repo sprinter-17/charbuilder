@@ -1,6 +1,7 @@
 package characterbuilder.character.characterclass;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.barbarian.Barbarian;
 import characterbuilder.character.characterclass.bard.Bard;
@@ -84,7 +85,7 @@ public enum CharacterClass implements Option {
 
     @Override
     public void choose(Character character) {
-        new CharacterClassLevel(this).choose(character);
+        character.increaseLevel(this, new CharacterRandom());
     }
 
     @Override

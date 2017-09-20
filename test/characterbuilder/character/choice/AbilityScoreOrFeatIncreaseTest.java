@@ -65,7 +65,7 @@ public class AbilityScoreOrFeatIncreaseTest {
     public void testIncreaseConstitutionIncreaseHitPoints() {
         character.setLevel(CharacterClass.CLERIC, 7);
         character.withScores(10);
-        character.addAttribute(new IntAttribute(HIT_POINTS, 0));
+        character.getAttribute(HIT_POINTS, IntAttribute.class).setValue(0);
         selector.withChoice("+1 Constitution");
         increase.select(character, selector);
         assertThat(character.getIntAttribute(HIT_POINTS), is(0));

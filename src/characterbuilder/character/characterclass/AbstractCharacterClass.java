@@ -25,9 +25,6 @@ public abstract class AbstractCharacterClass {
         return getPrimaryAttributes().anyMatch(type::equals);
     }
 
-    public void addInitialAttributes(Character character) {
-    }
-
     public final ChoiceGenerator getGenerator(CharacterClass characterClass) {
         if (!generator.isPresent()) {
             generator = Optional.of(new ClassSpecificChoiceGenerator(characterClass));

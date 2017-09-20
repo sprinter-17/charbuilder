@@ -3,7 +3,6 @@ package characterbuilder.character.characterclass;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.saveload.Savable;
 import java.util.Objects;
 import org.w3c.dom.Document;
@@ -36,19 +35,15 @@ public class CharacterClassLevel implements Attribute {
         return characterClass;
     }
 
-    public void increaseLevel(Character character) {
+    public void increaseLevel() {
         level++;
-        characterClass.getGenerator().generateChoices(character);
     }
 
     public int getLevel() {
         return level;
     }
 
-    @Override
-    public void generateInitialChoices(Character character) {
-        if (!character.hasAttribute(AttributeType.EXPERIENCE_POINTS))
-            character.addAttribute(new IntAttribute(AttributeType.EXPERIENCE_POINTS, 0));
+    public void generateChoices(Character character) {
         characterClass.getGenerator().generateChoices(character);
     }
 

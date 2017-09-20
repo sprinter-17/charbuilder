@@ -41,6 +41,10 @@ public class ChoiceGenerator {
         return cond(ch -> Arrays.stream(levels).anyMatch(lev -> ch.getLevel() == lev));
     }
 
+    public ChoiceGenerator initialClass() {
+        return cond(ch -> ch.getLevel() == 1);
+    }
+
     public ChoiceGenerator cond(Predicate<Character> condition) {
         ChoiceGenerator child = new ChoiceGenerator(condition);
         children.add(child);

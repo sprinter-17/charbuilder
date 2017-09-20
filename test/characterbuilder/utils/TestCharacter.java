@@ -34,6 +34,10 @@ public class TestCharacter extends Character {
     public void setLevel(CharacterClass characterClass, int level) {
         removeAttributesOfType(AttributeType.CHARACTER_CLASS);
         addAttribute(new CharacterClassLevel(characterClass, level));
+        if (!hasAttribute(AttributeType.EXPERIENCE_POINTS))
+            addAttribute(new IntAttribute(AttributeType.EXPERIENCE_POINTS, 0));
+        removeAttributesOfType(AttributeType.HIT_POINTS);
+        addAttribute(new IntAttribute(AttributeType.HIT_POINTS, level * characterClass.getHitDie()));
     }
 
     public void selectChoice(String choice, String option) {

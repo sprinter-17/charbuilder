@@ -16,6 +16,7 @@ import characterbuilder.character.attribute.Value;
 import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.LB;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
 import characterbuilder.character.choice.TestOptionChoice;
 import characterbuilder.character.equipment.Armour;
@@ -173,10 +174,9 @@ public class CharacterTest {
 
     @Test(expected = IllegalStateException.class)
     public void testMaxLevel() {
-        setLevel(CharacterClass.CLERIC, 1);
         for (int i = 1; i < 40; i++) {
+            character.increaseLevel(CharacterClass.FIGHTER, random);
             assertThat(character.getLevel(), is(Math.min(20, i)));
-            character.increaseLevel(CharacterClass.CLERIC, random);
         }
     }
 
@@ -188,6 +188,14 @@ public class CharacterTest {
             assertThat(character.getIntAttribute(EXPERIENCE_POINTS),
                 is(Character.XP_LEVELS[level]));
         }
+    }
+
+    @Test
+    public void testMinXP() {
+        setLevel(CharacterClass.FIGHTER, 1);
+        character.getAttribute(EXPERIENCE_POINTS, IntAttribute.class).setValue(100000);
+        character.increaseLevel(CharacterClass.FIGHTER, random);
+        assertThat(character.getIntAttribute(EXPERIENCE_POINTS), is(100000));
     }
 
     @Test
@@ -287,9 +295,10 @@ public class CharacterTest {
 
     private void setLevel(CharacterClass charClass, int level) {
         Stream.of(
-            charClass,
+            new CharacterClassLevel(charClass, level),
             Race.HUMAN,
-            new IntAttribute(HIT_POINTS, charClass.getHitDie()),
+            new IntAttribute(HIT_POINTS, charClass.getHitDie() * level),
+            new IntAttribute(EXPERIENCE_POINTS, Character.XP_LEVELS[level - 1]),
             new AbilityScore(CONSTITUTION, 10)).forEach(attr -> attr.choose(character));
     }
 }

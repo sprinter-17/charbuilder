@@ -92,7 +92,13 @@ public class Character {
 
     public boolean hasChoice(String name) {
         assert choices != null;
-        return getAllChoices().map(Object::toString).anyMatch(name::equals);
+        return getAllChoices().map(OptionChoice::getName).anyMatch(name::equals);
+    }
+
+    public boolean hasChoice(String name, int count) {
+        assert choices != null;
+        return getAllChoices().map(OptionChoice::toString)
+            .anyMatch(String.format("%s (x%d)", name, count)::equals);
     }
 
     public boolean isDirty() {
@@ -251,26 +257,50 @@ public class Character {
     }
 
     public final void increaseLevel(CharacterClass characterClass, CharacterRandom random) {
-        checkAttributes(CHARACTER_CLASS, EXPERIENCE_POINTS, CONSTITUTION, HIT_POINTS);
         if (getLevel() == 20)
             throw new IllegalStateException("Attempt to increase level beyond 20");
-        getAttribute(EXPERIENCE_POINTS, IntAttribute.class).setValue(XP_LEVELS[getLevel()]);
-        IntAttribute hp = getAttribute(HIT_POINTS);
-        if (getCharacterClasses().anyMatch(characterClass::equals)) {
-            getCharacterClassLevels().filter(ccl -> ccl.hasCharacterClass(characterClass))
-                .findAny().orElseThrow(IllegalStateException::new)
-                .increaseLevel(this);
-            int hpIncrease = random.nextHitPoints(characterClass.getHitDie());
-            hp.addValue(adjustHitPointIncrease(hpIncrease));
-        } else {
-            CharacterClassLevel level = new CharacterClassLevel(characterClass);
-            level.choose(this);
-            hp.addValue(characterClass.getHitDie());
-        }
+        increaseExperiencePoints();
+        increaseHitPoints(characterClass, random);
+        increaseClassLevel(characterClass);
+        generateChoices(characterClass);
+        setDirty();
+    }
+
+    private void increaseExperiencePoints() {
+        int minXP = XP_LEVELS[getLevel()];
+        if (!hasAttribute(EXPERIENCE_POINTS))
+            addAttribute(new IntAttribute(EXPERIENCE_POINTS, 0));
+        else if (getIntAttribute(EXPERIENCE_POINTS) < minXP)
+            getAttribute(EXPERIENCE_POINTS, IntAttribute.class).setValue(minXP);
+    }
+
+    private void increaseHitPoints(CharacterClass characterClass, CharacterRandom random) {
+        int hpIncrease = characterClass.getHitDie();
+        if (hasAttribute(HIT_POINTS))
+            getAttribute(HIT_POINTS, IntAttribute.class)
+                .addValue(adjustHitPointIncrease(random.nextHitPoints(hpIncrease)));
+    }
+
+    private void increaseClassLevel(CharacterClass characterClass) {
+        if (getCharacterClassLevel(characterClass).isPresent())
+            getCharacterClassLevel(characterClass).get().increaseLevel();
+        else
+            addAttributes(new CharacterClassLevel(characterClass));
+    }
+
+    private void generateChoices(CharacterClass characterClass) {
+        getCharacterClassLevel(characterClass)
+            .orElseThrow(IllegalStateException::new)
+            .generateChoices(this);
         attributes.getAllAttributes()
             .collect(toList())
             .forEach(attr -> attr.generateLevelChoices(this));
-        setDirty();
+    }
+
+    private Optional<CharacterClassLevel> getCharacterClassLevel(CharacterClass characterClass) {
+        return getCharacterClassLevels()
+            .filter(ccl -> ccl.hasCharacterClass(characterClass))
+            .findAny();
     }
 
     private void checkAttributes(AttributeType... attributes) {
