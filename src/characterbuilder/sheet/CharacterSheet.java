@@ -105,7 +105,8 @@ public class CharacterSheet extends JFrame {
     private void buildPages(Character character) {
         MainPage.getPages(character).forEach(pages::add);
         BackgroundPage.getPages(character).forEach(pages::add);
-        SpellPage.getPages(character).forEach(pages::add);
+        SpellPage spellPage = new SpellPage(character);
+        spellPage.getPages().forEach(pages::add);
     }
 
     private void print() {

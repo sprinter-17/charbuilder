@@ -6,10 +6,7 @@ import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.DIVINE_DOMAIN;
-import static characterbuilder.character.characterclass.CharacterClass.BARBARIAN;
-import static characterbuilder.character.characterclass.CharacterClass.CLERIC;
-import static characterbuilder.character.characterclass.CharacterClass.FIGHTER;
-import static characterbuilder.character.characterclass.CharacterClass.PALADIN;
+import static characterbuilder.character.characterclass.CharacterClass.*;
 import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.InitialChoiceGenerator;
@@ -29,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.stream.Stream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -38,6 +36,7 @@ public class CharacterClassTest {
 
     private static final Logger LOG = Logger.getLogger(CharacterClassTest.class.getName());
 
+    private CharacterRandom random = new CharacterRandom();
     private TestCharacter character;
     private IterativeSelector selector;
 
@@ -112,6 +111,14 @@ public class CharacterClassTest {
         character.increaseLevel(BARBARIAN, new CharacterRandom());
         AbilityScore strength = character.getAttribute(AttributeType.STRENGTH);
         assertThat(strength.getValue(), is(22));
+    }
+
+    @Test
+    public void testMultipleSpellcastingClasses() {
+        character.increaseLevel(WIZARD, random);
+        character.increaseLevel(CLERIC, random);
+        assertNotNull(character.getSpellCasting("Wizard"));
+        assertNotNull(character.getSpellCasting("Cleric"));
     }
 
     @Test
