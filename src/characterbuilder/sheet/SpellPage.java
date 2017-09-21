@@ -4,6 +4,7 @@ import characterbuilder.character.Character;
 import static characterbuilder.character.attribute.AttributeType.SPELLCASTING;
 import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.SpellCasting;
+import characterbuilder.character.spell.SpellSlots;
 import java.util.ArrayList;
 import java.util.Comparator;
 import static java.util.Comparator.comparingInt;
@@ -34,29 +35,28 @@ public class SpellPage extends Page {
         row = 0;
         PageBuilder.Container page = builder.page();
         pages.add(page);
-        printSpellSlots(page, casting);
+        if (firstPage)
+            printSpellSlots(page);
         printCastingAttributes(page, casting);
         printLearntSpells(casting, page, pages);
     }
 
-    private void printSpellSlots(PageBuilder.Container page, SpellCasting casting) {
-        if (firstPage) {
-            page.with(spellSlots(casting));
-            row += 14;
-            firstPage = false;
-        }
+    private void printSpellSlots(PageBuilder.Container page) {
+        page.with(spellSlots());
+        row += 14;
+        firstPage = false;
     }
 
-    private PageBuilder.Component spellSlots(SpellCasting casting) {
+    private PageBuilder.Component spellSlots() {
         final int rows = 3;
         PageBuilder.Container spellSlotPanel = builder.borderedSection(0, 0, 100, 14)
             .with(builder.caption("Spell Slots", 50, 12, PageBuilder.Align.CENTRE));
-        for (int l = 1; l <= casting.getMaxSlot(); l++) {
+        for (int l = 1; l <= 9; l++) {
             int yp = (l - 1) % rows * 3 + 3;
             int xp = 30 * ((l - 1) / rows) + 5;
             spellSlotPanel
                 .with(builder.caption("Level " + l, xp, yp, PageBuilder.Align.CENTRE_LEFT));
-            for (int s = 0; s < casting.getSlotsAtLevel(l); s++) {
+            for (int s = 0; s < SpellSlots.getSlotsAtLevel(character, l); s++) {
                 spellSlotPanel.with(builder.circle(xp + 12 + s * 4, yp, 2));
             }
         }
