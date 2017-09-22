@@ -41,24 +41,16 @@ public enum MartialArchetype implements Attribute {
         gen.level(3).addAttributes(new SpellCasting(castingName, INTELLIGENCE, WIZARD, "All"));
         gen.level(3).addChoice(ChoiceGenerator.cantripChoice(2, castingName + " Cantrip",
             AttributeType.INTELLIGENCE, WIZARD.getSpells()));
-        gen.level(3).addSpellSlots(castingName, 1, 2);
         gen.level(3).addChoice(spellChoice(castingName, 3, castingName + " Spell",
             WIZARD.getSpells()));
         gen.level(4, 7, 8, 10, 11, 13, 14, 16, 19, 20)
             //            .addChoice(new ReplaceSpell(castingName, WIZARD.getSpells()))
             .addChoice(spellChoice(castingName, 1, castingName + " Spell", WIZARD.getSpells()));
-        gen.level(4).addSpellSlots(castingName, 1, 1);
         gen.level(7).addAttributes(WAR_MAGIC);
-        gen.level(7).addSpellSlots(castingName, 1, 1);
-        gen.level(7).addSpellSlots(castingName, 2, 2);
         gen.level(10).addAttributes(ELDRITCH_STRIKE);
         gen.level(10).addChoice(ChoiceGenerator.cantripChoice(1, castingName + " Cantrip",
             AttributeType.INTELLIGENCE, WIZARD.getSpells()));
-        gen.level(10).addSpellSlots(castingName, 2, 1);
-        gen.level(13).addSpellSlots(castingName, 3, 2);
         gen.level(15).addAttributes(ARCANE_CHARGE);
-        gen.level(16).addSpellSlots(castingName, 3, 1);
-        gen.level(19).addSpellSlots(castingName, 4, 1);
     });
 
     private final Consumer<ChoiceGenerator> generatorMaker;

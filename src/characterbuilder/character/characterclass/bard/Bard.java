@@ -44,7 +44,7 @@ public class Bard extends AbstractCharacterClass {
             SpellCasting casting = character.getSpellCasting(CASTING_NAME);
             selector.chooseOption(Arrays.stream(Spell.values())
                 .filter(spell -> !casting.hasLearntSpell(spell))
-                .filter(spell -> spell.getLevel() <= casting.getMaxSlot()), spell -> {
+                .filter(spell -> spell.getLevel() <= casting.getMaxSpellLevel()), spell -> {
                 if (spell.isCantrip()) {
                     character.addAttribute(new SpellAbility(spell, CHARISMA));
                 } else {
@@ -121,24 +121,8 @@ public class Bard extends AbstractCharacterClass {
 
     private void addSpellCasting(ChoiceGenerator gen) {
         gen.level(1).addSpellCasting(CASTING_NAME, CHARISMA, BARD, "All");
-        addSpellSlots(gen);
         gen.cond(ch -> ch.getLevel() > 1).replaceSpell(CASTING_NAME);
         gen.level(1).addKnownSpells(CASTING_NAME, 4);
         gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17).addKnownSpells(CASTING_NAME, 1);
-    }
-
-    private void addSpellSlots(ChoiceGenerator gen) {
-        gen.level(1).addSpellSlots(CASTING_NAME, 1, 2);
-        gen.level(2, 3).addSpellSlots(CASTING_NAME, 1, 1);
-        gen.level(3).addSpellSlots(CASTING_NAME, 2, 2);
-        gen.level(4).addSpellSlots(CASTING_NAME, 2, 1);
-        gen.level(5).addSpellSlots(CASTING_NAME, 3, 2);
-        gen.level(6).addSpellSlots(CASTING_NAME, 3, 1);
-        gen.level(7, 8, 9).addSpellSlots(CASTING_NAME, 4, 1);
-        gen.level(9, 10).addSpellSlots(CASTING_NAME, 5, 1);
-        gen.level(11, 19).addSpellSlots(CASTING_NAME, 6, 1);
-        gen.level(13, 12).addSpellSlots(CASTING_NAME, 7, 1);
-        gen.level(15).addSpellSlots(CASTING_NAME, 8, 1);
-        gen.level(17).addSpellSlots(CASTING_NAME, 9, 1);
     }
 }

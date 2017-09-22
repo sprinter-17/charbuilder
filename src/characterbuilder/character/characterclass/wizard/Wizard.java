@@ -10,7 +10,7 @@ import static characterbuilder.character.ability.Skill.RELIGION;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.INTELLIGENCE;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
-import characterbuilder.character.characterclass.CharacterClass;
+import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import static characterbuilder.character.characterclass.wizard.WizardAbility.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -97,20 +97,7 @@ public class Wizard extends AbstractCharacterClass {
     }
 
     private void addSpellCasting(ChoiceGenerator gen) {
-        gen.level(1)
-            .addSpellCasting(CASTING_NAME, INTELLIGENCE, CharacterClass.WIZARD, "[$int_mod + $level]")
-            .addSpellSlots(CASTING_NAME, 1, 2);
-        gen.level(2, 3).addSpellSlots(CASTING_NAME, 1, 1);
-        gen.level(3).addSpellSlots(CASTING_NAME, 2, 2);
-        gen.level(4).addSpellSlots(CASTING_NAME, 2, 1);
-        gen.level(5).addSpellSlots(CASTING_NAME, 3, 2);
-        gen.level(6).addSpellSlots(CASTING_NAME, 3, 1);
-        gen.level(7, 8, 9).addSpellSlots(CASTING_NAME, 4, 1);
-        gen.level(9, 10, 18).addSpellSlots(CASTING_NAME, 5, 1);
-        gen.level(11, 19).addSpellSlots(CASTING_NAME, 6, 1);
-        gen.level(13, 20).addSpellSlots(CASTING_NAME, 7, 1);
-        gen.level(15).addSpellSlots(CASTING_NAME, 8, 1);
-        gen.level(17).addSpellSlots(CASTING_NAME, 9, 1);
+        gen.level(1).addSpellCasting(CASTING_NAME, INTELLIGENCE, WIZARD, "[$int_mod + $level]");
         gen.level(1).addKnownSpells(CASTING_NAME, 6);
         gen.cond(ch -> ch.getLevel() > 1).addKnownSpells(CASTING_NAME, 2);
     }

@@ -1,5 +1,6 @@
 package characterbuilder.character.characterclass.cleric;
 
+import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.cleric.ClericAbility.CHANNEL_DIVINITY;
@@ -10,9 +11,11 @@ import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.TestCharacter;
+import static characterbuilder.utils.TestMatchers.hasPreparedSpell;
 import static characterbuilder.utils.TestUtils.testDescriptions;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -46,6 +49,15 @@ public class DivineDomainTest {
         DivineDomain.LIFE.generateLevelChoices(character);
         assertTrue(casting.hasLearntSpell(Spell.LESSER_RESTORATION));
         assertTrue(casting.hasLearntSpell(Spell.SPIRITUAL_WEAPON));
+    }
+
+    @Test
+    public void testDivineDomainSpellsForMulticlass() {
+        character.setLevel(CharacterClass.FIGHTER, 10);
+        character.addAttribute(DivineDomain.LIFE);
+        assertThat(casting, not(hasPreparedSpell(Spell.CURE_WOUNDS)));
+        character.increaseLevel(CharacterClass.CLERIC, new CharacterRandom());
+        assertThat(casting, hasPreparedSpell(Spell.CURE_WOUNDS));
     }
 
     @Test

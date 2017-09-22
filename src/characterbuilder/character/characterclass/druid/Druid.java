@@ -83,22 +83,6 @@ public class Druid extends AbstractCharacterClass {
     private void addSpellCasting(ChoiceGenerator gen) {
         gen.level(1).addSpellCasting("Druid", WISDOM, CharacterClass.DRUID, "[$wis_mod + $level]");
         gen.level(1).learnAllSpells("Druid");
-        addSpellSlots(gen);
-    }
-
-    private void addSpellSlots(ChoiceGenerator gen) {
-        gen.level(1).addSpellSlots("Druid", 1, 2);
-        gen.level(2, 3).addSpellSlots("Druid", 1, 1);
-        gen.level(3).addSpellSlots("Druid", 2, 2);
-        gen.level(4).addSpellSlots("Druid", 2, 1);
-        gen.level(5).addSpellSlots("Druid", 3, 4);
-        gen.level(6).addSpellSlots("Druid", 3, 1);
-        gen.level(7, 8, 9).addSpellSlots("Druid", 4, 1);
-        gen.level(9, 10, 18).addSpellSlots("Druid", 5, 1);
-        gen.level(11, 19).addSpellSlots("Druid", 6, 1);
-        gen.level(13, 20).addSpellSlots("Druid", 7, 1);
-        gen.level(15).addSpellSlots("Druid", 8, 1);
-        gen.level(17).addSpellSlots("Druid", 9, 1);
     }
 
     private void addCantrips(ChoiceGenerator gen) {

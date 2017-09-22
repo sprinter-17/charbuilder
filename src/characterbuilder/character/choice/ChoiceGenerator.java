@@ -175,16 +175,6 @@ public class ChoiceGenerator {
         return this;
     }
 
-    public ChoiceGenerator addSpellSlots(String casting, int level, int slots) {
-        addAction("Spell Slots", ch -> getCasting(ch, casting).addSlots(level, slots));
-        return this;
-    }
-
-    public ChoiceGenerator setSpellSlots(String casting, int level, int slots) {
-        addAction("Spell Slots", ch -> getCasting(ch, casting).setSlots(level, slots));
-        return this;
-    }
-
     public ChoiceGenerator replaceSpell(String casting) {
         addAction("Replace Spell", ch -> getCasting(ch, casting).replaceSpell(ch));
         return this;
@@ -286,7 +276,7 @@ public class ChoiceGenerator {
             public void select(Character character, ChoiceSelector selector) {
                 SpellCasting spellCasting = getCasting(character, casting);
                 selector.chooseOption(spellList.stream()
-                    .filter(sp -> sp.getLevel() > 0 && sp.getLevel() <= spellCasting.getMaxSlot())
+                    .filter(sp -> sp.getLevel() > 0 && sp.getLevel() <= spellCasting.getMaxSpellLevel())
                     .filter(sp -> !spellCasting.hasLearntSpell(sp)), spellCasting::addPreparedSpell);
             }
 

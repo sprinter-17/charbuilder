@@ -10,7 +10,6 @@ import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.saveload.Savable;
 import characterbuilder.utils.StringUtils;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
@@ -26,8 +25,8 @@ public class SpellCasting implements Attribute {
     private final List<Spell> expandedSpells = new ArrayList<>();
     private final ChooseSpell choice;
     private boolean learnAll = false;
+    private int maxSpellLevel = 0;
     private int knownSpells = 0;
-    private int[] spellSlots = {};
 
     private class ReplaceSpell extends OptionChoice {
 
@@ -64,7 +63,7 @@ public class SpellCasting implements Attribute {
         public void select(Character character, ChoiceSelector selector) {
             selector.chooseOption(getAvailableSpells()
                 .filter(sp -> !sp.isCantrip())
-                .filter(sp -> sp.getLevel() <= getMaxSlot())
+                .filter(sp -> sp.getLevel() <= maxSpellLevel)
                 .filter(sp -> !hasLearntSpell(sp)),
                 this::addSpell);
         }
@@ -103,29 +102,12 @@ public class SpellCasting implements Attribute {
         return this.name.equals(name);
     }
 
-    public void addSlots(int level, int slots) {
-        if (level > spellSlots.length)
-            this.spellSlots = Arrays.copyOf(spellSlots, level);
-        spellSlots[level - 1] += slots;
-    }
-
-    public void setSlots(int level, int slots) {
-        this.spellSlots = new int[level];
-        spellSlots[level - 1] = slots;
-    }
-
     public void learnAllSpells() {
         this.learnAll = true;
     }
 
-    public int getSlotsAtLevel(int level) {
-        if (level < 1 || level > spellSlots.length)
-            throw new IllegalArgumentException("Attempt to get unavailable spell slot count");
-        return spellSlots[level - 1];
-    }
-
-    public int getMaxSlot() {
-        return spellSlots.length;
+    public int getMaxSpellLevel() {
+        return maxSpellLevel;
     }
 
     public AttributeType getAbilityScore() {
@@ -171,7 +153,7 @@ public class SpellCasting implements Attribute {
     private Stream<LearntSpell> getLearnAllSpells() {
         if (learnAll)
             return getAvailableSpells()
-                .filter(sp -> sp.getLevel() <= getMaxSlot() && !sp.isCantrip())
+                .filter(sp -> sp.getLevel() <= maxSpellLevel && !sp.isCantrip())
                 .filter(sp -> learntSpells.stream().noneMatch(ls -> ls.isSpell(sp)))
                 .map(sp -> new LearntSpell(sp, false));
         else
@@ -189,6 +171,7 @@ public class SpellCasting implements Attribute {
     @Override
     public void generateLevelChoices(Character character) {
         character.addChoice(choice);
+        maxSpellLevel = SpellSlots.getMaxSlot(character, spellClass);
     }
 
     @Override
@@ -199,7 +182,6 @@ public class SpellCasting implements Attribute {
     @Override
     public Stream<String> getDescription(Character character) {
         return Stream.of(
-            "<b>Slots</b<: " + Arrays.toString(spellSlots),
             "<b>Spell ability modifier</b>: " + getModifier(character),
             "<b>Spell difficulty check</b>: " + getSaveDC(character));
     }
@@ -225,7 +207,6 @@ public class SpellCasting implements Attribute {
         copy.learntSpells.addAll(learntSpells);
         copy.expandedSpells.addAll(expandedSpells);
         copy.learnAll = learnAll;
-        copy.spellSlots = Arrays.copyOf(spellSlots, spellSlots.length);
         return copy;
     }
 
@@ -242,12 +223,7 @@ public class SpellCasting implements Attribute {
             .setTextContent(preparedSpellText);
         element.setAttribute("learn_all", Boolean.toString(learnAll));
         element.setAttribute("known_spells", Integer.toString(knownSpells));
-        for (int i = 0; i < spellSlots.length; i++) {
-            Element slot = doc.createElement("spell_slot");
-            slot.setAttribute("level", String.valueOf(i + 1));
-            slot.setTextContent(String.valueOf(spellSlots[i]));
-            element.appendChild(slot);
-        }
+        element.setAttribute("max_level", Integer.toString(maxSpellLevel));
         learntSpells.forEach(spell -> {
             Element spellElement = doc.createElement("learnt_spell");
             spellElement.setTextContent(spell.getSpell().name());
@@ -271,9 +247,8 @@ public class SpellCasting implements Attribute {
             casting.learnAllSpells();
         if (Boolean.valueOf(element.getAttribute("learn_all")))
             casting.learnAllSpells();
+        casting.maxSpellLevel = Integer.valueOf(element.getAttribute("max_level"));
         casting.addKnownSpells(Integer.valueOf(element.getAttribute("known_spells")));
-        Savable.children(element, "spell_slot")
-            .forEach(el -> loadSpellSlot(casting, el));
         Savable.children(element, "learnt_spell")
             .forEach(el -> {
                 Spell spell = Spell.valueOf(el.getTextContent());
@@ -284,12 +259,6 @@ public class SpellCasting implements Attribute {
             .map(Element::getTextContent).map(Spell::valueOf)
             .forEach(casting::addExpandedSpell);
         return casting;
-    }
-
-    private static void loadSpellSlot(SpellCasting casting, Element element) {
-        casting.addSlots(
-            Integer.valueOf(element.getAttribute("level")),
-            Integer.valueOf(element.getTextContent()));
     }
 
     @Override
@@ -305,10 +274,10 @@ public class SpellCasting implements Attribute {
         return other.name.equals(name)
             && other.spellAbilityScore.equals(spellAbilityScore)
             && other.preparedSpellText.equals(preparedSpellText)
-            && Arrays.equals(other.spellSlots, spellSlots)
             && other.spellClass.equals(spellClass)
             && other.knownSpells == knownSpells
             && other.learnAll == learnAll
+            && other.maxSpellLevel == maxSpellLevel
             && other.learntSpells.equals(learntSpells)
             && other.expandedSpells.equals(expandedSpells);
     }

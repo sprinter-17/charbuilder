@@ -4,8 +4,10 @@ import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.Choice;
+import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellAbility;
+import characterbuilder.character.spell.SpellCasting;
 import java.util.List;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -72,6 +74,25 @@ public class TestMatchers {
             public void describeTo(Description desc) {
                 desc.appendText("has attribute ").appendValue(attributeName);
             }
+        };
+    }
+
+    public static Matcher<SpellCasting> hasPreparedSpell(Spell spell) {
+        return new TypeSafeDiagnosingMatcher<SpellCasting>() {
+            @Override
+            protected boolean matchesSafely(SpellCasting t, Description d) {
+                List<Spell> preparedSpells = t.getLearntSpells()
+                    .filter(LearntSpell::isPrepared).map(LearntSpell::getSpell)
+                    .collect(toList());
+                d.appendText("has prepared spells ").appendValue(preparedSpells);
+                return preparedSpells.contains(spell);
+            }
+
+            @Override
+            public void describeTo(Description d) {
+                d.appendText("has prepared spell ").appendValue(spell);
+            }
+
         };
     }
 }

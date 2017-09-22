@@ -91,13 +91,5 @@ public class Paladin extends AbstractCharacterClass {
         gen.level(2).addSpellCasting(CASTING_NAME, CHARISMA,
             CharacterClass.PALADIN, "[max(1, $chr_mod + $level/2)]")
             .learnAllSpells(CASTING_NAME);
-        gen.level(2).addSpellSlots(CASTING_NAME, 1, 2);
-        gen.level(3, 5).addSpellSlots(CASTING_NAME, 1, 1);
-        gen.level(5).addSpellSlots(CASTING_NAME, 2, 2);
-        gen.level(7).addSpellSlots(CASTING_NAME, 2, 1);
-        gen.level(9).addSpellSlots(CASTING_NAME, 3, 2);
-        gen.level(13).addSpellSlots(CASTING_NAME, 3, 1);
-        gen.level(13, 15, 17).addSpellSlots(CASTING_NAME, 4, 1);
-        gen.level(17, 19).addSpellSlots(CASTING_NAME, 5, 1);
     }
 }

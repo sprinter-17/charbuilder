@@ -92,20 +92,8 @@ public class Ranger extends AbstractCharacterClass {
 
     private void addSpellCasting(ChoiceGenerator gen) {
         gen.level(2).addSpellCasting(CASTING_NAME, WISDOM, CharacterClass.RANGER, "All");
-        addSpellSlots(gen);
         gen.level(2).addKnownSpells(CASTING_NAME, 2);
         gen.level(3, 5, 7, 9, 11, 13, 15, 17, 19).addKnownSpells(CASTING_NAME, 1);
         gen.cond(ch -> ch.getLevel() > 2).replaceSpell(CASTING_NAME);
-    }
-
-    private void addSpellSlots(ChoiceGenerator gen) {
-        gen.level(2).addSpellSlots(CASTING_NAME, 1, 2);
-        gen.level(3, 5).addSpellSlots(CASTING_NAME, 1, 2);
-        gen.level(5).addSpellSlots(CASTING_NAME, 2, 2);
-        gen.level(7).addSpellSlots(CASTING_NAME, 2, 1);
-        gen.level(9).addSpellSlots(CASTING_NAME, 3, 2);
-        gen.level(11).addSpellSlots(CASTING_NAME, 3, 1);
-        gen.level(13, 15, 17).addSpellSlots(CASTING_NAME, 4, 1);
-        gen.level(17, 19).addSpellSlots(CASTING_NAME, 5, 1);
     }
 }

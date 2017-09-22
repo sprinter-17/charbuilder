@@ -58,7 +58,7 @@ public class Warlock extends AbstractCharacterClass {
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
         addAbilities(gen);
-        addEquipment(gen);
+        addEquipment(gen.initialClass());
         addCantrips(gen);
         addSpellCasting(gen);
     }
@@ -82,16 +82,16 @@ public class Warlock extends AbstractCharacterClass {
     }
 
     private void addEquipment(ChoiceGenerator gen) {
-        gen.level(1).addChoice(new EquipmentChoice("Primary Weapon")
+        gen.addChoice(new EquipmentChoice("Primary Weapon")
             .with(Weapon.LIGHT_CROSSBOW, ARROW.makeSet(20))
             .with(SIMPLE_MELEE).with(SIMPLE_RANGED));
-        gen.level(1).addChoice(new EquipmentChoice("Secondary Weapon")
+        gen.addChoice(new EquipmentChoice("Secondary Weapon")
             .with(SIMPLE_MELEE).with(SIMPLE_RANGED));
-        gen.level(1).addChoice(new EquipmentChoice("Magical Equipment")
+        gen.addChoice(new EquipmentChoice("Magical Equipment")
             .with(COMPONENT_POUCH).with(ARCANE_FOCUS));
-        gen.level(1).addChoice(new EquipmentChoice("Adventurer's Pack",
+        gen.addChoice(new EquipmentChoice("Adventurer's Pack",
             EquipmentPack.SCHOLAR_PACK, EquipmentPack.DUNGEONEER_PACK));
-        gen.level(1).addEquipment(LEATHER_ARMOUR, DAGGER.makeSet(2));
+        gen.addEquipment(LEATHER_ARMOUR, DAGGER.makeSet(2));
     }
 
     private void addCantrips(ChoiceGenerator gen) {
@@ -100,15 +100,9 @@ public class Warlock extends AbstractCharacterClass {
     }
 
     private void addSpellCasting(ChoiceGenerator gen) {
-        gen.level(1).addSpellCasting(CASTING_NAME, CHARISMA, CharacterClass.WARLOCK, "All")
-            .setSpellSlots(CASTING_NAME, 1, 1).addKnownSpells(CASTING_NAME, 2);
-        gen.level(2).setSpellSlots(CASTING_NAME, 1, 2);
-        gen.level(3).setSpellSlots(CASTING_NAME, 2, 2);
-        gen.level(5).setSpellSlots(CASTING_NAME, 3, 2);
-        gen.level(7).setSpellSlots(CASTING_NAME, 4, 2);
-        gen.level(9).setSpellSlots(CASTING_NAME, 5, 2);
-        gen.level(11).setSpellSlots(CASTING_NAME, 5, 3);
-        gen.level(17).setSpellSlots(CASTING_NAME, 5, 4);
+        gen.level(1)
+            .addSpellCasting(CASTING_NAME, CHARISMA, CharacterClass.WARLOCK, "All")
+            .addKnownSpells(CASTING_NAME, 2);
         gen.cond(ch -> ch.getLevel() > 1).replaceSpell(CASTING_NAME);
         gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17, 19).addKnownSpells(CASTING_NAME, 1);
     }

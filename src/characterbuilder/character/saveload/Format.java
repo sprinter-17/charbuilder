@@ -10,7 +10,7 @@ import org.w3c.dom.Node;
 
 public class Format {
 
-    public static final int CURRENT = 3;
+    public static final int CURRENT = 4;
     private final int fileFormat;
 
     public Format(int fileFormat) {
@@ -23,6 +23,14 @@ public class Format {
                 Savable.child(attributeElement, "level"));
             Savable.child(attributeElement, "character_class")
                 .setAttribute("level", levelElement.getTextContent());
+        }
+        if (fileFormat < 4) {
+            Savable.children(attributeElement, "spellcasting").forEach(castingElement -> {
+                int maxLevel = Savable.children(castingElement, "spell_slot")
+                    .mapToInt(ss -> Integer.valueOf(ss.getAttribute("level")))
+                    .max().orElse(0);
+                castingElement.setAttribute("max_level", Integer.toString(maxLevel));
+            });
         }
     }
 

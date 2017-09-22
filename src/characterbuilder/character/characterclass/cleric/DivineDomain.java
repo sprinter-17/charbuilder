@@ -8,10 +8,12 @@ import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.characterclass.CharacterClass.CLERIC;
 import static characterbuilder.character.characterclass.CharacterClass.DRUID;
 import static characterbuilder.character.characterclass.cleric.DivineDomain.DivineDomainAbility.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.utils.StringUtils;
@@ -248,7 +250,7 @@ public enum DivineDomain implements Attribute {
 
     private ChoiceGenerator getGenerator() {
         if (!generator.isPresent()) {
-            generator = Optional.of(new ChoiceGenerator());
+            generator = Optional.of(new ClassSpecificChoiceGenerator(CLERIC));
             generatorMaker.accept(generator.get());
         }
         return generator.get();

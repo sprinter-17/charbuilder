@@ -2,6 +2,8 @@ package characterbuilder.character.spell;
 
 import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.characterclass.CharacterClass;
+import characterbuilder.character.characterclass.fighter.MartialArchetype;
+import characterbuilder.character.characterclass.rogue.RoguishArchetype;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -53,6 +55,36 @@ public class SpellSlotsTest {
         assertThat(SpellSlots.getSlotsAtLevel(character, 6), is(2));
         assertThat(SpellSlots.getSlotsAtLevel(character, 8), is(1));
         assertThat(SpellSlots.getSlotsAtLevel(character, 9), is(1));
+    }
+
+    @Test
+    public void testGetSlotsForMulticlass() {
+        character.increaseLevel(CharacterClass.WIZARD, random);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(2));
+        character.increaseLevel(CharacterClass.CLERIC, random);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(3));
+        character.increaseLevel(CharacterClass.PALADIN, random);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(3));
+        character.increaseLevel(CharacterClass.PALADIN, random);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(4));
+    }
+
+    @Test
+    public void testGetSlotsForMulticlassFighter() {
+        character.setLevel(CharacterClass.FIGHTER, 3);
+        character.increaseLevel(CharacterClass.WIZARD, random);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(2));
+        character.addAttribute(MartialArchetype.ELDRITCH_KNIGHT);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(3));
+    }
+
+    @Test
+    public void testGetSlotsForMulticlassRogue() {
+        character.setLevel(CharacterClass.ROGUE, 12);
+        character.increaseLevel(CharacterClass.WIZARD, random);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 3), is(0));
+        character.addAttribute(RoguishArchetype.ARCANE_TRICKSTER);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 3), is(2));
     }
 
 }
