@@ -21,11 +21,6 @@ public class SpellSlotsTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetSlotsForNonSpellcaster() {
-        SpellSlots.getSlotsAtLevel(character, 1);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
     public void testGetSlotsForLevelUnder1() {
         character.setLevel(CharacterClass.WIZARD, 1);
         SpellSlots.getSlotsAtLevel(character, 0);
@@ -35,6 +30,12 @@ public class SpellSlotsTest {
     public void testGetSlotsForLevelOver9() {
         character.setLevel(CharacterClass.WIZARD, 1);
         SpellSlots.getSlotsAtLevel(character, 10);
+    }
+
+    public void testGetSlotsForNonSpellcaster() {
+        character.setLevel(CharacterClass.FIGHTER, 4);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(0));
+        assertThat(SpellSlots.getSlotsAtLevel(character, 9), is(0));
     }
 
     @Test
@@ -58,21 +59,39 @@ public class SpellSlotsTest {
     }
 
     @Test
-    public void testGetSlotsForMulticlass() {
-        character.increaseLevel(CharacterClass.WIZARD, random);
+    public void testGetHighestSpellLevelForWarlock() {
+        character.setLevel(CharacterClass.WARLOCK, 2);
+        assertThat(SpellSlots.getHighestSpellLevelForClass(character, CharacterClass.WARLOCK), is(1));
+        character.setLevel(CharacterClass.WARLOCK, 3);
+        assertThat(SpellSlots.getHighestSpellLevelForClass(character, CharacterClass.WARLOCK), is(2));
+    }
+
+    @Test
+    public void testGetSlotsForWarlock() {
+        character.setLevel(CharacterClass.WARLOCK, 2);
         assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(2));
-        character.increaseLevel(CharacterClass.CLERIC, random);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 2), is(0));
+        character.setLevel(CharacterClass.WARLOCK, 3);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(0));
+        assertThat(SpellSlots.getSlotsAtLevel(character, 2), is(2));
+    }
+
+    @Test
+    public void testGetSlotsForMulticlass() {
+        character.setLevel(CharacterClass.WIZARD, 1);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(2));
+        character.setLevel(CharacterClass.CLERIC, 1);
         assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(3));
-        character.increaseLevel(CharacterClass.PALADIN, random);
+        character.setLevel(CharacterClass.PALADIN, 1);
         assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(3));
-        character.increaseLevel(CharacterClass.PALADIN, random);
+        character.setLevel(CharacterClass.PALADIN, 2);
         assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(4));
     }
 
     @Test
     public void testGetSlotsForMulticlassFighter() {
         character.setLevel(CharacterClass.FIGHTER, 3);
-        character.increaseLevel(CharacterClass.WIZARD, random);
+        character.setLevel(CharacterClass.WIZARD, 1);
         assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(2));
         character.addAttribute(MartialArchetype.ELDRITCH_KNIGHT);
         assertThat(SpellSlots.getSlotsAtLevel(character, 1), is(3));
@@ -81,10 +100,17 @@ public class SpellSlotsTest {
     @Test
     public void testGetSlotsForMulticlassRogue() {
         character.setLevel(CharacterClass.ROGUE, 12);
-        character.increaseLevel(CharacterClass.WIZARD, random);
+        character.setLevel(CharacterClass.WIZARD, 1);
         assertThat(SpellSlots.getSlotsAtLevel(character, 3), is(0));
         character.addAttribute(RoguishArchetype.ARCANE_TRICKSTER);
         assertThat(SpellSlots.getSlotsAtLevel(character, 3), is(2));
+    }
+
+    @Test
+    public void testGetSlotsForMulticlassWarlock() {
+        character.setLevel(CharacterClass.WIZARD, 4);
+        character.setLevel(CharacterClass.WARLOCK, 4);
+        assertThat(SpellSlots.getSlotsAtLevel(character, 2), is(5));
     }
 
 }

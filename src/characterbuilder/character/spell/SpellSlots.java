@@ -66,7 +66,7 @@ public class SpellSlots {
         {4, 3, 3, 1}
     };
 
-    private static final int[][] PALADIN_RANGER_SPELLS = {
+    private static final int[][] PALADIN_RANGER_SLOTS = {
         {},
         {2},
         {3},
@@ -89,7 +89,7 @@ public class SpellSlots {
         {4, 3, 3, 3, 2}
     };
 
-    private static final int[][] WARLOCK_SPELLS = {
+    private static final int[][] PACT_MAGIC_SLOTS = {
         {1},
         {2},
         {0, 2},
@@ -121,9 +121,8 @@ public class SpellSlots {
         add(WIZARD, 1, STANDARD_SLOTS);
         add(SORCERER, 1, STANDARD_SLOTS);
         add(DRUID, 1, STANDARD_SLOTS);
-        add(PALADIN, 2, PALADIN_RANGER_SPELLS);
-        add(RANGER, 2, PALADIN_RANGER_SPELLS);
-        add(WARLOCK, 0, WARLOCK_SPELLS);
+        add(PALADIN, 2, PALADIN_RANGER_SLOTS);
+        add(RANGER, 2, PALADIN_RANGER_SLOTS);
         add(FIGHTER, 3, FIGHTER_ROGUE_SLOTS, MartialArchetype.ELDRITCH_KNIGHT);
         add(ROGUE, 3, FIGHTER_ROGUE_SLOTS, RoguishArchetype.ARCANE_TRICKSTER);
     }
@@ -154,17 +153,45 @@ public class SpellSlots {
     public static int getSlotsAtLevel(Character character, int spellLevel) {
         if (spellLevel < 1 || spellLevel > 9)
             throw new IllegalArgumentException("Illegal spell level " + spellLevel);
-        List<CharacterClassLevel> castingClasses = getCastingClasses(character).collect(toList());
-        if (castingClasses.isEmpty())
-            throw new IllegalArgumentException("Attempt to get spell slots for non-spellcaster");
-        int[] slots = getSlots(castingClasses);
-        return spellLevel <= slots.length ? slots[spellLevel - 1] : 0;
+        return getSlotsForSpellLevel(getSlots(character), spellLevel)
+            + pactMagicSlots(character, spellLevel);
     }
 
-    public static int getMaxSlot(Character character, CharacterClass spellClass) {
-        return getSingleClassSlots(character.getCharacterClassLevels()
-            .filter(ccl -> ccl.hasCharacterClass(spellClass)).findAny()
-            .orElseThrow(IllegalStateException::new)).length;
+    private static int getSlotsForSpellLevel(int[] slots, int spellLevel) {
+        if (spellLevel > slots.length)
+            return 0;
+        else
+            return slots[spellLevel - 1];
+    }
+
+    private static int pactMagicSlots(Character character, int spellLevel) {
+        return character.getCharacterClassLevels()
+            .filter(ccl -> ccl.hasCharacterClass(WARLOCK))
+            .mapToInt(CharacterClassLevel::getLevel)
+            .map(wl -> getSlotsForSpellLevel(PACT_MAGIC_SLOTS[wl - 1], spellLevel))
+            .findAny().orElse(0);
+    }
+
+    public static int getHighestSpellLevelForClass(Character character, CharacterClass spellClass) {
+        CharacterClassLevel characterClassLevel = character.getCharacterClassLevels()
+            .filter(ccl -> ccl.hasCharacterClass(spellClass))
+            .findAny().orElseThrow(IllegalStateException::new);
+        if (spellClass == WARLOCK)
+            return PACT_MAGIC_SLOTS[characterClassLevel.getLevel() - 1].length;
+        else
+            return getSingleClassSlots(characterClassLevel).length;
+    }
+
+    private static int[] getSlots(Character character) {
+        List<CharacterClassLevel> castingClasses = getCastingClasses(character).collect(toList());
+        switch (castingClasses.size()) {
+            case 0:
+                return new int[]{};
+            case 1:
+                return getSingleClassSlots(castingClasses.get(0));
+            default:
+                return getMultiClassSlots(castingClasses);
+        }
     }
 
     private static Stream<CharacterClassLevel> getCastingClasses(Character character) {
@@ -172,17 +199,8 @@ public class SpellSlots {
             .filter(ccl -> isSpellCastingClass(ccl, character));
     }
 
-    private static int[] getSlots(List<CharacterClassLevel> castingClasses) {
-        if (castingClasses.size() == 1) {
-            return getSingleClassSlots(castingClasses.get(0));
-        } else {
-            return getMultiClassSlots(castingClasses);
-        }
-    }
-
     private static int[] getSingleClassSlots(CharacterClassLevel classLevel) {
-        int castingLevel = classLevel.getLevel();
-        return getSpellSlots(classLevel).spellSlots[castingLevel - 1];
+        return getSpellSlots(classLevel).getSlots(classLevel);
     }
 
     private static int[] getMultiClassSlots(List<CharacterClassLevel> castingClasses) {
@@ -207,10 +225,11 @@ public class SpellSlots {
         this.prerequisite = prerequisite;
     }
 
+    private int[] getSlots(CharacterClassLevel level) {
+        return spellSlots[level.getLevel() - 1];
+    }
+
     private int getMultiClassSpellCastingLevelContribution(int classLevel) {
-        if (levelDivisor == 0)
-            return 0;
-        else
-            return classLevel / levelDivisor;
+        return classLevel / levelDivisor;
     }
 }

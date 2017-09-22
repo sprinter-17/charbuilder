@@ -1,6 +1,5 @@
 package characterbuilder.character.characterclass.cleric;
 
-import characterbuilder.character.CharacterRandom;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.cleric.ClericAbility.CHANNEL_DIVINITY;
@@ -56,7 +55,7 @@ public class DivineDomainTest {
         character.setLevel(CharacterClass.FIGHTER, 10);
         character.addAttribute(DivineDomain.LIFE);
         assertThat(casting, not(hasPreparedSpell(Spell.CURE_WOUNDS)));
-        character.increaseLevel(CharacterClass.CLERIC, new CharacterRandom());
+        DivineDomain.LIFE.generateLevelChoices(character);
         assertThat(casting, hasPreparedSpell(Spell.CURE_WOUNDS));
     }
 

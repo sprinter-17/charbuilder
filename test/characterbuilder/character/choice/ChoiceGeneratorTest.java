@@ -6,7 +6,6 @@ import static characterbuilder.character.ability.RacialTalent.BRAVE;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
-import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -19,22 +18,19 @@ public class ChoiceGeneratorTest {
 
     private TestCharacter character;
     private ChoiceGenerator generator;
-    private TestChoiceSelector selector;
 
     @Before
     public void setup() {
         character = new TestCharacter();
         generator = new ChoiceGenerator();
-        selector = new TestChoiceSelector();
-        character.addChoiceList(selector);
     }
 
     @Test
     public void testAbilitiesChosenOnceOnly() {
-        new AttributeChoice("Test", BRAVE, CARDS).select(character, selector);
+        new AttributeChoice("Test", BRAVE, CARDS).select(character, character.getSelector());
         assertTrue(character.hasAttribute(BRAVE));
         assertFalse(character.hasAttribute(CARDS));
-        new AttributeChoice("Test", BRAVE, CARDS).select(character, selector);
+        new AttributeChoice("Test", BRAVE, CARDS).select(character, character.getSelector());
         assertTrue(character.hasAttribute(CARDS));
     }
 
@@ -66,13 +62,14 @@ public class ChoiceGeneratorTest {
         character.setLevel(CharacterClass.BARBARIAN, 2);
         generator.generateChoices(character);
         assertFalse(character.hasAttribute(BRAVE));
-        character.addAttribute(new CharacterClassLevel(CharacterClass.CLERIC, 1));
+        character.setLevel(CharacterClass.CLERIC, 1);
         generator.generateChoices(character);
         assertFalse(character.hasAttribute(BRAVE));
         character.setLevel(CharacterClass.BARBARIAN, 1);
-        character.addAttribute(new CharacterClassLevel(CharacterClass.CLERIC, 1));
+        character.setLevel(CharacterClass.CLERIC, 1);
         generator.generateChoices(character);
         assertFalse(character.hasAttribute(BRAVE));
+        character = new TestCharacter();
         character.setLevel(CharacterClass.BARBARIAN, 1);
         generator.generateChoices(character);
         assertTrue(character.hasAttribute(BRAVE));

@@ -32,7 +32,9 @@ public class TestCharacter extends Character {
     }
 
     public void setLevel(CharacterClass characterClass, int level) {
-        removeAttributesOfType(AttributeType.CHARACTER_CLASS);
+        getCharacterClassLevels()
+            .filter(ccl -> ccl.hasCharacterClass(characterClass))
+            .findAny().ifPresent(this::removeAttribute);
         addAttribute(new CharacterClassLevel(characterClass, level));
         if (!hasAttribute(AttributeType.EXPERIENCE_POINTS))
             addAttribute(new IntAttribute(AttributeType.EXPERIENCE_POINTS, 0));
