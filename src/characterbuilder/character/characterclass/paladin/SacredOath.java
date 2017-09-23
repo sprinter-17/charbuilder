@@ -2,8 +2,10 @@ package characterbuilder.character.characterclass.paladin;
 
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.characterclass.CharacterClass.PALADIN;
 import static characterbuilder.character.characterclass.paladin.PaladinAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
@@ -44,7 +46,7 @@ public enum SacredOath implements Attribute {
         gen.level(20).addAttributes(AVENGING_ANGEL);
     }),;
 
-    private final ChoiceGenerator gen = new ChoiceGenerator();
+    private final ChoiceGenerator gen = new ClassSpecificChoiceGenerator(PALADIN);
 
     private SacredOath(Consumer<ChoiceGenerator> gen) {
         gen.accept(this.gen);

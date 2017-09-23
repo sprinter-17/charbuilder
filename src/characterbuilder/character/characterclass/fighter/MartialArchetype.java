@@ -12,6 +12,7 @@ import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import static characterbuilder.character.characterclass.fighter.FighterAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
 import static characterbuilder.character.choice.ChoiceGenerator.spellChoice;
+import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import characterbuilder.character.choice.ReplaceAttributeChoice;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.StringUtils;
@@ -67,7 +68,7 @@ public enum MartialArchetype implements Attribute {
 
     @Override
     public void generateLevelChoices(Character character) {
-        ChoiceGenerator generator = new ChoiceGenerator();
+        ChoiceGenerator generator = new ClassSpecificChoiceGenerator(FIGHTER);
         generatorMaker.accept(generator);
         generator.generateChoices(character);
     }

@@ -2,7 +2,6 @@ package characterbuilder.character.choice;
 
 import static characterbuilder.character.ability.RacialTalent.BRAVE;
 import characterbuilder.character.characterclass.CharacterClass;
-import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.utils.TestCharacter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -23,12 +22,11 @@ public class ClassSpecificChoiceGeneratorTest {
     @Test
     public void testLevel() {
         generator.level(2).addAttributes(BRAVE);
-        character.addAttribute(new CharacterClassLevel(CharacterClass.BARBARIAN, 2));
+        character.setLevel(CharacterClass.BARBARIAN, 2);
         generator.generateChoices(character);
         assertFalse(character.hasAttribute(BRAVE));
-        character.addAttribute(new CharacterClassLevel(CharacterClass.FIGHTER, 2));
+        character.setLevel(CharacterClass.FIGHTER, 2);
         generator.generateChoices(character);
         assertTrue(character.hasAttribute(BRAVE));
     }
-
 }

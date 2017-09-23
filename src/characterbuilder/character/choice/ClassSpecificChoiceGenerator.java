@@ -1,5 +1,6 @@
 package characterbuilder.character.choice;
 
+import characterbuilder.character.Character;
 import characterbuilder.character.characterclass.CharacterClass;
 import java.util.Arrays;
 
@@ -18,5 +19,11 @@ public class ClassSpecificChoiceGenerator extends ChoiceGenerator {
             .findAny()
             .map(ccl -> Arrays.stream(levels).anyMatch(l -> ccl.getLevel() == l))
             .orElse(false));
+    }
+
+    @Override
+    public void generateChoices(Character character) {
+        if (character.isIncreasingClass(characterClass))
+            super.generateChoices(character);
     }
 }

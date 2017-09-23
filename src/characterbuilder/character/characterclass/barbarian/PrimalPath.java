@@ -1,21 +1,22 @@
 package characterbuilder.character.characterclass.barbarian;
 
 import characterbuilder.character.Character;
-import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.STRENGTH;
+import static characterbuilder.character.characterclass.CharacterClass.BARBARIAN;
 import static characterbuilder.character.characterclass.CharacterClass.DRUID;
 import static characterbuilder.character.characterclass.barbarian.BarbarianAbility.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import characterbuilder.character.spell.Spell;
 import java.util.function.Supplier;
 import org.w3c.dom.Node;
 
 public enum PrimalPath implements Attribute {
     PATH_OF_THE_BESERKER("Path of the Beserker", () -> {
-        ChoiceGenerator gen = new ChoiceGenerator();
+        ChoiceGenerator gen = new ClassSpecificChoiceGenerator(BARBARIAN);
         gen.level(3).addAttributes(FRENZY);
         gen.level(6).addAttributes(MINDLESS_RAGE);
         gen.level(10).addAttributes(INTIMIDATING_PRESENCE);
@@ -23,7 +24,7 @@ public enum PrimalPath implements Attribute {
         return gen;
     }),
     PATH_OF_THE_TOTEM_WARRIOR("Path of the Totem Warrior", () -> {
-        ChoiceGenerator gen = new ChoiceGenerator();
+        ChoiceGenerator gen = new ClassSpecificChoiceGenerator(BARBARIAN);
         gen.level(3)
             .addSpellCasting("Barbarian", STRENGTH, DRUID, "All")
             .addLearntSpells("Barbarian", Spell.BEAST_SENSE, Spell.SPEAK_WITH_ANIMALS);

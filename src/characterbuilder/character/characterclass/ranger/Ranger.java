@@ -9,7 +9,7 @@ import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
-import characterbuilder.character.characterclass.CharacterClass;
+import static characterbuilder.character.characterclass.CharacterClass.RANGER;
 import static characterbuilder.character.characterclass.ranger.RangerAbility.*;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -92,9 +92,9 @@ public class Ranger extends AbstractCharacterClass {
     }
 
     private void addSpellCasting(ChoiceGenerator gen) {
-        gen.level(2).addSpellCasting(CASTING_NAME, WISDOM, CharacterClass.RANGER, "All");
+        gen.level(2).addSpellCasting(CASTING_NAME, WISDOM, RANGER, "All");
         gen.level(2).addKnownSpells(CASTING_NAME, 2);
         gen.level(3, 5, 7, 9, 11, 13, 15, 17, 19).addKnownSpells(CASTING_NAME, 1);
-        gen.cond(ch -> ch.getLevel() > 2).replaceSpell(CASTING_NAME);
+        gen.cond(ch -> ch.getLevel(RANGER) > 2).replaceSpell(CASTING_NAME);
     }
 }

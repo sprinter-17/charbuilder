@@ -1,14 +1,15 @@
 package characterbuilder.character.characterclass.monk;
 
 import characterbuilder.character.Character;
-import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.WISDOM;
+import static characterbuilder.character.characterclass.CharacterClass.MONK;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import static characterbuilder.character.characterclass.monk.ElementalDiscipline.*;
 import static characterbuilder.character.characterclass.monk.MonkAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.spell.Spell.*;
 import characterbuilder.utils.StringUtils;
@@ -38,7 +39,7 @@ public enum MonasticTradition implements Attribute {
         gen.level(3, 6, 11, 17).addChoice(chooseDiscipline());
     });
 
-    private final ChoiceGenerator generator = new ChoiceGenerator();
+    private final ChoiceGenerator generator = new ClassSpecificChoiceGenerator(MONK);
 
     private MonasticTradition(Consumer<ChoiceGenerator> generator) {
         generator.accept(this.generator);

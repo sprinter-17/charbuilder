@@ -42,8 +42,16 @@ public class Character {
     private final AttributeSet attributes = new AttributeSet();
     private final Inventory inventory = new Inventory();
     private ChoiceList choices;
-
     private boolean dirty = true;
+    private Optional<CharacterClass> currentClass = Optional.empty();
+
+    protected void setCurrentClass(CharacterClass characterClass) {
+        this.currentClass = Optional.of(characterClass);
+    }
+
+    public boolean isIncreasingClass(CharacterClass characterClass) {
+        return currentClass.isPresent() && currentClass.get() == characterClass;
+    }
 
     public void addChoiceList(ChoiceSelector selector) {
         this.choices = new ChoiceList(selector);
@@ -222,6 +230,12 @@ public class Character {
             .mapToInt(CharacterClassLevel::getLevel).sum();
     }
 
+    public int getLevel(CharacterClass characterClass) {
+        return getAttributes(CHARACTER_CLASS, CharacterClassLevel.class)
+            .filter(ccl -> ccl.hasCharacterClass(characterClass))
+            .mapToInt(CharacterClassLevel::getLevel).sum();
+    }
+
     public void generateHitPoints() {
         if (getLevel() == 1) {
             CharacterClassLevel classLevel = getAttribute(CHARACTER_CLASS);
@@ -259,6 +273,7 @@ public class Character {
     public final void increaseLevel(CharacterClass characterClass, CharacterRandom random) {
         if (getLevel() == 20)
             throw new IllegalStateException("Attempt to increase level beyond 20");
+        setCurrentClass(characterClass);
         increaseExperiencePoints();
         increaseHitPoints(characterClass, random);
         increaseClassLevel(characterClass);

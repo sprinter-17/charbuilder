@@ -36,6 +36,7 @@ public class TestCharacter extends Character {
             .filter(ccl -> ccl.hasCharacterClass(characterClass))
             .findAny().ifPresent(this::removeAttribute);
         addAttribute(new CharacterClassLevel(characterClass, level));
+        setCurrentClass(characterClass);
         if (!hasAttribute(AttributeType.EXPERIENCE_POINTS))
             addAttribute(new IntAttribute(AttributeType.EXPERIENCE_POINTS, 0));
         removeAttributesOfType(AttributeType.HIT_POINTS);

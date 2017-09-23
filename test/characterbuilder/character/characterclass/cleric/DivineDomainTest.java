@@ -53,6 +53,7 @@ public class DivineDomainTest {
     @Test
     public void testDivineDomainSpellsForMulticlass() {
         character.setLevel(CharacterClass.FIGHTER, 10);
+        character.setLevel(CharacterClass.CLERIC, 1);
         character.addAttribute(DivineDomain.LIFE);
         assertThat(casting, not(hasPreparedSpell(Spell.CURE_WOUNDS)));
         DivineDomain.LIFE.generateLevelChoices(character);

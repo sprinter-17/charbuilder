@@ -7,9 +7,11 @@ import static characterbuilder.character.attribute.AttributeDelegate.delegate;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Terrain;
 import static characterbuilder.character.attribute.Terrain.*;
+import static characterbuilder.character.characterclass.CharacterClass.DRUID;
 import static characterbuilder.character.characterclass.druid.DruidCircle.Ability.*;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.choice.ChoiceSelector;
+import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellCasting;
@@ -180,7 +182,7 @@ public enum DruidCircle implements Attribute {
         }
     }
 
-    private final ChoiceGenerator generator = new ChoiceGenerator();
+    private final ChoiceGenerator generator = new ClassSpecificChoiceGenerator(DRUID);
 
     private DruidCircle(Consumer<ChoiceGenerator> generatorMaker) {
         generatorMaker.accept(generator);

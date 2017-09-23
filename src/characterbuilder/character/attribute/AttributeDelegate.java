@@ -1,9 +1,11 @@
 package characterbuilder.character.attribute;
 
 import characterbuilder.character.Character;
+import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.Choice;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.spell.Spell;
@@ -24,10 +26,22 @@ public class AttributeDelegate {
     private boolean adding = true;
     private final List<String> description = new ArrayList<>();
     private final List<Predicate<Character>> prerequisites = new ArrayList<>();
-    private final ChoiceGenerator generator = new ChoiceGenerator();
+    private final ChoiceGenerator generator;
+
+    public AttributeDelegate() {
+        this.generator = new ChoiceGenerator();
+    }
+
+    private AttributeDelegate(CharacterClass characterClass) {
+        this.generator = new ClassSpecificChoiceGenerator(characterClass);
+    }
 
     public static AttributeDelegate delegate() {
         return new AttributeDelegate();
+    }
+
+    public static AttributeDelegate delegateForClass(CharacterClass characterClass) {
+        return new AttributeDelegate(characterClass);
     }
 
     public Optional<String> getName() {

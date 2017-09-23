@@ -5,6 +5,7 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.INTELLIGENCE;
+import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellAbility;
@@ -208,7 +209,7 @@ public enum MagicSchool implements Attribute {
     }
 
     private static AttributeDelegate magicSchool() {
-        return new AttributeDelegate();
+        return AttributeDelegate.delegateForClass(WIZARD);
     }
 
     private MagicSchool(AttributeDelegate delegate) {

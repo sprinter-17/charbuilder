@@ -4,9 +4,11 @@ import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.characterclass.CharacterClass.RANGER;
 import static characterbuilder.character.characterclass.ranger.RangerAbility.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
 import org.w3c.dom.Node;
@@ -30,7 +32,7 @@ public enum RangerArchetype implements Attribute {
         gen.level(15).addAttributes(SHARE_SPELLS);
     });
 
-    private final ChoiceGenerator generator = new ChoiceGenerator();
+    private final ChoiceGenerator generator = new ClassSpecificChoiceGenerator(RANGER);
 
     private RangerArchetype(Consumer<ChoiceGenerator> generator) {
         generator.accept(this.generator);

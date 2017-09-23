@@ -6,9 +6,11 @@ import static characterbuilder.character.ability.Proficiency.*;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.characterclass.CharacterClass.BARD;
 import static characterbuilder.character.characterclass.bard.BardAbility.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import characterbuilder.character.spell.Spell;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
@@ -18,7 +20,7 @@ public enum BardicCollege implements Attribute {
     COLLEGE_OF_LORE {
         @Override
         public void generateLevelChoices(Character character) {
-            ChoiceGenerator gen = new ChoiceGenerator();
+            ChoiceGenerator gen = new ClassSpecificChoiceGenerator(BARD);
             gen.level(3).addChoice(3, new AttributeChoice("Bonus Proficiencies", Skill.values()));
             gen.level(3).addAttributes(CUTTING_WORDS);
             gen.level(6).addChoice(ChoiceGenerator.spellChoice("Bard", 2, "Magical Secrets",
@@ -29,7 +31,7 @@ public enum BardicCollege implements Attribute {
     },
     COLLEGE_OF_VALOUR {
         public void generateLevelChoices(Character character) {
-            ChoiceGenerator gen = new ChoiceGenerator();
+            ChoiceGenerator gen = new ClassSpecificChoiceGenerator(BARD);
             gen.level(3).addAttributes(MEDIUM_ARMOUR, SHIELD,
                 ALL_MARTIAL_MELEE, ALL_MARTIAL_RANGED);
             gen.level(3).addAttributes(COMBAT_INSPIRATION);

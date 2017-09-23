@@ -5,8 +5,10 @@ import characterbuilder.character.ability.Proficiency;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
+import static characterbuilder.character.characterclass.CharacterClass.ROGUE;
 import static characterbuilder.character.characterclass.rogue.RogueAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
 import org.w3c.dom.Node;
@@ -42,7 +44,7 @@ public enum RoguishArchetype implements Attribute {
         gen.cond(ch -> ch.getLevel() > 3).replaceSpell(casting);
     });
 
-    private final ChoiceGenerator generator = new ChoiceGenerator();
+    private final ChoiceGenerator generator = new ClassSpecificChoiceGenerator(ROGUE);
 
     private RoguishArchetype(Consumer<ChoiceGenerator> generator) {
         generator.accept(this.generator);

@@ -5,8 +5,10 @@ import characterbuilder.character.ability.Language;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.DraconicAncestry;
+import static characterbuilder.character.characterclass.CharacterClass.SORCERER;
 import static characterbuilder.character.characterclass.sorcerer.SorcererAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
+import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import characterbuilder.utils.StringUtils;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -27,7 +29,7 @@ public enum SorcerousOrigin implements Attribute {
         gen.level(18).addAttributes(SPELL_BOMBARDMENT);
     });
 
-    private final ChoiceGenerator generator = new ChoiceGenerator();
+    private final ChoiceGenerator generator = new ClassSpecificChoiceGenerator(SORCERER);
 
     private SorcerousOrigin(Consumer<ChoiceGenerator> gen) {
         gen.accept(generator);

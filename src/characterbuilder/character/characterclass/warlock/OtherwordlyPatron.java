@@ -3,6 +3,7 @@ package characterbuilder.character.characterclass.warlock;
 import characterbuilder.character.Character;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.characterclass.CharacterClass.WARLOCK;
 import static characterbuilder.character.characterclass.warlock.WarlockAbility.*;
 import characterbuilder.character.spell.Spell;
 import static characterbuilder.character.spell.Spell.*;
@@ -59,9 +60,11 @@ public enum OtherwordlyPatron implements Attribute {
 
     @Override
     public void generateLevelChoices(Character character) {
-        int level = character.getLevel();
-        if (abilities.containsKey(level))
-            character.addAttribute(abilities.get(level));
+        if (character.isIncreasingClass(WARLOCK)) {
+            int level = character.getLevel(WARLOCK);
+            if (abilities.containsKey(level))
+                character.addAttribute(abilities.get(level));
+        }
     }
 
     public static OtherwordlyPatron load(Node node) {

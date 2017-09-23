@@ -126,7 +126,7 @@ public class Bard extends AbstractCharacterClass {
 
     private void addSpellCasting(ChoiceGenerator gen) {
         gen.level(1).addSpellCasting(CASTING_NAME, CHARISMA, BARD, "All");
-        gen.cond(ch -> ch.getLevel() > 1).replaceSpell(CASTING_NAME);
+        gen.cond(ch -> ch.getLevel(BARD) > 1).replaceSpell(CASTING_NAME);
         gen.level(1).addKnownSpells(CASTING_NAME, 4);
         gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17).addKnownSpells(CASTING_NAME, 1);
     }
