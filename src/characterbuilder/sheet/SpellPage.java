@@ -56,7 +56,7 @@ public class SpellPage extends Page {
             int xp = 30 * ((l - 1) / rows) + 5;
             spellSlotPanel
                 .with(builder.caption("Level " + l, xp, yp, PageBuilder.Align.CENTRE_LEFT));
-            for (int s = 0; s < SpellSlots.getSlotsAtLevel(character, l); s++) {
+            for (int s = 0; s < SpellSlots.getSlotsForSpellLevel(character, l); s++) {
                 spellSlotPanel.with(builder.circle(xp + 12 + s * 4, yp, 2));
             }
         }
