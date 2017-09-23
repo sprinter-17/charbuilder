@@ -36,6 +36,7 @@ public class EldritchInvocationTest {
 
     @Test
     public void testGenerateWithoutSave() {
+        character.setLevel(CharacterClass.WARLOCK, 1);
         BEGUILING_INFLUENCE.generateInitialChoices(character);
         assertFalse(character.hasAttribute(BEGUILING_INFLUENCE));
         assertTrue(character.hasAttribute(Skill.DECEPTION));
