@@ -5,6 +5,7 @@ import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeDelegate;
 import characterbuilder.character.attribute.AttributeType;
+import static characterbuilder.character.characterclass.CharacterClass.WARLOCK;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.NoOption;
@@ -134,7 +135,7 @@ public enum EldritchInvocation implements Attribute {
     private final AttributeDelegate delegate;
 
     private static AttributeDelegate invocation() {
-        return new AttributeDelegate();
+        return AttributeDelegate.delegateForClass(WARLOCK);
     }
 
     private EldritchInvocation(AttributeDelegate delegate) {

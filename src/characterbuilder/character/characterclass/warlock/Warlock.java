@@ -7,6 +7,7 @@ import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import characterbuilder.character.characterclass.CharacterClass;
+import static characterbuilder.character.characterclass.CharacterClass.WARLOCK;
 import static characterbuilder.character.characterclass.warlock.MysticArcanum.chooseArcanum;
 import static characterbuilder.character.characterclass.warlock.WarlockAbility.ELDRITCH_MASTER;
 import static characterbuilder.character.characterclass.warlock.WarlockAbility.PACT_OF_THE_CHAIN;
@@ -101,9 +102,9 @@ public class Warlock extends AbstractCharacterClass {
 
     private void addSpellCasting(ChoiceGenerator gen) {
         gen.level(1)
-            .addSpellCasting(CASTING_NAME, CHARISMA, CharacterClass.WARLOCK, "All")
+            .addSpellCasting(CASTING_NAME, CHARISMA, WARLOCK, "All")
             .addKnownSpells(CASTING_NAME, 2);
-        gen.cond(ch -> ch.getLevel() > 1).replaceSpell(CASTING_NAME);
+        gen.cond(ch -> ch.getLevel(WARLOCK) > 1).replaceSpell(CASTING_NAME);
         gen.level(2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17, 19).addKnownSpells(CASTING_NAME, 1);
     }
 }
