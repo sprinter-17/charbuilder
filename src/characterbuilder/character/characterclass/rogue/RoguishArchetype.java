@@ -32,7 +32,7 @@ public enum RoguishArchetype implements Attribute {
         gen.level(13).addAttributes(VERSATILE_TRICKSTER);
         gen.level(17).addAttributes(SPELL_THIEF);
         gen.level(3).addSpellCasting(casting, AttributeType.INTELLIGENCE,
-            CharacterClass.WIZARD, "All");
+            CharacterClass.ROGUE, "All");
         gen.level(3).addChoice(ChoiceGenerator.cantripChoice(3, "Arcane Trickster Cantrip",
             AttributeType.INTELLIGENCE, CharacterClass.WIZARD.getSpells()));
         gen.level(3).addKnownSpells(casting, 3);

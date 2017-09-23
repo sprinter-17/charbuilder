@@ -5,6 +5,7 @@ import characterbuilder.character.ability.Ability;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.CharacterClass.CLERIC;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.utils.TestCharacter;
@@ -77,6 +78,13 @@ public class SpellCastingTest {
         assertThat(casting.getMaxSpellLevel(), is(3));
         character.increaseLevel(CLERIC, new CharacterRandom());
         assertThat(casting.getMaxSpellLevel(), is(4));
+    }
+
+    @Test
+    public void testSpellCastingForDifferentClass() {
+        casting = new SpellCasting("Test", CHARISMA, CharacterClass.WIZARD, "All");
+        casting.generateLevelChoices(character);
+        assertThat(casting.getMaxSpellLevel(), is(0));
     }
 
     @Test

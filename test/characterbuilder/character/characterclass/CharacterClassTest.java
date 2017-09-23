@@ -36,7 +36,7 @@ public class CharacterClassTest {
 
     private static final Logger LOG = Logger.getLogger(CharacterClassTest.class.getName());
 
-    private CharacterRandom random = new CharacterRandom();
+    private final CharacterRandom random = new CharacterRandom();
     private TestCharacter character;
     private IterativeSelector selector;
 

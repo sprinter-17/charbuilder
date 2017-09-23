@@ -7,6 +7,7 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.INTELLIGENCE;
 import static characterbuilder.character.attribute.AttributeType.TOOLS;
+import static characterbuilder.character.characterclass.CharacterClass.FIGHTER;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import static characterbuilder.character.characterclass.fighter.FighterAbility.*;
 import characterbuilder.character.choice.ChoiceGenerator;
@@ -38,7 +39,7 @@ public enum MartialArchetype implements Attribute {
     }),
     ELDRITCH_KNIGHT(gen -> {
         final String castingName = "Eldritch Knight";
-        gen.level(3).addAttributes(new SpellCasting(castingName, INTELLIGENCE, WIZARD, "All"));
+        gen.level(3).addAttributes(new SpellCasting(castingName, INTELLIGENCE, FIGHTER, "All"));
         gen.level(3).addChoice(ChoiceGenerator.cantripChoice(2, castingName + " Cantrip",
             AttributeType.INTELLIGENCE, WIZARD.getSpells()));
         gen.level(3).addChoice(spellChoice(castingName, 3, castingName + " Spell",

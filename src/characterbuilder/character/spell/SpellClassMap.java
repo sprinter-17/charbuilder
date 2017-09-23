@@ -3,6 +3,7 @@ package characterbuilder.character.spell;
 import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.CharacterClass.*;
 import static characterbuilder.character.spell.Spell.*;
+import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +12,8 @@ import java.util.stream.Stream;
 public class SpellClassMap {
 
     private final Map<Spell, EnumSet<CharacterClass>> map = new HashMap<>();
+    private final EnumMap<CharacterClass, CharacterClass> classMap
+        = new EnumMap<>(CharacterClass.class);
 
     public SpellClassMap() {
         map.put(ACID_ARROW, EnumSet.of(WIZARD));
@@ -374,11 +377,15 @@ public class SpellClassMap {
         map.put(WORD_OF_RECALL, EnumSet.of(CLERIC));
         map.put(WRATHFUL_SMITE, EnumSet.of(PALADIN));
         map.put(ZONE_OF_TRUTH, EnumSet.of(CLERIC, PALADIN, BARD));
+
+        classMap.put(ROGUE, WIZARD);
+        classMap.put(FIGHTER, WIZARD);
     }
 
     public Stream<Spell> spellsForClass(CharacterClass characterClass) {
         return map.entrySet().stream()
-            .filter(e -> e.getValue().contains(characterClass))
+            .filter(e -> e.getValue()
+            .contains(classMap.getOrDefault(characterClass, characterClass)))
             .map(Map.Entry::getKey);
     }
 

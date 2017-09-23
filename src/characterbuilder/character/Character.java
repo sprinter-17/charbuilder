@@ -290,7 +290,8 @@ public class Character {
 
     private void generateChoices(CharacterClass characterClass) {
         getCharacterClassLevel(characterClass)
-            .orElseThrow(IllegalStateException::new)
+            .orElseThrow(() -> new IllegalStateException("Generating choices for "
+            + "non-existent class " + characterClass.toString()))
             .generateChoices(this);
         attributes.getAllAttributes()
             .collect(toList())

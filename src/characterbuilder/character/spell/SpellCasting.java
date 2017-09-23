@@ -171,7 +171,8 @@ public class SpellCasting implements Attribute {
     @Override
     public void generateLevelChoices(Character character) {
         character.addChoice(choice);
-        maxSpellLevel = SpellSlots.getHighestSpellLevelForClass(character, spellClass);
+        if (character.getCharacterClasses().anyMatch(spellClass::equals))
+            maxSpellLevel = SpellSlots.getHighestSpellLevelForClass(character, spellClass);
     }
 
     @Override
