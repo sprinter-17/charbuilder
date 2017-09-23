@@ -6,7 +6,6 @@ import characterbuilder.character.attribute.AbilityScore;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
-import characterbuilder.character.characterclass.CharacterClassLevel;
 import characterbuilder.character.equipment.Equipment;
 import characterbuilder.character.equipment.EquipmentCategory;
 import characterbuilder.character.equipment.Token;
@@ -251,9 +250,7 @@ public class ChoiceGenerator {
         return new OptionChoice("Cantrip", count) {
             @Override
             public void select(Character character, ChoiceSelector selector) {
-                selector.chooseOption(character
-                    .getAttribute(AttributeType.CHARACTER_CLASS, CharacterClassLevel.class)
-                    .getCharacterClass()
+                selector.chooseOption(character.getCurrentClass()
                     .getSpells()
                     .filter(Spell::isCantrip)
                     .map(sp -> new SpellAbility(sp, abilityScore))
@@ -276,7 +273,8 @@ public class ChoiceGenerator {
             public void select(Character character, ChoiceSelector selector) {
                 SpellCasting spellCasting = getCasting(character, casting);
                 selector.chooseOption(spellList.stream()
-                    .filter(sp -> sp.getLevel() > 0 && sp.getLevel() <= spellCasting.getMaxSpellLevel())
+                    .filter(sp -> sp.getLevel() > 0 && sp.getLevel() <= spellCasting
+                    .getMaxSpellLevel())
                     .filter(sp -> !spellCasting.hasLearntSpell(sp)), spellCasting::addPreparedSpell);
             }
 

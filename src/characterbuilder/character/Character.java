@@ -53,6 +53,10 @@ public class Character {
         return currentClass.isPresent() && currentClass.get() == characterClass;
     }
 
+    public CharacterClass getCurrentClass() {
+        return currentClass.orElseThrow(IllegalStateException::new);
+    }
+
     public void addChoiceList(ChoiceSelector selector) {
         this.choices = new ChoiceList(selector);
     }
