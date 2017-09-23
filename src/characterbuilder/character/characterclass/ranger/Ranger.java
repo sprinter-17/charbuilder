@@ -58,15 +58,16 @@ public class Ranger extends AbstractCharacterClass {
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
         addAbilities(gen);
-        addEquipment(gen);
+        addEquipment(gen.initialClass());
         addSpellCasting(gen);
     }
 
     private void addAbilities(ChoiceGenerator gen) {
+        gen.initialClass().addAttributeChoice(2, "Skill", ANIMAL_HANDLING, ATHLETICS,
+            INSIGHT, INVESTIGATION, NATURE, PERCEPTION, STEALTH, SURVIVAL);
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
-            Proficiency.SHIELD);
-        gen.level(1).addAttributes(ALL_WEAPONS);
-        gen.level(1).addAttributeChoice(3, "Skill", ANIMAL_HANDLING, ATHLETICS,
+            Proficiency.SHIELD, ALL_WEAPONS);
+        gen.level(1).addAttributeChoice(1, "Skill", ANIMAL_HANDLING, ATHLETICS,
             INSIGHT, INVESTIGATION, NATURE, PERCEPTION, STEALTH, SURVIVAL);
         gen.level(1, 6, 14).addChoice(FavouredEnemy.choice());
         gen.level(1, 6, 10).addChoice(FavouredTerrain.choose());
@@ -83,11 +84,11 @@ public class Ranger extends AbstractCharacterClass {
     }
 
     private void addEquipment(ChoiceGenerator gen) {
-        gen.level(1).addEquipmentChoice("Armour", SCALE_MAIL_ARMOUR, LEATHER_ARMOUR);
-        gen.level(1).addChoice(2, new EquipmentChoice("Weapon")
+        gen.addEquipmentChoice("Armour", SCALE_MAIL_ARMOUR, LEATHER_ARMOUR);
+        gen.addChoice(2, new EquipmentChoice("Weapon")
             .with(SHORTSWORD).with(EquipmentCategory.SIMPLE_MELEE));
-        gen.level(1).addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
-        gen.level(1).addEquipment(LONGBOW).addEquipment(ARROW.makeSet(20));
+        gen.addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
+        gen.addEquipment(LONGBOW).addEquipment(ARROW.makeSet(20));
     }
 
     private void addSpellCasting(ChoiceGenerator gen) {

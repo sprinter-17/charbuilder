@@ -67,15 +67,16 @@ public class Wizard extends AbstractCharacterClass {
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
         addAbilities(gen);
-        addEquipment(gen);
+        addEquipment(gen.initialClass());
         addCantrips(gen);
         addSpellCasting(gen);
     }
 
     private void addAbilities(ChoiceGenerator gen) {
-        gen.level(1).addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
-        gen.level(1).addAttributeChoice(2, "Skill",
-            ARCANA, HISTORY, INSIGHT, INVESTIGATION, MEDICINE, RELIGION);
+        gen.initialClass()
+            .addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW)
+            .addAttributeChoice(2, "Skill", ARCANA, HISTORY, INSIGHT, INVESTIGATION,
+                MEDICINE, RELIGION);
         gen.level(1).addAttributes(ARCANE_RECOVERY);
         gen.level(2).addChoice(new AttributeChoice("Arcane Tradition", MagicSchool.values()));
         gen.level(4, 8, 12, 16, 19).addAbilityScoreOrFeatChoice();
@@ -84,11 +85,10 @@ public class Wizard extends AbstractCharacterClass {
     }
 
     private void addEquipment(ChoiceGenerator gen) {
-        gen.level(1).addEquipmentChoice("Weapon", QUARTERSTAFF, DAGGER);
-        gen.level(1)
-            .addEquipmentChoice("Wizard Gear", COMPONENT_POUCH, CRYSTAL, ORB, ROD, STAFF, WAND);
-        gen.level(1).addEquipmentChoice("Adventure Pack", SCHOLAR_PACK, EXPLORER_PACK);
-        gen.level(1).addEquipment(SPELLBOOK);
+        gen.addEquipmentChoice("Weapon", QUARTERSTAFF, DAGGER);
+        gen.addEquipmentChoice("Wizard Gear", COMPONENT_POUCH, CRYSTAL, ORB, ROD, STAFF, WAND);
+        gen.addEquipmentChoice("Adventure Pack", SCHOLAR_PACK, EXPLORER_PACK);
+        gen.addEquipment(SPELLBOOK);
     }
 
     private void addCantrips(ChoiceGenerator gen) {

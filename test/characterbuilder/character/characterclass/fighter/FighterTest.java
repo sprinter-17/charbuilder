@@ -27,9 +27,8 @@ public class FighterTest {
     @Test
     public void testDoNotAddEquipmentOnMulticlass() {
         character.setLevel(CharacterClass.CLERIC, 1);
-        assertFalse(character.hasChoice("Skill"));
         character.increaseLevel(CharacterClass.FIGHTER, new CharacterRandom());
-        assertTrue(character.hasChoice("Skill"));
+        assertTrue(character.hasChoice("Fighting Style"));
         assertFalse(character.hasChoice("Armour"));
     }
 

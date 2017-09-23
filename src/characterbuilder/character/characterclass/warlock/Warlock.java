@@ -2,7 +2,7 @@ package characterbuilder.character.characterclass.warlock;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Proficiency;
-import characterbuilder.character.ability.Skill;
+import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
@@ -64,9 +64,9 @@ public class Warlock extends AbstractCharacterClass {
     }
 
     private void addAbilities(ChoiceGenerator gen) {
+        gen.initialClass().addChoice(2, new AttributeChoice("Skill", ARCANA, DECEPTION,
+            HISTORY, INTIMIDATION, INVESTIGATION, NATURE, RELIGION));
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.ALL_SIMPLE_WEAPONS);
-        gen.level(1).addChoice(2, new AttributeChoice("Skill", Skill.ARCANA, Skill.DECEPTION,
-            Skill.HISTORY, Skill.INTIMIDATION, Skill.INVESTIGATION, Skill.NATURE, Skill.RELIGION));
         gen.level(1).addAttributeChoice("Otherworldy Patron", OtherwordlyPatron.values());
         gen.level(2).addChoice(EldritchInvocation.getChoice(2));
         gen.cond(ch -> ch.getLevel() > 2).addChoice(EldritchInvocation.getReplacement());

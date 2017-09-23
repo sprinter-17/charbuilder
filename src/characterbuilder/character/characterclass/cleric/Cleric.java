@@ -52,17 +52,19 @@ public class Cleric extends AbstractCharacterClass {
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
         addAbilities(gen);
-        addEquipment(gen);
+        addEquipment(gen.initialClass());
         addCantrips(gen);
         addSpellCasting(gen);
     }
 
     private void addAbilities(ChoiceGenerator gen) {
+        gen.initialClass()
+            .addAttributes(ALL_SIMPLE_WEAPONS)
+            .addChoice(2, new AttributeChoice("Skill", HISTORY, INSIGHT, MEDICINE,
+                PERSUASION, RELIGION));
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
-            Proficiency.SHIELD, ALL_SIMPLE_WEAPONS);
+            Proficiency.SHIELD);
         gen.level(1).addChoice(new AttributeChoice("Divine Domain", DivineDomain.values()));
-        gen.level(1).addChoice(new AttributeChoice("Skill",
-            HISTORY, INSIGHT, MEDICINE, PERSUASION, RELIGION).withCount(2));
         gen.level(1).addAttributes(Feat.RITUAL_CASTER);
         gen.level(2).addAttributes(TURN_UNDEAD, CHANNEL_DIVINITY);
         gen.level(5).addAttributes(DESTROY_UNDEAD);
@@ -71,13 +73,12 @@ public class Cleric extends AbstractCharacterClass {
     }
 
     private void addEquipment(ChoiceGenerator gen) {
-        gen.level(1).addEquipmentChoice("Primary Weapon", MACE, WARHAMMER);
-        gen.level(1).addEquipmentChoice("Secondary Weapon")
+        gen.addEquipmentChoice("Primary Weapon", MACE, WARHAMMER);
+        gen.addEquipmentChoice("Secondary Weapon")
             .with(EquipmentCategory.SIMPLE_MELEE)
             .with(LIGHT_CROSSBOW, CROSSBOW_BOLT.makeSet(20));
-        gen.level(1)
-            .addEquipmentChoice("Armour", SCALE_MAIL_ARMOUR, LEATHER_ARMOUR, CHAIN_MAIL_ARMOUR);
-        gen.level(1).addEquipmentChoice(EquipmentCategory.HOLY_SYMBOL);
+        gen.addEquipmentChoice("Armour", SCALE_MAIL_ARMOUR, LEATHER_ARMOUR, CHAIN_MAIL_ARMOUR);
+        gen.addEquipmentChoice(EquipmentCategory.HOLY_SYMBOL);
     }
 
     private void addCantrips(ChoiceGenerator gen) {

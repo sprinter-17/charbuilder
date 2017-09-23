@@ -80,17 +80,22 @@ public class Bard extends AbstractCharacterClass {
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
         addAbilities(gen);
-        addEquipment(gen);
+        addEquipment(gen.initialClass());
         addCantrips(gen);
         addSpellCasting(gen);
     }
 
     private void addAbilities(ChoiceGenerator gen) {
-        gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS);
-        gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
-        gen.level(1).addAttributeChoice(3, "Skill", Skill.values());
-        gen.level(1).addAttributeChoice(3, "Musical Instrument Proficiency",
-            MusicalInstrument.getAllProficiencies());
+        gen.initialClass().addAttributes(ALL_SIMPLE_WEAPONS)
+            .addAttributeChoice(2, "Skill", Skill.values())
+            .addAttributeChoice(2, "Musical Instrument Proficiency",
+                MusicalInstrument.getAllProficiencies())
+            .initialClass().addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
+        gen.level(1)
+            .addAttributes(Proficiency.LIGHT_ARMOUR)
+            .addAttributeChoice(1, "Skill", Skill.values())
+            .addAttributeChoice(1, "Musical Instrument Proficiency",
+                MusicalInstrument.getAllProficiencies());
         gen.level(1).addAttributes(Feat.RITUAL_CASTER);
         gen.level(1).addAttributes(BARDIC_INSPIRATION);
         gen.level(2).addAttributes(JACK_OF_ALL_TRADES);
@@ -105,12 +110,12 @@ public class Bard extends AbstractCharacterClass {
     }
 
     private void addEquipment(ChoiceGenerator gen) {
-        gen.level(1).addEquipmentChoice("Weapon", RAPIER, LONGSWORD)
+        gen.addEquipmentChoice("Weapon", RAPIER, LONGSWORD)
             .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED);
-        gen.level(1).addEquipmentChoice("Adventure Pack",
+        gen.addEquipmentChoice("Adventure Pack",
             EquipmentPack.DIPLOMAT_PACK, EquipmentPack.ENTERTAINER_PACK);
-        gen.level(1).addEquipment(LEATHER_ARMOUR, DAGGER);
-        gen.level(1).addEquipmentChoice("Musical Instrument")
+        gen.addEquipment(LEATHER_ARMOUR, DAGGER);
+        gen.addEquipmentChoice("Musical Instrument")
             .with(EquipmentCategory.MUSICAL_INSTRUMENT);
     }
 

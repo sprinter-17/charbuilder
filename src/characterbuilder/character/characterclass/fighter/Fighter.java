@@ -2,8 +2,11 @@ package characterbuilder.character.characterclass.fighter;
 
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.FightingStyle;
-import static characterbuilder.character.ability.Proficiency.ALL_ARMOUR;
+import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Proficiency.ALL_WEAPONS;
+import static characterbuilder.character.ability.Proficiency.HEAVY_ARMOUR;
+import static characterbuilder.character.ability.Proficiency.LIGHT_ARMOUR;
+import static characterbuilder.character.ability.Proficiency.MEDIUM_ARMOUR;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
@@ -55,10 +58,11 @@ public class Fighter extends AbstractCharacterClass {
     }
 
     private void addAbilities(ChoiceGenerator gen) {
-        gen.level(1)
-            .addAttributes(ALL_ARMOUR, ALL_WEAPONS, SECOND_WIND)
+        gen.initialClass().addAttributes(HEAVY_ARMOUR)
             .addAttributeChoice(2, "Skill", ACROBATICS, ANIMAL_HANDLING, ATHLETICS, HISTORY,
-                INSIGHT, INTIMIDATION, PERCEPTION, SURVIVAL)
+                INSIGHT, INTIMIDATION, PERCEPTION, SURVIVAL);
+        gen.level(1)
+            .addAttributes(LIGHT_ARMOUR, MEDIUM_ARMOUR, Proficiency.SHIELD, ALL_WEAPONS, SECOND_WIND)
             .addAttributeChoice("Fighting Style", FightingStyle.values());
         gen.level(2).addAttributes(ACTION_SURGE);
         gen.level(3).addAttributeChoice("Martial Archetype", MartialArchetype.values());

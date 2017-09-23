@@ -52,18 +52,18 @@ public class Druid extends AbstractCharacterClass {
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
         addAbilities(gen);
-        addEquipment(gen);
+        addEquipment(gen.initialClass());
         addCantrips(gen);
         addSpellCasting(gen);
     }
 
     private void addAbilities(ChoiceGenerator gen) {
+        gen.initialClass().addWeaponProficiencies(CLUB, DAGGER, DART, JAVELIN, MACE, QUARTERSTAFF,
+            SCIMITAR, SICKLE, SLING, SPEAR);
+        gen.initialClass().addAttributeChoice(2, "Skill", ARCANA, ANIMAL_HANDLING,
+            INSIGHT, MEDICINE, NATURE, PERCEPTION, RELIGION, SURVIVAL);
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
             Proficiency.SHIELD, Language.DRUIDIC);
-        gen.level(1).addWeaponProficiencies(CLUB, DAGGER, DART, JAVELIN, MACE, QUARTERSTAFF,
-            SCIMITAR, SICKLE, SLING, SPEAR);
-        gen.level(1).addAttributeChoice(2, "Skill", ARCANA, ANIMAL_HANDLING,
-            INSIGHT, MEDICINE, NATURE, PERCEPTION, RELIGION, SURVIVAL);
         gen.level(1).addAttributes(Feat.RITUAL_CASTER);
         gen.level(2).addAttributes(WILD_SHAPE);
         gen.level(2).addAttributeChoice("Druid Circle", DruidCircle.values());
@@ -72,12 +72,12 @@ public class Druid extends AbstractCharacterClass {
     }
 
     private void addEquipment(ChoiceGenerator gen) {
-        gen.level(1).addEquipmentChoice("Weapon").with(SCIMITAR)
+        gen.addEquipmentChoice("Weapon").with(SCIMITAR)
             .with(EquipmentCategory.SIMPLE_MELEE).with(SIMPLE_RANGED);
-        gen.level(1).addEquipmentChoice("Weapon or Shield").with(Armour.SHIELD)
+        gen.addEquipmentChoice("Weapon or Shield").with(Armour.SHIELD)
             .with(EquipmentCategory.SIMPLE_MELEE).with(SIMPLE_RANGED);
-        gen.level(1).addEquipment(LEATHER_ARMOUR, EXPLORER_PACK);
-        gen.level(1).addEquipmentChoice("Focus").with(DRUIDIC_FOCUS);
+        gen.addEquipment(LEATHER_ARMOUR, EXPLORER_PACK);
+        gen.addEquipmentChoice("Focus").with(DRUIDIC_FOCUS);
     }
 
     private void addSpellCasting(ChoiceGenerator gen) {

@@ -60,16 +60,20 @@ public class Rogue extends AbstractCharacterClass {
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
         addAbilities(gen);
-        addEquipment(gen);
+        addEquipment(gen.initialClass());
     }
 
     private void addAbilities(ChoiceGenerator gen) {
-        gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, ALL_SIMPLE_WEAPONS,
-            Proficiency.THIEVES_TOOLS);
-        gen.level(1).addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
+        gen.initialClass().addAttributes(ALL_SIMPLE_WEAPONS)
+            .addAttributeChoice(3, "Skill", ACROBATICS, ATHLETICS, DECEPTION, INSIGHT,
+                INTIMIDATION, INVESTIGATION, PERCEPTION, PERFORMANCE, PERSUASION,
+                SLEIGHT_OF_HAND, STEALTH)
+            .addWeaponProficiencies(HAND_CROSSBOW, LONGSWORD, RAPIER, SHORTSWORD);
+        gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.THIEVES_TOOLS);
+        gen.level(1).addAttributeChoice(1, "Skill", ACROBATICS, ATHLETICS, DECEPTION, INSIGHT,
+            INTIMIDATION, INVESTIGATION, PERCEPTION, PERFORMANCE, PERSUASION,
+            SLEIGHT_OF_HAND, STEALTH);
         gen.level(1).addAttributes(SNEAK_ATTACK, Language.THIEVES_CANT);
-        gen.level(1).addAttributeChoice(4, "Skill", ACROBATICS, ATHLETICS, DECEPTION, INSIGHT,
-            INTIMIDATION, INVESTIGATION, PERCEPTION, PERFORMANCE, PERSUASION, SLEIGHT_OF_HAND, STEALTH);
         gen.level(1).addChoice(new ExpertiseChoice().withCount(2));
         gen.level(2).addAttributes(CUNNING_ACTION);
         gen.level(3).addAttributeChoice("Roguish Archetype", RoguishArchetype.values());
@@ -85,13 +89,10 @@ public class Rogue extends AbstractCharacterClass {
     }
 
     private void addEquipment(ChoiceGenerator gen) {
-        gen.level(1).addEquipment(LEATHER_ARMOUR)
-            .addEquipment(DAGGER.makeSet(2))
-            .addEquipment(AdventureGear.THIEVES_TOOLS);
-        gen.level(1).addEquipmentChoice("Primary Weapon", RAPIER, SHORTSWORD);
-        gen.level(1).addEquipmentChoice("Secondard Weapon")
+        gen.addEquipment(LEATHER_ARMOUR, DAGGER.makeSet(2), AdventureGear.THIEVES_TOOLS);
+        gen.addEquipmentChoice("Primary Weapon", RAPIER, SHORTSWORD);
+        gen.addEquipmentChoice("Secondard Weapon")
             .with(SHORTBOW, QUIVER, ARROW.makeSet(20)).with(SHORTSWORD);
-        gen.level(1)
-            .addEquipmentChoice("Adventure Pack", BUGLAR_PACK, DUNGEONEER_PACK, EXPLORER_PACK);
+        gen.addEquipmentChoice("Adventure Pack", BUGLAR_PACK, DUNGEONEER_PACK, EXPLORER_PACK);
     }
 }

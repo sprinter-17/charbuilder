@@ -41,26 +41,25 @@ public class Barbarian extends AbstractCharacterClass {
 
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
-        addEquipment(gen);
+        addEquipment(gen.initialClass());
         addAttributes(gen);
     }
 
     private void addEquipment(ChoiceGenerator gen) {
-        gen.level(1).addEquipmentChoice("Primary Weapon")
+        gen.addEquipmentChoice("Primary Weapon")
             .with(GREATEAXE).with(EquipmentCategory.MARTIAL_MELEE);
-        gen.level(1).addEquipmentChoice("Secondary Weapon")
+        gen.addEquipmentChoice("Secondary Weapon")
             .with(HANDAXE.makeSet(2))
             .with(EquipmentCategory.SIMPLE_MELEE)
             .with(EquipmentCategory.SIMPLE_RANGED);
-        gen.level(1).addEquipment(EXPLORER_PACK);
-        gen.level(1).addEquipment(JAVELIN.makeSet(4));
+        gen.addEquipment(EXPLORER_PACK, JAVELIN.makeSet(4));
     }
 
     private void addAttributes(ChoiceGenerator gen) {
-        gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
-            Proficiency.SHIELD, ALL_WEAPONS);
-        gen.level(1).addAttributeChoice(2, "Skill",
+        gen.initialClass().addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR);
+        gen.initialClass().addAttributeChoice(2, "Skill",
             ANIMAL_HANDLING, ATHLETICS, INTIMIDATION, NATURE, PERCEPTION, SURVIVAL);
+        gen.level(1).addAttributes(Proficiency.SHIELD, ALL_WEAPONS);
         gen.level(1).addAttributes(RAGE, UNARMORED_DEFENCE);
         gen.level(2).addAttributes(RECKLESS_ATTACK, DANGER_SENSE);
         gen.level(3).addAttributeChoice("Primal Path", PrimalPath.values());

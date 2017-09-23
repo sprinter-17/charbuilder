@@ -51,18 +51,21 @@ public class Monk extends AbstractCharacterClass {
 
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
-        gen.level(1).addWeaponProficiencies(SHORTSWORD);
-        gen.level(1).addAttributes(ALL_SIMPLE_WEAPONS);
-        gen.level(1).addAttributeChoice(1, "Tools", Stream.concat(
-            MusicalInstrument.getAllProficiencies(),
-            Proficiency.allOfType(AttributeType.TOOLS)));
-        gen.level(1).addAttributeChoice(2, "Skill", ACROBATICS, ATHLETICS, HISTORY,
-            INSIGHT, RELIGION, STEALTH);
-        gen.level(1).addEquipmentChoice("Weapon").with(SHORTSWORD)
-            .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED);
-        gen.level(1).addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
-        gen.level(1).addEquipment(DART.makeSet(10));
-        gen.level(1).addAttributes(UNARMORED_DEFENCE, MARTIAL_ARTS);
+        addAttributes(gen);
+        addEquipment(gen.initialClass());
+    }
+
+    private void addAttributes(ChoiceGenerator gen) {
+        gen.initialClass()
+            .addAttributeChoice(1, "Tools", Stream.concat(
+                MusicalInstrument.getAllProficiencies(),
+                Proficiency.allOfType(AttributeType.TOOLS)))
+            .addAttributeChoice(2, "Skill", ACROBATICS, ATHLETICS, HISTORY,
+                INSIGHT, RELIGION, STEALTH);
+        gen.level(1)
+            .addWeaponProficiencies(SHORTSWORD)
+            .addAttributes(ALL_SIMPLE_WEAPONS)
+            .addAttributes(UNARMORED_DEFENCE, MARTIAL_ARTS);
         gen.level(2).addAttributes(KI, FLURRY_OF_BLOWS, PATIENT_DEFENCE, STEP_OF_THE_WIND,
             UNARMOURED_MOVEMENT);
         gen.level(3).addAttributeChoice("Monastic Tradition", MonasticTradition.values());
@@ -79,5 +82,13 @@ public class Monk extends AbstractCharacterClass {
         gen.level(15).addAttributes(TIMELESS_BODY);
         gen.level(18).addAttributes(EMPTY_BODY);
         gen.level(20).addAttributes(PERFECT_SELF);
+    }
+
+    private void addEquipment(ChoiceGenerator gen) {
+        gen.addEquipmentChoice("Weapon")
+            .with(SHORTSWORD)
+            .with(EquipmentCategory.SIMPLE_MELEE).with(EquipmentCategory.SIMPLE_RANGED);
+        gen.addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
+        gen.addEquipment(DART.makeSet(10));
     }
 }

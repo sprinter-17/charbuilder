@@ -51,15 +51,16 @@ public class Sorcerer extends AbstractCharacterClass {
     @Override
     protected void makeGenerator(ChoiceGenerator gen) {
         addAbilities(gen);
-        addEquipment(gen);
+        addEquipment(gen.initialClass());
         addSpellCasting(gen);
     }
 
     private void addAbilities(ChoiceGenerator gen) {
+        gen.initialClass()
+            .addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW)
+            .addAttributeChoice("Skill", ARCANA, DECEPTION, INSIGHT, INTIMIDATION,
+                PERSUASION, RELIGION);
         gen.level(1).addAttributeChoice("Sorcerous Origin", SorcerousOrigin.values());
-        gen.level(1).addWeaponProficiencies(DAGGER, DART, SLING, QUARTERSTAFF, LIGHT_CROSSBOW);
-        gen.level(1).addAttributeChoice("Skill", ARCANA, DECEPTION, INSIGHT, INTIMIDATION,
-            PERSUASION, RELIGION);
         gen.level(2).addAttributes(FONT_OF_MAGIC);
         gen.level(3).addAttributeChoice(2, "Metamagic", MetaMagic.values());
         gen.level(10, 17).addAttributeChoice("Metamagic", MetaMagic.values());
@@ -68,11 +69,11 @@ public class Sorcerer extends AbstractCharacterClass {
     }
 
     private void addEquipment(ChoiceGenerator gen) {
-        gen.level(1).addEquipmentChoice("Weapon")
+        gen.addEquipmentChoice("Weapon")
             .with(LIGHT_CROSSBOW, CROSSBOW_BOLT.makeSet(20))
             .with(SIMPLE_MELEE).with(SIMPLE_RANGED);
-        gen.level(1).addEquipmentChoice("Spell Equipment").with(COMPONENT_POUCH).with(ARCANE_FOCUS);
-        gen.level(1).addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
+        gen.addEquipmentChoice("Spell Equipment").with(COMPONENT_POUCH).with(ARCANE_FOCUS);
+        gen.addEquipmentChoice("Adventure Pack", DUNGEONEER_PACK, EXPLORER_PACK);
     }
 
     private void addSpellCasting(ChoiceGenerator gen) {
