@@ -16,7 +16,6 @@ import org.junit.Test;
 public class EvalutationTest {
 
     private TestCharacter character;
-    private IntAttribute level;
     private EvaluationContext context;
 
     @Before

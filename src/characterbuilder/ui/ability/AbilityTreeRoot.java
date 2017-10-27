@@ -55,6 +55,8 @@ public class AbilityTreeRoot extends DefaultMutableTreeNode {
             case META_MAGIC:
                 addAttributes(character, type);
                 break;
+                default:
+                	break;
         }
     }
 

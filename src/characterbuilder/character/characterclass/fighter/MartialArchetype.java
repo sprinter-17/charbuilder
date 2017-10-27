@@ -33,7 +33,7 @@ public enum MartialArchetype implements Attribute {
         gen.level(3).addChoice(Proficiency.choose(TOOLS));
         gen.level(3).addAttributeChoice(4, "Maneuver", Maneuver.values());
         gen.level(7, 10, 15)
-            .addChoice(new ReplaceAttributeChoice("Maneuver", Maneuver.values()))
+            .addChoice(new ReplaceAttributeChoice<>("Maneuver", Maneuver.values()))
             .addAttributeChoice(2, "Maneuver", Maneuver.values());
         gen.level(7).addAttributes(KNOW_YOUR_ENEMY);
         gen.level(15).addAttributes(RELENTLESS);

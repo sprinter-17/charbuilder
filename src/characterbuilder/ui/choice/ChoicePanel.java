@@ -22,7 +22,7 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
 
     private final Runnable listener;
     private final ChoiceModel choiceModel = new ChoiceModel();
-    private final JList<OptionChoice> choiceList = new JList(choiceModel);
+    private final JList<OptionChoice> choiceList = new JList<>(choiceModel);
     private final DetailPanel detailPanel = new DetailPanel();
     private final SelectionAction action = new SelectionAction(this::choiceMade);
     private final JSplitPane splitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -47,7 +47,8 @@ public class ChoicePanel extends JPanel implements ChoiceSelector {
         add(splitter, BorderLayout.CENTER);
     }
 
-    private void addChoiceList() {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	private void addChoiceList() {
         choiceList.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         ListCellRenderer renderer = choiceList.getCellRenderer();
         choiceList.setCellRenderer((list, val, i, sel, foc) -> renderer.

@@ -39,18 +39,21 @@ public class AttributeSet {
         return attributes.stream();
     }
 
-    public <T extends Attribute> T getAttribute(AttributeType type) {
+    @SuppressWarnings("unchecked")
+	public <T extends Attribute> T getAttribute(AttributeType type) {
         return (T) getAttributes(type)
             .findAny().orElse(NULL_ATTRIBUTE);
     }
 
-    public <T extends Attribute> Stream<T> getAttributes(AttributeType type, Class<T> attrClass) {
+    @SuppressWarnings("unchecked")
+	public <T extends Attribute> Stream<T> getAttributes(AttributeType type, Class<T> attrClass) {
         return getAllAttributes()
             .filter(type::isTypeOfAttribute)
             .map(attr -> (T) attr);
     }
 
-    public <T extends Attribute> Stream<T> getAttributes(AttributeType type) {
+    @SuppressWarnings("unchecked")
+	public <T extends Attribute> Stream<T> getAttributes(AttributeType type) {
         assert type != null;
         return getAllAttributes()
             .filter(type::isTypeOfAttribute)

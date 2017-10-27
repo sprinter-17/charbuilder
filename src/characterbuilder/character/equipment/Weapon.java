@@ -1,30 +1,35 @@
 package characterbuilder.character.equipment;
 
-import characterbuilder.character.Character;
-import characterbuilder.character.ability.FightingStyle;
-import characterbuilder.character.ability.Proficiency;
-import characterbuilder.character.ability.WeaponProficiency;
-import characterbuilder.character.attribute.Attribute;
 import static characterbuilder.character.attribute.AttributeType.DEXTERITY;
 import static characterbuilder.character.attribute.AttributeType.STRENGTH;
-import characterbuilder.character.attribute.DamageType;
-import static characterbuilder.character.attribute.DamageType.*;
-import characterbuilder.character.attribute.Value;
+import static characterbuilder.character.attribute.DamageType.BLUDGEONING;
+import static characterbuilder.character.attribute.DamageType.PIERCING;
+import static characterbuilder.character.attribute.DamageType.SLASHING;
 import static characterbuilder.character.attribute.Value.cp;
-import characterbuilder.character.attribute.Weight;
 import static characterbuilder.character.attribute.Weight.OZ;
 import static characterbuilder.character.attribute.Weight.lb;
 import static characterbuilder.character.equipment.EquipmentCategory.MARTIAL_MELEE;
 import static characterbuilder.character.equipment.EquipmentCategory.MARTIAL_RANGED;
 import static characterbuilder.character.equipment.EquipmentCategory.SIMPLE_MELEE;
 import static characterbuilder.character.equipment.EquipmentCategory.SIMPLE_RANGED;
-import characterbuilder.utils.StringUtils;
-import java.util.Arrays;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
+
 import org.w3c.dom.Node;
+
+import characterbuilder.character.Character;
+import characterbuilder.character.ability.FightingStyle;
+import characterbuilder.character.ability.Proficiency;
+import characterbuilder.character.ability.WeaponProficiency;
+import characterbuilder.character.attribute.Attribute;
+import characterbuilder.character.attribute.DamageType;
+import characterbuilder.character.attribute.Value;
+import characterbuilder.character.attribute.Weight;
+import characterbuilder.utils.StringUtils;
 
 public enum Weapon implements Equipment {
 
@@ -82,7 +87,7 @@ public enum Weapon implements Equipment {
     private final Value cost;
     private final Weight weight;
     private final Attribute proficiency;
-    private final BiFunction<Weapon, Character, Attack>[] attacks;
+    private final List<BiFunction<Weapon, Character, Attack>> attacks;
 
     private static int melee(Character character) {
         return character.getModifier(STRENGTH);
@@ -137,13 +142,22 @@ public enum Weapon implements Equipment {
     }
 
     private Weapon(EquipmentCategory category, Value cost, Weight weight,
-        BiFunction<Weapon, Character, Attack>... attacks) {
-        this.category = category;
-        this.cost = cost;
-        this.weight = weight;
-        this.proficiency = new WeaponProficiency(this);
-        this.attacks = attacks;
-    }
+            BiFunction<Weapon, Character, Attack> attack1) {
+            this.category = category;
+            this.cost = cost;
+            this.weight = weight;
+            this.proficiency = new WeaponProficiency(this);
+            this.attacks = List.of(attack1);
+        }
+
+    private Weapon(EquipmentCategory category, Value cost, Weight weight,
+            BiFunction<Weapon, Character, Attack> attack1, BiFunction<Weapon, Character, Attack> attack2) {
+            this.category = category;
+            this.cost = cost;
+            this.weight = weight;
+            this.proficiency = new WeaponProficiency(this);
+            this.attacks = List.of(attack1, attack2);
+        }
 
     @Override
     public EquipmentCategory getCategory() {
@@ -156,7 +170,7 @@ public enum Weapon implements Equipment {
     }
 
     public Stream<Attack> getAttacks(Character character) {
-        return Arrays.stream(attacks).map(at -> at.apply(this, character));
+        return attacks.stream().map(at -> at.apply(this, character));
     }
 
     @Override

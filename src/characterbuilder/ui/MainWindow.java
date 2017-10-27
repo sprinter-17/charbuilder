@@ -92,6 +92,7 @@ public class MainWindow {
         });
     }
 
+    @SafeVarargs
     private void addTool(String name, Runnable runnable, Supplier<Boolean>... conditions) {
         Action action = new AbstractAction(name) {
             @Override
@@ -106,6 +107,7 @@ public class MainWindow {
         tools.add(action);
     }
 
+    @SafeVarargs
     private void addTool(String name, Consumer<MouseEvent> runnable, Supplier<Boolean>... conditions) {
         JButton action = new JButton(name);
         action.addMouseListener(new MouseAdapter() {

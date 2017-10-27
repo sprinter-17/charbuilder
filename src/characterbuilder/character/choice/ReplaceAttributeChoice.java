@@ -33,6 +33,7 @@ public class ReplaceAttributeChoice<T extends Attribute> extends OptionChoice {
         this.attributes = attributes;
     }
 
+    @SafeVarargs
     public ReplaceAttributeChoice(String name, T... attributes) {
         this(name, ch -> Arrays.stream(attributes));
     }

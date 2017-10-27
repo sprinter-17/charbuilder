@@ -23,7 +23,9 @@ public class Height implements Comparable<Height>, Attribute {
 
     public static class HeightFormatException extends Exception {
 
-        public HeightFormatException(String txt) {
+		private static final long serialVersionUID = -4322271088334486424L;
+
+		public HeightFormatException(String txt) {
             super("\"" + txt + "\" is not a valid height value");
         }
     }

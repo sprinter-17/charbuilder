@@ -41,7 +41,7 @@ public class CharacterSaverTest {
 
     private CharacterSaver saver;
     private Character character;
-    private String xml;
+//    private String xml;
 
     @Before
     public void setup() {
@@ -171,7 +171,7 @@ public class CharacterSaverTest {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             saver.save(character, out);
-            xml = out.toString();
+//            xml = out.toString();
             ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
             character = saver.load(in);
         } catch (IOException | SAXException ex) {

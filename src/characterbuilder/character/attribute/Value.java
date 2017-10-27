@@ -20,7 +20,9 @@ public class Value implements Savable {
 
     public static class ValueFormatException extends Exception {
 
-        public ValueFormatException(String code) {
+		private static final long serialVersionUID = 2774809105199124347L;
+
+		public ValueFormatException(String code) {
             super("\"" + code + "\" is not in correct value format");
         }
 

@@ -33,7 +33,7 @@ public interface Attribute extends Option {
     default Element save(Document doc) {
         if (this instanceof Enum) {
             Element element = getType().save(doc);
-            element.setTextContent(((Enum) this).name());
+            element.setTextContent(((Enum<?>) this).name());
             return element;
         } else {
             throw new AbstractMethodError("No save method for " + getClass().getName());

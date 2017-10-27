@@ -57,9 +57,9 @@ public interface Equipment extends Option {
 
     @Override
     public default Element save(Document doc) {
-        if (this instanceof Enum) {
+        if (this instanceof Enum<?>) {
             Element element = doc.createElement(getCategory().name().toLowerCase());
-            element.setTextContent(((Enum) this).name());
+            element.setTextContent(((Enum<?>) this).name());
             return element;
         } else {
             throw new AbstractMethodError("object " + getClass().getName() + " does not have save");

@@ -10,13 +10,13 @@ import org.junit.Test;
 
 public class ReplaceAttributeChoiceTest {
 
-    private ReplaceAttributeChoice choice;
+    private ReplaceAttributeChoice<?> choice;
     private Character character;
     private TestChoiceSelector selector;
 
     @Before
     public void setup() {
-        choice = new ReplaceAttributeChoice("Test", ch -> Arrays.stream(Skill.values()));
+        choice = new ReplaceAttributeChoice<>("Test", ch -> Arrays.stream(Skill.values()));
         character = new Character();
         selector = new TestChoiceSelector();
         character.addChoiceList(selector);

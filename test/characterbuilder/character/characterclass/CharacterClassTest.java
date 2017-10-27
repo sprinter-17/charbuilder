@@ -125,9 +125,9 @@ public class CharacterClassTest {
 
     @Test
     public void testMultipleCharacterGeneration() {
-        setLogging(Level.ALL);
+        setLogging(Level.OFF);
         InitialChoiceGenerator init = new InitialChoiceGenerator();
-        for (int i = 1; i <= 2000; i++) {
+        for (int i = 1; i <= 1000; i++) {
             selector = new IterativeSelector(i);
             LOG.info("Character #" + i);
             character = new TestCharacter();

@@ -24,7 +24,8 @@ public class TestChoiceSelector implements ChoiceSelector {
         return this;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public <T extends Option> void chooseOption(Stream<T> options, Consumer<T> followUp) {
         optionList = options.collect(toList());
         if (attribute.isPresent())

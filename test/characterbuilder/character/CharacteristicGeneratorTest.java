@@ -18,7 +18,7 @@ public class CharacteristicGeneratorTest {
     private Random random;
     private CharacteristicGenerator generator;
 
-    @Before
+	@Before
     public void setup() {
         random = new Random() {
             @Override

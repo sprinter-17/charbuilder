@@ -23,7 +23,9 @@ public class Weight implements Comparable<Weight>, Attribute {
 
     public static class WeightFormatException extends Exception {
 
-        public WeightFormatException(String text) {
+		private static final long serialVersionUID = -3973417120632882359L;
+
+		public WeightFormatException(String text) {
             super("\"" + text + "\" is not in correct Weight format");
         }
     }
