@@ -21,11 +21,11 @@ public class TestMatchers {
         return new TypeSafeDiagnosingMatcher<Character>() {
             @Override
             protected boolean matchesSafely(Character ch, Description desc) {
-                if (ch.getChoiceCount() == 0) {
+                if (!ch.hasChoices()) {
                     desc.appendText("has no choices");
                 } else {
                     desc.appendText("has choices ")
-                        .appendText(ch.getAllChoices().map(Choice::toString)
+                        .appendText(ch.getAllowedChoices().map(Choice::toString)
                             .collect(joining(",", "[", "]")));
                 }
                 return ch.hasChoice(choice);

@@ -71,13 +71,14 @@ public class MainWindow {
             () -> character.isPresent(),
             () -> character.get().isDirty(),
             () -> character.get().hasAttribute(AttributeType.NAME),
-            () -> character.get().getChoiceCount() == 0);
+            () -> !character.get().hasChoices());
         addTool("Level Up", this::levelUp,
             () -> character.isPresent(),
-            () -> character.get().getChoiceCount() == 0,
+            () -> !character.get().hasChoices(),
             () -> character.get().getLevel() < 20);
         addTool("Show Character Sheet", this::showCharacterSheet,
-            () -> character.isPresent(), () -> character.get().getChoiceCount() == 0);
+            () -> character.isPresent(), 
+            () -> !character.get().hasChoices());
         addTool("Exit", this::exit);
         frame.add(tools, BorderLayout.NORTH);
     }

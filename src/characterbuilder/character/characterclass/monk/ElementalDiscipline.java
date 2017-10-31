@@ -69,7 +69,7 @@ public enum ElementalDiscipline implements Attribute {
                     if (opt != NoOption.NONE) {
                         ElementalDiscipline discipline = (ElementalDiscipline) opt;
                         character.removeAttribute(discipline);
-                        Optional<OptionChoice> choice = character.getAllChoices()
+                        Optional<OptionChoice> choice = character.getAllowedChoices()
                             .filter(ch -> ch.getName().equals("Elemental Discipline"))
                             .findAny();
                         if (choice.isPresent()) {

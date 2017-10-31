@@ -251,9 +251,9 @@ public class CharacterTest {
         TestOptionChoice choice = new TestOptionChoice();
         choice.setAllowed(false);
         character.addChoice(choice);
-        assertThat(character.getChoiceCount(), is(0));
+        assertThat(character.getAllowedChoices().count(), is(0L));
         choice.setAllowed(true);
-        assertThat(character.getChoiceCount(), is(1));
+        assertThat(character.getAllowedChoices().count(), is(1L));
     }
 
     @Test

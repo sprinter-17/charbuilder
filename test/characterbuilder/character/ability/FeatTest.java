@@ -68,7 +68,7 @@ public class FeatTest {
         IntStream.rangeClosed(1, 4).forEach(i -> {
             assertTrue(Feat.ELEMENTAL_ADEPT.isAllowed(character));
             Feat.ELEMENTAL_ADEPT.choose(character);
-            character.selectChoice(character.getChoice(0));
+            character.selectChoice(character.getAllowedChoices().findAny().get());
             assertThat(character.getAttributeCount(AttributeType.ELEMENTAL_ADEPT), is(i));
         });
         assertFalse(Feat.ELEMENTAL_ADEPT.isAllowed(character));

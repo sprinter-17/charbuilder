@@ -97,6 +97,10 @@ public class CharacterClassTest {
             count = (241 * count + 2287) % 305017;
             return result;
         }
+        
+        private int count(long mod) {
+        		return count((int)mod);
+        }
     };
 
     @Test
@@ -165,14 +169,14 @@ public class CharacterClassTest {
     }
 
     private void exhaustChoices(int count, Character character) {
-        while (character.getChoiceCount() > 0) {
-            OptionChoice choice = character.getChoice(selector.count(character.getChoiceCount()));
+        while (character.hasChoices()) {
+            OptionChoice choice = getChoice(character);
             LOG.fine("    Choosing " + choice.toString());
             try {
                 character.selectChoice(choice);
-                LOG.fine("      Choices: " + character.getAllChoices()
+                LOG.fine("      Choices: " + character.getAllowedChoices()
                     .limit(3).map(Object::toString).collect(joining(","))
-                    + (character.getChoiceCount() > 3 ? "..." : ""));
+                    + (character.getAllowedChoices().count() > 3 ? "..." : ""));
             } catch (IllegalStateException | IllegalArgumentException ex) {
                 String message = count + ":"
                     + character.getAttribute(AttributeType.RACE).toString() + " "
@@ -182,5 +186,10 @@ public class CharacterClassTest {
                 throw new AssertionError(message);
             }
         }
+    }
+    
+    private OptionChoice getChoice(Character character) {
+    		int i = selector.count(character.getAllowedChoices().count());
+    		return character.getAllowedChoices().skip(i).findFirst().orElseThrow(IllegalStateException::new);
     }
 }
