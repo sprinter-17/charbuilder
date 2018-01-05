@@ -118,7 +118,7 @@ public enum DivineDomain implements Attribute {
         READ_THOUGHTS(ability()
             .withDescription("As an action, read thoughts and cast suggestion on 1 creature "
                 + "within 60 feet.")
-            .withDescription("Wis. save DC[$spell_dc].")),
+            .withDescription("Wis. save DC[8 + $prof + $wis_mod].")),
         POTENT_SPELLCASTING(ability()
             .withDescription("Add [$wis_mod] to damage from cantrips.")),
         VISIONS_OF_THE_PAST(ability()
@@ -158,7 +158,7 @@ public enum DivineDomain implements Attribute {
             .withDescription("")),
         CHARM_ANIMALS_AND_PLANTS(ability()
             .withName("Channel Divinity: Charm Animals and Plants")
-            .withDescription("Each best and plant within 30 feet is charmed for 1 minute. "
+            .withDescription("Each beast and plant within 30 feet is charmed for 1 minute. "
                 + "Wis. save.")),
         DAMPEN_ELEMENTS(ability()
             .withDescription("As a reaction to an ally within 30 feet taking acid, cold, fire, "

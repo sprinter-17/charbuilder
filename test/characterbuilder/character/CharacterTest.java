@@ -23,8 +23,8 @@ import characterbuilder.character.equipment.Armour;
 import characterbuilder.character.equipment.Attack;
 import characterbuilder.character.equipment.MagicItem;
 import characterbuilder.character.equipment.Weapon;
+import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.utils.TestCharacter;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -251,14 +251,14 @@ public class CharacterTest {
         TestOptionChoice choice = new TestOptionChoice();
         choice.setAllowed(false);
         character.addChoice(choice);
-        assertThat(character.getAllowedChoices().count(), is(0L));
+        assertThat(character.getChoiceCount(), is(0));
         choice.setAllowed(true);
-        assertThat(character.getAllowedChoices().count(), is(1L));
+        assertThat(character.getChoiceCount(), is(1));
     }
 
     @Test
     public void testSpellAttacks() {
-        character.addAttribute(new SpellAbility(Spell.CHILL_TOUCH, CONSTITUTION));
+        character.addAttribute(new LearntSpell(Spell.CHILL_TOUCH, CONSTITUTION));
         Attack cantrip = character.getAttacks().filter(at -> at.getName().equals("Chill Touch"))
             .findAny().get();
         assertThat(cantrip.getRange(), is("120"));
@@ -291,6 +291,16 @@ public class CharacterTest {
         assertThat(character.allowedMultiClasses().count(), is(3L));
         CharacterClass.WARLOCK.choose(character);
         assertThat(character.allowedMultiClasses().count(), is(2L));
+    }
+
+    @Test
+    public void testHitDiceForMultiClass() {
+        character.setLevel(CharacterClass.FIGHTER, 3);
+        assertThat(character.getHitDice(), is("3d10"));
+        character.setLevel(CharacterClass.PALADIN, 2);
+        assertThat(character.getHitDice(), is("5d10"));
+        character.setLevel(CharacterClass.CLERIC, 7);
+        assertThat(character.getHitDice(), is("5d10/7d8"));
     }
 
     private void setLevel(CharacterClass charClass, int level) {

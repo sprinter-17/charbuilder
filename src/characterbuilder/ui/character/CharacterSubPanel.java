@@ -1,5 +1,8 @@
 package characterbuilder.ui.character;
 
+import characterbuilder.character.Character;
+import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.attribute.StringAttribute;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,8 +15,8 @@ import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
-
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -22,10 +25,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
-
-import characterbuilder.character.Character;
-import characterbuilder.character.attribute.AttributeType;
-import characterbuilder.character.attribute.StringAttribute;
 
 public class CharacterSubPanel extends JPanel {
 
@@ -89,6 +88,11 @@ public class CharacterSubPanel extends JPanel {
             return character.getAttribute(attribute).toString();
         else
             return null;
+    }
+
+    protected void attributeValue(JComboBox combo, Object value) {
+        combo.setEnabled(true);
+        combo.setSelectedItem(value);
     }
 
     protected void update(JSpinner spinner, int value) {

@@ -125,8 +125,8 @@ public class SpellDelegate {
         return this;
     }
 
-    public Stream<String> getEffects(Character character) {
-        return effects.stream().map(ef -> StringUtils.expand(ef, character));
+    public Stream<String> getEffects() {
+        return effects.stream();
     }
 
     public SpellDelegate attack(String damage, DamageType type) {

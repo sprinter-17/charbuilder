@@ -71,14 +71,13 @@ public class MainWindow {
             () -> character.isPresent(),
             () -> character.get().isDirty(),
             () -> character.get().hasAttribute(AttributeType.NAME),
-            () -> !character.get().hasChoices());
+            () -> character.get().getChoiceCount() == 0);
         addTool("Level Up", this::levelUp,
             () -> character.isPresent(),
-            () -> !character.get().hasChoices(),
+            () -> character.get().getChoiceCount() == 0,
             () -> character.get().getLevel() < 20);
         addTool("Show Character Sheet", this::showCharacterSheet,
-            () -> character.isPresent(), 
-            () -> !character.get().hasChoices());
+            () -> character.isPresent(), () -> character.get().getChoiceCount() == 0);
         addTool("Exit", this::exit);
         frame.add(tools, BorderLayout.NORTH);
     }
@@ -93,7 +92,6 @@ public class MainWindow {
         });
     }
 
-    @SafeVarargs
     private void addTool(String name, Runnable runnable, Supplier<Boolean>... conditions) {
         Action action = new AbstractAction(name) {
             @Override
@@ -108,7 +106,6 @@ public class MainWindow {
         tools.add(action);
     }
 
-    @SafeVarargs
     private void addTool(String name, Consumer<MouseEvent> runnable, Supplier<Boolean>... conditions) {
         JButton action = new JButton(name);
         action.addMouseListener(new MouseAdapter() {
@@ -207,8 +204,10 @@ public class MainWindow {
     private void levelUp(MouseEvent e) {
         JPopupMenu menu = new JPopupMenu();
         character.get().getCharacterClasses().forEach(cc -> addLevelUpAction(menu, cc));
-        menu.addSeparator();
-        character.get().allowedMultiClasses().forEach(cc -> addLevelUpAction(menu, cc));
+        if (character.get().allowedMultiClasses().findAny().isPresent()) {
+            menu.addSeparator();
+            character.get().allowedMultiClasses().forEach(cc -> addLevelUpAction(menu, cc));
+        }
         menu.show(e.getComponent(), e.getX(), e.getY());
     }
 

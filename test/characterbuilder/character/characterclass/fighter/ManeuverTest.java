@@ -4,6 +4,8 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.fighter.Maneuver.*;
 import characterbuilder.utils.TestCharacter;
+import static java.util.stream.Collectors.joining;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -19,15 +21,20 @@ public class ManeuverTest {
     @Test
     public void testDescription() {
         TestCharacter character = new TestCharacter().withScores(10);
+        assertThat(parryDescription(character), containsString("1d6"));
         character.setLevel(CharacterClass.FIGHTER, 3);
-        assertTrue(PARRY.getDescription(character).anyMatch(desc -> desc.contains("1d8.")));
+        assertThat(parryDescription(character), containsString("1d8"));
         character.setLevel(CharacterClass.FIGHTER, 9);
-        assertTrue(PARRY.getDescription(character).anyMatch(desc -> desc.contains("1d8.")));
+        assertThat(parryDescription(character), containsString("1d8"));
         character.setLevel(CharacterClass.FIGHTER, 10);
-        assertTrue(PARRY.getDescription(character).anyMatch(desc -> desc.contains("1d10.")));
+        assertThat(parryDescription(character), containsString("1d10"));
         character.setScore(AttributeType.DEXTERITY, 15);
-        assertTrue(PARRY.getDescription(character).anyMatch(desc -> desc.contains("1d10+2.")));
+        assertThat(parryDescription(character), containsString("1d10+2"));
         character.setScore(AttributeType.DEXTERITY, 5);
-        assertTrue(PARRY.getDescription(character).anyMatch(desc -> desc.contains("1d10-3.")));
+        assertThat(parryDescription(character), containsString("1d10-3"));
+    }
+
+    private String parryDescription(TestCharacter character) {
+        return PARRY.getDescription(character).collect(joining());
     }
 }

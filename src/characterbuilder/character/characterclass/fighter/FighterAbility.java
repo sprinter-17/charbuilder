@@ -11,16 +11,16 @@ import org.w3c.dom.Element;
 
 public enum FighterAbility implements Attribute {
     EXTRA_ATTACK(delegate()
-        .withDescription("Attack [max($level 5:two, 11:three, 20:four)] "
+        .withDescription("Attack [max($fighter_level 5:two, 11:three, 20:four)] "
             + "times in each attack action.")),
     INDOMITABLE(delegate()
-        .withDescription("Reroll [max($level 9:one, 13:two, 17:three)] "
+        .withDescription("Reroll [max($fighter_level 9:one, 13:two, 17:three)] "
             + "failed saving [plural(throw,throws)] between each rest.")),
     SECOND_WIND(delegate()
         .withDescription("Use a bonus action to regain 1d10+[$level] hit points.")
         .withDescription("Use once between each rest.")),
     ACTION_SURGE(delegate()
-        .withDescription("Take an additional action [max($level 2:one time, 17:two times)] "
+        .withDescription("Take an additional action [max($fighter_level 2:one time, 17:two times)] "
             + "between each rest.")),
     IMPROVED_CRITICAL(delegate()
         .withDescription("Score a critical on a roll of 19 or 20.")),
@@ -32,8 +32,8 @@ public enum FighterAbility implements Attribute {
             + "if no more than [$hp / 2] hit points remaining.")),
     COMBAT_SUPERIORITY(delegate()
         .withDescription("Can use one maneuver per attack.")
-        .withDescription("[max($level 3:4,7:5,15:6)] [max($level 3:1d8,10:1d10,18:1d12)] "
-            + "superiority dice.")
+        .withDescription("[max($fighter_level 3:4,7:5,15:6)] "
+            + "[max($fighter_level 3:1d8,10:1d10,18:1d12)] superiority dice.")
         .withDescription("Regain expended superiority dice after rest.")
         .withDescription("Maneuver save DC [8+$prof+max($str_mod,$dex_mod)].")),
     KNOW_YOUR_ENEMY(delegate()
@@ -43,7 +43,7 @@ public enum FighterAbility implements Attribute {
     RELENTLESS(delegate()
         .withDescription("On initiative, regain 1 superiority die if none remaining.")),
     WAR_MAGIC(delegate()
-        .withDescription("On casting a [max($level 7:cantrip,18:spell)], "
+        .withDescription("On casting a [max($fighter_level 7:cantrip,18:spell)], "
             + "make one weapon attack as a bonus action.")),
     ELDRITCH_STRIKE(delegate()
         .withDescription("On hitting with a weapon, "

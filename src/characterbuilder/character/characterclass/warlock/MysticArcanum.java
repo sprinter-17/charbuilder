@@ -6,8 +6,8 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.OptionChoice;
+import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellAbility;
 import java.util.Objects;
 import java.util.stream.Stream;
 import org.w3c.dom.Document;
@@ -52,7 +52,7 @@ public class MysticArcanum implements Attribute {
     @Override
     public void choose(Character character) {
         Attribute.super.choose(character);
-        character.addAttribute(new SpellAbility(spell, AttributeType.CHARISMA));
+        character.addAttribute(new LearntSpell(spell, AttributeType.CHARISMA));
     }
 
     @Override

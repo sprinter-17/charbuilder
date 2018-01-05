@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
 
 public enum SorcererAbility implements Attribute {
     FONT_OF_MAGIC(AttributeDelegate.delegate()
-        .withDescription("[$level] sorcery points. ")
+        .withDescription("[$sorcerer_level] sorcery points. ")
         .withDescription("As a bonus action, convert sorcery points to spell slots. "
             + "2 1st, 3 2nd, 5 3rd, 6 4th 7 5th. ")
         .withDescription("Or convert spell slots to sorcery points. "

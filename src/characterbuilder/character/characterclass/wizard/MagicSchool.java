@@ -7,8 +7,8 @@ import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.INTELLIGENCE;
 import static characterbuilder.character.characterclass.CharacterClass.WIZARD;
 import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
+import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.StringUtils;
 import java.util.stream.Stream;
@@ -118,7 +118,7 @@ public enum MagicSchool implements Attribute {
         IMPROVED_MINOR_ILLUSION(magicSchool()
             .withDescription("On casting <em>Minor Illusion</em>, both sound and image created.")
             .withAction("Cantrip", ch -> {
-                Attribute minorIllusion = new SpellAbility(Spell.MINOR_ILLUSION, INTELLIGENCE);
+                Attribute minorIllusion = new LearntSpell(Spell.MINOR_ILLUSION, INTELLIGENCE);
                 if (ch.hasAttribute(minorIllusion))
                     ch.addChoice(0, cantripChoice(1, INTELLIGENCE));
                 else

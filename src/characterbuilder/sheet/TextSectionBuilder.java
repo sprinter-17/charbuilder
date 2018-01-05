@@ -113,8 +113,7 @@ public class TextSectionBuilder {
     private String spellDescription(List<LearntSpell> spells) {
         return spells.stream().collect(groupingBy(LearntSpell::getLevel))
             .entrySet().stream().sorted(Map.Entry.comparingByKey())
-            .map(e -> spellLevelText(e.getKey(), e.getValue()))
-            .collect(joining());
+            .map(e -> spellLevelText(e.getKey(), e.getValue())).collect(joining());
     }
 
     private String spellLevelText(int level, List<LearntSpell> spells) {
@@ -127,7 +126,8 @@ public class TextSectionBuilder {
             + "<th>Range</th><th>Area</th><th>Duration</th></tr>");
         spells.stream()
             .sorted(Comparator.comparing(ls -> ls.getSpell().toString()))
-            .forEach(spell -> spellText(text, spell, spells.indexOf(spell) % 2 == 0));
+            .forEach(spell
+                -> spellText(text, spell, spells.indexOf(spell) % 2 == 0));
         text.append("</table>");
         return text.toString();
     }
@@ -149,7 +149,7 @@ public class TextSectionBuilder {
         text.append("</tr>");
         text.append(tr)
             .append("<td/><td colspan='6'><em>")
-            .append(learntSpell.getSpell().getEffects(character).collect(joining("<br>")))
+            .append(learntSpell.getEffects(character).collect(joining("<br>")))
             .append("</em></td></tr>");
     }
 

@@ -47,7 +47,7 @@ public class MainPage extends Page {
 
     private PageBuilder.Component classAndRace() {
         return builder.borderedSection(28, 0, 72, 8)
-            .with(builder.field("Class & Level", attr(CHARACTER_CLASS), 10, 1))
+            .with(builder.field("Class & Level", character.getClassLevelDescription(), 10, 1))
             .with(builder.field("Race", attr(RACE) + " (" + attr(SEX) + ")", 10, 2))
             .with(builder.field("Background", attr(BACKGROUND), 28, 2))
             .with(builder.field("Alignment", attr(ALIGNMENT), 10, 3))

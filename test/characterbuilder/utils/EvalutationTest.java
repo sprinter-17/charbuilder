@@ -5,7 +5,8 @@ import characterbuilder.character.attribute.DraconicAncestry;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.characterclass.CharacterClass;
-import characterbuilder.character.spell.SpellCasting;
+import characterbuilder.character.spell.LearntSpell;
+import characterbuilder.character.spell.Spell;
 import static characterbuilder.utils.ExpressionParser.eval;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
@@ -49,6 +50,20 @@ public class EvalutationTest {
     @Test
     public void testLevelExpression() {
         assertThat(eval("$level", context), is("1"));
+    }
+
+    @Test
+    public void testClassLevel() {
+        assertThat(eval("$fighter_level", context), is("0"));
+        character.setLevel(CharacterClass.FIGHTER, 4);
+        assertThat(eval("$fighter_level", context), is("4"));
+    }
+
+    @Test
+    public void testClassLevelMax() {
+        assertThat(eval("max($fighter_level 0:1,1:2)", context), is("1"));
+        character.setLevel(CharacterClass.FIGHTER, 1);
+        assertThat(eval("max($fighter_level 0:1,1:2)", context), is("2"));
     }
 
     @Test
@@ -103,9 +118,8 @@ public class EvalutationTest {
 
     @Test
     public void testSpellModAndDC() {
-        character.addAttribute(new SpellCasting("Spellcasting", AttributeType.DEXTERITY,
-            CharacterClass.WIZARD, "All"));
         character.addAttribute(new IntAttribute(AttributeType.DEXTERITY, 14));
+        context.setSpell(new LearntSpell(Spell.SHIELD, AttributeType.DEXTERITY, true));
         assertThat(eval("$spell_mod", context), is("4"));
         assertThat(eval("$spell_dc", context), is("12"));
     }

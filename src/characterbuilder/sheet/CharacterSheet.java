@@ -22,8 +22,7 @@ import javax.swing.JToolBar;
 
 public class CharacterSheet extends JFrame {
 
-	private static final long serialVersionUID = -6980757608649199851L;
-	private final PageBuilder builder = new PageBuilder();
+    private final PageBuilder builder = new PageBuilder();
     private final JButton zoomInButton = new JButton("+");
     private final JButton zoomOutButton = new JButton("-");
     private final JButton previousButton = new JButton("<<");
@@ -38,9 +37,7 @@ public class CharacterSheet extends JFrame {
 
     private class ImagePanel extends JPanel {
 
-		private static final long serialVersionUID = -513554483630770511L;
-
-		@Override
+        @Override
         public Dimension getPreferredSize() {
             return new Dimension(builder.getWidth(zoom), builder.getHeight(zoom));
         }
@@ -108,6 +105,7 @@ public class CharacterSheet extends JFrame {
     private void buildPages(Character character) {
         MainPage.getPages(character).forEach(pages::add);
         BackgroundPage.getPages(character).forEach(pages::add);
+        new BeastPage(character).getPages().forEach(pages::add);
         SpellPage spellPage = new SpellPage(character);
         spellPage.getPages().forEach(pages::add);
     }

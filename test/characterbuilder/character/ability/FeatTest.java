@@ -1,10 +1,8 @@
 package characterbuilder.character.ability;
 
-import characterbuilder.character.Character;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.characterclass.CharacterClass;
-import characterbuilder.character.choice.TestChoiceSelector;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.TestCharacter;
 import java.util.stream.IntStream;
@@ -17,12 +15,11 @@ import org.junit.Test;
 
 public class FeatTest {
 
-    private Character character;
+    private TestCharacter character;
 
     @Before
     public void setup() {
         character = new TestCharacter().withScores(10);
-        character.addChoiceList(new TestChoiceSelector());
     }
 
     @Test
@@ -68,7 +65,7 @@ public class FeatTest {
         IntStream.rangeClosed(1, 4).forEach(i -> {
             assertTrue(Feat.ELEMENTAL_ADEPT.isAllowed(character));
             Feat.ELEMENTAL_ADEPT.choose(character);
-            character.selectChoice(character.getAllowedChoices().findAny().get());
+            character.selectChoice(character.getChoice(0));
             assertThat(character.getAttributeCount(AttributeType.ELEMENTAL_ADEPT), is(i));
         });
         assertFalse(Feat.ELEMENTAL_ADEPT.isAllowed(character));

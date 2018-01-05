@@ -40,8 +40,7 @@ import javax.swing.tree.TreePath;
 
 public class InventoryPanel extends CharacterSubPanel {
 
-	private static final long serialVersionUID = -6618015510275497158L;
-	private final JButton buyButton = new JButton("Buy");
+    private final JButton buyButton = new JButton("Buy");
     private final JButton addButton = new JButton("Add");
     private final JButton removeButton = new JButton("Remove");
     private final JButton editButton = new JButton("Edit");
@@ -142,7 +141,7 @@ public class InventoryPanel extends CharacterSubPanel {
         popup.show(addButton, 0, 0);
     }
 
-	private Action addTreasure(AdventureGear treasure) {
+    private Action addTreasure(AdventureGear treasure) {
         return new AbstractAction(treasure.toString() + "s") {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -151,7 +150,7 @@ public class InventoryPanel extends CharacterSubPanel {
         };
     }
 
-	private Action addItemAction(Equipment equipment, boolean buy) {
+    private Action addItemAction(Equipment equipment, boolean buy) {
         return new AbstractAction(equipmentDescription(equipment)) {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -160,7 +159,7 @@ public class InventoryPanel extends CharacterSubPanel {
         };
     }
 
-	private Action addCustomTreasure() {
+    private Action addCustomTreasure() {
         return new AbstractAction("Custom...") {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -17,10 +17,10 @@ public enum PaladinAbility implements Attribute {
     IMPROVED_DIVINE_SMITE(delegate()
         .withDescription("On hitting with melee attack, deal +1d8 radiant damage.")),
     AURA_OF_PROTECTION(delegate()
-        .withDescription("Paladin and allies within [max($level 6:10,18:30)] "
+        .withDescription("Paladin and allies within [max($paladin_level 6:10,18:30)] "
             + "feet gain +[$chr_mod] to saves.")),
     AURA_OF_COURAGE(delegate()
-        .withDescription("Paladin and allies within [max($level 6:10,18:30)] "
+        .withDescription("Paladin and allies within [max($paladin_level 6:10,18:30)] "
             + "feet cannot be frightened.")),
     CLEANSING_TOUCH(delegate()
         .withDescription("As action, end one spell on self or willing creature touched. "
@@ -30,7 +30,7 @@ public enum PaladinAbility implements Attribute {
             + "fiend or undead within 60 feet.")),
     LAY_ON_HANDS(delegate()
         .withDescription("As an action, restore HP. "
-            + "Restore a total of [$level * 5] HPs between each long rest. "
+            + "Restore a total of [$paladin_level * 5] HPs between each long rest. "
             + "Cure disease or neutralise poison requires 5 HP.")),
     DIVINE_HEALTH(delegate().withDescription("Immune to disease.")),
     SACRED_WEAPON(delegate().withName("Channel Divinity: Sacred Weapon")
@@ -38,7 +38,8 @@ public enum PaladinAbility implements Attribute {
     TURN_THE_UNHOLY(delegate().withName("Channel Divinity: Turn the Unholy")
         .withDescription("Each fiend and undead within 30 feet Wis. save or turned for 1 minute.")),
     AURA_OF_DEVOTION(delegate()
-        .withDescription("Paladin and allies within [max($level 7:10,18:30)] feet cannot be charmed.")),
+        .withDescription("Paladin and allies within [max($paladin_level 7:10,18:30)] "
+            + "feet cannot be charmed.")),
     PURITY_OF_SPIRIT(delegate()
         .withDescription("Aberrations, celestials, elementals, fey, fiends, "
             + "and undead have disadvantage on attacks against Paladin.")),
@@ -52,7 +53,7 @@ public enum PaladinAbility implements Attribute {
     TURN_THE_FAITHLESS(delegate()
         .withDescription("Channel Divinity: Turn the Faithless" + "Fey and fiend within 30 feet Wis. save or turned for 1 minute.")),
     AURA_OF_WARDING(delegate()
-        .withDescription("Paladin and allies within [max($level 7:10,18:30)] "
+        .withDescription("Paladin and allies within [max($paladin_level 7:10,18:30)] "
             + "feet have resistance to damage from spells.")),
     UNDYING_SENTINEL(delegate()
         .withDescription("When paladin would drop to 0 HP, drop to 1 HP.")),

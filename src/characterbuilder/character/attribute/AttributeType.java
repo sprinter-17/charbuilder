@@ -42,8 +42,8 @@ import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.characterclass.wizard.WizardAbility;
 import characterbuilder.character.equipment.MusicalInstrument;
 import characterbuilder.character.equipment.Weapon;
+import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.SignatureSpell;
-import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
@@ -110,7 +110,7 @@ public enum AttributeType {
     BACKGROUND_ABILITY(false, Background.Ability::load),
     ENTERTAINER_ROUTINE(false, Proficiency::load),
     GUILD_BUSINESS(false, Proficiency::load),
-    SPELL_ABILITY(false, SpellAbility::load),
+    SPELL_ABILITY(false, LearntSpell::load),
     SPELLCASTING(false, SpellCasting::load),
     SPELL_MASTERY(false, Ability::load),
     SIGNATURE_SPELL(true, SignatureSpell::load),

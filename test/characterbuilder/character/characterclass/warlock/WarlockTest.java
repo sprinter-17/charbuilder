@@ -1,10 +1,9 @@
 package characterbuilder.character.characterclass.warlock;
 
-import static characterbuilder.character.attribute.AttributeType.CHARISMA;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.utils.TestCharacter;
-import static org.junit.Assert.assertTrue;
+import static characterbuilder.utils.TestMatchers.hasSpellAbility;
+import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,6 +19,6 @@ public class WarlockTest {
     @Test
     public void testSpellAbility() {
         WarlockAbility.PACT_OF_THE_CHAIN.choose(warlock);
-        assertTrue(warlock.hasAttribute(new SpellAbility(Spell.FIND_FAMILIAR, CHARISMA)));
+        assertThat(warlock, hasSpellAbility(Spell.FIND_FAMILIAR));
     }
 }

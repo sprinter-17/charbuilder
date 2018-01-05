@@ -70,7 +70,7 @@ public class Warlock extends AbstractCharacterClass {
         gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.ALL_SIMPLE_WEAPONS);
         gen.level(1).addAttributeChoice("Otherworldy Patron", OtherwordlyPatron.values());
         gen.level(2).addChoice(EldritchInvocation.getChoice(2));
-        gen.cond(ch -> ch.getLevel() > 2).addChoice(EldritchInvocation.getReplacement());
+        gen.cond(ch -> ch.getLevel(WARLOCK) > 2).addChoice(EldritchInvocation.getReplacement());
         gen.level(5, 7, 9, 12, 15, 18).addChoice(EldritchInvocation.getChoice(1));
         gen.level(3).addChoice(new AttributeChoice("Pact Boon",
             PACT_OF_THE_CHAIN, WarlockAbility.PACT_OF_THE_BLADE, WarlockAbility.PACT_OF_THE_TOME));

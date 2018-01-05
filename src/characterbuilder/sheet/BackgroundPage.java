@@ -12,7 +12,6 @@ import characterbuilder.character.equipment.EquipmentCategory;
 import characterbuilder.character.equipment.MagicItem;
 import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellAbility;
 import static characterbuilder.sheet.EquipmentPlacement.BACK;
 import static characterbuilder.sheet.EquipmentPlacement.TREASURE;
 import characterbuilder.ui.character.PicturePanel.ImagePicture;
@@ -147,9 +146,8 @@ public class BackgroundPage extends Page {
     private Stream<LearntSpell> getSpells() {
         return character.getAllAttributes()
             .filter(attr -> attr.hasType(AttributeType.SPELL_ABILITY))
-            .map(attr -> ((SpellAbility) attr).getSpell())
-            .sorted(Spell.ORDER)
-            .map(sp -> new LearntSpell(sp, true));
+            .map(attr -> ((LearntSpell) attr))
+            .sorted(Comparator.comparing(LearntSpell::getSpell, Spell.ORDER));
     }
 
 }

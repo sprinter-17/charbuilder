@@ -12,8 +12,8 @@ import org.w3c.dom.Element;
 public enum DruidAbility implements Attribute {
     WILD_SHAPE(delegate()
         .withDescription("As an action, assume the shape of a beast of up to "
-            + "CR[max($level 2:1/4,4:1/2,8:1)].")
-        .withDescription("Use [max($level 2:twice,20:unlimited number of times)] between rests.")),
+            + "CR [max($druid_level 2:&frac14;,4:&frac12;,8:1)] for up to [$druid_level/2] hours.")
+        .withDescription("Use [max($druid_level 2:twice,20:unlimited number of times)] between rests.")),
     TIMELESS_BODY(delegate()
         .withDescription("Age at 1/10th normal rate.")),
     BEAST_SPELLS(delegate()

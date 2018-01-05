@@ -7,6 +7,7 @@ import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.attribute.DamageType;
 import characterbuilder.character.attribute.IntAttribute;
+import characterbuilder.character.characterclass.fighter.Maneuver;
 import characterbuilder.character.choice.AbilityScoreOrFeatIncrease;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.equipment.Weapon;
@@ -94,12 +95,15 @@ public enum Feat implements Attribute {
         .withDescription("As a reaction make a melee attack against a creature casting a spell. ")
         .withDescription("Disadvantage concentration checks when damage caused. ")
         .withDescription("Advantage on saves against engaged creatures. ")),
-    // choose a class: bard, cleric, druid, sorcerer, warlock, wizard
-    // learn two cantrips from that class. 1 first level spell cast as feat
-    // spellcasting ability depends on class: chr for bard, sorcerer, warlock
-    // wis for cleric or druid, int for wizard
-    MAGIC_INITIATE(feat()),
-    MARTIAL_ADEPT(feat()),
+    MAGIC_INITIATE(feat()
+        .withDescription("Learn 2 cantrips and 1 first level spell.")
+        .withChoice(new MagicInitiateChoice())),
+    MARTIAL_ADEPT(feat()
+        .withDescription("Can use one maneuver per attack.")
+        .withDescription("1 d6 superiority dice")
+        .withDescription("Regain expended superiority dice after rest.")
+        .withDescription("Maneuver save DC [8+$prof+max($str_mod,$dex_mod)].")
+        .withChoice(2, new AttributeChoice("Martial Adept Maneuver", Maneuver.values()))),
     MEDIUM_ARMOUR_MASTER(feat()
         .withPrerequisite(Proficiency.MEDIUM_ARMOUR)
         .withDescription("Medium armour does not impose disadvantage on Stealth.")
@@ -127,7 +131,7 @@ public enum Feat implements Attribute {
     SENTINEL(feat()
         .withDescription("On hit of an opportunity attack, target's speed becomes 0.")),
     SHARPSHOOTER(feat()
-        .withDescription("For ranged attacks: o disadvantage at long range; "
+        .withDescription("For ranged attacks: no disadvantage at long range; "
             + "ignore half and three-quarter cover; may choose -5 attack, +10 damage.")),
     SHIELD_MASTER(feat()
         .withDescription("As a bonus action attempt to shove a target when attacking. "

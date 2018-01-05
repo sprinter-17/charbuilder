@@ -78,8 +78,8 @@ public enum DruidCircle implements Attribute {
             .withDescription("Immune to poison and disease")),
         NATURES_SANCTUARY(delegate()
             .withName("Nature's Sanctuary")
-            .withDescription("Beasts and plant creatures must make Wis. save DC[$spell_dc] to "
-                + "attack Druid. On save, immune for 24 hours.")),
+            .withDescription("Beasts and plant creatures must make Wis. save "
+                + "DC[8 + $prof + $wis_mod] to attack Druid. On save, immune for 24 hours.")),
         COMBAT_WILD_SHAPE(delegate()
             .withDescription("Assume <em>Wild Shape</em> as bonus action rather than action.")
             .withDescription("As a bonus action in <em>Wild Shape</em>, expend a spell slot to "
@@ -172,7 +172,8 @@ public enum DruidCircle implements Attribute {
 
     private static void generateCircleSpells(Character character) {
         if (character.hasAttribute(AttributeType.TERRAIN)) {
-            Terrain terrain = character.getAttribute(AttributeType.TERRAIN);
+            Terrain terrain = character.getAttributes(AttributeType.TERRAIN, Terrain.class)
+                .findAny().get();
             Map<Integer, List<Spell>> spells = CIRCLE_SPELL_MAP.get(terrain);
             int level = character.getLevel();
             if (spells.containsKey(level)) {

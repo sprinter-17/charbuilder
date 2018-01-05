@@ -5,6 +5,7 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.DamageType;
 import characterbuilder.character.attribute.Value;
 import static characterbuilder.character.attribute.Value.gp;
+import characterbuilder.character.characterclass.warlock.EldritchInvocation;
 import characterbuilder.character.characterclass.wizard.MagicSchool;
 import characterbuilder.character.choice.Option;
 import characterbuilder.character.equipment.Attack;
@@ -53,7 +54,17 @@ public enum Spell implements Option {
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("120 feet").duration("Instantaneous")
         .attack("1d10", DamageType.FORCE)
-        .effect("[max($level 1:1,5:2,11:3,17:4)] ranged spell [plural(attack,attacks)]. ")),
+        .effect("[max($level 1:1,5:2,11:3,17:4)] ranged spell [plural(attack,attacks)]. ")) {
+        @Override
+        public Optional<Attack> getAttack(Character character, AttributeType ability) {
+            Attack attack = super.getAttack(character, ability).get();
+            if (character.hasAttribute(EldritchInvocation.AGONIZING_BLAST))
+                attack = attack.withDamageBonus(character.getModifier(AttributeType.CHARISMA));
+            if (character.hasAttribute(EldritchInvocation.ELDRITCH_SPEAR))
+                attack = attack.withRange("300");
+            return Optional.of(attack);
+        }
+    },
     FIRE_BOLT(spell(MagicSchool.EVOCATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("120 feet").area("1 creature or object").duration("Instantaneous")
@@ -91,7 +102,8 @@ public enum Spell implements Option {
     POISON_SPRAY(spell(MagicSchool.CONJURATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("10 feet").area("1 creature").duration("Instantaneous")
-        .effect("[max($level 1:1d12,5:2d12,11:3d12,17:4d12)] poison damage. Con. save.")),
+        .effect("Ranged spell attack. Con. save for half damage.")
+        .attack("[max($level 1:1d12,5:2d12,11:3d12,17:4d12)]", DamageType.POISON)),
     PRESTIDIGITATION(spell(MagicSchool.TRANSMUTATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("10 feet").area("1 cubic foot").duration("Up to 1 hour")
@@ -99,8 +111,9 @@ public enum Spell implements Option {
     PRODUCE_FLAME(spell(MagicSchool.CONJURATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("Self").area("Hand").duration("10 minutes")
-        .effect("Flame sheds bright light in a 10-foot radius and dim light for an additional 10 "
-            + "feet.\nRanged spell attack [max($level 1:1d8,5:2d8,11:3d8,17:4d8)] fire damage.")),
+        .effect("Ranged spell attack.")
+        .effect("Sheds bright light in a 10-foot radius and dim light for an additional 10 feet.")
+        .attack("[max($level 1:1d8,5:2d8,11:3d8,17:4d8)]", DamageType.FIRE)),
     RAY_OF_FROST(spell(MagicSchool.EVOCATION, 0)
         .castingTime("1 action").components(VERBAL, SOMATIC)
         .range("60 feet").area("1 creature").duration("Instantaneous")
@@ -931,11 +944,9 @@ public enum Spell implements Option {
     CONTROL_WATER(spell(MagicSchool.TRANSMUTATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC, MATERIAL)
         .range("300 feet").area("cube of water up to 100-feet").duration("up to 10 minutes")
-        .effect("As an action each turn, cause the water to:"
-            + "<br>Rise 20 feet, causing a flood or wave."
-            + "<br>Part the water to create a trench."
-            + "<br>Cause the water to flow in a new direction, including over obstacles."
-            + "<br>Create a whirlpool vortex 25 feet deep and 50 feet wide. 2d8 bludgeoning damage. "
+        .effect("As an action each turn, cause the water to rise 20 feet, causing a flood or wave, "
+            + "part to create a trench, flow in a new direction, including over obstacles or"
+            + "form a whirlpool vortex 25 feet deep and 50 feet wide causing 2d8 bludgeoning damage "
             + "Str. save for half.")),
     DEATH_WARD(spell(MagicSchool.ABJURATION, 4)
         .castingTime("1 action").components(VERBAL, SOMATIC)
@@ -1944,10 +1955,6 @@ public enum Spell implements Option {
         return delegate.isRitual();
     }
 
-    public Stream<String> getEffects(Character character) {
-        return delegate.getEffects(character);
-    }
-
     public String getArea() {
         return delegate.getArea();
     }
@@ -1985,7 +1992,7 @@ public enum Spell implements Option {
         return delegate.getName();
     }
 
-    public Stream<String> getDescription(Character character) {
+    public Stream<String> getDescription() {
         return Stream.concat(
             Stream.of(
                 delegate.getSchool().toString(),
@@ -1993,7 +2000,11 @@ public enum Spell implements Option {
                 "<b>Range</b> " + getRange(),
                 "<b>Area of effect</b> " + getArea(),
                 "<b>Duration</b> " + getDuration()),
-            getEffects(character));
+            delegate.getEffects());
+    }
+
+    public Stream<String> getEffects() {
+        return delegate.getEffects();
     }
 
     public Optional<Attack> getAttack(Character character, AttributeType ability) {

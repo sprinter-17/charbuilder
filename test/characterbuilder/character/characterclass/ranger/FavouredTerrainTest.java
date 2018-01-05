@@ -5,6 +5,9 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Terrain;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.utils.TestCharacter;
+import java.util.List;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.is;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -59,11 +62,12 @@ public class FavouredTerrainTest {
         return new TypeSafeDiagnosingMatcher<Character>() {
             @Override
             protected boolean matchesSafely(Character character, Description d) {
-                FavouredTerrain favouredTerrain
-                    = character.getAttribute(AttributeType.RANGER_ABILITY, FavouredTerrain.class);
-                d.appendText("Had terrain ").appendValue(favouredTerrain.getDescription(character)
-                    .findAny().get());
-                return favouredTerrain.getDescription(character)
+                List<FavouredTerrain> favouredTerrain
+                    = character.getAttributes(AttributeType.RANGER_ABILITY, FavouredTerrain.class)
+                        .collect(toList());
+                d.appendText("Had terrain").appendValue(favouredTerrain
+                    .stream().map(FavouredTerrain::toString).collect(joining()));
+                return favouredTerrain.stream().flatMap(ft -> ft.getDescription(character))
                     .anyMatch(name::equals);
             }
 

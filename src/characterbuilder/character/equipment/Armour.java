@@ -1,28 +1,27 @@
 package characterbuilder.character.equipment;
 
-import static characterbuilder.character.attribute.Value.gp;
-import static characterbuilder.character.attribute.Weight.lb;
-import static characterbuilder.character.equipment.EquipmentCategory.HEAVY_ARMOUR;
-import static characterbuilder.character.equipment.EquipmentCategory.LIGHT_ARMOUR;
-import static characterbuilder.character.equipment.EquipmentCategory.MEDIUM_ARMOUR;
-
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import org.w3c.dom.Node;
-
 import characterbuilder.character.Character;
 import characterbuilder.character.ability.Feat;
 import characterbuilder.character.ability.FightingStyle;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.Value;
+import static characterbuilder.character.attribute.Value.gp;
 import characterbuilder.character.attribute.Weight;
+import static characterbuilder.character.attribute.Weight.lb;
+import characterbuilder.character.characterclass.barbarian.Barbarian;
 import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
 import characterbuilder.character.characterclass.monk.MonkAbility;
+import characterbuilder.character.characterclass.sorcerer.Sorcerer;
 import characterbuilder.character.characterclass.sorcerer.SorcererAbility;
+import static characterbuilder.character.equipment.EquipmentCategory.HEAVY_ARMOUR;
+import static characterbuilder.character.equipment.EquipmentCategory.LIGHT_ARMOUR;
+import static characterbuilder.character.equipment.EquipmentCategory.MEDIUM_ARMOUR;
 import characterbuilder.utils.StringUtils;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.stream.Stream;
+import org.w3c.dom.Node;
 
 public enum Armour implements Equipment {
     //

@@ -7,8 +7,8 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.ChoiceSelector;
 import characterbuilder.character.choice.NoOption;
 import characterbuilder.character.choice.OptionChoice;
+import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.utils.StringUtils;
 import java.util.Arrays;
 import java.util.Optional;
@@ -69,7 +69,7 @@ public enum ElementalDiscipline implements Attribute {
                     if (opt != NoOption.NONE) {
                         ElementalDiscipline discipline = (ElementalDiscipline) opt;
                         character.removeAttribute(discipline);
-                        Optional<OptionChoice> choice = character.getAllowedChoices()
+                        Optional<OptionChoice> choice = character.getAllChoices()
                             .filter(ch -> ch.getName().equals("Elemental Discipline"))
                             .findAny();
                         if (choice.isPresent()) {
@@ -99,7 +99,7 @@ public enum ElementalDiscipline implements Attribute {
     }
 
     private static AttributeDelegate discipline(Spell spell) {
-        return new AttributeDelegate().withAttribute(new SpellAbility(spell, AttributeType.WISDOM));
+        return new AttributeDelegate().withAttribute(new LearntSpell(spell, AttributeType.WISDOM));
     }
 
     private static AttributeDelegate discipline(Spell spell, int points) {

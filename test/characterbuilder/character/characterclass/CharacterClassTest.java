@@ -15,7 +15,6 @@ import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.utils.TestCharacter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.logging.FileHandler;
@@ -97,10 +96,6 @@ public class CharacterClassTest {
             count = (241 * count + 2287) % 305017;
             return result;
         }
-        
-        private int count(long mod) {
-        		return count((int)mod);
-        }
     };
 
     @Test
@@ -130,24 +125,8 @@ public class CharacterClassTest {
     @Test
     public void testMultipleCharacterGeneration() {
         setLogging(Level.OFF);
-        InitialChoiceGenerator init = new InitialChoiceGenerator();
-        for (int i = 1; i <= 1000; i++) {
-            selector = new IterativeSelector(i);
-            LOG.info("Character #" + i);
-            character = new TestCharacter();
-            character.addChoiceList(selector);
-            init.generateChoices(character);
-            exhaustChoices(i, character);
-            while (character.getLevel() < 20) {
-                List<CharacterClass> possibleClasses = new ArrayList<>();
-                character.getCharacterClasses().forEach(possibleClasses::add);
-                character.allowedMultiClasses().forEach(possibleClasses::add);
-                if (i % 2 == 0)
-                    Collections.shuffle(possibleClasses);
-                LOG.info("  Level " + character.getLevel() + " " + possibleClasses.get(0));
-                character.increaseLevel(possibleClasses.get(0), new CharacterRandom());
-                exhaustChoices(i, character);
-            }
+        for (int i = 1; i <= 2000; i++) {
+            nextCharacter(i);
         }
     }
 
@@ -168,15 +147,42 @@ public class CharacterClassTest {
         }
     }
 
+    private void nextCharacter(int i) {
+        InitialChoiceGenerator init = new InitialChoiceGenerator();
+        selector = new IterativeSelector(i);
+        LOG.info("Character #" + i);
+        character = new TestCharacter();
+        character.addChoiceList(selector);
+        init.generateChoices(character);
+        exhaustChoices(i, character);
+        while (character.getLevel() < 20) {
+            nextLevel(i);
+        }
+    }
+
+    private void nextLevel(int i) {
+        List<CharacterClass> possibleClasses = new ArrayList<>();
+        character.getCharacterClasses().forEach(possibleClasses::add);
+        character.allowedMultiClasses().forEach(possibleClasses::add);
+        int classIndex = i % 2 == 0 ? selector.count(possibleClasses.size()) : 0;
+        CharacterClass increaseClass = possibleClasses.get(classIndex);
+        character.increaseLevel(increaseClass, new CharacterRandom());
+        LOG.info("  Level " + character.getCharacterClassLevels()
+            .map(CharacterClassLevel::toString)
+            .collect(joining(" "))
+            .replace(increaseClass.toString(), increaseClass.toString().toUpperCase()));
+        exhaustChoices(i, character);
+    }
+
     private void exhaustChoices(int count, Character character) {
-        while (character.hasChoices()) {
-            OptionChoice choice = getChoice(character);
+        while (character.getChoiceCount() > 0) {
+            OptionChoice choice = character.getChoice(selector.count(character.getChoiceCount()));
             LOG.fine("    Choosing " + choice.toString());
             try {
                 character.selectChoice(choice);
-                LOG.fine("      Choices: " + character.getAllowedChoices()
+                LOG.finer("      Choices: " + character.getAllChoices()
                     .limit(3).map(Object::toString).collect(joining(","))
-                    + (character.getAllowedChoices().count() > 3 ? "..." : ""));
+                    + (character.getChoiceCount() > 3 ? "..." : ""));
             } catch (IllegalStateException | IllegalArgumentException ex) {
                 String message = count + ":"
                     + character.getAttribute(AttributeType.RACE).toString() + " "
@@ -186,10 +192,5 @@ public class CharacterClassTest {
                 throw new AssertionError(message);
             }
         }
-    }
-    
-    private OptionChoice getChoice(Character character) {
-    		int i = selector.count(character.getAllowedChoices().count());
-    		return character.getAllowedChoices().skip(i).findFirst().orElseThrow(IllegalStateException::new);
     }
 }

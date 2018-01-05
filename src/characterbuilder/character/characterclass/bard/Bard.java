@@ -24,8 +24,8 @@ import static characterbuilder.character.equipment.Weapon.HAND_CROSSBOW;
 import static characterbuilder.character.equipment.Weapon.LONGSWORD;
 import static characterbuilder.character.equipment.Weapon.RAPIER;
 import static characterbuilder.character.equipment.Weapon.SHORTSWORD;
+import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import java.util.Arrays;
 import java.util.function.Predicate;
@@ -46,7 +46,7 @@ public class Bard extends AbstractCharacterClass {
                 .filter(spell -> !casting.hasLearntSpell(spell))
                 .filter(spell -> spell.getLevel() <= casting.getMaxSpellLevel()), spell -> {
                 if (spell.isCantrip()) {
-                    character.addAttribute(new SpellAbility(spell, CHARISMA));
+                    character.addAttribute(new LearntSpell(spell, CHARISMA));
                 } else {
                     casting.addKnownSpells(1);
                     casting.addPreparedSpell(spell);

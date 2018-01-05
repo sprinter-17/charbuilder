@@ -6,7 +6,6 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.choice.Choice;
 import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.character.spell.SpellCasting;
 import java.util.List;
 import static java.util.stream.Collectors.joining;
@@ -21,11 +20,11 @@ public class TestMatchers {
         return new TypeSafeDiagnosingMatcher<Character>() {
             @Override
             protected boolean matchesSafely(Character ch, Description desc) {
-                if (!ch.hasChoices()) {
+                if (ch.getChoiceCount() == 0) {
                     desc.appendText("has no choices");
                 } else {
                     desc.appendText("has choices ")
-                        .appendText(ch.getAllowedChoices().map(Choice::toString)
+                        .appendText(ch.getAllChoices().map(Choice::toString)
                             .collect(joining(",", "[", "]")));
                 }
                 return ch.hasChoice(choice);
@@ -43,14 +42,14 @@ public class TestMatchers {
         return new TypeSafeDiagnosingMatcher<Character>() {
             @Override
             protected boolean matchesSafely(Character ch, Description desc) {
-                List<SpellAbility> spellAbilities
-                    = ch.getAttributes(AttributeType.SPELL_ABILITY, SpellAbility.class)
+                List<LearntSpell> spellAbilities
+                    = ch.getAttributes(AttributeType.SPELL_ABILITY, LearntSpell.class)
                         .collect(toList());
                 if (spellAbilities.isEmpty())
                     desc.appendText("has no spell abilities");
                 else
                     desc.appendText("has spell abilities").appendValue(spellAbilities);
-                return spellAbilities.stream().anyMatch(sa -> sa.getSpell() == spell);
+                return spellAbilities.stream().anyMatch(sa -> sa.isSpell(spell));
             }
 
             @Override

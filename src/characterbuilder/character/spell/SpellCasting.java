@@ -64,12 +64,14 @@ public class SpellCasting implements Attribute {
             selector.chooseOption(getAvailableSpells()
                 .filter(sp -> !sp.isCantrip())
                 .filter(sp -> sp.getLevel() <= maxSpellLevel)
-                .filter(sp -> !hasLearntSpell(sp)),
+                .filter(sp -> !hasLearntSpell(sp))
+                .map(sp -> new LearntSpell(sp, spellAbilityScore, learnAll)),
                 this::addSpell);
         }
 
-        private void addSpell(Spell spell) {
-            addLearntSpell(spell, preparedSpellText.equals("All"));
+        private void addSpell(LearntSpell spell) {
+            learntSpells.add(spell);
+            choice.useAndCheck();
         }
 
         @Override
@@ -132,7 +134,7 @@ public class SpellCasting implements Attribute {
             throw new IllegalArgumentException("Cantrips cannot be learnt as spellcasting");
         if (learntSpells.stream().anyMatch(ls -> ls.isSpell(spell)))
             throw new IllegalArgumentException("Have already learnt spell " + spell);
-        learntSpells.add(new LearntSpell(spell, prepared));
+        learntSpells.add(new LearntSpell(spell, spellAbilityScore, prepared));
         choice.useAndCheck();
     }
 
@@ -155,7 +157,7 @@ public class SpellCasting implements Attribute {
             return getAvailableSpells()
                 .filter(sp -> sp.getLevel() <= maxSpellLevel && !sp.isCantrip())
                 .filter(sp -> learntSpells.stream().noneMatch(ls -> ls.isSpell(sp)))
-                .map(sp -> new LearntSpell(sp, false));
+                .map(sp -> new LearntSpell(sp, spellAbilityScore, false));
         else
             return Stream.empty();
     }

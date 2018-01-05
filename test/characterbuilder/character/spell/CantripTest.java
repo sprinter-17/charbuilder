@@ -11,12 +11,12 @@ import org.xml.sax.SAXParseException;
 
 public class CantripTest {
 
-    private SpellAbility cantrip;
+    private LearntSpell cantrip;
 
     @Before
     public void setup() {
         Ability.values(); // initialisation error
-        cantrip = new SpellAbility(Spell.HEAL, AttributeType.WISDOM);
+        cantrip = new LearntSpell(Spell.HEAL, AttributeType.WISDOM);
     }
 
     @Test

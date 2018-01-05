@@ -180,7 +180,7 @@ public enum EldritchInvocation implements Attribute {
                 selector.chooseOption(NoOption.NONE.concat(getInvocations(character)), ei -> {
                     if (ei != NoOption.NONE) {
                         character.removeAttribute((Attribute) ei);
-                        Optional<OptionChoice> choice = character.getAllowedChoices()
+                        Optional<OptionChoice> choice = character.getAllChoices()
                             .filter(opt -> opt.getName().equals("Eldritch Invocation"))
                             .findAny();
                         if (choice.isPresent()) {

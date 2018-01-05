@@ -8,6 +8,7 @@ import characterbuilder.character.attribute.IntAttribute;
 import characterbuilder.character.attribute.Value;
 import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.character.characterclass.CharacterClassLevel;
+import characterbuilder.character.characterclass.warlock.EldritchInvocation;
 import characterbuilder.character.equipment.Attack;
 import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.utils.TestCharacter;
@@ -81,11 +82,33 @@ public class SpellTest {
     }
 
     @Test
+    public void testEldritchBlastAttributes() {
+        TestCharacter character = new TestCharacter().withScores(10);
+        character.setLevel(CharacterClass.WIZARD, 11);
+        assertThat(eldritchBlastAttack(character).getName(), is("Eldritch Blast"));
+        assertThat(eldritchBlastAttack(character).getDamage(), is("1d10"));
+        character.addAttribute(EldritchInvocation.AGONIZING_BLAST);
+        assertThat(eldritchBlastAttack(character).getDamage(), is("1d10"));
+        character.setScore(AttributeType.CHARISMA, 12);
+        assertThat(eldritchBlastAttack(character).getDamage(), is("1d10+1"));
+        character.setScore(AttributeType.CHARISMA, 15);
+        assertThat(eldritchBlastAttack(character).getDamage(), is("1d10+2"));
+        assertThat(eldritchBlastAttack(character).getRange(), is("120"));
+        character.addAttribute(EldritchInvocation.ELDRITCH_SPEAR);
+        assertThat(eldritchBlastAttack(character).getRange(), is("300"));
+    }
+
+    private Attack eldritchBlastAttack(Character character) {
+        return Spell.ELDRITCH_BLAST.getAttack(character, AttributeType.CHARISMA).get();
+    }
+
+    @Test
     public void testAllEffectsAreLegal() {
         Character character = level(5);
         for (Spell spell : Spell.values()) {
             try {
-                String effect = spell.getEffects(character).collect(joining());
+                LearntSpell learntSpell = new LearntSpell(spell, AttributeType.WISDOM, true);
+                String effect = learntSpell.getEffects(character).collect(joining());
                 assertFalse(spell.name() + ":" + effect, effect.contains("*ERROR*"));
             } catch (Exception ex) {
                 fail(spell.name() + ":" + ex.toString());
@@ -97,7 +120,8 @@ public class SpellTest {
         return new TypeSafeDiagnosingMatcher<Spell>() {
             @Override
             protected boolean matchesSafely(Spell spell, Description d) {
-                List<String> effects = spell.getEffects(level(level)).collect(toList());
+                LearntSpell learntSpell = new LearntSpell(spell, AttributeType.CONSTITUTION, true);
+                List<String> effects = learntSpell.getEffects(level(level)).collect(toList());
                 d.appendText("Has effects ").appendValue(effects);
                 return effects.contains(effect);
             }

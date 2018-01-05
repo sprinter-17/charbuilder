@@ -5,7 +5,6 @@ import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.*;
 import characterbuilder.character.spell.LearntSpell;
-import characterbuilder.character.spell.Spell;
 import characterbuilder.character.spell.SpellCasting;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -55,8 +54,6 @@ public class AbilityTreeRoot extends DefaultMutableTreeNode {
             case META_MAGIC:
                 addAttributes(character, type);
                 break;
-                default:
-                	break;
         }
     }
 
@@ -69,16 +66,16 @@ public class AbilityTreeRoot extends DefaultMutableTreeNode {
         DefaultMutableTreeNode castingNode = new DefaultMutableTreeNode(casting);
         add(castingNode);
         casting.getLearntSpells()
-            .map(LearntSpell::getSpell)
-            .collect(Collectors.groupingBy(Spell::getLevel))
+            .collect(Collectors.groupingBy(ls -> ls.getSpell().getLevel()))
             .forEach((level, spells) -> addSpellLevel(castingNode, level, spells));
     }
 
-    private void addSpellLevel(DefaultMutableTreeNode castingNode, int level, List<Spell> spells) {
+    private void addSpellLevel(DefaultMutableTreeNode castingNode, int level,
+        List<LearntSpell> spells) {
         String levelName = level == 0 ? "Cantrips" : "Level " + level;
         DefaultMutableTreeNode levelNode = new DefaultMutableTreeNode(levelName);
         castingNode.add(levelNode);
-        spells.sort(Comparator.comparing(Spell::toString));
+        spells.sort(Comparator.comparing(LearntSpell::toString));
         spells.forEach(spell -> {
             levelNode.add(new DefaultMutableTreeNode(spell));
         });

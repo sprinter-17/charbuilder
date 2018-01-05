@@ -54,7 +54,8 @@ public enum Maneuver implements Attribute {
         return Stream.concat(
             Stream.of("Use 1 superiority die."),
             Arrays.stream(descriptions)
-                .map(desc -> desc.replace("ROLL", "[max($level 3:1d8,10:1d10,18:1d12)]"))
+                .map(desc -> desc
+                .replace("ROLL", "1d[max($fighter_level 0:6,3:8,10:10,18:12)]"))
                 .map(desc -> StringUtils.expand(desc, character)));
     }
 

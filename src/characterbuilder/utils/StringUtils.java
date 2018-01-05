@@ -69,12 +69,16 @@ public class StringUtils {
     }
 
     public static String expand(String text, Character character) {
-        final Pattern expressionPattern = Pattern.compile("\\[([^]]*)\\]");
-        Matcher expressionMatcher = expressionPattern.matcher(text);
-        StringBuffer result = new StringBuffer();
         EvaluationContext context = new EvaluationContext();
         if (character != null)
             context.setCharacter(character);
+        return expand(text, context);
+    }
+
+    public static String expand(String text, EvaluationContext context) {
+        final Pattern expressionPattern = Pattern.compile("\\[([^]]*)\\]");
+        Matcher expressionMatcher = expressionPattern.matcher(text);
+        StringBuffer result = new StringBuffer();
         while (expressionMatcher.find()) {
             String value = ExpressionParser.eval(expressionMatcher.group(1), context);
             expressionMatcher.appendReplacement(result, value.replace('$', '#'));

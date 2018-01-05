@@ -7,6 +7,8 @@ import characterbuilder.character.ability.Proficiency;
 import static characterbuilder.character.ability.Skill.*;
 import characterbuilder.character.attribute.AttributeType;
 import static characterbuilder.character.attribute.AttributeType.WISDOM;
+import characterbuilder.character.beast.Beast;
+import characterbuilder.character.beast.ChallengeRating;
 import characterbuilder.character.characterclass.AbstractCharacterClass;
 import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.druid.DruidAbility.*;
@@ -19,10 +21,44 @@ import static characterbuilder.character.equipment.EquipmentCategory.DRUIDIC_FOC
 import static characterbuilder.character.equipment.EquipmentCategory.SIMPLE_RANGED;
 import static characterbuilder.character.equipment.EquipmentPack.EXPLORER_PACK;
 import static characterbuilder.character.equipment.Weapon.*;
+import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Druid extends AbstractCharacterClass {
+
+    public static Stream<Beast> getWildShapes(Character druid) {
+        return Arrays.stream(Beast.values())
+            .filter(beast -> isAllowedAsWildShapeForDruid(beast, druid));
+    }
+
+    private static boolean isAllowedAsWildShapeForDruid(Beast beast, Character druid) {
+        int druidLevel = druid.getLevel(CharacterClass.DRUID);
+        if (druidLevel < 2)
+            return false;
+        if (beast.hasMovement("swim") && druidLevel < 4)
+            return false;
+        if (beast.hasMovement("fly") && druidLevel < 8)
+            return false;
+        if (druid.hasAttribute(DruidCircle.Ability.CIRCLE_FORMS)) {
+            if (druidLevel < 6)
+                return beast.challengeRatingIsNotGreaterThan(ChallengeRating.CR1);
+            else
+                return beast
+                    .challengeRatingIsNotGreaterThan(ChallengeRating.valueOf(druidLevel / 3));
+        } else {
+            if (druidLevel < 4)
+                return beast.challengeRatingIsNotGreaterThan(ChallengeRating.CR1_4);
+            if (druidLevel < 8)
+                return beast.challengeRatingIsNotGreaterThan(ChallengeRating.CR1_2);
+            return beast.challengeRatingIsNotGreaterThan(ChallengeRating.CR1);
+        }
+    }
+
+    private static Predicate<Beast> limitations(Character druid) {
+        Predicate<Beast> limitations = beast -> false;
+        return limitations;
+    }
 
     @Override
     public int getHitDie() {

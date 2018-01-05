@@ -11,7 +11,8 @@ import org.w3c.dom.Element;
 
 public enum RogueAbility implements Attribute {
     SNEAK_ATTACK(delegate()
-        .withDescription("Extra [$level /^ 2]d6 damage on one attack with advantage each turn.")),
+        .withDescription("Extra [$rogue_level /^ 2]d6 damage on one attack with "
+            + "advantage each turn.")),
     CUNNING_ACTION(delegate()
         .withDescription("Bonus dash, disengage or hide action each turn")),
     RELIABLE_TALENT(delegate()
@@ -36,7 +37,8 @@ public enum RogueAbility implements Attribute {
         .withDescription("Advantage on all stealth checks if moving no more than [$speed/2]' "
             + "on the same turn.")),
     USE_MAGIC_DEVICES(delegate()
-        .withDescription("Ignore all class, race and level requirements on the use of magic items.")),
+        .withDescription("Ignore all class, race and level requirements "
+            + "on the use of magic items.")),
     THIEFS_REFLEXES(delegate()
         .withName("Thief's Reflexes")
         .withDescription("Take two turns during first round of combat. "
@@ -62,7 +64,7 @@ public enum RogueAbility implements Attribute {
             + "5 feet giving advantage on attack.")),
     SPELL_THIEF(delegate()
         .withDescription("As a reaction against a spell that targets thief, steal the spell. "
-            + "Spell proficiency save DC[$spell_dc].")
+            + "Spell proficiency save DC[8 + $prof + $int_mod].")
         .withDescription("Spell is prepared for next 8 hours.")
         .withDescription("Use once between each long rest.")),;
 

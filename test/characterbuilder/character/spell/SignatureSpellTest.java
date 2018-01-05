@@ -22,7 +22,7 @@ public class SignatureSpellTest {
     public void setup() {
         wizard = new TestCharacter().withScores(10);
         WIZARD.choose(wizard);
-        casting = wizard.getAttribute(AttributeType.SPELLCASTING);
+        casting = wizard.getSpellCasting("Wizard");
         casting.addPreparedSpell(Spell.FIREBALL);
         casting.addPreparedSpell(Spell.FLY);
         casting.addPreparedSpell(Spell.GASEOUS_FORM);

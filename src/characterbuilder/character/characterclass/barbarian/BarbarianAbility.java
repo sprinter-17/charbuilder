@@ -12,9 +12,9 @@ public enum BarbarianAbility implements Attribute {
     RAGE(delegate()
         .withDescription("As bonus action, enter rage for 1 minute. ")
         .withDescription("Advantage on Str. checks and saves.")
-        .withDescription("+[max($level 1:2,9:3,16:4)] dam on melee attacks. ")
+        .withDescription("+[max($barbarian_level 1:2,9:3,16:4)] dam on melee attacks. ")
         .withDescription("Resistance to bludgeoning, piercing and slashing damage. "
-            + "Use [max($level 1:2,6:4,12:5,17:6)] times between long rests. ")),
+            + "Use [max($barbarian_level 1:2,6:4,12:5,17:6)] times between long rests. ")),
     UNARMORED_DEFENCE(delegate()
         .withDescription("Unarmoured AC[10+$dex_mod+$con_mod].")),
     RECKLESS_ATTACK(delegate()
@@ -27,7 +27,7 @@ public enum BarbarianAbility implements Attribute {
     FERAL_INSTINCTS(delegate()
         .withDescription("Advantage on initiative, enter rage and act normally on surprise.")),
     BRUTAL_CRITICAL(delegate()
-        .withDescription("Roll [max($level 9:1,13:2,17:3)] extra [plural(die,dice)] "
+        .withDescription("Roll [max($barbarian_level 9:1,13:2,17:3)] extra [plural(die,dice)] "
             + "damage on critical.")),
     RELENTLESS_RAGE(delegate()
         .withDescription("When dropping to 0HP during rage, make Con. save vs DC10 (+5 per use) "

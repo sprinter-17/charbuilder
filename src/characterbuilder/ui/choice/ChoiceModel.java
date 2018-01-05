@@ -18,14 +18,12 @@ public class ChoiceModel extends AbstractListModel<OptionChoice> {
 
     @Override
     public int getSize() {
-    		return character.filter(Character::hasChoices)
-    				.map(ch -> ch.getAllowedChoices().count()).orElse(0L).intValue();
+        return character.map(Character::getChoiceCount).orElse(0);
     }
 
     @Override
     public OptionChoice getElementAt(int index) {
-        return character.get().getAllowedChoices().skip(index)
-        		.findFirst().orElseThrow(IndexOutOfBoundsException::new);
+        return character.get().getChoice(index);
     }
 
     public OptionalInt indexOf(OptionChoice choice) {

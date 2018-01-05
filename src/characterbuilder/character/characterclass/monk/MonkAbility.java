@@ -14,7 +14,7 @@ public enum MonkAbility implements Attribute {
         .withDescription("Unarmoured AC[10+$dex_mod+$wis_mod]")),
     MARTIAL_ARTS(delegate()
         .withDescription("Use Dex. instead of Str. for unarmed strikes and monk weapons.")
-        .withDescription("Can roll [max($level 1:1d4,5:1d6,11:1d8,17:1d10)] for damage.")
+        .withDescription("Can roll [max($monk_level 1:1d4,5:1d6,11:1d8,17:1d10)] for damage.")
         .withDescription("Unarmed strike as bonus action")),
     KI(delegate()
         .withDescription("[$level] Ki points to use between each rest.")
@@ -27,16 +27,16 @@ public enum MonkAbility implements Attribute {
         .withDescription("Spend 1 Ki point to Disengage or Dash as a bonus action.")
         .withDescription("Jump distance doubled.")),
     UNARMOURED_MOVEMENT(delegate()
-        .withDescription("Speed increases by [max($level 2:10,6:15,10:20,14:25,18:30)]' "
+        .withDescription("Speed increases by [max($monk_level 2:10,6:15,10:20,14:25,18:30)]' "
             + "when not armoured. ")
         .withDescription("[if($level >= 9:Move along vertical surfaces and across liquids)]")),
     DEFLECT_MISSILES(delegate()
         .withDescription("Use reaction when hit by ranged attack to reduce damage "
-            + "by 1d10+[$dex_mod+$level].")
+            + "by 1d10+[$dex_mod+$monk_level].")
         .withDescription("If damage is 0, spend 1 Ki point to make ranged attack to hit +[$prof]"
             + "martial arts damage range 20'/60'.")),
     SLOW_FALL(delegate()
-        .withDescription("Use reaction to reduce falling damage by [5*$level].")),
+        .withDescription("Use reaction to reduce falling damage by [5*$monk_level].")),
     STUNNING_STRIKE(delegate()
         .withDescription("Spend 1 Ki point on melee weapon hit. ")
         .withDescription("Target Con. save or stunned until end of next turn.")),
@@ -59,7 +59,7 @@ public enum MonkAbility implements Attribute {
             + "Dex. save or knocked prone; Str save or push 15'; "
             + "no reactons until end of next turn.")),
     WHOLENESS_OF_BODY(delegate()
-        .withDescription("As an action, regain [$level*3]HP once between each long rest.")),
+        .withDescription("As an action, regain [$monk_level*3]HP once between each long rest.")),
     TRANQUILITY(delegate()
         .withDescription("At the end of a long rest, gain sanctuary. "
             + "Attacker must make Wis. save DC[8+$wis_mod+$prof] or target another. "
@@ -75,7 +75,7 @@ public enum MonkAbility implements Attribute {
         .withDescription("As a reaction, when a creature within 5' that is hit, "
             + "make a melee attack.")),
     DISCIPLE_OF_THE_ELEMENTS(delegate()
-        .withDescription("Spend up to [max($level 3:2,5:3,9:4,13:5,17:7)] Ki points "
+        .withDescription("Spend up to [max($monk_level 3:2,5:3,9:4,13:5,17:7)] Ki points "
             + "to cast an elemental spell.")
         .withDescription("+1 spell level per extra Ki point")),
     SHADOW_ARTS(delegate()

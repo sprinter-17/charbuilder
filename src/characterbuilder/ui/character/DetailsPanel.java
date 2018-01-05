@@ -6,7 +6,7 @@ import characterbuilder.character.attribute.StringAttribute;
 import characterbuilder.character.characterclass.CharacterClassLevel;
 import java.awt.Color;
 import java.awt.Dimension;
-import static java.util.stream.Collectors.joining;
+import java.util.Comparator;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -65,8 +65,7 @@ public class DetailsPanel extends CharacterSubPanel {
         nameField.setEnabled(true);
         raceField.setText(attributeValue(RACE));
         if (character.hasAttribute(CHARACTER_CLASS))
-            classField.setText(character.getCharacterClassLevels()
-                .map(CharacterClassLevel::toString).collect(joining("/")));
+            classField.setText(character.getClassLevelDescription());
         else
             classField.setText(null);
         xpField.setText(attributeValue(EXPERIENCE_POINTS));
@@ -75,14 +74,14 @@ public class DetailsPanel extends CharacterSubPanel {
         hpField.setText(attributeValue(HIT_POINTS));
         classAttributeName.setText(null);
         classAttributeValue.setText(null);
-        if (character.hasAttribute(CHARACTER_CLASS)) {
-            CharacterClassLevel charClassLevel = character.getAttribute(CHARACTER_CLASS);
-            classAttributeName.setText(
-                charClassLevel.getCharacterClass().getClassAttribute().toString());
-            classAttributeValue.setText(
-                character.getAttribute(charClassLevel.getCharacterClass().getClassAttribute())
-                    .toString());
-        }
+        character.getCharacterClassLevels()
+            .max(Comparator.comparingInt(CharacterClassLevel::getLevel))
+            .map(CharacterClassLevel::getCharacterClass)
+            .ifPresent(maxClass -> {
+                classAttributeName.setText(maxClass.getClassAttribute().toString());
+                classAttributeValue
+                    .setText(character.getAttribute(maxClass.getClassAttribute()).toString());
+            });
         finishUpdate();
     }
 }

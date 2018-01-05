@@ -8,8 +8,8 @@ import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import characterbuilder.character.choice.OptionChoice;
 import characterbuilder.character.equipment.Equipment;
+import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,8 +86,8 @@ public class AttributeDelegate {
 
     public AttributeDelegate withPrerequisiteCantrip(Spell cantrip) {
         return withPrerequisite(ch -> ch
-            .getAttributes(AttributeType.SPELL_ABILITY, SpellAbility.class)
-            .anyMatch(c -> c.getSpell() == cantrip));
+            .getAttributes(AttributeType.SPELL_ABILITY, LearntSpell.class)
+            .anyMatch(c -> c.isSpell(cantrip)));
     }
 
     public AttributeDelegate withPrerequisiteLevel(int level) {

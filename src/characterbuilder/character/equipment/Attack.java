@@ -20,6 +20,17 @@ public class Attack {
         this.type = type;
     }
 
+    public Attack withDamageBonus(int damageBonus) {
+        if (damageBonus != 0)
+            return new Attack(name, range, bonus, damage + String.format("%+d", damageBonus), type);
+        else
+            return this;
+    }
+
+    public Attack withRange(String range) {
+        return new Attack(name, range, bonus, damage, type);
+    }
+
     public void setDescription(String description) {
         this.description = Optional.of(description);
     }

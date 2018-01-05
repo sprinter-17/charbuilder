@@ -17,8 +17,8 @@ import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import characterbuilder.character.choice.Option;
 import characterbuilder.character.choice.OptionChoice;
 import static characterbuilder.character.equipment.Weapon.*;
+import characterbuilder.character.spell.LearntSpell;
 import characterbuilder.character.spell.Spell;
-import characterbuilder.character.spell.SpellAbility;
 import characterbuilder.utils.StringUtils;
 import java.util.EnumMap;
 import java.util.function.BiConsumer;
@@ -80,7 +80,7 @@ public enum Race implements Attribute {
     }),
     FOREST_GNOME(0, 1, 0, 2, 0, 0, 25, 40, "2'11\"", "2d4", "35lb", "1", (gen, lgen) -> {
         gen.addAttributes(GNOME_CUNNING, COMMON, GNOMISH, SPEAK_WITH_SMALL_BEASTS);
-        gen.addAttributes(new SpellAbility(Spell.MINOR_ILLUSION, INTELLIGENCE));
+        gen.addAttributes(new LearntSpell(Spell.MINOR_ILLUSION, INTELLIGENCE));
     }),
     ROCK_GNOME(0, 0, 1, 2, 0, 0, 25, 40, "2'11\"", "2d4", "35lb", "1", (gen, lgen) -> {
         gen.addAttributes(GNOME_CUNNING, COMMON, GNOMISH, ARTIFICERS_LORE, TINKER);

@@ -8,7 +8,6 @@ import characterbuilder.character.attribute.Background;
 import characterbuilder.character.attribute.Race;
 import characterbuilder.character.attribute.Sex;
 import characterbuilder.character.characterclass.CharacterClass;
-import characterbuilder.character.characterclass.CharacterClassLevel;
 import java.util.Arrays;
 
 public class InitialChoiceGenerator extends ChoiceGenerator {
@@ -56,8 +55,8 @@ public class InitialChoiceGenerator extends ChoiceGenerator {
 
             private void addAbilityScore(Character character, AbilityScore score) {
                 Race race = character.getAttribute(AttributeType.RACE);
-                if (character.getAttribute(AttributeType.CHARACTER_CLASS, CharacterClassLevel.class)
-                    .hasSavingsThrow(score.getType()))
+                if (character.getCharacterClassLevels()
+                    .anyMatch(cl -> cl.hasSavingsThrow(score.getType())))
                     score.setProficientSaves();
                 score.addValue(race.getAttributeAdjustment(score.getType()));
                 character.addAttribute(score);

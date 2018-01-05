@@ -9,6 +9,7 @@ import characterbuilder.character.characterclass.CharacterClass;
 import static characterbuilder.character.characterclass.sorcerer.SorcererAbility.FONT_OF_MAGIC;
 import static characterbuilder.character.characterclass.sorcerer.SorcererAbility.SORCEROUS_RESTORATIONS;
 import characterbuilder.character.choice.ChoiceGenerator;
+import static characterbuilder.character.choice.ChoiceGenerator.cantripChoice;
 import static characterbuilder.character.equipment.AdventureGear.COMPONENT_POUCH;
 import static characterbuilder.character.equipment.AdventureGear.CROSSBOW_BOLT;
 import static characterbuilder.character.equipment.EquipmentCategory.ARCANE_FOCUS;
@@ -77,9 +78,11 @@ public class Sorcerer extends AbstractCharacterClass {
     }
 
     private void addSpellCasting(ChoiceGenerator gen) {
+        gen.level(1).addChoice(cantripChoice(4, CHARISMA));
+        gen.level(4, 10).addChoice(cantripChoice(1, CHARISMA));
         gen.level(1).addSpellCasting(CASTING_NAME, CHARISMA, CharacterClass.SORCERER, "All");
         addKnownSpells(gen);
-        gen.cond(ch -> ch.getLevel() > 1).replaceSpell(CASTING_NAME);
+        gen.cond(ch -> ch.getLevel(CharacterClass.SORCERER) > 1).replaceSpell(CASTING_NAME);
     }
 
     private void addKnownSpells(ChoiceGenerator gen) {

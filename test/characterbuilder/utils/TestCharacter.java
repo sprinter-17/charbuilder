@@ -12,52 +12,54 @@ import characterbuilder.character.choice.TestChoiceSelector;
 
 public class TestCharacter extends Character {
 
-	private final TestChoiceSelector selector = new TestChoiceSelector();
+    private final TestChoiceSelector selector = new TestChoiceSelector();
 
-	public TestCharacter() {
-		addChoiceList(selector);
-	}
+    public TestCharacter() {
+        addChoiceList(selector);
+    }
 
-	public TestChoiceSelector getSelector() {
-		return selector;
-	}
+    public TestChoiceSelector getSelector() {
+        return selector;
+    }
 
-	public TestCharacter withScores(int value) {
-		AbilityScore.SCORES.forEach(as -> addAttribute(new AbilityScore(as, value)));
-		return this;
-	}
+    public TestCharacter withScores(int value) {
+        AbilityScore.SCORES.forEach(as -> addAttribute(new AbilityScore(as, value)));
+        return this;
+    }
 
-	public void setScore(AttributeType score, int value) {
-		getAttribute(score, IntAttribute.class).setValue(value);
-	}
+    public void setScore(AttributeType score, int value) {
+        getAttribute(score, IntAttribute.class).setValue(value);
+    }
 
-	public void setLevel(CharacterClass characterClass, int level) {
-		getCharacterClassLevels().filter(ccl -> ccl.hasCharacterClass(characterClass)).findAny()
-				.ifPresent(this::removeAttribute);
-		addAttribute(new CharacterClassLevel(characterClass, level));
-		setCurrentClass(characterClass);
-		if (!hasAttribute(AttributeType.EXPERIENCE_POINTS))
-			addAttribute(new IntAttribute(AttributeType.EXPERIENCE_POINTS, 0));
-		removeAttributesOfType(AttributeType.HIT_POINTS);
-		addAttribute(new IntAttribute(AttributeType.HIT_POINTS, level * characterClass.getHitDie()));
-	}
+    public void setLevel(CharacterClass characterClass, int level) {
+        getCharacterClassLevels()
+            .filter(ccl -> ccl.hasCharacterClass(characterClass))
+            .findAny().ifPresent(this::removeAttribute);
+        addAttribute(new CharacterClassLevel(characterClass, level));
+        setCurrentClass(characterClass);
+        if (!hasAttribute(AttributeType.EXPERIENCE_POINTS))
+            addAttribute(new IntAttribute(AttributeType.EXPERIENCE_POINTS, 0));
+        removeAttributesOfType(AttributeType.HIT_POINTS);
+        addAttribute(new IntAttribute(AttributeType.HIT_POINTS, level * characterClass.getHitDie()));
+    }
 
-	public void selectChoice() {
-		selectChoice(getAllowedChoices().findFirst().get());
-	}
+    public void selectChoice(String choice, String option) {
+        selector.withChoice(option);
+        selectChoice(choice);
+    }
 
-	public void selectChoice(String choice, String option) {
-		selector.withChoice(option);
-		selectChoice(choice);
-	}
+    public void selectChoice(String choice) {
+        for (int i = 0; i < getChoiceCount(); i++) {
+            OptionChoice optionChoice = getChoice(i);
+            if (optionChoice.getName().equals(choice)) {
+                selectChoice(optionChoice);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("No choice " + choice);
+    }
 
-	public void selectChoice(String name) {
-		OptionChoice choice = getAllowedChoices().filter(ch -> ch.getName().equals(name)).findAny()
-				.orElseThrow(() -> new IllegalArgumentException("No choice " + name));
-		selectChoice(choice);
-	}
-
-	public boolean hadOption(Option option) {
-		return selector.hadOption(option);
-	}
+    public boolean hadOption(Option option) {
+        return selector.hadOption(option);
+    }
 }

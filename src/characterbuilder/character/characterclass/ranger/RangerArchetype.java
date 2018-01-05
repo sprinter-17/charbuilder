@@ -4,12 +4,14 @@ import characterbuilder.character.Character;
 import static characterbuilder.character.ability.Ability.*;
 import characterbuilder.character.attribute.Attribute;
 import characterbuilder.character.attribute.AttributeType;
+import characterbuilder.character.beast.Beast;
 import static characterbuilder.character.characterclass.CharacterClass.RANGER;
 import static characterbuilder.character.characterclass.ranger.RangerAbility.*;
 import characterbuilder.character.choice.AttributeChoice;
 import characterbuilder.character.choice.ChoiceGenerator;
 import characterbuilder.character.choice.ClassSpecificChoiceGenerator;
 import characterbuilder.utils.StringUtils;
+import java.util.Arrays;
 import java.util.function.Consumer;
 import org.w3c.dom.Node;
 
@@ -26,7 +28,7 @@ public enum RangerArchetype implements Attribute {
     }),
     BEASTMASTER(gen -> {
         gen.level(3).addChoice(new AttributeChoice("Ranger's Companion",
-            RangerCompanion.values()));
+            Arrays.stream(Beast.values()).map(RangerCompanion::new)));
         gen.level(7).addAttributes(EXCEPTIONAL_TRAINING);
         gen.level(11).addAttributes(BESTIAL_FURY);
         gen.level(15).addAttributes(SHARE_SPELLS);

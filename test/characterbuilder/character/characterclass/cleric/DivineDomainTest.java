@@ -30,7 +30,7 @@ public class DivineDomainTest {
     public void setup() {
         character = new TestCharacter();
         CharacterClass.CLERIC.choose(character);
-        casting = character.getAttribute(AttributeType.SPELLCASTING);
+        casting = character.getSpellCasting("Cleric");
     }
 
     @Test

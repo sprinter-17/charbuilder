@@ -89,10 +89,10 @@ public class ChoiceGeneratorTest {
         generator.addChoice(4, new AttributeChoice("Test",
             Skill.DECEPTION, Skill.ARCANA, Skill.HISTORY, Skill.INVESTIGATION));
         generator.generateChoices(character);
-        character.selectChoice();
-        character.selectChoice();
-        character.selectChoice();
-        character.selectChoice();
+        character.selectChoice(character.getChoice(0));
+        character.selectChoice(character.getChoice(0));
+        character.selectChoice(character.getChoice(0));
+        character.selectChoice(character.getChoice(0));
         assertThat(character.getAttributes(AttributeType.SKILL, Skill.class).count(), is(4L));
     }
 }

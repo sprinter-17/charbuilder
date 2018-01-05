@@ -107,6 +107,7 @@ public class EquipmentSet implements Equipment {
         if (matcher.matches()) {
             AdventureGear type = AdventureGear.valueOf(matcher.group(2));
             int count = Integer.valueOf(matcher.group(1));
+            int bonus = Integer.valueOf(matcher.group(3));
             return new EquipmentSet(type, count);
         } else {
             throw new IllegalStateException("Decoding illegal equipment code " + code);

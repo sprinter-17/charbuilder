@@ -41,7 +41,7 @@ public class CharacterSaverTest {
 
     private CharacterSaver saver;
     private Character character;
-//    private String xml;
+    private String xml;
 
     @Before
     public void setup() {
@@ -65,7 +65,7 @@ public class CharacterSaverTest {
     public void testPrimaryAttributes() {
         saveAndLoad();
         assertThat(character.getAttribute(RACE), is(Race.HUMAN));
-        assertThat(character.getAttribute(CHARACTER_CLASS), is(new CharacterClassLevel(CharacterClass.CLERIC)));
+        assertTrue(character.getCharacterClasses().anyMatch(CharacterClass.CLERIC::equals));
         assertThat(character.getAttribute(BACKGROUND), is(Background.ACOLYTE));
     }
 
@@ -149,7 +149,7 @@ public class CharacterSaverTest {
         casting.addPreparedSpell(Spell.ANTIMAGIC_FIELD);
         character.addAttribute(casting);
         saveAndLoad();
-        casting = character.getAttribute(SPELLCASTING);
+        casting = character.getSpellCasting("Spells");
         assertTrue(casting.hasLearntSpell(Spell.ANTIMAGIC_FIELD));
     }
 
@@ -171,7 +171,7 @@ public class CharacterSaverTest {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             saver.save(character, out);
-//            xml = out.toString();
+            xml = out.toString();
             ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
             character = saver.load(in);
         } catch (IOException | SAXException ex) {

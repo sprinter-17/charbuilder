@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
 
 public enum WizardAbility implements Attribute {
     ARCANE_RECOVERY(delegate()
-        .withDescription("Once per day, following a short rest, recover [$level /^ 2] "
+        .withDescription("Once per day, following a short rest, recover [$wizard_level /^ 2] "
             + "[plural(level,levels)] of expended spell slots below sixth level.")),
     SPELL_MASTERY(delegate()
         .withDescription("Choose one first and one second level spell from spellbook.")

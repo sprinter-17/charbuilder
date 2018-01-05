@@ -11,13 +11,13 @@ import org.w3c.dom.Element;
 public enum BardAbility implements Attribute {
     BARDIC_INSPIRATION(delegate()
         .withDescription("As bonus action inspire 1 creature within 60'; "
-            + "add [max($level 1:d6,5:d8,10:d10,15:d12)] to one ability, attack or save; "
+            + "add [max($bard_level 1:d6,5:d8,10:d10,15:d12)] to one ability, attack or save; "
             + "use [$chr_mod] [plural(time,times)] between long rests")),
     JACK_OF_ALL_TRADES(delegate()
         .withDescription("Add +[$prof/2] to non-proficient ability checks.")),
     SONG_OF_REST(delegate()
         .withDescription("During short rests friends regain additional "
-            + "1d[max($level 2:6,9:8,13:10,17:12)]HP")),
+            + "1d[max($bard_level 2:6,9:8,13:10,17:12)]HP")),
     FONT_OF_INSPIRATION(delegate()
         .withDescription("Regain all Bardic Inspirations in short and long rests.")),
     COUNTERCHARM(delegate()

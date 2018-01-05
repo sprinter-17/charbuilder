@@ -39,7 +39,7 @@ public class InitialChoiceGeneratorTest {
     @Test
     public void testChoiceRemoved() {
         assertTrue(character.hasChoice("Race"));
-        character.selectChoice("Race", "Dragonborn");
+        character.selectChoice(character.getChoice(1));
         assertFalse(character.hasChoice("Race"));
     }
 
