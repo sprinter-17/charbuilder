@@ -9,21 +9,21 @@ import org.junit.Test;
 
 public class DruidAbilityTest {
 
-    private TestCharacter druid;
+	private TestCharacter druid;
 
-    @Before
-    public void setup() {
-        druid = new TestCharacter().withScores(10);
-        druid.setLevel(CharacterClass.DRUID, 1);
-    }
+	@Before
+	public void setup() {
+		druid = new TestCharacter().withScores(10);
+		druid.setLevel(CharacterClass.DRUID, 1);
+	}
 
-    @Test
-    public void testWildShapeCR() {
-        druid.setLevel(CharacterClass.DRUID, 2);
-        assertThat(DruidAbility.WILD_SHAPE.getDescription(druid).findFirst().get(),
-            containsString("CR&frac14"));
-        druid.setLevel(CharacterClass.DRUID, 4);
-        assertThat(DruidAbility.WILD_SHAPE.getDescription(druid).findFirst().get(),
-            containsString("CR&frac12"));
-    }
+	@Test
+	public void testWildShapeCR() {
+		druid.setLevel(CharacterClass.DRUID, 2);
+		assertThat(DruidAbility.WILD_SHAPE.getDescription(druid).findFirst().get(),
+				containsString("CR &frac14"));
+		druid.setLevel(CharacterClass.DRUID, 4);
+		assertThat(DruidAbility.WILD_SHAPE.getDescription(druid).findFirst().get(),
+				containsString("CR &frac12"));
+	}
 }

@@ -39,144 +39,145 @@ import org.xml.sax.SAXException;
 
 public class CharacterSaverTest {
 
-    private CharacterSaver saver;
-    private Character character;
-    private String xml;
+	private CharacterSaver saver;
+	private Character character;
+	@SuppressWarnings("unused")
+	private String xml;
 
-    @Before
-    public void setup() {
-        try {
-            saver = new CharacterSaver();
-            character = new Character();
-            character.addAttributes(Race.HUMAN, Background.ACOLYTE);
-            character.addAttribute(new CharacterClassLevel(CharacterClass.CLERIC, 1));
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(CharacterSaverTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+	@Before
+	public void setup() {
+		try {
+			saver = new CharacterSaver();
+			character = new Character();
+			character.addAttributes(Race.HUMAN, Background.ACOLYTE);
+			character.addAttribute(new CharacterClassLevel(CharacterClass.CLERIC, 1));
+		} catch (ParserConfigurationException ex) {
+			Logger.getLogger(CharacterSaverTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 
-    @Test
-    public void testLoadedCharacterIsNotDirty() {
-        saveAndLoad();
-        assertFalse(character.isDirty());
-    }
+	@Test
+	public void testLoadedCharacterIsNotDirty() {
+		saveAndLoad();
+		assertFalse(character.isDirty());
+	}
 
-    @Test
-    public void testPrimaryAttributes() {
-        saveAndLoad();
-        assertThat(character.getAttribute(RACE), is(Race.HUMAN));
-        assertTrue(character.getCharacterClasses().anyMatch(CharacterClass.CLERIC::equals));
-        assertThat(character.getAttribute(BACKGROUND), is(Background.ACOLYTE));
-    }
+	@Test
+	public void testPrimaryAttributes() {
+		saveAndLoad();
+		assertThat(character.getAttribute(RACE), is(Race.HUMAN));
+		assertTrue(character.getCharacterClasses().anyMatch(CharacterClass.CLERIC::equals));
+		assertThat(character.getAttribute(BACKGROUND), is(Background.ACOLYTE));
+	}
 
-    @Test
-    public void testName() {
-        character.addAttribute(new StringAttribute(NAME, "Fred"));
-        saveAndLoad();
-        assertThat(character.getAttribute(NAME).toString(), is("Fred"));
-    }
+	@Test
+	public void testName() {
+		character.addAttribute(new StringAttribute(NAME, "Fred"));
+		saveAndLoad();
+		assertThat(character.getAttribute(NAME).toString(), is("Fred"));
+	}
 
-    @Test
-    public void testAttributes() {
-        character.addAttribute(new IntAttribute(DEXTERITY, 2));
-        saveAndLoad();
-        assertThat(character.getIntAttribute(DEXTERITY), is(2));
-    }
+	@Test
+	public void testAttributes() {
+		character.addAttribute(new IntAttribute(DEXTERITY, 2));
+		saveAndLoad();
+		assertThat(character.getIntAttribute(DEXTERITY), is(2));
+	}
 
-    @Test
-    public void testHeightAndWeight() {
-        character.addAttribute(Height.FOOT.times(20));
-        character.addAttribute(Weight.ST.times(20));
-        saveAndLoad();
-        assertThat(character.getAttribute(HEIGHT), is(Height.FOOT.times(20)));
-        assertThat(character.getAttribute(WEIGHT), is(Weight.ST.times(20)));
-    }
+	@Test
+	public void testHeightAndWeight() {
+		character.addAttribute(Height.FOOT.times(20));
+		character.addAttribute(Weight.ST.times(20));
+		saveAndLoad();
+		assertThat(character.getAttribute(HEIGHT), is(Height.FOOT.times(20)));
+		assertThat(character.getAttribute(WEIGHT), is(Weight.ST.times(20)));
+	}
 
-    @Test
-    public void testSex() {
-        character.addAttribute(Sex.FEMALE);
-        saveAndLoad();
-        assertThat(character.getAttribute(SEX), is(Sex.FEMALE));
-    }
+	@Test
+	public void testSex() {
+		character.addAttribute(Sex.FEMALE);
+		saveAndLoad();
+		assertThat(character.getAttribute(SEX), is(Sex.FEMALE));
+	}
 
-    @Test
-    public void testAlignment() {
-        character.addAttribute(Alignment.LAWFUL_EVIL);
-        saveAndLoad();
-        assertThat(character.getAttribute(ALIGNMENT), is(Alignment.LAWFUL_EVIL));
-    }
+	@Test
+	public void testAlignment() {
+		character.addAttribute(Alignment.LAWFUL_EVIL);
+		saveAndLoad();
+		assertThat(character.getAttribute(ALIGNMENT), is(Alignment.LAWFUL_EVIL));
+	}
 
-    @Test
-    public void testAbilities() {
-        character.addAttribute(DARKVISION);
-        character.addAttribute(ACTOR);
-        saveAndLoad();
-        assertTrue(character.hasAttribute(DARKVISION));
-        assertTrue(character.hasAttribute(ACTOR));
-    }
+	@Test
+	public void testAbilities() {
+		character.addAttribute(DARKVISION);
+		character.addAttribute(ACTOR);
+		saveAndLoad();
+		assertTrue(character.hasAttribute(DARKVISION));
+		assertTrue(character.hasAttribute(ACTOR));
+	}
 
-    @Test
-    public void testNonWeapon() {
-        character.addEquipment(BASKET);
-        saveAndLoad();
-        assertTrue(character.hasEquipment(BASKET));
-    }
+	@Test
+	public void testNonWeapon() {
+		character.addEquipment(BASKET);
+		saveAndLoad();
+		assertTrue(character.hasEquipment(BASKET));
+	}
 
-    @Test
-    public void testWeapon() {
-        character.addEquipment(WHIP.makeSet(1));
-        saveAndLoad();
-        assertTrue(character.hasEquipment(WHIP));
-    }
+	@Test
+	public void testWeapon() {
+		character.addEquipment(WHIP.makeSet(1));
+		saveAndLoad();
+		assertTrue(character.hasEquipment(WHIP));
+	}
 
-    @Test
-    public void testEquipmentSet() {
-        character.addEquipment(WHIP.makeSet(5));
-        saveAndLoad();
-        assertThat(character.getInventoryWeight(), is(WHIP.getWeight().times(5)));
-    }
+	@Test
+	public void testEquipmentSet() {
+		character.addEquipment(WHIP.makeSet(5));
+		saveAndLoad();
+		assertThat(character.getInventoryWeight(), is(WHIP.getWeight().times(5)));
+	}
 
-    @Test
-    public void testToken() {
-        character.addEquipment(new Token("Test Token"));
-        saveAndLoad();
-        assertTrue(character.hasEquipment(new Token("Test Token")));
-    }
+	@Test
+	public void testToken() {
+		character.addEquipment(new Token("Test Token"));
+		saveAndLoad();
+		assertTrue(character.hasEquipment(new Token("Test Token")));
+	}
 
-    @Test
-    public void testLearntSpells() {
-        SpellCasting casting = new SpellCasting("Spells", INTELLIGENCE, WIZARD, "All");
-        casting.addPreparedSpell(Spell.ANTIMAGIC_FIELD);
-        character.addAttribute(casting);
-        saveAndLoad();
-        casting = character.getSpellCasting("Spells");
-        assertTrue(casting.hasLearntSpell(Spell.ANTIMAGIC_FIELD));
-    }
+	@Test
+	public void testLearntSpells() {
+		SpellCasting casting = new SpellCasting("Spells", INTELLIGENCE, WIZARD, "All");
+		casting.addPreparedSpell(Spell.ANTIMAGIC_FIELD);
+		character.addAttribute(casting);
+		saveAndLoad();
+		casting = character.getSpellCasting("Spells");
+		assertTrue(casting.hasLearntSpell(Spell.ANTIMAGIC_FIELD));
+	}
 
-    @Test
-    public void testSkill() {
-        character.addAttribute(Skill.ARCANA);
-        saveAndLoad();
-        assertTrue(character.hasAttribute(Skill.ARCANA));
-    }
+	@Test
+	public void testSkill() {
+		character.addAttribute(Skill.ARCANA);
+		saveAndLoad();
+		assertTrue(character.hasAttribute(Skill.ARCANA));
+	}
 
-    @Test
-    public void testDivineDomain() {
-        character.addAttribute(DivineDomain.LIFE);
-        saveAndLoad();
-        assertTrue(character.hasAttribute(DivineDomain.LIFE));
-    }
+	@Test
+	public void testDivineDomain() {
+		character.addAttribute(DivineDomain.LIFE);
+		saveAndLoad();
+		assertTrue(character.hasAttribute(DivineDomain.LIFE));
+	}
 
-    private void saveAndLoad() {
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            saver.save(character, out);
-            xml = out.toString();
-            ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-            character = saver.load(in);
-        } catch (IOException | SAXException ex) {
-            Assert.fail(ex.toString());
-        }
-    }
+	private void saveAndLoad() {
+		try {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			saver.save(character, out);
+			xml = out.toString();
+			ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+			character = saver.load(in);
+		} catch (IOException | SAXException ex) {
+			Assert.fail(ex.toString());
+		}
+	}
 
 }

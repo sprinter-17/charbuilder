@@ -27,102 +27,97 @@ import java.util.stream.Stream;
 
 public class Druid extends AbstractCharacterClass {
 
-    public static Stream<Beast> getWildShapes(Character druid) {
-        return Arrays.stream(Beast.values())
-            .filter(beast -> isAllowedAsWildShapeForDruid(beast, druid));
-    }
+	public static Stream<Beast> getWildShapes(Character druid) {
+		return Arrays.stream(Beast.values())
+				.filter(beast -> isAllowedAsWildShapeForDruid(beast, druid));
+	}
 
-    private static boolean isAllowedAsWildShapeForDruid(Beast beast, Character druid) {
-        int druidLevel = druid.getLevel(CharacterClass.DRUID);
-        if (druidLevel < 2)
-            return false;
-        if (beast.hasMovement("swim") && druidLevel < 4)
-            return false;
-        if (beast.hasMovement("fly") && druidLevel < 8)
-            return false;
-        if (druid.hasAttribute(DruidCircle.Ability.CIRCLE_FORMS)) {
-            if (druidLevel < 6)
-                return beast.challengeRatingIsNotGreaterThan(ChallengeRating.CR1);
-            else
-                return beast
-                    .challengeRatingIsNotGreaterThan(ChallengeRating.valueOf(druidLevel / 3));
-        } else {
-            if (druidLevel < 4)
-                return beast.challengeRatingIsNotGreaterThan(ChallengeRating.CR1_4);
-            if (druidLevel < 8)
-                return beast.challengeRatingIsNotGreaterThan(ChallengeRating.CR1_2);
-            return beast.challengeRatingIsNotGreaterThan(ChallengeRating.CR1);
-        }
-    }
+	private static boolean isAllowedAsWildShapeForDruid(Beast beast, Character druid) {
+		int druidLevel = druid.getLevel(CharacterClass.DRUID);
+		if (druidLevel < 2)
+			return false;
+		if (beast.hasMovement("swim") && druidLevel < 4)
+			return false;
+		if (beast.hasMovement("fly") && druidLevel < 8)
+			return false;
+		if (druid.hasAttribute(DruidCircle.Ability.CIRCLE_FORMS)) {
+			if (druidLevel < 6)
+				return beast.challengeRatingIsNotGreaterThan(ChallengeRating.CR1);
+			else
+				return beast
+						.challengeRatingIsNotGreaterThan(ChallengeRating.valueOf(druidLevel / 3));
+		} else {
+			if (druidLevel < 4)
+				return beast.challengeRatingIsNotGreaterThan(ChallengeRating.CR1_4);
+			if (druidLevel < 8)
+				return beast.challengeRatingIsNotGreaterThan(ChallengeRating.CR1_2);
+			return beast.challengeRatingIsNotGreaterThan(ChallengeRating.CR1);
+		}
+	}
 
-    private static Predicate<Beast> limitations(Character druid) {
-        Predicate<Beast> limitations = beast -> false;
-        return limitations;
-    }
+	@Override
+	public int getHitDie() {
+		return 8;
+	}
 
-    @Override
-    public int getHitDie() {
-        return 8;
-    }
+	@Override
+	public AttributeType getClassAttribute() {
+		return AttributeType.DRUID_CIRCLE;
+	}
 
-    @Override
-    public AttributeType getClassAttribute() {
-        return AttributeType.DRUID_CIRCLE;
-    }
+	@Override
+	public Stream<AttributeType> getPrimaryAttributes() {
+		return Stream.of(AttributeType.WISDOM, AttributeType.CONSTITUTION);
+	}
 
-    @Override
-    public Stream<AttributeType> getPrimaryAttributes() {
-        return Stream.of(AttributeType.WISDOM, AttributeType.CONSTITUTION);
-    }
+	@Override
+	public Predicate<Character> getMulticlassPrerequisites() {
+		return ch -> ch.getScore(WISDOM).getValue() >= 13;
+	}
 
-    @Override
-    public Predicate<Character> getMulticlassPrerequisites() {
-        return ch -> ch.getScore(WISDOM).getValue() >= 13;
-    }
+	@Override
+	public boolean hasSavingsThrow(AttributeType type) {
+		return Stream.of(AttributeType.INTELLIGENCE, AttributeType.WISDOM).anyMatch(type::equals);
+	}
 
-    @Override
-    public boolean hasSavingsThrow(AttributeType type) {
-        return Stream.of(AttributeType.INTELLIGENCE, AttributeType.WISDOM).anyMatch(type::equals);
-    }
+	@Override
+	protected void makeGenerator(ChoiceGenerator gen) {
+		addAbilities(gen);
+		addEquipment(gen.initialClass());
+		addCantrips(gen);
+		addSpellCasting(gen);
+	}
 
-    @Override
-    protected void makeGenerator(ChoiceGenerator gen) {
-        addAbilities(gen);
-        addEquipment(gen.initialClass());
-        addCantrips(gen);
-        addSpellCasting(gen);
-    }
+	private void addAbilities(ChoiceGenerator gen) {
+		gen.initialClass().addWeaponProficiencies(CLUB, DAGGER, DART, JAVELIN, MACE, QUARTERSTAFF,
+				SCIMITAR, SICKLE, SLING, SPEAR);
+		gen.initialClass().addAttributeChoice(2, "Skill", ARCANA, ANIMAL_HANDLING,
+				INSIGHT, MEDICINE, NATURE, PERCEPTION, RELIGION, SURVIVAL);
+		gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
+				Proficiency.SHIELD, Language.DRUIDIC);
+		gen.level(1).addAttributes(Feat.RITUAL_CASTER);
+		gen.level(2).addAttributes(WILD_SHAPE);
+		gen.level(2).addAttributeChoice("Druid Circle", DruidCircle.values());
+		gen.level(4, 8, 12, 16, 19).addAbilityScoreOrFeatChoice();
+		gen.level(18).addAttributes(TIMELESS_BODY, BEAST_SPELLS);
+	}
 
-    private void addAbilities(ChoiceGenerator gen) {
-        gen.initialClass().addWeaponProficiencies(CLUB, DAGGER, DART, JAVELIN, MACE, QUARTERSTAFF,
-            SCIMITAR, SICKLE, SLING, SPEAR);
-        gen.initialClass().addAttributeChoice(2, "Skill", ARCANA, ANIMAL_HANDLING,
-            INSIGHT, MEDICINE, NATURE, PERCEPTION, RELIGION, SURVIVAL);
-        gen.level(1).addAttributes(Proficiency.LIGHT_ARMOUR, Proficiency.MEDIUM_ARMOUR,
-            Proficiency.SHIELD, Language.DRUIDIC);
-        gen.level(1).addAttributes(Feat.RITUAL_CASTER);
-        gen.level(2).addAttributes(WILD_SHAPE);
-        gen.level(2).addAttributeChoice("Druid Circle", DruidCircle.values());
-        gen.level(4, 8, 12, 16, 19).addAbilityScoreOrFeatChoice();
-        gen.level(18).addAttributes(TIMELESS_BODY, BEAST_SPELLS);
-    }
+	private void addEquipment(ChoiceGenerator gen) {
+		gen.addEquipmentChoice("Weapon").with(SCIMITAR)
+				.with(EquipmentCategory.SIMPLE_MELEE).with(SIMPLE_RANGED);
+		gen.addEquipmentChoice("Weapon or Shield").with(Armour.SHIELD)
+				.with(EquipmentCategory.SIMPLE_MELEE).with(SIMPLE_RANGED);
+		gen.addEquipment(LEATHER_ARMOUR, EXPLORER_PACK);
+		gen.addEquipmentChoice("Focus").with(DRUIDIC_FOCUS);
+	}
 
-    private void addEquipment(ChoiceGenerator gen) {
-        gen.addEquipmentChoice("Weapon").with(SCIMITAR)
-            .with(EquipmentCategory.SIMPLE_MELEE).with(SIMPLE_RANGED);
-        gen.addEquipmentChoice("Weapon or Shield").with(Armour.SHIELD)
-            .with(EquipmentCategory.SIMPLE_MELEE).with(SIMPLE_RANGED);
-        gen.addEquipment(LEATHER_ARMOUR, EXPLORER_PACK);
-        gen.addEquipmentChoice("Focus").with(DRUIDIC_FOCUS);
-    }
+	private void addSpellCasting(ChoiceGenerator gen) {
+		gen.level(1).addSpellCasting("Druid", WISDOM, CharacterClass.DRUID, "[$wis_mod + $level]");
+		gen.level(1).learnAllSpells("Druid");
+	}
 
-    private void addSpellCasting(ChoiceGenerator gen) {
-        gen.level(1).addSpellCasting("Druid", WISDOM, CharacterClass.DRUID, "[$wis_mod + $level]");
-        gen.level(1).learnAllSpells("Druid");
-    }
-
-    private void addCantrips(ChoiceGenerator gen) {
-        gen.level(1).addChoice(cantripChoice(2, WISDOM));
-        gen.level(4, 10).addChoice(cantripChoice(1, WISDOM));
-    }
+	private void addCantrips(ChoiceGenerator gen) {
+		gen.level(1).addChoice(cantripChoice(2, WISDOM));
+		gen.level(4, 10).addChoice(cantripChoice(1, WISDOM));
+	}
 }

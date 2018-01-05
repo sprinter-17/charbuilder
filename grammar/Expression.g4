@@ -92,6 +92,8 @@ string_expr returns [String value]
         {$value = context.isPlural() ? $plural.value : $singular.value;}
     | 'bonus(' SPACE? int_expr SPACE? ')'
         {$value = $int_expr.value != 0 ? String.format("%+d", $int_expr.value) : "";}
+    | '&' string_expr ';'
+        {$value = "&" + $string_expr.value + ";";}
     | WORD            
         {$value = $WORD.text;}
     | int_expr
@@ -114,14 +116,16 @@ int_expr returns [int value]
     | '$splev' {$value = (character().getLevel() + 7) / 6;}
     | '$hp'    {$value = character().getIntAttribute(AttributeType.HIT_POINTS);}
     | '$level' {$value = character().getLevel();}
+    | character_class '_level'
+               {$value = character().getLevel($character_class.value);}
     | '$prof'  {$value = character().getProficiencyBonus();}
     | '$speed' {$value = character().getAttribute(RACE, Race.class).getSpeed();}
     | 'max(' SPACE? int1=int_expr SPACE? ',' SPACE? int2=int_expr SPACE? ')'
         {$value = Math.max($int1.value, $int2.value);}
-    | spell_expr '_mod' 
-        {$value = $spell_expr.value.getModifier(character());}
-    | spell_expr '_dc' 
-        {$value = $spell_expr.value.getSaveDC(character());}
+    | '$spell_mod'
+        {$value = context.getSpell().getModifier(character());}
+    | '$spell_dc' 
+        {$value = 8 + context.getSpell().getModifier(character());}
     | attr
         {$value = character().getIntAttribute($attr.value);}
     | attr '_mod'
@@ -132,8 +136,19 @@ int_expr returns [int value]
         {$value = $int_expr.value;}
     ;
 
-spell_expr returns [SpellCasting value]
-    : '$spell' {$value = character().getAttribute(SPELLCASTING, SpellCasting.class);}
+character_class returns [CharacterClass value]
+    : '$barbarian'  {$value = CharacterClass.BARBARIAN;}
+    | '$bard'       {$value = CharacterClass.BARD;}
+    | '$cleric'     {$value = CharacterClass.CLERIC;}
+    | '$druid'      {$value = CharacterClass.DRUID;}
+    | '$fighter'    {$value = CharacterClass.FIGHTER;}
+    | '$monk'       {$value = CharacterClass.MONK;}
+    | '$paladin'    {$value = CharacterClass.PALADIN;}
+    | '$ranger'     {$value = CharacterClass.RANGER;}
+    | '$rogue'      {$value = CharacterClass.ROGUE;}
+    | '$sorcerer'   {$value = CharacterClass.SORCERER;}
+    | '$warlock'    {$value = CharacterClass.WARLOCK;}
+    | '$wizard'     {$value = CharacterClass.WIZARD;}
     ;
 
 bool_expr returns [boolean value]
@@ -167,7 +182,7 @@ attr returns [AttributeType value]
     | '$chr' {$value = AttributeType.CHARISMA;}
     ;
 
-CONST : [1-9] [0-9]*;
+CONST : [0-9]+;
 SPACE : ' '+;
 WORD  : [A-Za-z%.;]+;
 ENUM  : [A-Za-z][A-Za-z_]+;
