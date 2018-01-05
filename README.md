@@ -2,6 +2,7 @@
 
 To set up a development environment for charbuilder:
 
-1. Install NetBeans 8.2
-2. Install Netbeans Antlr plugin
-3. Clone this repostitory and open project
+1. Install Java 9
+2. Install eclipse 4.7+
+3. Dependencies: Antlr 4.7.1, JUnit 5
+
