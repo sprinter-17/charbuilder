@@ -4,6 +4,9 @@
 # Log file
 *.log
 
+# Lock files
+*.lck
+
 # Package Files #
 *.jar
 *.zip
@@ -16,14 +19,16 @@
 .DS_Store
 
 # Files generated from grammar
-/target/**
+/target/
 
 # Characters
-/characters/**
+/characters/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 /nbproject/private/
+
+# built files
 /build/
 /bin/
 /.gradle/
