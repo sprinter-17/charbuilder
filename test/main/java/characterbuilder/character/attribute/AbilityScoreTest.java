@@ -4,15 +4,15 @@ import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 public class AbilityScoreTest {
 
     private AbilityScore dex;
 
-    @Before
+    @BeforeEach
     public void setup() {
         dex = new AbilityScore(AttributeType.DEXTERITY, 11);
     }

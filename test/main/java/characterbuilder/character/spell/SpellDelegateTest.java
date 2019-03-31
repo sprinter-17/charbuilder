@@ -7,15 +7,15 @@ import characterbuilder.character.equipment.Attack;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class SpellDelegateTest {
 
     private TestCharacter character;
     private SpellDelegate delegate;
 
-    @Before
+    @BeforeEach
     public void setup() {
         character = new TestCharacter();
     }

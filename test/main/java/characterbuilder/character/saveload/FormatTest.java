@@ -5,7 +5,7 @@ import characterbuilder.character.ability.RacialTalent;
 import characterbuilder.character.ability.Skill;
 import characterbuilder.character.attribute.Race;
 import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FormatTest {
 

@@ -6,15 +6,15 @@ import characterbuilder.character.saveload.TestDoc;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 public class SkillTest {
 
     private TestCharacter character;
 
-    @Before
+    @BeforeEach
     public void setup() {
         character = new TestCharacter().withScores(10);
         character.setLevel(CharacterClass.WIZARD, 7);

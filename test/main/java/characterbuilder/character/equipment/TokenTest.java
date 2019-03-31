@@ -3,14 +3,14 @@ package characterbuilder.character.equipment;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TokenTest {
 
     private Token token;
 
-    @Before
+    @BeforeEach
     public void setup() {
         token = new Token("Foobar");
     }

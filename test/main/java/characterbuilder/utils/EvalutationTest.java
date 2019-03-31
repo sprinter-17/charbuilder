@@ -5,8 +5,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.attribute.DraconicAncestry;
@@ -21,7 +21,7 @@ public class EvalutationTest {
 	private TestCharacter character;
 	private EvaluationContext context;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		character = new TestCharacter();
 		character.setLevel(CharacterClass.CLERIC, 1);

@@ -3,14 +3,14 @@ package characterbuilder.character.ability;
 import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.utils.TestCharacter;
 import static org.junit.Assert.assertFalse;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ProficiencyTest {
 
     private TestCharacter character;
 
-    @Before
+    @BeforeEach
     public void setup() {
         character = new TestCharacter();
     }

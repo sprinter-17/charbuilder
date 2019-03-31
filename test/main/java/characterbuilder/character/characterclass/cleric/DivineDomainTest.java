@@ -17,8 +17,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 public class DivineDomainTest {
@@ -26,7 +26,7 @@ public class DivineDomainTest {
     private TestCharacter character;
     private SpellCasting casting;
 
-    @Before
+    @BeforeEach
     public void setup() {
         character = new TestCharacter();
         CharacterClass.CLERIC.choose(character);

@@ -8,8 +8,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 public class SignatureSpellTest {
@@ -18,7 +18,7 @@ public class SignatureSpellTest {
     private SignatureSpell signature;
     private SpellCasting casting;
 
-    @Before
+    @BeforeEach
     public void setup() {
         wizard = new TestCharacter().withScores(10);
         WIZARD.choose(wizard);

@@ -4,14 +4,14 @@ import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DruidAbilityTest {
 
 	private TestCharacter druid;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		druid = new TestCharacter().withScores(10);
 		druid.setLevel(CharacterClass.DRUID, 1);

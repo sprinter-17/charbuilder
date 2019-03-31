@@ -8,7 +8,7 @@ import characterbuilder.utils.TestCharacter;
 import static characterbuilder.utils.TestMatchers.hasPreparedSpell;
 import characterbuilder.utils.TestUtils;
 import static org.junit.Assert.assertThat;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DruidCircleTest {
 

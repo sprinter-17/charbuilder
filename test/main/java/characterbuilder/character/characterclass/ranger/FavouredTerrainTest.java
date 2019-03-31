@@ -15,15 +15,15 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 public class FavouredTerrainTest {
 
     private FavouredTerrain favouredTerrain;
 
-    @Before
+    @BeforeEach
     public void setup() {
         favouredTerrain = new FavouredTerrain();
     }

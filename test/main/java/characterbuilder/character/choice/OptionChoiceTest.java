@@ -3,14 +3,14 @@ package characterbuilder.character.choice;
 import characterbuilder.character.Character;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class OptionChoiceTest {
 
     private OptionChoice choice;
 
-    @Before
+    @BeforeEach
     public void setup() {
         choice = new OptionChoice("Test", 2) {
             @Override

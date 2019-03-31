@@ -8,14 +8,14 @@ import static characterbuilder.utils.TestMatchers.hasChoice;
 import static characterbuilder.utils.TestMatchers.hasSpellAbility;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MagicInitiateChoiceTest {
 
     private TestCharacter character;
 
-    @Before
+    @BeforeEach
     public void setup() {
         character = new TestCharacter().withScores(10);
     }

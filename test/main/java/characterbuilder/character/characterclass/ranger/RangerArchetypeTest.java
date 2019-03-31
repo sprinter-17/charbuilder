@@ -4,7 +4,7 @@ import characterbuilder.character.characterclass.ranger.RangerArchetype;
 import characterbuilder.character.attribute.AttributeType;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RangerArchetypeTest {
 

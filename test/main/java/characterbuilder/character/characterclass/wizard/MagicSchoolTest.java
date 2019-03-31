@@ -9,7 +9,7 @@ import static characterbuilder.utils.TestMatchers.hasAttribute;
 import static characterbuilder.utils.TestMatchers.hasChoice;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MagicSchoolTest {
 

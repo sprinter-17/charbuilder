@@ -4,7 +4,7 @@ import static characterbuilder.character.attribute.Alignment.LAWFUL_GOOD;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 public class AlignmentTest {

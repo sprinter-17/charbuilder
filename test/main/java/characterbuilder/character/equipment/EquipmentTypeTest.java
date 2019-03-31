@@ -6,7 +6,7 @@ import static characterbuilder.character.equipment.AdventureGear.CROWBAR;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class EquipmentTypeTest {
 

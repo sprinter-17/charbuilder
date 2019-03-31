@@ -5,15 +5,15 @@ import characterbuilder.character.attribute.AttributeType;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 public class CantripTest {
 
     private LearntSpell cantrip;
 
-    @Before
+    @BeforeEach
     public void setup() {
         Ability.values(); // initialisation error
         cantrip = new LearntSpell(Spell.HEAL, AttributeType.WISDOM);

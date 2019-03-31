@@ -33,8 +33,8 @@ import org.junit.Assert;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 public class CharacterSaverTest {
@@ -44,7 +44,7 @@ public class CharacterSaverTest {
 	@SuppressWarnings("unused")
 	private String xml;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		try {
 			saver = new CharacterSaver();

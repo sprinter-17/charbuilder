@@ -14,14 +14,14 @@ import characterbuilder.utils.TestCharacter;
 import java.util.Optional;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class WeaponTest {
 
     private TestCharacter character;
 
-    @Before
+    @BeforeEach
     public void setup() {
         character = new TestCharacter().withScores(10);
     }

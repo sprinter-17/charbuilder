@@ -2,7 +2,7 @@ package characterbuilder.character.beast;
 
 import static characterbuilder.character.beast.ChallengeRating.*;
 import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ChallengeRatingTest {
 

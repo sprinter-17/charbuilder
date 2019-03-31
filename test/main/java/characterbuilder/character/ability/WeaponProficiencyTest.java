@@ -6,15 +6,15 @@ import characterbuilder.character.saveload.TestDoc;
 import java.util.Optional;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 public class WeaponProficiencyTest {
 
     private WeaponProficiency prof;
 
-    @Before
+    @BeforeEach
     public void setup() {
         prof = new WeaponProficiency(Weapon.WHIP);
     }

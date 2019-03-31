@@ -6,7 +6,7 @@ import static characterbuilder.character.saveload.TestDoc.doc;
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 public class LanguageTest {

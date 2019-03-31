@@ -3,15 +3,15 @@ package characterbuilder.character.choice;
 import characterbuilder.character.Character;
 import characterbuilder.character.equipment.MusicalInstrument;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class EquipmentChoiceTest {
 
     private EquipmentChoice choice;
     private Character character;
 
-    @Before
+    @BeforeEach
     public void setup() {
         choice = new EquipmentChoice("Choice", MusicalInstrument.BAGPIPES, MusicalInstrument.LYRE);
         character = new Character();

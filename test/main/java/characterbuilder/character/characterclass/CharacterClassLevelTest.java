@@ -5,15 +5,15 @@ import static characterbuilder.character.characterclass.CharacterClass.BARBARIAN
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 public class CharacterClassLevelTest {
 
     private CharacterClassLevel classLevel;
 
-    @Before
+    @BeforeEach
     public void setup() {
         classLevel = new CharacterClassLevel(BARBARIAN, 7);
     }

@@ -5,14 +5,14 @@ import characterbuilder.character.attribute.Weight;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CustomTreasureTest {
 
     private CustomTreasure treasure;
 
-    @Before
+    @BeforeEach
     public void setup() {
         treasure = new CustomTreasure("Large golden statue", gp(100), Weight.ST);
     }

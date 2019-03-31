@@ -7,15 +7,15 @@ import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 public class ExpertiseTest {
 
     private Expertise expertise;
 
-    @Before
+    @BeforeEach
     public void setup() {
         expertise = new Expertise(Skill.ARCANA);
     }

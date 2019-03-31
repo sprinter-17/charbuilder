@@ -2,7 +2,7 @@ package characterbuilder.character.attribute;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class WealthTest {
 

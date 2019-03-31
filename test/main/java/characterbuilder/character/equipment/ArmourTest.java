@@ -10,15 +10,15 @@ import characterbuilder.character.characterclass.barbarian.BarbarianAbility;
 import characterbuilder.character.saveload.TestDoc;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ArmourTest {
 
     private Character character;
     private AbilityScore dexterity;
 
-    @Before
+    @BeforeEach
     public void setup() {
         character = new Character();
         dexterity = new AbilityScore(AttributeType.DEXTERITY, 10);

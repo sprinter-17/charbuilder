@@ -10,15 +10,15 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 public class FavouredEnemyTest {
 
     private TestCharacter character;
 
-    @Before
+    @BeforeEach
     public void setup() {
         character = new TestCharacter();
         character.addChoice(FavouredEnemy.choice());

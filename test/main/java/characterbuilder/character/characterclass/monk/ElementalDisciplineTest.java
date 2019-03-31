@@ -6,14 +6,14 @@ import characterbuilder.character.spell.Spell;
 import characterbuilder.utils.TestCharacter;
 import static characterbuilder.utils.TestMatchers.hasSpellAbility;
 import static org.junit.Assert.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ElementalDisciplineTest {
 
     private TestCharacter character;
 
-    @Before
+    @BeforeEach
     public void setup() {
         MagicSchool.values();
         Spell.values();

@@ -5,14 +5,14 @@ import characterbuilder.character.characterclass.CharacterClass;
 import characterbuilder.utils.TestCharacter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FighterTest {
 
     private TestCharacter character;
 
-    @Before
+    @BeforeEach
     public void setup() {
         character = new TestCharacter().withScores(10);
     }

@@ -8,14 +8,14 @@ import static characterbuilder.character.characterclass.warlock.EldritchInvocati
 import characterbuilder.utils.TestCharacter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class EldritchInvocationTest {
 
     private TestCharacter character;
 
-    @Before
+    @BeforeEach
     public void setup() {
         Ability.values(); // initialisation error
         character = new TestCharacter().withScores(10);

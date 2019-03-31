@@ -1,7 +1,7 @@
 package characterbuilder.character.characterclass.rogue;
 
 import characterbuilder.utils.TestUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RogueAbilityTest {
 

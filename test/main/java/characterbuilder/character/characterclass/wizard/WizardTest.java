@@ -8,14 +8,14 @@ import characterbuilder.character.spell.SpellCasting;
 import characterbuilder.utils.TestCharacter;
 import junit.framework.AssertionFailedError;
 import static org.junit.Assert.assertFalse;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class WizardTest {
 
     private TestCharacter character;
 
-    @Before
+    @BeforeEach
     public void setup() {
         character = new TestCharacter().withScores(10);
         HUMAN.choose(character);

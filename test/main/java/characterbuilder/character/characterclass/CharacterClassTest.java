@@ -30,8 +30,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CharacterClassTest {
 
@@ -41,7 +41,7 @@ public class CharacterClassTest {
     private TestCharacter character;
     private IterativeSelector selector;
 
-    @Before
+    @BeforeEach
     public void setup() {
         MagicSchool.values(); // avoid initialisation error
         Ability.values(); // avoid initialisation error
